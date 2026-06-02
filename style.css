@@ -119,3 +119,10 @@ body {
         flex-direction: column;
     }
 }
+/* Ajuste preciso para el tamaño del logotipo oficial */
+.logo-oficial {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+}
