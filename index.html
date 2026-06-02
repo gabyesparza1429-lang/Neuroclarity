@@ -1,1 +1,34 @@
-a
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroClarity - Inicio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <div class="contenedor-inicio">
+        <div class="seccion-bienvenida">
+            <div class="logo-contenedor">
+                <div class="icono-cerebro">N</div>
+                <h1>NeuroClarity</h1>
+            </div>
+            <p class="subtitulo">Ingeniería pedagógica para mentes diversas</p>
+            <p class="descripcion">La plataforma de aprendizaje adaptativa diseñada para potenciar la concentración y el desarrollo personalizado.</p>
+        </div>
+        <div class="seccion-login">
+            <div class="caja-login">
+                <h2>Iniciar Sesión</h2>
+                <p class="instruccion-login">Selecciona cómo deseas ingresar a la plataforma:</p>
+                <button id="btn-maestro" class="btn btn-principal">Soy Profesor / Padre</button>
+                <button id="btn-alumno" class="btn btn-secundario">Soy Alumno</button>
+                <div class="linea-divisor"></div>
+                <button id="btn-google" class="btn btn-google">Entrar directo con Google</button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
