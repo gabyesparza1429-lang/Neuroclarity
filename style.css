@@ -1,1 +1,121 @@
-a
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+body {
+    background-color: #f7f4ee;
+    color: #2c2536;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.contenedor-inicio {
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(44, 37, 54, 0.05);
+    overflow: hidden;
+}
+.seccion-bienvenida {
+    flex: 1;
+    background-color: #f1ebe1;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.logo-contenedor {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.icono-cerebro {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #6a4c93, #473363);
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: bold;
+}
+.seccion-bienvenida h1 {
+    font-size: 36px;
+    color: #473363;
+}
+.subtitulo {
+    font-size: 18px;
+    color: #6a4c93;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+.descripcion {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #5c526b;
+}
+.seccion-login {
+    flex: 1;
+    padding: 60px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.caja-login {
+    width: 100%;
+    max-width: 360px;
+}
+.caja-login h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #473363;
+}
+.instruccion-login {
+    font-size: 15px;
+    color: #7c708f;
+    margin-bottom: 35px;
+}
+.btn {
+    display: block;
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-bottom: 16px;
+    text-align: center;
+}
+.btn-principal {
+    background-color: #6a4c93;
+    color: white;
+}
+.btn-secundario {
+    background-color: #4a90e2;
+    color: white;
+}
+.linea-divisor {
+    height: 1px;
+    background-color: #e6e1ed;
+    margin: 25px 0;
+}
+.btn-google {
+    background-color: #ffffff;
+    color: #473363;
+    border: 2px solid #e6e1ed;
+}
+@media (max-width: 768px) {
+    .contenedor-inicio {
+        flex-direction: column;
+    }
+}
