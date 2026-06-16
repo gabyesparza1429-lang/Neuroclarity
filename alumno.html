@@ -56,26 +56,35 @@
             --tea-color: #4AD66D;
         }
 
-        /* Variaciones de Fondo para el Modo Adolescente según la comodidad visual */
+        /* Variaciones de Fondo Reales y Distinguibles para el Modo Adolescente */
         body.theme-adolescente.bg-verde-bosque {
-            --bg-principal: #0B130E;      /* Verde bosque profundo */
-            --bg-panel: #142018;
-            --borde: #243529;
-            --morado-claro: #4AD66D;      /* Acentos verdes suaves para combinar */
+            --bg-principal: #2E3F37;      /* Verde bosque/sabio claro y visible */
+            --bg-panel: #1D2B24;          /* Contraste de panel verde profundo */
+            --borde: #3F5449;
+            --texto-principal: #EBF5EE;
+            --texto-secundario: #A3BFB0;
+            --morado-claro: #4AD66D;      /* Acentos verdes brillantes */
+            --morado-oscuro: #EBF5EE;
         }
 
         body.theme-adolescente.bg-gris-tormenta {
-            --bg-principal: #121214;      /* Gris puro neutro */
-            --bg-panel: #1E1E22;
-            --borde: #323238;
-            --morado-claro: #4CC9F0;      /* Acentos celestes */
+            --bg-principal: #475569;      /* Gris azulado medio tormentoso */
+            --bg-panel: #334155;          /* Paneles gris oscuro */
+            --borde: #64748B;
+            --texto-principal: #F8FAFC;
+            --texto-secundario: #CBD5E1;
+            --morado-claro: #38BDF8;      /* Acentos azul cielo */
+            --morado-oscuro: #F8FAFC;
         }
 
         body.theme-adolescente.bg-cacao-calido {
-            --bg-principal: #16110D;      /* Marrón / Café cálido */
-            --bg-panel: #241D17;
-            --borde: #3B3026;
-            --morado-claro: #FFC300;      /* Acentos cálidos */
+            --bg-principal: #EADBC8;      /* Tema claro sepia ultra relajante */
+            --bg-panel: #FAF6F0;          /* Paneles crema suave */
+            --borde: #DAC0A3;
+            --texto-principal: #102C57;   /* Letras oscuras legibles */
+            --texto-secundario: #5F6F94;
+            --morado-claro: #FE5F55;      /* Acentos coral cálido */
+            --morado-oscuro: #102C57;
         }
 
         /* Selector de colores exclusivo de adolescente */
@@ -100,12 +109,13 @@
         }
 
         .color-dot {
-            width: 25px;
-            height: 25px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .color-dot:hover {
@@ -113,8 +123,9 @@
         }
 
         .color-dot.active {
-            border-color: #FFFFFF;
+            border-color: var(--texto-principal);
             transform: scale(1.1);
+            box-shadow: 0 0 10px var(--morado-claro);
         }
 
         /* ==========================================================================
@@ -145,7 +156,7 @@
 
         /* Barra de herramientas demo (Flotante arriba) */
         .demo-toolbar {
-            background-color: var(--morado-oscuro);
+            background-color: #473363;
             color: #FFFFFF;
             padding: 12px 20px;
             display: flex;
@@ -532,7 +543,7 @@
         .tea-literal-phrase {
             border-bottom: 2px dotted var(--tea-color);
             font-weight: 600;
-            color: var(--morado-oscuro);
+            color: var(--texto-principal);
         }
 
         /* ==========================================================================
@@ -589,6 +600,8 @@
             text-align: center;
             font-weight: bold;
             outline: none;
+            background: var(--bg-panel);
+            color: var(--texto-principal);
         }
 
         .game-input-group input:focus {
@@ -609,8 +622,8 @@
         }
 
         .toast {
-            background-color: var(--morado-oscuro);
-            color: #FFFFFF;
+            background-color: var(--bg-panel);
+            color: var(--texto-principal);
             padding: 15px 25px;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
@@ -619,6 +632,7 @@
             gap: 12px;
             font-weight: 600;
             animation: toastSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1.5px solid var(--borde);
         }
 
         @keyframes toastSlideIn {
@@ -726,14 +740,14 @@
                 </div>
             </div>
 
-            <!-- Selector de fondo visual personalizable para Adolescente -->
+            <!-- Selector de fondo visual personalizable para Adolescente con colores reales y vibrantes -->
             <div class="color-selector-wrapper">
                 <h4 style="font-size: 13px; text-transform: uppercase; color: var(--texto-secundario);">Tono de Fondo Cómodo:</h4>
                 <div class="color-dots-container">
-                    <div class="color-dot active" style="background-color: #0F0C1B;" onclick="changeAdolescentBg('default', this)" title="Marino"></div>
-                    <div class="color-dot" style="background-color: #0B130E;" onclick="changeAdolescentBg('verde-bosque', this)" title="Verde Bosque"></div>
-                    <div class="color-dot" style="background-color: #121214;" onclick="changeAdolescentBg('gris-tormenta', this)" title="Gris Tormenta"></div>
-                    <div class="color-dot" style="background-color: #16110D;" onclick="changeAdolescentBg('cacao-calido', this)" title="Miel/Cacao"></div>
+                    <div class="color-dot active" style="background-color: #0F0C1B;" onclick="changeAdolescentBg('default', this)" title="Marino Cósmico"></div>
+                    <div class="color-dot" style="background-color: #2E3F37;" onclick="changeAdolescentBg('verde-bosque', this)" title="Bosque Verde Sabio"></div>
+                    <div class="color-dot" style="background-color: #475569;" onclick="changeAdolescentBg('gris-tormenta', this)" title="Gris Tormenta"></div>
+                    <div class="color-dot" style="background-color: #EADBC8;" onclick="changeAdolescentBg('cacao-calido', this)" title="Cacao & Sepia Claro"></div>
                 </div>
             </div>
 
@@ -826,7 +840,6 @@
        LÓGICA JAVASCRIPT DE INTERACTIVIDAD MULTI-TEMA Y ADAPTACIONES
        ========================================================================== -->
     <script>
-        // Base de datos de misiones didácticas de NeuroClarity
         const missionsData = {
             1: {
                 title: "El Oso Pardo",
@@ -886,11 +899,11 @@
             currentTheme = theme;
             const body = document.body;
             
-            // Remover clases anteriores de temas y fondos
+            // Remover clases anteriores de temas y de fondos personalizados
             body.className = '';
             body.classList.add(`theme-${theme}`);
             
-            // Resetear dots de color
+            // Resetear dots de color activo
             document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('active'));
             const defaultDot = document.querySelector('.color-dot[onclick*="default"]');
             if (defaultDot) defaultDot.classList.add('active');
@@ -964,9 +977,15 @@
             // Agregar el fondo nuevo si no es el por defecto
             if (bgClass !== 'default') {
                 body.classList.add(`bg-${bgClass}`);
-                showToast(`🎨 Fondo cambiado: modo de alta legibilidad activado.`);
+                if (bgClass === 'cacao-calido') {
+                    showToast(`🎨 Tema cálido Sepia de lectura activado.`);
+                } else if (bgClass === 'verde-bosque') {
+                    showToast(`🎨 Fondo Verde Bosque de relajación visual activado.`);
+                } else {
+                    showToast(`🎨 Fondo Gris Tormenta equilibrado activado.`);
+                }
             } else {
-                showToast(`🎨 Fondo restaurado al tono original.`);
+                showToast(`🎨 Fondo Azul Marino Cósmico restaurado.`);
             }
             
             // Marcar el círculo actual como activo
