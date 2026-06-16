@@ -787,6 +787,13 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="student-level">Nivel Escolar (Tema Visual):</label>
+                    <select id="student-level" required>
+                        <option value="primaria">Primaria (Diseño Infantil)</option>
+                        <option value="secundaria">Secundaria/Bachillerato (Diseño Adolescente)</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="student-emoji">Avatar de Identificación:</label>
                     <select id="student-emoji" required>
                         <option value="🐱">🐱 Gatito</option>
@@ -809,9 +816,9 @@
     <script>
         // Base de datos inicial (Simulación en LocalStorage para no perder datos al actualizar)
         let defaultStudents = [
-            { id: 1, name: "Sofía Martínez", profile: "dislexia", avatar: "🐨", focus: "14m", adaptations: "8" },
-            { id: 2, name: "Mateo Pérez", profile: "tdah", avatar: "🦖", focus: "18m", adaptations: "12" },
-            { id: 3, name: "Lucas Gómez", profile: "tea", avatar: "🦁", focus: "21m", adaptations: "6" }
+            { id: 1, name: "Sofía Martínez", profile: "dislexia", avatar: "🐨", level: "primaria", focus: "14m", adaptations: "8" },
+            { id: 2, name: "Mateo Pérez", profile: "tdah", avatar: "🦖", level: "secundaria", focus: "18m", adaptations: "12" },
+            { id: 3, name: "Lucas Gómez", profile: "tea", avatar: "🦁", level: "primaria", focus: "21m", adaptations: "6" }
         ];
 
         let students = JSON.parse(localStorage.getItem('students')) || defaultStudents;
@@ -904,11 +911,16 @@
                     colorHex = 'var(--tea-color)';
                 }
                 
+                const levelLabel = student.level === 'secundaria' ? 'Adolescente' : 'Niño';
+                
                 card.innerHTML = `
                     <div class="student-tag-indicator" style="background-color: ${colorHex}"></div>
                     <div class="student-avatar">${student.avatar}</div>
                     <h3>${student.name}</h3>
-                    <span class="student-neuro-tag ${colorClass}">${profileLabel}</span>
+                    <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;">
+                        <span class="student-neuro-tag ${colorClass}" style="margin: 0;">${profileLabel}</span>
+                        <span class="student-neuro-tag" style="background-color: #E6E1ED; color: var(--morado-oscuro); margin: 0;">${levelLabel}</span>
+                    </div>
                     <div class="student-stats">
                         <div class="student-stat-item">
                             <p>Enfoque</p>
@@ -964,12 +976,14 @@
             event.preventDefault();
             const name = document.getElementById('student-name').value;
             const profile = document.getElementById('student-profile').value;
+            const level = document.getElementById('student-level').value;
             const avatar = document.getElementById('student-emoji').value;
             
             const newStudent = {
                 id: students.length + 1,
                 name: name,
                 profile: profile,
+                level: level,
                 avatar: avatar,
                 focus: "0 min",
                 adaptations: "0"
