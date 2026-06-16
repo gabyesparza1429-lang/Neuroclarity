@@ -1,0 +1,249 @@
+<!-- ... existing code ... -->
+    <style>
+        /* ==========================================================================
+           1. VARIABLES DE DISEÑO DINÁMICAS (Temas Niño vs Adolescente)
+           ========================================================================== */
+        
+        /* Tema por Defecto: INFANTIL (Primaria) */
+        body.theme-infantil {
+            --bg-principal: #F7F4EE;      /* Crema suave */
+            --bg-panel: #FFFFFF;
+            --morado-oscuro: #473363;
+            --morado-claro: #6A4C93;
+            --texto-principal: #2C2536;
+            --texto-secundario: #7C708F;
+            --borde: #E6E1ED;
+            --sombra: 0 10px 25px rgba(106, 76, 147, 0.05);
+            --font-titulo: 'Comfortaa', cursive;
+            --font-cuerpo: 'Afacad Flux', sans-serif;
+            --radio-panel: 24px;
+            
+            /* Colores Neuro */
+            --dislexia-color: #FFB703;
+            --tdah-color: #4A90E2;
+            --tea-color: #38B000;
+        }
+
+        /* Tema Alterno: ADOLESCENTE (Secundaria/Bachillerato) - Estilo Dark Lo-Fi */
+        body.theme-adolescente {
+            --bg-principal: #0F0C1B;      /* Azul marino oscuro por defecto */
+            --bg-panel: #1A162B;          /* Panel oscuro */
+            --morado-oscuro: #E0DBEC;
+            --morado-claro: #9D4EDD;      /* Purpura neón suave */
+            --texto-principal: #E5E1F4;
+            --texto-secundario: #9F93B8;
+            --borde: #2D2744;
+            --sombra: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --font-titulo: 'Afacad Flux', sans-serif;
+            --font-cuerpo: 'Afacad Flux', sans-serif;
+            --radio-panel: 12px;          /* Más afilado y moderno */
+            
+            /* Colores Neuro Neon adaptados a Dark Theme */
+            --dislexia-color: #FFC300;
+            --tdah-color: #4CC9F0;
+            --tea-color: #4AD66D;
+        }
+
+        /* Variaciones de Fondo para el Modo Adolescente según la comodidad visual */
+        body.theme-adolescente.bg-verde-bosque {
+            --bg-principal: #0B130E;      /* Verde bosque profundo */
+            --bg-panel: #142018;
+            --borde: #243529;
+            --morado-claro: #4AD66D;      /* Acentos verdes suaves para combinar */
+        }
+
+        body.theme-adolescente.bg-gris-tormenta {
+            --bg-principal: #121214;      /* Gris puro neutro */
+            --bg-panel: #1E1E22;
+            --borde: #323238;
+            --morado-claro: #4CC9F0;      /* Acentos celestes */
+        }
+
+        body.theme-adolescente.bg-cacao-calido {
+            --bg-principal: #16110D;      /* Marrón / Café cálido */
+            --bg-panel: #241D17;
+            --borde: #3B3026;
+            --morado-claro: #FFC300;      /* Acentos cálidos */
+        }
+
+        /* Selector de colores exclusivo de adolescente */
+        .color-selector-wrapper {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+            border-top: 1px solid var(--borde);
+            padding-top: 15px;
+        }
+
+        body.theme-adolescente .color-selector-wrapper {
+            display: flex;
+        }
+
+        .color-dots-container {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-start;
+            margin-top: 5px;
+        }
+
+        .color-dot {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.15);
+        }
+
+        .color-dot.active {
+            border-color: #FFFFFF;
+            transform: scale(1.1);
+        }
+
+        /* ==========================================================================
+           2. ESTILOS BASE Y CONTROLADOR DE CONTENEDORES
+           ========================================================================== */
+<!-- ... existing code ... -->
+        <!-- PANEL LATERAL (Información del estudiante + Selector de misiones) -->
+        <aside class="missions-sidebar">
+            
+            <div class="sidebar-header">
+                <div class="student-avatar" id="student-avatar-display">🐨</div>
+                <div class="student-info">
+                    <h3 id="student-name-display">Lucas Gómez</h3>
+                    <p id="student-tag-display">Alumno de Primaria</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="mission-section-title" id="misiones-list-title">Misiones Pendientes</h3>
+                <div class="missions-list">
+<!-- ... existing code ... -->
+                    <div class="mission-card" id="mission-3" onclick="loadMission(3)">
+                        <span class="mission-icon">🧩</span>
+                        <div class="mission-meta">
+                            <h4 id="mission-3-title">Reto de Estrellas</h4>
+                            <p id="mission-3-sub">Desafío Cognitivo</p>
+                        </div>
+                        <div class="mission-status-dot"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Selector de fondo visual personalizable para Adolescente -->
+            <div class="color-selector-wrapper">
+                <h4 style="font-size: 13px; text-transform: uppercase; color: var(--texto-secundario);">Tono de Fondo Cómodo:</h4>
+                <div class="color-dots-container">
+                    <div class="color-dot active" style="background-color: #0F0C1B;" onclick="changeAdolescentBg('default', this)" title="Marino"></div>
+                    <div class="color-dot" style="background-color: #0B130E;" onclick="changeAdolescentBg('verde-bosque', this)" title="Verde Bosque"></div>
+                    <div class="color-dot" style="background-color: #121214;" onclick="changeAdolescentBg('gris-tormenta', this)" title="Gris Tormenta"></div>
+                    <div class="color-dot" style="background-color: #16110D;" onclick="changeAdolescentBg('cacao-calido', this)" title="Miel/Cacao"></div>
+                </div>
+            </div>
+
+            <!-- Cofre de logros infantil o barra de proyectos adolescente -->
+            <div class="achievements-box">
+<!-- ... existing code ... -->
+    <script>
+        // Base de datos de misiones didácticas de NeuroClarity
+<!-- ... existing code ... -->
+        // 1. SELECTOR DE TEMA EN TIEMPO REAL (Niño vs Adolescente)
+        function setPortalTheme(theme) {
+            currentTheme = theme;
+            const body = document.body;
+            
+            // Remover clases anteriores de temas y fondos
+            body.className = '';
+            body.classList.add(`theme-${theme}`);
+            
+            // Resetear dots de color
+            document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('active'));
+            const defaultDot = document.querySelector('.color-dot[onclick*="default"]');
+            if (defaultDot) defaultDot.classList.add('active');
+            
+            // Actualizar botones en barra demo
+            document.querySelectorAll('.btn-demo-theme').forEach(btn => btn.classList.remove('active'));
+            if (theme === 'infantil') {
+                event.target.classList.add('active');
+                
+                // Textos Infantiles
+                document.getElementById('student-avatar-display').textContent = "🐨";
+                document.getElementById('student-name-display').textContent = "Lucas Gómez";
+                document.getElementById('student-tag-display').textContent = "Alumno de Primaria";
+                document.getElementById('misiones-list-title').textContent = "Misiones Pendientes";
+                document.getElementById('achievements-box-title').textContent = "Mi Cofre de Estrellas";
+                document.getElementById('submit-btn-text').textContent = "¡Entregar Misión Completada!";
+                
+                // Títulos de misiones
+                document.getElementById('mission-1-title').textContent = "El Oso Pardo";
+                document.getElementById('mission-1-sub').textContent = "Ciencias Naturales";
+                document.getElementById('mission-2-title').textContent = "El Viaje del Delfín";
+                document.getElementById('mission-2-sub').textContent = "Lectura y Español";
+                document.getElementById('mission-3-title').textContent = "Reto de Estrellas";
+                document.getElementById('mission-3-sub').textContent = "Desafío Cognitivo";
+                
+                document.getElementById('stars-display').style.display = 'flex';
+                document.getElementById('adolescent-progress').style.display = 'none';
+                
+                showToast("🧒 Tema Infantil de Primaria activado.");
+            } else {
+                // Tema Adolescente
+                const targetBtn = document.querySelector('button[onclick="setPortalTheme(\'adolescente\')"]');
+                if (targetBtn) targetBtn.classList.add('active');
+                
+                // Textos de Adolescente
+                document.getElementById('student-avatar-display').textContent = "🎧";
+                document.getElementById('student-name-display').textContent = "Lucas Gómez";
+                document.getElementById('student-tag-display').textContent = "Estudiante de Secundaria";
+                document.getElementById('misiones-list-title').textContent = "Proyectos Académicos";
+                document.getElementById('achievements-box-title').textContent = "Meta de Avance Semanal";
+                document.getElementById('submit-btn-text').textContent = "Completar y Registrar Progreso";
+                
+                // Títulos de proyectos más maduros
+                document.getElementById('mission-1-title').textContent = "Biodiversidad: El Oso Pardo";
+                document.getElementById('mission-1-sub').textContent = "Ecología & Ciencias";
+                document.getElementById('mission-2-title').textContent = "Análisis: El Delfín del Amazonas";
+                document.getElementById('mission-2-sub').textContent = "Comprensión Lectora";
+                document.getElementById('mission-3-title').textContent = "Dinámica de Atención";
+                document.getElementById('mission-3-sub').textContent = "Ejercitación Cognitiva";
+                
+                document.getElementById('stars-display').style.display = 'none';
+                document.getElementById('adolescent-progress').style.display = 'block';
+                
+                showToast("🎧 Tema Adolescente de Secundaria activado.");
+            }
+            
+            // Recargar vista para aplicar layouts de misiones del tema correspondiente
+            loadMission(activeMissionId);
+        }
+
+        // Lógica para cambiar dinámicamente el color de fondo personalizado del adolescente
+        function changeAdolescentBg(bgClass, dotElement) {
+            const body = document.body;
+            
+            // Limpiar clases de fondo anteriores
+            body.classList.remove('bg-verde-bosque', 'bg-gris-tormenta', 'bg-cacao-calido');
+            
+            // Remover marca activa de todos los círculos
+            document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('active'));
+            
+            // Agregar el fondo nuevo si no es el por defecto
+            if (bgClass !== 'default') {
+                body.classList.add(`bg-${bgClass}`);
+                showToast(`🎨 Fondo cambiado: modo de alta legibilidad activado.`);
+            } else {
+                showToast(`🎨 Fondo restaurado al tono original.`);
+            }
+            
+            // Marcar el círculo actual como activo
+            dotElement.classList.add('active');
+        }
+
+        // 2. CARGA DE MISIONES / TEXTOS
+<!-- ... existing code ... -->
