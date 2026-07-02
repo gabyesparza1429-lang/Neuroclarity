@@ -1,0 +1,3 @@
+# Forzar a App Hosting a tratar el proyecto como archivos estáticos sin puertos
+settings:
+  platform: static
