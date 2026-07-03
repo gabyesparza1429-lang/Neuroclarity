@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Ajuste de fuentes locales si decides instalarlas manualmente */
+        /* Ajuste de fuentes locales configuradas previamente */
         @font-face {
             font-family: 'CustomFont';
             src: url('fonts/Regular.woff2') format('woff2');
@@ -56,7 +56,7 @@
             font-family: var(--font-main);
             background-color: var(--bg-cream);
             color: var(--purple-dark);
-            line-height: 1.6;
+            line-height: 1.7; /* Mayor espacio de lectura */
             overflow-x: hidden;
         }
 
@@ -81,27 +81,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 80px;
+            height: 90px; /* Un poco más amplio para el logo */
         }
 
-        .brand {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--purple-dark);
-            letter-spacing: -0.5px;
+        /* Contenedor del Encabezado / Logo en assets */
+        .brand-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo img {
+            height: 50px; /* Tamaño ajustado para tu imagen de encabezado */
+            width: auto;
+            display: block;
         }
 
         .nav-actions {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             align-items: center;
         }
 
         .btn {
             font-family: var(--font-main);
-            font-size: 15px;
+            font-size: 16px; /* Letra más grande */
             font-weight: 500;
-            padding: 10px 20px;
+            padding: 12px 24px; /* Más empaque */
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -134,8 +139,9 @@
             background-color: var(--purple-light);
             color: var(--white);
             border: none;
-            padding: 14px 28px;
-            font-size: 16px;
+            padding: 16px 36px;
+            font-size: 18px; /* Letra más grande para el CTA principal */
+            font-weight: 600;
         }
 
         .btn-secondary:hover {
@@ -145,89 +151,89 @@
 
         /* HERO SECTION */
         .hero {
-            padding: 180px 0 100px 0;
+            padding: 220px 0 120px 0;
             text-align: center;
             background: radial-gradient(circle at top, var(--purple-pale) 0%, transparent 60%);
         }
 
         .hero h1 {
-            font-size: 48px;
+            font-size: 56px; /* Letra considerablemente más grande y clara */
             font-weight: 700;
-            line-height: 1.2;
-            max-width: 900px;
-            margin: 0 auto 24px auto;
-            letter-spacing: -1px;
+            line-height: 1.25;
+            max-width: 1000px;
+            margin: 0 auto 28px auto;
+            letter-spacing: -1.5px;
         }
 
         .hero p {
-            font-size: 19px;
+            font-size: 22px; /* Mayor tamaño para facilitar el enfoque */
             color: var(--text-muted);
-            max-width: 750px;
-            margin: 0 auto 40px auto;
+            max-width: 850px;
+            margin: 0 auto 48px auto;
         }
 
         /* SECCIÓN EXPLICATIVA */
         .science {
-            padding: 100px 0;
+            padding: 120px 0;
             background-color: var(--white);
             border-top: 1px solid rgba(45, 30, 78, 0.03);
             border-bottom: 1px solid rgba(45, 30, 78, 0.03);
         }
 
         .section-header {
-            max-width: 800px;
-            margin-bottom: 60px;
+            max-width: 900px;
+            margin-bottom: 70px;
         }
 
         .section-header h2 {
-            font-size: 36px;
+            font-size: 42px; /* Título más imponente */
             font-weight: 700;
-            margin-bottom: 24px;
-            letter-spacing: -0.5px;
+            margin-bottom: 28px;
+            letter-spacing: -0.8px;
         }
 
         .section-header p {
-            font-size: 17px;
+            font-size: 19px; /* Texto descriptivo más grande */
             color: var(--text-muted);
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
         }
 
         .feature-card {
             background-color: var(--bg-cream);
-            padding: 32px;
-            border-radius: 12px;
+            padding: 40px;
+            border-radius: 14px;
             border: 1px solid rgba(45, 30, 78, 0.04);
         }
 
         .feature-card h3 {
-            font-size: 20px;
+            font-size: 24px; /* Título de tarjetas incrementado */
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             color: var(--purple-light);
         }
 
         .feature-card p {
-            font-size: 15px;
+            font-size: 17px; /* Interior de tarjetas incrementado */
             color: var(--text-muted);
         }
 
         /* SECCIÓN MODELO COMERCIAL (EL TRIÁNGULO DE APOYO) */
         .commercial {
-            padding: 100px 0;
+            padding: 120px 0;
         }
 
         .commercial h2 {
-            font-size: 36px;
+            font-size: 42px;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 60px;
-            letter-spacing: -0.5px;
+            margin-bottom: 70px;
+            letter-spacing: -0.8px;
         }
 
         .triangle-grid {
@@ -238,7 +244,7 @@
 
         .triangle-card {
             background-color: var(--white);
-            padding: 40px;
+            padding: 44px;
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(45, 30, 78, 0.02);
             border: 1px solid rgba(45, 30, 78, 0.03);
@@ -250,26 +256,27 @@
         }
 
         .icon-wrapper {
-            width: 48px;
-            height: 48px;
+            width: 54px;
+            height: 54px;
             background-color: var(--purple-pale);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
             color: var(--purple-light);
             font-weight: bold;
+            font-size: 18px;
         }
 
         .triangle-card h3 {
-            font-size: 22px;
+            font-size: 26px; /* Títulos del triángulo más grandes */
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
 
         .triangle-card p {
-            font-size: 15px;
+            font-size: 17px; /* Textos del triángulo más grandes */
             color: var(--text-muted);
         }
 
@@ -277,18 +284,18 @@
         .footer {
             background-color: var(--purple-dark);
             color: rgba(255, 255, 255, 0.7);
-            padding: 48px 0;
+            padding: 60px 0;
             text-align: center;
-            font-size: 14px;
+            font-size: 16px; /* Letra del pie de página más legible */
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Responsividad Básica */
+        /* Responsividad Ajustada */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 34px; }
-            .hero p { font-size: 17px; }
-            .section-header h2, .commercial h2 { font-size: 28px; }
-            .nav-actions .btn-login { display: none; } /* Simplificación móvil */
+            .hero h1 { font-size: 38px; }
+            .hero p { font-size: 19px; }
+            .section-header h2, .commercial h2 { font-size: 32px; }
+            .nav-actions .btn-login { display: none; }
         }
     </style>
 </head>
@@ -297,7 +304,10 @@
     <!-- 1. NAVBAR -->
     <nav class="navbar">
         <div class="container nav-container">
-            <div class="brand">NeuroClarity</div>
+            <!-- Espacio reservado para tu encabezado/logo en la carpeta assets -->
+            <div class="brand-logo">
+                <img src="assets/logo.png" alt="NeuroClarity">
+            </div>
             <div class="nav-actions">
                 <a href="#" class="btn btn-login">Iniciar Sesión</a>
                 <a href="#" class="btn btn-primary">Solicitar Acceso</a>
