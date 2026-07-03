@@ -3,256 +3,363 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Accessibilité Éducative</title>
+    <title>NeuroClarity - Ingeniería Pedagógica</title>
+    
+    <!-- Preparación de Fuentes (Google Fonts como respaldo de alta calidad) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Afacad+Flux:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --bg-crema: #F7F4EE;
-            --morado-oscuro: #473363;
-            --morado-claro: #6A4C93;
-            --texto-principal: #2C2536;
-            --blanco: #FFFFFF;
-            --dislexia-color: #FFB703;
-            --tdah-color: #4A90E2;
-            --tea-color: #38B000;
-            --borde-suave: #E6E1ED;
+        /* Ajuste de fuentes locales si decides instalarlas manualmente */
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('fonts/Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('fonts/Medium.woff2') format('woff2');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('fonts/Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
         }
 
+        /* Variables de Paleta de Colores y Estilos */
+        :root {
+            --bg-cream: #FDFBF7;
+            --purple-dark: #2D1E4E;
+            --purple-light: #7C5CFF;
+            --purple-pale: #F3EEFF;
+            --white: #FFFFFF;
+            --text-muted: #5A4E77;
+            --font-main: 'Outfit', 'CustomFont', sans-serif;
+        }
+
+        /* Reseteo y Calma Visual */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Afacad Flux', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--bg-crema);
-            color: var(--texto-principal);
+            font-family: var(--font-main);
+            background-color: var(--bg-cream);
+            color: var(--purple-dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            font-family: 'Comfortaa', cursive;
-            color: var(--morado-oscuro);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
-        /* Navbar */
+        /* NAVBAR */
         .navbar {
+            background-color: rgba(253, 251, 247, 0.95);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(45, 30, 78, 0.05);
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
-            background-color: var(--blanco);
-            border-bottom: 1px solid var(--borde-suave);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            height: 80px;
         }
 
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .brand img {
-            height: 40px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--purple-dark);
+            letter-spacing: -0.5px;
         }
 
         .nav-actions {
             display: flex;
+            gap: 12px;
             align-items: center;
-            gap: 20px;
         }
 
         .btn {
+            font-family: var(--font-main);
+            font-size: 15px;
+            font-weight: 500;
             padding: 10px 20px;
-            border-radius: 12px;
-            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.2s ease;
             text-decoration: none;
-            transition: all 0.3s ease;
+            display: inline-block;
         }
 
         .btn-login {
-            background-color: transparent;
-            color: var(--morado-claro);
-            border: 1.5px solid var(--morado-claro);
+            background: transparent;
+            color: var(--purple-dark);
+            border: 1px solid rgba(45, 30, 78, 0.15);
         }
 
         .btn-login:hover {
-            background-color: #FAF8F5;
+            background: rgba(45, 30, 78, 0.05);
         }
 
-        .btn-cta {
-            background-color: var(--morado-claro);
-            color: var(--blanco);
+        .btn-primary {
+            background-color: var(--purple-dark);
+            color: var(--white);
             border: none;
         }
 
-        .btn-cta:hover {
-            background-color: var(--morado-oscuro);
+        .btn-primary:hover {
+            background-color: var(--purple-light);
+            transform: translateY(-1px);
         }
 
-        /* Hero Section */
+        .btn-secondary {
+            background-color: var(--purple-light);
+            color: var(--white);
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--purple-dark);
+            transform: translateY(-1px);
+        }
+
+        /* HERO SECTION */
         .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 180px 0 100px 0;
             text-align: center;
-            padding: 80px 20px;
-            max-width: 900px;
-            margin: 0 auto;
+            background: radial-gradient(circle at top, var(--purple-pale) 0%, transparent 60%);
         }
 
         .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            max-width: 900px;
+            margin: 0 auto 24px auto;
+            letter-spacing: -1px;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: #7C708F;
-            margin-bottom: 30px;
+            font-size: 19px;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto 40px auto;
         }
 
-        /* Science Section */
-        .science-section {
-            background-color: var(--blanco);
-            padding: 60px 40px;
-            border-top: 1px solid var(--borde-suave);
-            border-bottom: 1px solid var(--borde-suave);
+        /* SECCIÓN EXPLICATIVA */
+        .science {
+            padding: 100px 0;
+            background-color: var(--white);
+            border-top: 1px solid rgba(45, 30, 78, 0.03);
+            border-bottom: 1px solid rgba(45, 30, 78, 0.03);
         }
 
-        .section-max {
-            max-width: 1200px;
-            margin: 0 auto;
+        .section-header {
+            max-width: 800px;
+            margin-bottom: 60px;
         }
 
-        .grid-2 {
+        .section-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .features-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background-color: var(--bg-cream);
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid rgba(45, 30, 78, 0.04);
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--purple-light);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        /* SECCIÓN MODELO COMERCIAL (EL TRIÁNGULO DE APOYO) */
+        .commercial {
+            padding: 100px 0;
+        }
+
+        .commercial h2 {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: -0.5px;
+        }
+
+        .triangle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .triangle-card {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(45, 30, 78, 0.02);
+            border: 1px solid rgba(45, 30, 78, 0.03);
+            transition: transform 0.3s ease;
+        }
+
+        .triangle-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .icon-wrapper {
+            width: 48px;
+            height: 48px;
+            background-color: var(--purple-pale);
+            border-radius: 10px;
+            display: flex;
             align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            color: var(--purple-light);
+            font-weight: bold;
         }
 
+        .triangle-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .triangle-card p {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--purple-dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 48px 0;
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsividad Básica */
         @media (max-width: 768px) {
-            .grid-2 { grid-template-columns: 1fr; }
-        }
-
-        .science-section h2 {
-            margin-bottom: 20px;
-        }
-
-        /* Ecosystem Section */
-        .ecosystem-section {
-            padding: 80px 40px;
-        }
-
-        .ecosystem-section h2 {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .grid-3 { grid-template-columns: 1fr; }
-        }
-
-        .card {
-            background-color: var(--blanco);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid var(--borde-suave);
-            box-shadow: 0 10px 30px rgba(44, 37, 54, 0.02);
-            text-align: center;
-        }
-
-        .card i {
-            font-size: 2.5rem;
-            color: var(--morado-claro);
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            margin-bottom: 15px;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--morado-oscuro);
-            color: var(--blanco);
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 60px;
+            .hero h1 { font-size: 34px; }
+            .hero p { font-size: 17px; }
+            .section-header h2, .commercial h2 { font-size: 28px; }
+            .nav-actions .btn-login { display: none; } /* Simplificación móvil */
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- 1. NAVBAR -->
     <nav class="navbar">
-        <a href="#" class="brand">
-            <h2>NeuroClarity</h2>
-        </a>
-        <div class="nav-actions">
-            <!-- Apunta al archivo con la caja de acceso de Firebase -->
-            <a href="login.html" class="btn btn-login"><i class="fa-solid fa-user-lock"></i> Iniciar Sesión</a>
-            <a href="#contacto" class="btn btn-cta">Solicitar Acceso</a>
+        <div class="container nav-container">
+            <div class="brand">NeuroClarity</div>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-login">Iniciar Sesión</a>
+                <a href="#" class="btn btn-primary">Solicitar Acceso</a>
+            </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
+    <!-- 2. HERO SECTION -->
     <header class="hero">
-        <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
-        <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
-        <a href="#ecosistema" class="btn btn-cta" style="padding: 15px 30px; font-size: 1.1rem;">Descubre el Triángulo de Apoyo</a>
+        <div class="container">
+            <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
+            <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
+            <a href="#triangle" class="btn btn-secondary">Descubre el Triángulo de Apoyo</a>
+        </div>
     </header>
 
-    <!-- EXPLICACIÓN NEURODIVERGENCIA -->
-    <section class="science-section">
-        <div class="section-max grid-2">
-            <div>
+    <!-- 3. SECCIÓN EXPLICATIVA -->
+    <section class="science">
+        <div class="container">
+            <div class="section-header">
                 <h2>Diferentes formas de procesar, el mismo derecho a triunfar</h2>
-                <p>La neurodivergencia (TDAH, Dislexia, Autismo) no es una incapacidad para aprender; es simplemente una estructura cognitiva distinta. El sistema educativo tradicional impone un estándar rígido de entrega de información que genera una brecha injusta.</p>
-                <br>
-                <p><strong>NeuroClarity no altera el contenido académico: adapta el canal de comunicación.</strong> Nuestra tecnología transforma materiales ordinarios en interfaces personalizadas según la necesidad del estudiante.</p>
+                <p>La neurodivergencia (TDAH, Dislexia, Autismo) no es una incapacidad para aprender; es simplemente una estructura cognitiva distinta. El sistema educativo tradicional impone un estándar rígido de entrega de información que genera una brecha injusta. NeuroClarity no altera el contenido académico: adapta el canal de comunicación. Nuestra tecnología transforma materiales ordinarios en interfaces personalizadas según la necesidad del estudiante.</p>
             </div>
-            <div style="background-color: var(--bg-crema); padding: 30px; border-radius: 20px; border: 1.5px dashed var(--borde-suave);">
-                <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--morado-claro);"><i class="fa-solid fa-wand-magic-sparkles"></i> Transformación en 1 Clic</h3>
-                <p style="font-size: 0.95rem; margin-bottom: 10px;">• <strong>Dislexia:</strong> Fuentes optimizadas, espaciado activo y regletas de lectura visual.</p>
-                <p style="font-size: 0.95rem; margin-bottom: 10px;">• <strong>TDAH:</strong> Fragmentación del texto en micro-bloques de enfoque y temporizadores integrados.</p>
-                <p style="font-size: 0.95rem;">• <strong>Autismo / TEA:</strong> Inyección automática de apoyos visuales y traducción de lenguaje figurado a literal.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Dislexia</h3>
+                    <p>Fuentes optimizadas, espaciado activo y regletas de lectura visual.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>TDAH</h3>
+                    <p>Fragmentación del texto en micro-bloques de enfoque y temporizadores integrados.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Autismo / TEA</h3>
+                    <p>Inyección automática de apoyos visuales y traducción de lenguaje figurado a literal.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- MODELO COMERCIAL -->
-    <section class="ecosystem-section" id="ecosistema">
-        <div class="section-max">
+    <!-- 4. SECCIÓN MODELO COMERCIAL -->
+    <section class="commercial" id="triangle">
+        <div class="container">
             <h2>Un solo plan por Alumno. Un ecosistema completo de soporte.</h2>
-            <div class="grid-3">
-                <div class="card">
-                    <i class="fa-solid fa-graduation-cap"></i>
+            
+            <div class="triangle-grid">
+                <!-- Tarjeta 1 -->
+                <div class="triangle-card">
+                    <div class="icon-wrapper">01</div>
                     <h3>El Alumno</h3>
                     <p>Un portal intuitivo y libre de sobrecarga sensorial. Diseñado para aumentar la autonomía y la confianza durante sus sesiones de estudio.</p>
                 </div>
-                <div class="card">
-                    <i class="fa-solid fa-chalkboard-user"></i>
+                <!-- Tarjeta 2 -->
+                <div class="triangle-card">
+                    <div class="icon-wrapper">02</div>
                     <h3>El Docente</h3>
                     <p>Panel de control centralizado para registrar perfiles cognitivos individuales y transformar cualquier lectura ordinaria mediante nuestro motor de IA.</p>
                 </div>
-                <div class="card">
-                    <i class="fa-solid fa-house-chimney-user"></i>
+                <!-- Tarjeta 3 -->
+                <div class="triangle-card">
+                    <div class="icon-wrapper">03</div>
                     <h3>La Familia</h3>
                     <p>Monitoreo transparente del avance del estudiante. Herramientas coordinadas para dar continuidad a las estrategias del aula en el hogar.</p>
                 </div>
@@ -260,10 +367,11 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>© 2026 NeuroRéussit / NeuroClarity. Todos los derechos reservados.</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">Ingeniería Pedagógica para Mentes Diversas.</p>
+    <!-- 5. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 NeuroRéussit / NeuroClarity. Ingeniería Pedagógica para Mentes Diversas. Todos los derechos reservados.</p>
+        </div>
     </footer>
 
 </body>
