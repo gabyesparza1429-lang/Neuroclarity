@@ -3,35 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Inicio</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <title>NeuroClarity - Accessibilité Éducative</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Afacad+Flux:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-crema: #F7F4EE;
+            --morado-oscuro: #473363;
+            --morado-claro: #6A4C93;
+            --texto-principal: #2C2536;
+            --blanco: #FFFFFF;
+            --dislexia-color: #FFB703;
+            --tdah-color: #4A90E2;
+            --tea-color: #38B000;
+            --borde-suave: #E6E1ED;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Afacad Flux', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-crema);
+            color: var(--texto-principal);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Comfortaa', cursive;
+            color: var(--morado-oscuro);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--blanco);
+            border-bottom: 1px solid var(--borde-suave);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand img {
+            height: 40px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: var(--morado-claro);
+            border: 1.5px solid var(--morado-claro);
+        }
+
+        .btn-login:hover {
+            background-color: #FAF8F5;
+        }
+
+        .btn-cta {
+            background-color: var(--morado-claro);
+            color: var(--blanco);
+            border: none;
+        }
+
+        .btn-cta:hover {
+            background-color: var(--morado-oscuro);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 80px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #7C708F;
+            margin-bottom: 30px;
+        }
+
+        /* Neurodivergencia & Ciencia */
+        .science-section {
+            background-color: var(--blanco);
+            padding: 60px 40px;
+            border-top: 1px solid var(--borde-suave);
+            border-bottom: 1px solid var(--borde-suave);
+        }
+
+        .section-max {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        .science-section h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Ecosistema (Triángulo de Apoyo) */
+        .ecosystem-section {
+            padding: 80px 40px;
+        }
+
+        .ecosystem-section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-3 { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background-color: var(--blanco);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--borde-suave);
+            box-shadow: 0 10px 30px rgba(44, 37, 54, 0.02);
+            text-align: center;
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--morado-claro);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--morado-oscuro);
+            color: var(--blanco);
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+    </style>
 </head>
 <body>
-    <div class="contenedor-inicio">
-        <!-- LADO IZQUIERDO: Tu identidad visual real -->
-        <div class="seccion-bienvenida">
-            <div class="logo-contenedor">
-                <!-- Aquí incluimos tu logotipo oficial de la carpeta assets -->
-                <img src="assets/NeuroClarity.png" alt="Logo NeuroClarity" class="logo-oficial">
-            </div>
-            <p class="subtitulo">Ingeniería pedagógica para mentes diversas</p>
-            <p class="descripcion">La plataforma de aprendizaje adaptativa diseñada para potenciar la concentración y el desarrollo personalizado.</p>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="#" class="brand">
+            <!-- Alternativa de texto si el asset aún carga -->
+            <h2>NeuroClarity</h2>
+        </a>
+        <div class="nav-actions">
+            <!-- Botón de Login Conectado al archivo index(10).html -->
+            <a href="index (10).html" class="btn btn-login"><i class="fa-solid fa-user-lock"></i> Iniciar Sesión</a>
+            <a href="#contacto" class="btn btn-cta">Solicitar Acceso</a>
         </div>
-        
-        <!-- LADO DERECHO: Caja de Acceso (Login) -->
-        <div class="seccion-login">
-            <div class="caja-login">
-                <h2>Iniciar Sesión</h2>
-                <p class="instruccion-login">Selecciona cómo deseas ingresar a la plataforma:</p>
-                <button id="btn-maestro" class="btn btn-principal">Soy Profesor / Padre</button>
-                <button id="btn-alumno" class="btn btn-secundario">Soy Alumno</button>
-                <div class="linea-divisor"></div>
-                <button id="btn-google" class="btn btn-google">Entrar directo con Google</button>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
+        <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
+        <a href="#ecosistema" class="btn btn-cta" style="padding: 15px 30px; font-size: 1.1rem;">Descubre el Triángulo de Apoyo</a>
+    </header>
+
+    <!-- ¿QUÉ ES LA NEURODIVERGENCIA? -->
+    <section class="science-section">
+        <div class="section-max grid-2">
+            <div>
+                <h2>Diferentes formas de procesar, el mismo derecho a triunfar</h2>
+                <p>La neurodivergencia (TDAH, Dislexia, Autismo) no es una incapacidad para aprender; es simplemente una estructura cognitiva distinta. El sistema educativo tradicional impone un estándar rígido de entrega de información que genera una brecha injusta.</p>
+                <br>
+                <p><strong>NeuroClarity no altera el contenido académico: adapta el canal de comunicación.</strong> Nuestra tecnología transforma materiales ordinarios en interfaces personalizadas según la necesidad del estudiante.</p>
+            </div>
+            <div style="background-color: var(--bg-crema); padding: 30px; border-radius: 20px; border: 1.5px dashed var(--borde-suave);">
+                <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--morado-claro);"><i class="fa-solid fa-wand-magic-sparkles"></i> Transformación en 1 Clic</h3>
+                <p style="font-size: 0.95rem; margin-bottom: 10px;">• <strong>Dislexia:</strong> Fuentes optimizadas, espaciado activo y regletas de lectura visual.</p>
+                <p style="font-size: 0.95rem; margin-bottom: 10px;">• <strong>TDAH:</strong> Fragmentación del texto en micro-bloques de enfoque y temporizadores integrados.</p>
+                <p style="font-size: 0.95rem;">• <strong>Autismo / TEA:</strong> Inyección automática de apoyos visuales y traducción de lenguaje figurado a literal.</p>
             </div>
         </div>
-    </div>
-    <script src="app.js"></script>
+    </section>
+
+    <!-- MODELO DE NEGOCIO: TRIÁNGULO DE APOYO -->
+    <section class="ecosystem-section" id="ecosistema">
+        <div class="section-max">
+            <h2>Un solo plan por Alumno. Un ecosistema completo de soporte.</h2>
+            <div class="grid-3">
+                <!-- Portal Alumno -->
+                <div class="card">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <h3>El Alumno</h3>
+                    <p>Un portal intuitivo y libre de sobrecarga sensorial. Diseñado para aumentar la autonomía y la confianza durante sus sesiones de estudio.</p>
+                </div>
+                <!-- Portal Profesor -->
+                <div class="card">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <h3>El Docente</h3>
+                    <p>Panel de control centralizado para registrar perfiles cognitivos individuales y transformar cualquier lectura ordinaria mediante nuestro motor de IA.</p>
+                </div>
+                <!-- Portal Padres -->
+                <div class="card">
+                    <i class="fa-solid fa-house-chimney-user"></i>
+                    <h3>La Familia</h3>
+                    <p>Monitoreo transparente del avance del estudiante. Herramientas coordinadas para dar continuidad a las estrategias del aula en el hogar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 NeuroRéussit / NeuroClarity. Todos los derechos reservados.</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">Ingeniería Pedagógica para Mentes Diversas.</p>
+    </footer>
+
 </body>
 </html>
