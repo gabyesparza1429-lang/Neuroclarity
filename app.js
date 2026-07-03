@@ -1,17 +1,18 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const btnMaestro = document.getElementById('btn-maestro');
-    const btnAlumno = document.getElementById('btn-alumno');
-    const btnGoogle = document.getElementById('btn-google');
+// Importaciones compatibles con el navegador (CDN)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 
-    btnMaestro.addEventListener('click', () => {
-        alert('Cargando el espacio seguro para Profesores...');
-    });
+// La configuración de tu aplicación web de Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyCWcmGtB3rlZ3zhcY5x3pOyZVrZb-ko8D8",
+  authDomain: "objectif-reussite-delf.firebaseapp.com",
+  projectId: "objectif-reussite-delf",
+  storageBucket: "objectif-reussite-delf.firebasestorage.app",
+  messagingSenderId: "942279633770",
+  appId: "1:942279633770:web:e90614774e16f5aa9c1313",
+  measurementId: "G-4B48T5Y5FC"
+};
 
-    btnAlumno.addEventListener('click', () => {
-        alert('Abriendo el acceso con código para Alumnos...');
-    });
-
-    btnGoogle.addEventListener('click', () => {
-        alert('Iniciando sesión con Google mediante Firebase...');
-    });
-});
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
