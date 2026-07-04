@@ -1,8 +1,17 @@
 {
-  "name": "neuroclarity",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "echo 'No build needed'"
+  "hosting": {
+    "site": "neuroclarity-app",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }
