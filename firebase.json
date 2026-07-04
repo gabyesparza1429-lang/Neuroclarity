@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "neuroclarity-app",
     "public": ".",
     "ignore": [
       "firebase.json",
