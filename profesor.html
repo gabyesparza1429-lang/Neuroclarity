@@ -22,10 +22,10 @@
             --texto-principal: #2C2536; /* Lectura sin fatiga */
             --blanco: #FFFFFF;
             
-            /* Colores de apoyo específicos para cada neurodivergencia */
-            --dislexia-color: #FFB703;  /* Amarillo cálido - Enfoque visual */
-            --tdah-color: #4A90E2;      /* Azul cielo - Estabilidad y calma */
-            --tea-color: #38B000;       /* Verde natural - Estructura y literalidad */
+            /* Colores de apoyo específicos (Ocultos para el alumno, visibles para el maestro) */
+            --dislexia-color: #FFB703;  
+            --tdah-color: #4A90E2;      
+            --tea-color: #38B000;       
             
             --borde-suave: #E6E1ED;
             --sombra-elegante: 0 10px 30px rgba(44, 37, 54, 0.04);
@@ -46,10 +46,10 @@
             color: var(--texto-principal);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             overflow-x: hidden;
         }
 
-        /* Enfoque accesible para títulos */
         h1, h2, h3, h4 {
             font-family: 'Comfortaa', cursive;
             color: var(--morado-oscuro);
@@ -57,73 +57,67 @@
         }
 
         /* ==========================================================================
-           3. ESTRUCTURA DEL PANEL (Sidebar + Espacio de Trabajo)
+           3. CABECERA INSTITUCIONAL (De lado a lado - Vendemos la Marca)
            ========================================================================== */
+        .brand-header-full {
+            width: 100%;
+            height: auto;
+            max-height: 140px;
+            overflow: hidden;
+            border-bottom: 2px solid var(--borde-suave);
+            display: block;
+        }
+
+        .brand-header-full img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ==========================================================================
+           4. ESTRUCTURA INFERIOR (Sidebar + Espacio de Trabajo)
+           ========================================================================== */
+        .app-body-container {
+            display: flex;
+            flex-grow: 1;
+            width: 100%;
+            position: relative;
+        }
+
         /* Barra de Navegación Lateral */
         .sidebar {
-            width: 280px;
+            width: 260px;
             background-color: var(--blanco);
             border-right: 1px solid var(--borde-suave);
             display: flex;
             flex-direction: column;
-            padding: 30px 20px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-        }
-
-        .sidebar-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 50px;
-            text-decoration: none;
-        }
-
-        .sidebar-brand .mini-logo {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--morado-claro), var(--morado-oscuro));
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--blanco);
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .sidebar-brand span {
-            font-size: 22px;
-            color: var(--morado-oscuro);
-            font-family: 'Comfortaa', cursive;
-            font-weight: bold;
+            padding: 30px 15px;
+            gap: 10px;
         }
 
         .menu-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .menu-item button {
             width: 100%;
             background: none;
             border: none;
-            padding: 16px 20px;
-            border-radius: 14px;
+            padding: 14px 18px;
+            border-radius: 12px;
             color: #7C708F;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 500;
             text-align: left;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 15px;
-            transition: all 0.3s ease;
+            gap: 12px;
+            transition: all 0.2s ease;
         }
 
         .menu-item button:hover {
@@ -139,33 +133,32 @@
 
         /* Área de Contenido Principal */
         .main-workspace {
-            margin-left: 280px;
             flex-grow: 1;
             padding: 40px;
-            min-height: 100vh;
+            background-color: var(--bg-crema);
         }
 
         .header-workspace {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             border-bottom: 1px solid var(--borde-suave);
-            padding-bottom: 20px;
+            padding-bottom: 15px;
         }
 
         .header-workspace p {
             color: #7C708F;
-            font-size: 18px;
-            margin-top: 5px;
+            font-size: 16px;
+            margin-top: 4px;
         }
 
         /* ==========================================================================
-           4. VISTAS DEL PANEL (Controladas dinámicamente)
+           5. VISTAS DEL PANEL (Controladas dinámicamente)
            ========================================================================== */
         .panel-view {
             display: none;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.3s ease;
         }
 
         .panel-view.active {
@@ -173,22 +166,22 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 4.1 VISTA: INICIO (Dashboard Overview) */
+        /* 5.1 VISTA: INICIO (Dashboard General) */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 25px;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .stat-card {
             background-color: var(--blanco);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 16px;
+            padding: 25px;
             border: 1px solid var(--borde-suave);
             box-shadow: var(--sombra-elegante);
             display: flex;
@@ -197,46 +190,46 @@
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: 22px;
         }
 
         .stat-info h3 {
-            font-size: 28px;
+            font-size: 26px;
             color: var(--morado-oscuro);
         }
 
         .stat-info p {
             color: #7C708F;
-            font-size: 15px;
+            font-size: 14px;
         }
 
-        /* 4.2 VISTA: LISTA DE ALUMNOS (Base de Datos Visual) */
+        /* 5.2 VISTA: LISTA DE ALUMNOS (Fichas Técnicas) */
         .student-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .btn-action {
             background-color: var(--morado-claro);
             color: var(--blanco);
             border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 16px;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: background 0.3s ease;
+            transition: background 0.2s ease;
         }
 
         .btn-action:hover {
@@ -251,7 +244,7 @@
 
         .student-card {
             background-color: var(--blanco);
-            border-radius: 20px;
+            border-radius: 16px;
             border: 1px solid var(--borde-suave);
             box-shadow: var(--sombra-elegante);
             padding: 25px;
@@ -263,7 +256,6 @@
             overflow: hidden;
         }
 
-        /* Indicador de perfil cognitivo en la parte superior del card */
         .student-tag-indicator {
             position: absolute;
             top: 0;
@@ -273,251 +265,131 @@
         }
 
         .student-avatar {
-            width: 80px;
-            height: 80px;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             background-color: #F1EBE1;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 32px;
-            margin-bottom: 15px;
-            border: 3px solid var(--borde-suave);
+            font-size: 30px;
+            margin-bottom: 12px;
+            border: 2.5px solid var(--borde-suave);
         }
 
         .student-card h3 {
-            font-size: 20px;
-            margin-bottom: 5px;
+            font-size: 19px;
+            margin-bottom: 4px;
         }
 
         .student-neuro-tag {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 20px;
-            margin-bottom: 15px;
+            padding: 4px 10px;
+            border-radius: 15px;
             text-transform: uppercase;
         }
 
-        /* Colores dinámicos para los Tags */
         .tag-dislexia { background-color: #FFF2CC; color: #B27B00; }
         .tag-tdah { background-color: #D6E4FF; color: #1D539F; }
         .tag-tea { background-color: #D2F2CC; color: #216E00; }
 
-        .student-stats {
+        .student-details-box {
             width: 100%;
-            border-top: 1px solid var(--borde-suave);
-            padding-top: 15px;
             margin-top: 10px;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .student-stat-item p:first-child {
+            padding-top: 12px;
+            border-top: 1px solid var(--borde-suave);
             font-size: 14px;
-            color: #7C708F;
+            text-align: left;
+            color: #645A75;
         }
 
-        .student-stat-item p:last-child {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--morado-oscuro);
-        }
-
-        /* 4.3 VISTA: HERRAMIENTA ADAPTADORA DE TEXTO IA */
-        .ai-workspace {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 30px;
-        }
-
-        .input-panel, .preview-panel {
+        /* 5.3 VISTA: CARGA DE PLANEACIONES (ASISTENTE SECUENCIAL) */
+        .planning-layout {
+            max-width: 800px;
+            margin: 0 auto;
             background-color: var(--blanco);
-            border-radius: 20px;
-            padding: 30px;
+            padding: 35px;
+            border-radius: 16px;
             border: 1px solid var(--borde-suave);
             box-shadow: var(--sombra-elegante);
+        }
+
+        .step-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--bg-crema);
+            padding-bottom: 10px;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .grid-selectors {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--morado-oscuro);
         }
 
-        .form-group textarea {
+        .form-group select, .form-group textarea {
             width: 100%;
-            height: 250px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 10px;
             border: 1.5px solid var(--borde-suave);
-            padding: 15px;
-            font-size: 16px;
-            resize: none;
-            color: var(--texto-principal);
+            font-size: 15px;
             outline: none;
+            background-color: var(--blanco);
+            color: var(--texto-principal);
         }
 
-        .form-group textarea:focus {
+        .form-group textarea {
+            height: 180px;
+            resize: none;
+        }
+
+        .form-group select:focus, .form-group textarea:focus {
             border-color: var(--morado-claro);
         }
 
-        .neuro-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .selector-option {
-            border: 1.5px solid var(--borde-suave);
+        /* Área de carga Drag and Drop */
+        .file-drop-zone {
+            border: 2.5px dashed var(--borde-suave);
             border-radius: 12px;
-            padding: 12px;
+            padding: 30px;
             text-align: center;
+            background-color: #FAF9F6;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            margin-bottom: 25px;
         }
 
-        .selector-option:hover {
-            background-color: #FAF8F5;
+        .file-drop-zone:hover {
+            border-color: var(--morado-claro);
+            background-color: #FDFDFB;
         }
 
-        .selector-option[data-type="dislexia"].selected {
-            border-color: var(--dislexia-color);
-            background-color: #FFFDF5;
-            color: #B27B00;
-        }
-
-        .selector-option[data-type="tdah"].selected {
-            border-color: var(--tdah-color);
-            background-color: #F5FAFF;
-            color: #1D539F;
-        }
-
-        .selector-option[data-type="tea"].selected {
-            border-color: var(--tea-color);
-            background-color: #F5FFF5;
-            color: #216E00;
-        }
-
-        /* 4.4 SISTEMA DE VISTA PREVIA INTERACTIVA (EL CORAZÓN IA) */
-        .preview-panel {
-            background-color: #FCFBF9; /* Un tono más crema para simular el visor del niño */
-            justify-content: flex-start;
-            position: relative;
-        }
-
-        .preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--borde-suave);
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-
-        .preview-content-box {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: var(--blanco);
-            border-radius: 14px;
-            border: 1px solid var(--borde-suave);
-            min-height: 300px;
-            overflow-y: auto;
-            position: relative;
+        .file-drop-zone i {
+            font-size: 35px;
+            color: var(--morado-claro);
+            margin-bottom: 10px;
         }
 
         /* ==========================================================================
-           5. ADAPTACIONES EN TIEMPO REAL (Estilos inyectados dinámicamente)
-           ========================================================================== */
-        /* 5.1 Estilo Dislexia (Espaciado, guías visuales y peso tipográfico) */
-        .adapted-dyslexia {
-            font-family: 'Comic Neue', 'Comic Sans MS', sans-serif !important; /* Alternativa robusta para dislexia */
-            font-weight: bold;
-            font-size: 20px !important;
-            letter-spacing: 0.15em !important;
-            word-spacing: 0.3em !important;
-            line-height: 1.8 !important;
-            color: #1A1326 !important;
-            background-image: linear-gradient(rgba(255, 183, 3, 0.05) 50%, transparent 50%);
-            background-size: 100% 3.6em; /* Regla de lectura visual inyectada */
-        }
-
-        /* 5.2 Estilo TDAH (Bloques minimalistas y limpios) */
-        .adapted-tdah {
-            font-size: 18px !important;
-            line-height: 1.6 !important;
-            max-width: 90%;
-            margin: 0 auto;
-        }
-
-        .tdah-card-mode {
-            background-color: #F0F4F8 !important;
-            border-left: 5px solid var(--tdah-color) !important;
-            padding: 15px 20px !important;
-            border-radius: 10px !important;
-            margin-bottom: 15px !important;
-            font-weight: 500;
-        }
-
-        /* 5.3 Estilo TEA (Literal, visual y con iconos) */
-        .adapted-tea {
-            font-size: 18px !important;
-            line-height: 1.7 !important;
-        }
-
-        .tea-icon-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #EBF7E9;
-            color: #1F5417;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: bold;
-            margin: 0 4px;
-        }
-
-        /* ==========================================================================
-           6. COMPONENTES EXTRA INTERACTIVOS (Pomodoro para TDAH)
-           ========================================================================== */
-        .pomodoro-preview {
-            display: none;
-            background-color: #F5FAFF;
-            border: 1px solid #D6E4FF;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .pomodoro-preview.active {
-            display: flex;
-        }
-
-        .pomodoro-timer {
-            font-family: monospace;
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--tdah-color);
-            background: #FFFFFF;
-            padding: 5px 12px;
-            border-radius: 8px;
-            border: 1px solid #C0D6F2;
-        }
-
-        /* ==========================================================================
-           7. FORMULARIO DE ALUMNOS (Modal flotante)
+           6. MODAL FORMULARIO DE ALUMNOS
            ========================================================================== */
         .modal {
             display: none;
@@ -539,25 +411,19 @@
 
         .modal-content {
             background-color: var(--blanco);
-            padding: 40px;
-            border-radius: 24px;
+            padding: 35px;
+            border-radius: 20px;
             width: 100%;
-            max-width: 450px;
+            max-width: 440px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             border: 1px solid var(--borde-suave);
-            animation: modalSlide 0.3s ease;
-        }
-
-        @keyframes modalSlide {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .modal-close {
@@ -567,529 +433,299 @@
             cursor: pointer;
             color: #7C708F;
         }
-
-        .modal-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .modal-form input, .modal-form select {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 1.5px solid var(--borde-suave);
-            font-size: 16px;
-            outline: none;
-        }
-
-        .modal-form input:focus, .modal-form select:focus {
-            border-color: var(--morado-claro);
-        }
     </style>
 </head>
 <body>
 
-    <!-- ==========================================================================
-       BARRA DE NAVEGACIÓN LATERAL (Sidebar)
-       ========================================================================== -->
-    <nav class="sidebar">
-        <a href="#" class="sidebar-brand">
-            <div class="mini-logo">N</div>
-            <span>NeuroClarity</span>
-        </a>
-        <ul class="menu-list">
-            <li class="menu-item active" data-target="view-inicio">
-                <button><i class="fa-solid fa-house"></i> Inicio</button>
-            </li>
-            <li class="menu-item" data-target="view-alumnos">
-                <button><i class="fa-solid fa-users"></i> Alumnos</button>
-            </li>
-            <li class="menu-item" data-target="view-adaptador">
-                <button><i class="fa-solid fa-wand-magic-sparkles"></i> Adaptador IA</button>
-            </li>
-        </ul>
-    </nav>
+    <!-- 1. CABECERA INSTITUCIONAL COMPLETA (De lado a lado - Fuerza de Marca) -->
+    <header class="brand-header-full">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner Corporativo">
+    </header>
 
-    <!-- ==========================================================================
-       ESPACIO DE TRABAJO PRINCIPAL
-       ========================================================================== -->
-    <main class="main-workspace">
-        
-        <!-- HEADER COMPARTIDO -->
-        <header class="header-workspace">
-            <div>
-                <h1 id="workspace-title">Resumen de Gestión</h1>
-                <p id="workspace-subtitle">Bienvenido al espacio de calma y control pedagógico.</p>
-            </div>
-            <div style="background-color: var(--blanco); padding: 10px 20px; border-radius: 12px; border: 1px solid var(--borde-suave); font-weight: bold; color: var(--morado-claro)">
-                <i class="fa-solid fa-user-tie"></i> Profesor Gaby
-            </div>
-        </header>
+    <!-- CONTAINER DE LA APP INFERIOR -->
+    <div class="app-body-container">
 
-        <!-- ==========================================================================
-           VISTA 1: INICIO (DASHBOARD)
-           ========================================================================== -->
-        <section id="view-inicio" class="panel-view active">
-            <div class="dashboard-grid">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: #F1EBE1; color: var(--morado-claro);">
-                        <i class="fa-solid fa-children"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="dash-alumnos-count">3</h3>
-                        <p>Alumnos bajo tutela</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: #EBF7E9; color: var(--tea-color);">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>94%</h3>
-                        <p>Efectividad promedio</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: #FFFDF5; color: var(--dislexia-color);">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>18 min</h3>
-                        <p>Foco promedio sostenido</p>
-                    </div>
-                </div>
-            </div>
+        <!-- NAV LATERAL -->
+        <nav class="sidebar">
+            <ul class="menu-list">
+                <li class="menu-item active" data-target="view-inicio">
+                    <button><i class="fa-solid fa-house"></i> Inicio</button>
+                </li>
+                <li class="menu-item" data-target="view-alumnos">
+                    <button><i class="fa-solid fa-users"></i> Mis Alumnos</button>
+                </li>
+                <li class="menu-item" data-target="view-planeacion">
+                    <button><i class="fa-solid fa-file-import"></i> Subir Planeación</button>
+                </li>
+            </ul>
+        </nav>
 
-            <div style="background-color: var(--blanco); padding: 30px; border-radius: 20px; border: 1px solid var(--borde-suave); box-shadow: var(--sombra-elegante)">
-                <h3 style="margin-bottom: 15px;">¿Qué quieres hacer hoy, Gaby?</h3>
-                <p style="font-size: 16px; color: #7C708F; margin-bottom: 25px;">Para empezar a construir clases amigables, selecciona una acción rápida a continuación:</p>
-                <div style="display: flex; gap: 20px;">
-                    <button class="btn-action" onclick="switchView('view-adaptador')">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Adaptar una Nueva Tarea
-                    </button>
-                    <button class="btn-action" style="background-color: #FAF8F5; color: var(--morado-claro); border: 1.5px solid var(--morado-claro);" onclick="switchView('view-alumnos')">
-                        <i class="fa-solid fa-users"></i> Ver Fichas de Alumnos
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==========================================================================
-           VISTA 2: LISTADO DE ALUMNOS
-           ========================================================================== */ -->
-        <section id="view-alumnos" class="panel-view">
-            <div class="student-actions">
-                <h2 style="font-size: 24px; color: var(--morado-oscuro);">Fichas Clínico-Pedagógicas</h2>
-                <button class="btn-action" onclick="toggleModal(true)">
-                    <i class="fa-solid fa-plus"></i> Registrar Alumno
-                </button>
-            </div>
+        <!-- ESPACIO DE TRABAJO DINÁMICO -->
+        <main class="main-workspace">
             
-            <div class="student-grid" id="student-grid">
-                <!-- Se inyectan dinámicamente mediante JS -->
-            </div>
-        </section>
+            <header class="header-workspace">
+                <div>
+                    <h2 id="workspace-title">Resumen de Gestión</h2>
+                    <p id="workspace-subtitle">Bienvenido al espacio de calma y control pedagógico.</p>
+                </div>
+                <div style="background-color: var(--blanco); padding: 10px 18px; border-radius: 10px; border: 1px solid var(--borde-suave); font-weight: bold; color: var(--morado-claro)">
+                    <i class="fa-solid fa-user-tie"></i> Profesor Gaby
+                </div>
+            </header>
 
-        <!-- ==========================================================================
-           VISTA 3: HERRAMIENTA DE ADAPTACIÓN CON IA (INTERACTIVA)
-           ========================================================================== -->
-        <section id="view-adaptador" class="panel-view">
-            <div class="ai-workspace">
-                
-                <!-- Panel de Entrada de Datos -->
-                <div class="input-panel">
-                    <h3>Paso 1: Datos de Entrada</h3>
-                    
-                    <div class="form-group">
-                        <label>Escribe o pega el material didáctico original:</label>
-                        <textarea id="raw-text" placeholder="Escribe aquí el texto que tus alumnos deben leer..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Paso 2: Selecciona la Necesidad del Alumno</label>
-                        <div class="neuro-selector">
-                            <div class="selector-option selected" data-type="dislexia">
-                                <i class="fa-solid fa-font" style="margin-bottom: 8px; font-size: 20px;"></i>
-                                <div>Dislexia</div>
-                            </div>
-                            <div class="selector-option" data-type="tdah">
-                                <i class="fa-solid fa-brain" style="margin-bottom: 8px; font-size: 20px;"></i>
-                                <div>TDAH</div>
-                            </div>
-                            <div class="selector-option" data-type="tea">
-                                <i class="fa-solid fa-shapes" style="margin-bottom: 8px; font-size: 20px;"></i>
-                                <div>Autismo / TEA</div>
-                            </div>
+            <!-- VISTA 1: INICIO -->
+            <section id="view-inicio" class="panel-view active">
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #F1EBE1; color: var(--morado-claro);">
+                            <i class="fa-solid fa-children"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="dash-alumnos-count">3</h3>
+                            <p>Alumnos bajo tutela</p>
                         </div>
                     </div>
-
-                    <button class="btn-action" style="width: 100%; justify-content: center; padding: 15px;" onclick="adaptText()">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Adaptar Material al Instante
-                    </button>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #EBF7E9; color: var(--tea-color);">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>94%</h3>
+                            <p>Objetivos Alcanzados</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #FFFDF5; color: var(--dislexia-color);">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Cupos</h3>
+                            <p id="dash-licencias-left">27 Disponibles</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Panel de Vista Previa del Alumno (Output) -->
-                <div class="preview-panel">
-                    <div class="preview-header">
-                        <h3>Paso 3: Vista Previa del Alumno</h3>
-                        <span id="preview-tag" class="student-neuro-tag tag-dislexia">Dislexia</span>
-                    </div>
-
-                    <!-- Módulo Pomodoro Simulado para TDAH -->
-                    <div class="pomodoro-preview" id="pomodoro-box">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-hourglass-start" style="color: var(--tdah-color);"></i>
-                            <span style="font-weight: 600; color: #1D539F;">Modo Enfoque TDAH Activo</span>
-                        </div>
-                        <div class="pomodoro-timer" id="timer-display">25:00</div>
-                    </div>
-
-                    <!-- Contenedor del resultado transformado -->
-                    <div class="preview-content-box" id="preview-output">
-                        <p style="color: #7C708F; font-style: italic; text-align: center; margin-top: 100px;">
-                            Ingresa un texto a la izquierda, selecciona un perfil y da clic en "Adaptar" para ver el resultado pedagógico aquí.
-                        </p>
-                    </div>
-
-                    <div style="margin-top: 20px; display: flex; gap: 15px;">
-                        <button class="btn-action" style="background-color: #38B000; width: 100%; justify-content: center;" onclick="saveToFirebaseMock()">
-                            <i class="fa-solid fa-cloud-arrow-up"></i> Guardar y Enviar al Alumno
+                <div style="background-color: var(--blanco); padding: 30px; border-radius: 16px; border: 1px solid var(--borde-suave); box-shadow: var(--sombra-elegante)">
+                    <h3 style="margin-bottom: 12px;">¿Qué vamos a estructurar hoy, Gaby?</h3>
+                    <p style="font-size: 16px; color: #7C708F; margin-bottom: 20px;">Optimiza tu tiempo. Sube tu planeación curricular para que la IA se encargue de diseñar las adaptaciones individuales.</p>
+                    <div style="display: flex; gap: 15px;">
+                        <button class="btn-action" onclick="switchView('view-planeacion')">
+                            <i class="fa-solid fa-file-import"></i> Cargar Nueva Planeación
+                        </button>
+                        <button class="btn-action" style="background-color: #FAF8F5; color: var(--morado-claro); border: 1.5px solid var(--morado-claro);" onclick="switchView('view-alumnos')">
+                            <i class="fa-solid fa-users"></i> Gestionar Fichas de Alumnos
                         </button>
                     </div>
                 </div>
+            </section>
 
-            </div>
-        </section>
+            <!-- VISTA 2: LISTADO DE ALUMNOS (Fichas sin diagnósticos expuestos para el alumno) -->
+            <section id="view-alumnos" class="panel-view">
+                <div class="student-actions">
+                    <h2>Fichas de Control Escolar</h2>
+                    <button class="btn-action" onclick="toggleModal(true)">
+                        <i class="fa-solid fa-plus"></i> Registrar Alumno (Gastar Cupo)
+                    </button>
+                </div>
+                <div class="student-grid" id="student-grid"></div>
+            </section>
 
-    </main>
+            <!-- VISTA 3: CARGA DE PLANEACIONES (Etapa 1 Completada) -->
+            <section id="view-planeacion" class="panel-view">
+                <div class="planning-layout">
+                    <h3 class="step-title"><i class="fa-solid fa-sliders" style="color: var(--morado-claro);"></i> Configuración de Ubicación</h3>
+                    
+                    <div class="grid-selectors">
+                        <div class="form-group">
+                            <label>Grado Escolar</label>
+                            <select id="plan-grado">
+                                <option value="3">3° de Primaria</option>
+                                <option value="4">4° de Primaria</option>
+                                <option value="5">5° de Primaria</option>
+                                <option value="6">6° de Primaria</option>
+                                <option value="1-sec">1° de Secundaria</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Grupo / Sección</label>
+                            <select id="plan-grupo">
+                                <option value="A">Grupo A</option>
+                                <option value="B">Grupo B</option>
+                                <option value="C">Grupo C</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Asignatura / Materia</label>
+                            <select id="plan-materia">
+                                <option value="ciencias">Ciencias Naturales</option>
+                                <option value="espanol">Español / Lectura</option>
+                                <option value="mate">Matemáticas</option>
+                                <option value="historia">Historia</option>
+                            </select>
+                        </div>
+                    </div>
 
-    <!-- ==========================================================================
-       MODAL DE REGISTRO DE ALUMNOS (Base de datos local simulada)
-       ========================================================================== -->
+                    <h3 class="step-title"><i class="fa-solid fa-brain" style="color: var(--morado-claro);"></i> Carga de Contenido Curricular</h3>
+                    
+                    <div class="file-drop-zone" onclick="document.getElementById('file-silent-input').click()">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <h4>Arrastra tu planeación didáctica aquí</h4>
+                        <p style="color: #7C708F; font-size: 14px; margin-top: 5px;">Soporta formatos PDF, Word o Texto (.txt)</p>
+                        <input type="file" id="file-silent-input" style="display: none;" onchange="triggerMockUpload()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>O bien, pega la planeación en texto libre:</label>
+                        <textarea id="plan-text-input" placeholder="Escribe o pega aquí los temas, bloques y objetivos esperados de tu ciclo escolar..."></textarea>
+                    </div>
+
+                    <button class="btn-action" style="width: 100%; justify-content: center; padding: 15px; font-size: 16px;" onclick="processPlanningWithIA()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Procesar Planeación con Motor IA NeuroClarity
+                    </button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL DE REGISTRO (Cupos Autónomos) -->
     <div class="modal" id="student-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Añadir Alumno</h2>
+                <h3>Registrar Alumno</h3>
                 <button class="modal-close" onclick="toggleModal(false)">&times;</button>
             </div>
-            <form class="modal-form" id="student-form" onsubmit="addStudent(event)">
-                <div class="form-group">
-                    <label for="student-name">Nombre Completo:</label>
-                    <input type="text" id="student-name" required placeholder="Ej. Carlos Mendoza">
+            <form id="student-form" onsubmit="addStudent(event)" class="form-group" style="margin-bottom: 0; gap: 15px;">
+                <div>
+                    <label style="font-size: 14px; font-weight:600;">Nombre del Alumno:</label>
+                    <input type="text" id="student-name" required placeholder="Ej. Sofía Martínez" style="width:100%; padding:10px; border-radius:8px; border:1.5px solid var(--borde-suave); margin-top:5px;">
                 </div>
-                <div class="form-group">
-                    <label for="student-profile">Necesidad Educativa Especial:</label>
-                    <select id="student-profile" required>
-                        <option value="dislexia">Dislexia</option>
-                        <option value="tdah">TDAH (Déficit de Atención)</option>
-                        <option value="tea">Autismo / TEA</option>
+                <div>
+                    <label style="font-size: 14px; font-weight:600;">Grado y Grupo:</label>
+                    <input type="text" id="student-group-string" required placeholder="Ej. 6° Primaria - Sección A" style="width:100%; padding:10px; border-radius:8px; border:1.5px solid var(--borde-suave); margin-top:5px;">
+                </div>
+                <div>
+                    <label style="font-size: 14px; font-weight:600;">Configuración de Adaptación:</label>
+                    <select id="student-profile" style="margin-top:5px;">
+                        <option value="dislexia">Línea de Enfoque (Apoyo Dislexia)</option>
+                        <option value="tdah">Bloques de Lectura + Temporizador (Apoyo TDAH)</option>
+                        <option value="tea">Lectura con Apoyos Pictográficos (Apoyo TEA)</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="student-level">Nivel Escolar (Tema Visual):</label>
-                    <select id="student-level" required>
-                        <option value="primaria">Primaria (Diseño Infantil)</option>
-                        <option value="secundaria">Secundaria/Bachillerato (Diseño Adolescente)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="student-emoji">Avatar de Identificación:</label>
-                    <select id="student-emoji" required>
-                        <option value="🐱">🐱 Gatito</option>
-                        <option value="🦁">🦁 Leoncito</option>
-                        <option value="🦖">🦖 Dinosaurio</option>
+                <div>
+                    <label style="font-size: 14px; font-weight:600;">Avatar Visual:</label>
+                    <select id="student-emoji" style="margin-top:5px;">
                         <option value="🐨">🐨 Koala</option>
+                        <option value="🦖">🦖 Dinosaurio</option>
+                        <option value="🦁">🦁 Leoncito</option>
                         <option value="🦊">🦊 Zorrito</option>
                     </select>
                 </div>
-                <button class="btn-action" type="submit" style="justify-content: center; padding: 15px;">
-                    Guardar en Base de Datos
-                </button>
+                <button class="btn-action" type="submit" style="justify-content: center; margin-top: 10px; padding: 12px;">Confirmar y Descontar Licencia</button>
             </form>
         </div>
     </div>
 
-    <!-- ==========================================================================
-       LÓGICA JAVASCRIPT (Control de interfaz y simulación IA)
-       ========================================================================== -->
+    <!-- SCRIPT DE CONTROL -->
     <script>
-        // Base de datos inicial (Simulación en LocalStorage para no perder datos al actualizar)
+        let totalLicencias = 30;
         let defaultStudents = [
-            { id: 1, name: "Sofía Martínez", profile: "dislexia", avatar: "🐨", level: "primaria", focus: "14m", adaptations: "8" },
-            { id: 2, name: "Mateo Pérez", profile: "tdah", avatar: "🦖", level: "secundaria", focus: "18m", adaptations: "12" },
-            { id: 3, name: "Lucas Gómez", profile: "tea", avatar: "🦁", level: "primaria", focus: "21m", adaptations: "6" }
+            { id: 1, name: "Sofía Martínez", profile: "dislexia", avatar: "🐨", group: "6° Primaria - A", focus: "14 min" },
+            { id: 2, name: "Mateo Pérez", profile: "tdah", avatar: "🦖", group: "1° Secundaria - B", focus: "18 min" },
+            { id: 3, name: "Lucas Gómez", profile: "tea", avatar: "🦁", group: "3° Primaria - A", focus: "21 min" }
         ];
 
         let students = JSON.parse(localStorage.getItem('students')) || defaultStudents;
 
-        // Iniciar plataforma
         document.addEventListener('DOMContentLoaded', () => {
             initNavigation();
-            initNeuroSelector();
             renderStudents();
-            
-            // Texto por defecto en el simulador
-            document.getElementById('raw-text').value = 
-                "El oso pardo vive en el bosque. Le gusta mucho comer peces frescos del río y bayas dulces de los arbustos durante el verano. Para el oso, pescar es pan comido porque tiene garras enormes y mucha paciencia. Antes de que llegue el frío invierno, busca una cueva oscura para dormir durante meses.";
         });
 
-        // 1. CONTROL DE NAVEGACIÓN (Vistas limpias)
         function initNavigation() {
-            const menuItems = document.querySelectorAll('.menu-item');
-            menuItems.forEach(item => {
+            document.querySelectorAll('.menu-item').forEach(item => {
                 item.addEventListener('click', () => {
-                    menuItems.forEach(i => i.classList.remove('active'));
+                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
                     item.classList.add('active');
-                    
-                    const target = item.getAttribute('data-target');
-                    switchView(target);
+                    switchView(item.getAttribute('data-target'));
                 });
             });
         }
 
         function switchView(viewId) {
-            document.querySelectorAll('.panel-view').forEach(view => {
-                view.classList.remove('active');
-            });
+            document.querySelectorAll('.panel-view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             
-            // Actualizar títulos del header
             const title = document.getElementById('workspace-title');
-            const subtitle = document.getElementById('workspace-subtitle');
+            const sub = document.getElementById('workspace-subtitle');
             
             if (viewId === 'view-inicio') {
                 title.textContent = "Resumen de Gestión";
-                subtitle.textContent = "Bienvenido al espacio de calma y control pedagógico.";
-                // Reset active menu state if came from quick actions
-                document.querySelectorAll('.menu-item').forEach(item => {
-                    item.classList.remove('active');
-                    if(item.getAttribute('data-target') === 'view-inicio') item.classList.add('active');
-                });
+                sub.textContent = "Bienvenido al espacio de calma y control pedagógico.";
             } else if (viewId === 'view-alumnos') {
-                title.textContent = "Fichas de Alumnos";
-                subtitle.textContent = "Consulta el progreso individual y la configuración pedagógica.";
-                document.querySelectorAll('.menu-item').forEach(item => {
-                    item.classList.remove('active');
-                    if(item.getAttribute('data-target') === 'view-alumnos') item.classList.add('active');
-                });
-            } else if (viewId === 'view-adaptador') {
-                title.textContent = "Motor de Adaptación IA";
-                subtitle.textContent = "Modifica textos ordinarios en material amigable al instante.";
-                document.querySelectorAll('.menu-item').forEach(item => {
-                    item.classList.remove('active');
-                    if(item.getAttribute('data-target') === 'view-adaptador') item.classList.add('active');
-                });
+                title.textContent = "Control de Alumnos";
+                sub.textContent = "Monitorea los cupos y la vinculación de perfiles adaptados.";
+            } else if (viewId === 'view-planeacion') {
+                title.textContent = "Asistente de Planeaciones Curriculares";
+                sub.textContent = "Sube la planeación base para alimentar el motor generador de la IA.";
             }
         }
 
-        // 2. RENDERIZACIÓN DE ALUMNOS
         function renderStudents() {
             const grid = document.getElementById('student-grid');
+            if(!grid) return;
             grid.innerHTML = '';
             
             students.forEach(student => {
                 const card = document.createElement('div');
                 card.className = 'student-card';
                 
-                // Color del indicador según perfil
-                let colorClass = '';
-                let profileLabel = '';
-                let colorHex = '';
-                
-                if (student.profile === 'dislexia') {
-                    colorClass = 'tag-dislexia';
-                    profileLabel = 'Dislexia';
-                    colorHex = 'var(--dislexia-color)';
-                } else if (student.profile === 'tdah') {
-                    colorClass = 'tag-tdah';
-                    profileLabel = 'TDAH';
-                    colorHex = 'var(--tdah-color)';
-                } else {
-                    colorClass = 'tag-tea';
-                    profileLabel = 'Autismo / TEA';
-                    colorHex = 'var(--tea-color)';
-                }
-                
-                const levelLabel = student.level === 'secundaria' ? 'Adolescente' : 'Niño';
-                
+                let colorHex = student.profile === 'dislexia' ? 'var(--dislexia-color)' : (student.profile === 'tdah' ? 'var(--tdah-color)' : 'var(--tea-color)');
+                let label = student.profile === 'dislexia' ? 'Línea de Enfoque' : (student.profile === 'tdah' ? 'Bloques de Lectura' : 'Apoyo Pictográfico');
+                let tagClass = 'tag-' + student.profile;
+
                 card.innerHTML = `
                     <div class="student-tag-indicator" style="background-color: ${colorHex}"></div>
                     <div class="student-avatar">${student.avatar}</div>
                     <h3>${student.name}</h3>
-                    <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;">
-                        <span class="student-neuro-tag ${colorClass}" style="margin: 0;">${profileLabel}</span>
-                        <span class="student-neuro-tag" style="background-color: #E6E1ED; color: var(--morado-oscuro); margin: 0;">${levelLabel}</span>
-                    </div>
-                    <div class="student-stats">
-                        <div class="student-stat-item">
-                            <p>Enfoque</p>
-                            <p>${student.focus}</p>
-                        </div>
-                        <div class="student-stat-item">
-                            <p>Tareas</p>
-                            <p>${student.adaptations}</p>
-                        </div>
+                    <span class="student-neuro-tag ${tagClass}">${label}</span>
+                    <div class="student-details-box">
+                        <p><strong>Ubicación:</strong> ${student.group}</p>
+                        <p><strong>Ritmo de Foco:</strong> ${student.focus}</p>
                     </div>
                 `;
                 grid.appendChild(card);
             });
 
-            // Actualizar número del dashboard
             document.getElementById('dash-alumnos-count').textContent = students.length;
+            document.getElementById('dash-licencias-left').textContent = `${totalLicencias - students.length} Disponibles`;
         }
 
-        // 3. SELECCIÓN DE NEURODIVERGENCIA (Selector del adaptador)
-        let selectedProfile = 'dislexia';
-        
-        function initNeuroSelector() {
-            const options = document.querySelectorAll('.selector-option');
-            options.forEach(opt => {
-                opt.addEventListener('click', () => {
-                    options.forEach(o => o.classList.remove('selected'));
-                    opt.classList.add('selected');
-                    selectedProfile = opt.getAttribute('data-type');
-                    
-                    // Actualizar tag de vista previa
-                    const previewTag = document.getElementById('preview-tag');
-                    previewTag.textContent = opt.innerText;
-                    previewTag.className = 'student-neuro-tag';
-                    
-                    if (selectedProfile === 'dislexia') previewTag.classList.add('tag-dislexia');
-                    if (selectedProfile === 'tdah') previewTag.classList.add('tag-tdah');
-                    if (selectedProfile === 'tea') previewTag.classList.add('tag-tea');
-                });
-            });
-        }
-
-        // 4. CONTROL DEL MODAL
         function toggleModal(show) {
-            const modal = document.getElementById('student-modal');
-            if (show) {
-                modal.classList.add('active');
-            } else {
-                modal.classList.remove('active');
-            }
+            document.getElementById('student-modal').classList.toggle('active', show);
         }
 
-        function addStudent(event) {
-            event.preventDefault();
+        function addStudent(e) {
+            e.preventDefault();
             const name = document.getElementById('student-name').value;
+            const group = document.getElementById('student-group-string').value;
             const profile = document.getElementById('student-profile').value;
-            const level = document.getElementById('student-level').value;
             const avatar = document.getElementById('student-emoji').value;
-            
-            const newStudent = {
-                id: students.length + 1,
-                name: name,
-                profile: profile,
-                level: level,
-                avatar: avatar,
-                focus: "0 min",
-                adaptations: "0"
-            };
-            
-            students.push(newStudent);
+
+            students.push({ id: Date.now(), name, profile, avatar, group, focus: "0 min" });
             localStorage.setItem('students', JSON.stringify(students));
             
             renderStudents();
             toggleModal(false);
             document.getElementById('student-form').reset();
-            
-            alert(`¡${name} ha sido registrado de forma exitosa!`);
         }
 
-        // ==========================================================================
-        // 5. MOTOR DE ADAPTACIÓN IA SIMULADO (El núcleo funcional)
-        // ==========================================================================
-        function adaptText() {
-            const rawText = document.getElementById('raw-text').value;
-            const outputBox = document.getElementById('preview-output');
-            const pomodoroBox = document.getElementById('pomodoro-box');
-            
-            // Ocultar pomodoro por defecto
-            pomodoroBox.classList.remove('active');
-            
-            if (!rawText.trim()) {
-                alert("Por favor escribe un texto para adaptarlo.");
-                return;
-            }
-
-            outputBox.innerHTML = ''; // Limpiar caja
-
-            // 5.1 Transformación para Dislexia
-            if (selectedProfile === 'dislexia') {
-                const adaptedParagraph = document.createElement('p');
-                adaptedParagraph.className = 'adapted-dyslexia';
-                adaptedParagraph.textContent = rawText;
-                outputBox.appendChild(adaptedParagraph);
-            } 
-            
-            // 5.2 Transformación para TDAH
-            else if (selectedProfile === 'tdah') {
-                pomodoroBox.classList.add('active'); // Mostrar temporizador pomodoro
-                
-                // Dividir el texto en ideas cortas e independientes (máximo 15 palabras)
-                const sentences = rawText.split(/[.,]/);
-                sentences.forEach(sentence => {
-                    if (sentence.trim().length > 3) {
-                        const card = document.createElement('div');
-                        card.className = 'tdah-card-mode';
-                        card.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--tdah-color); margin-right: 10px;"></i> ${sentence.trim()}.`;
-                        outputBox.appendChild(card);
-                    }
-                });
-                
-                startMockTimer();
-            } 
-            
-            // 5.3 Transformación para TEA
-            else if (selectedProfile === 'tea') {
-                let adaptedText = rawText;
-                
-                // Procesar metáforas o lenguaje figurado (Literalidad)
-                adaptedText = adaptedText.replace(/pan comido/gi, '<strong>muy fácil</strong>');
-                
-                // Inyectar etiquetas visuales (Pictogramas de refuerzo)
-                adaptedText = adaptedText.replace(/oso pardo/gi, '<span class="tea-icon-label">🐻 Oso pardo</span>');
-                adaptedText = adaptedText.replace(/bosque/gi, '<span class="tea-icon-label">🌲 Bosque</span>');
-                adaptedText = adaptedText.replace(/peces/gi, '<span class="tea-icon-label">🐟 Peces</span>');
-                adaptedText = adaptedText.replace(/dormir/gi, '<span class="tea-icon-label">😴 Dormir</span>');
-                adaptedText = adaptedText.replace(/invierno/gi, '<span class="tea-icon-label">❄️ Invierno</span>');
-
-                const teaContainer = document.createElement('div');
-                teaContainer.className = 'adapted-tea';
-                teaContainer.innerHTML = `<p>${adaptedText}</p>`;
-                outputBox.appendChild(teaContainer);
-            }
+        function triggerMockUpload() {
+            alert("Archivo de planeación didáctica cargado con éxito en el búfer temporal.");
         }
 
-        // Simulación activa del Pomodoro TDAH
-        let timerInterval = null;
-        function startMockTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            let duration = 25 * 60; // 25 minutos
-            const display = document.getElementById('timer-display');
-            
-            timerInterval = setInterval(() => {
-                let minutes = Math.floor(duration / 60);
-                let seconds = duration % 60;
-                
-                minutes = minutes < 10 ? '0' + minutes : minutes;
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-                
-                display.textContent = `${minutes}:${seconds}`;
-                
-                if (--duration < 0) {
-                    clearInterval(timerInterval);
-                    display.textContent = "Descanso";
-                }
-            }, 1000);
-        }
-
-        // Envío simulado a Firebase
-        function saveToFirebaseMock() {
-            alert("¡Material guardado exitosamente en Firebase! El alumno lo verá reflejado en su portal en un segundo.");
+        function processPlanningWithIA() {
+            alert("Motor de Inteligencia Artificial iniciado. Extrayendo materias, taxonomía de Bloom y calendarizando objetivos automáticamente...");
         }
     </script>
 </body>
