@@ -10,29 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Fuentes locales por si decides instalarlas */
-        @font-face {
-            font-family: 'CustomFont';
-            src: url('fonts/Regular.woff2') format('woff2');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'CustomFont';
-            src: url('fonts/Medium.woff2') format('woff2');
-            font-weight: 500;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'CustomFont';
-            src: url('fonts/Bold.woff2') format('woff2');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
-
         /* Variables de Paleta de Colores Extraídas de tu Logo */
         :root {
             --bg-cream: #FAF8F5;
@@ -41,7 +18,8 @@
             --purple-pale: #F2EDFA;   /* Tono suave de fondo para tarjetas */
             --white: #FFFFFF;
             --text-muted: #4E4266;
-            --font-main: 'Outfit', 'CustomFont', sans-serif;
+            --font-main: 'Outfit', sans-serif;
+            --border-suave: #E6E1ED;
         }
 
         /* Reseteo y Calma Visual */
@@ -65,17 +43,20 @@
             padding: 0 24px;
         }
 
-        /* BANNER SUPERIOR CON BOTONES ENCIMA */
+        /* BANNER SUPERIOR DE LADO A LADO (200px) */
         .hero-banner-header {
             position: relative;
             width: 100%;
-            display: block;
+            height: 200px;
+            background-color: #F1EBE1;
+            border-bottom: 1px solid var(--border-suave);
+            overflow: hidden;
         }
 
-        /* Tu imagen abarcando todo el banner */
         .hero-banner-header .banner-img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: contain;
             display: block;
         }
 
@@ -140,7 +121,7 @@
             transform: translateY(-1px);
         }
 
-        /* HERO TEXT SECTION (EQUILIBRADA Y MEDIANA) */
+        /* HERO TEXT SECTION */
         .hero-text-block {
             padding: 50px 0 70px 0;
             text-align: center;
@@ -213,61 +194,147 @@
             color: var(--text-muted);
         }
 
-        /* SECCIÓN MODELO COMERCIAL (EL TRIÁNGULO DE APOYO) */
-        .commercial {
+        /* ==========================================================================
+           NUEVA SECCIÓN: MÓDULO COMERCIAL DE MEMBRESÍAS DINÁMICAS
+           ========================================================================== */
+        .pricing-section {
             padding: 80px 0;
+            text-align: center;
         }
 
-        .commercial h2 {
+        .pricing-section h2 {
             font-size: 32px;
             font-weight: 700;
-            text-align: center;
-            margin-bottom: 48px;
-            letter-spacing: -0.5px;
+            margin-bottom: 15px;
         }
 
-        .triangle-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+        .pricing-section .sub-title {
+            font-size: 17px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
         }
 
-        .triangle-card {
-            background-color: var(--white);
-            padding: 36px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(42, 22, 84, 0.02);
-            border: 1px solid rgba(42, 22, 84, 0.03);
-            transition: transform 0.3s ease;
-        }
-
-        .triangle-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .icon-wrapper {
-            width: 44px;
-            height: 44px;
+        /* Control de Pestañas */
+        .tab-container {
+            display: inline-flex;
             background-color: var(--purple-pale);
+            padding: 6px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            border: 1px solid var(--border-suave);
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            cursor: pointer;
             border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background-color: var(--white);
+            color: var(--purple-dark);
+            box-shadow: 0 4px 10px rgba(42, 22, 84, 0.05);
+        }
+
+        /* Vistas de Planes */
+        .pricing-view {
+            display: none;
+            max-width: 500px;
+            margin: 0 auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .pricing-view.active {
+            display: block;
+        }
+
+        .pricing-card {
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 45px;
+            border: 1px solid var(--border-suave);
+            box-shadow: 0 10px 30px rgba(42, 22, 84, 0.02);
+            text-align: left;
+        }
+
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .pricing-card .price {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--purple-light);
+            margin-bottom: 25px;
+        }
+
+        .pricing-card .price span {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .benefits-list li {
+            font-size: 16px;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+            gap: 12px;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
             color: var(--purple-light);
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
         }
 
-        .triangle-card h3 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 12px;
+        /* Selector de Licencias por Volumen */
+        .license-counter-box {
+            background-color: var(--bg-cream);
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-suave);
         }
 
-        .triangle-card p {
+        .license-counter-box label {
+            font-weight: 600;
             font-size: 15px;
-            color: var(--text-muted);
+        }
+
+        .license-counter-box select {
+            padding: 8px 15px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border-suave);
+            background: var(--white);
+            color: var(--purple-dark);
+            font-weight: 600;
+            outline: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* FOOTER */
@@ -279,7 +346,6 @@
             font-size: 14px;
         }
 
-        /* Adaptabilidad para Móviles */
         @media (max-width: 768px) {
             .nav-actions-overlay {
                 position: relative;
@@ -290,18 +356,19 @@
                 background-color: var(--bg-cream);
             }
             .hero-text-block h1 { font-size: 26px; }
-            .section-header h2, .commercial h2 { font-size: 24px; }
+            .section-header h2, .pricing-section h2 { font-size: 24px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- BANNER SUPERIOR AJUSTADO A 200PX -->
     <header class="hero-banner-header">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" class="banner-img">
         
         <div class="nav-actions-overlay">
             <a href="#" class="btn btn-login">Iniciar Sesión</a>
-            <a href="#" class="btn btn-primary">Solicitar Acceso</a>
+            <a href="#membresias" class="btn btn-primary">Adquirir Licencia</a>
         </div>
     </header>
 
@@ -309,7 +376,7 @@
         <div class="container">
             <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
             <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
-            <a href="#triangle" class="btn btn-secondary">Descubre el Triángulo de Apoyo</a>
+            <a href="#membresias" class="btn btn-secondary">Ver Planes Disponibles</a>
         </div>
     </section>
 
@@ -322,42 +389,74 @@
             
             <div class="features-grid">
                 <div class="feature-card">
-                    <h3>Dislexia</h3>
-                    <p>Fuentes optimizadas, espaciado activo y regletas de lectura visual.</p>
+                    <h3>Línea de Enfoque</h3>
+                    <p>Fuentes optimizadas, espaciado activo y regletas de lectura visual para dislexia.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>TDAH</h3>
-                    <p>Fragmentación del texto en micro-bloques de enfoque y temporizadores integrados.</p>
+                    <h3>Bloques de Lectura</h3>
+                    <p>Fragmentación del texto en micro-bloques de enfoque y temporizadores integrados para TDAH.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Autismo / TEA</h3>
-                    <p>Inyección automática de apoyos visuales y traducción de lenguaje figurado a literal.</p>
+                    <h3>Apoyos Pictográficos</h3>
+                    <p>Inyección automática de apoyos visuales y traducción de lenguaje figurado a literal para TEA.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="commercial" id="triangle">
+    <!-- MÓDULO DE COMPRA DINÁMICO -->
+    <section class="pricing-section" id="membresias">
         <div class="container">
-            <h2>Un solo plan por Alumno. Un ecosistema completo de soporte.</h2>
-            
-            <div class="triangle-grid">
-                <div class="triangle-card">
-                    <div class="icon-wrapper">01</div>
-                    <h3>El Alumno</h3>
-                    <p>Un portal intuitivo y libre de sobrecarga sensorial. Diseñado para aumentar la autonomía y la confianza durante sus sesiones de estudio.</p>
-                </div>
-                <div class="triangle-card">
-                    <div class="icon-wrapper">02</div>
-                    <h3>El Docente</h3>
-                    <p>Panel de control centralizado para registrar perfiles cognitivos individuales y transformar cualquier lectura ordinaria mediante nuestro motor de IA.</p>
-                </div>
-                <div class="triangle-card">
-                    <div class="icon-wrapper">03</div>
-                    <h3>La Familia</h3>
-                    <p>Monitoreo transparente del avance del estudiante. Herramientas coordinadas para dar continuidad a las estrategias del aula en el hogar.</p>
+            <h2>Adquiere tu Licencia NeuroClarity</h2>
+            <p class="sub-title">Un solo plan por alumno. Un ecosistema completo de soporte.</p>
+
+            <!-- Selector de Pestañas -->
+            <div class="tab-container">
+                <button class="tab-btn active" onclick="togglePricingTab('padres')">Padres de Familia</button>
+                <button class="tab-btn" onclick="togglePricingTab('escuelas')">Escuelas y Docentes</button>
+            </div>
+
+            <!-- VISTA A: PADRES DE FAMILIA -->
+            <div id="view-padres" class="pricing-view active">
+                <div class="pricing-card">
+                    <h3>Plan Familiar Individual</h3>
+                    <div class="price">$199 <span>/ mes por alumno</span></div>
+                    <ul class="benefits-list">
+                        <li>Acceso total al Portal del Alumno</li>
+                        <li>Panel de Monitoreo para la Familia</li>
+                        <li>1 Código de Vinculación para su Profesor</li>
+                        <li>Adaptación de materiales con IA ilimitada</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center;">Comprar Licencia Individual</a>
                 </div>
             </div>
+
+            <!-- VISTA B: ESCUELAS Y DOCENTES -->
+            <div id="view-escuelas" class="pricing-view">
+                <div class="pricing-card">
+                    <h3>Plan Escolar por Volumen</h3>
+                    <div class="price" id="school-price-display">$1,500 <span>/ mes</span></div>
+                    
+                    <div class="license-counter-box">
+                        <label for="license-select">Cantidad de Alumnos (Cupos):</label>
+                        <select id="license-select" onchange="calculateSchoolPrice()">
+                            <option value="10">10 Alumnos (10% Desc.)</option>
+                            <option value="20">20 Alumnos (15% Desc.)</option>
+                            <option value="30" selected>30 Alumnos (20% Desc.)</option>
+                            <option value="50">50 Alumnos (30% Desc.)</option>
+                        </select>
+                    </div>
+
+                    <ul class="benefits-list">
+                        <li>Panel de Gestión Centralizada para el Docente</li>
+                        <li>Cupos de asignación autónoma e inmediata</li>
+                        <li>Códigos de vinculación familiar automáticos</li>
+                        <li>Asistente IA de Procesamiento de Planeaciones</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center;">Adquirir Paquete Escolar</a>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -366,8 +465,40 @@
             <p>© 2026 NeuroRéussit / NeuroClarity. Ingeniería Pedagógica para Mentes Diversas. Todos los derechos reservados.</p>
         </div>
     </footer>
-<script type="module" src="app.js"></script>
+
+    <script>
+        // Cambiar entre pestañas de manera fluida
+        function togglePricingTab(type) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.pricing-view').forEach(view => view.classList.remove('active'));
+
+            if (type === 'padres') {
+                event.target.classList.add('active');
+                document.getElementById('view-padres').classList.add('active');
+            } else {
+                const targetBtn = document.querySelector('button[onclick*="escuelas"]');
+                if (targetBtn) targetBtn.classList.add('active');
+                document.getElementById('view-escuelas').classList.add('active');
+            }
+        }
+
+        // Calcular precio dinámico con descuento por volumen para escuelas
+        function calculateSchoolPrice() {
+            const select = document.getElementById('license-select');
+            const display = document.getElementById('school-price-display');
+            const qty = parseInt(select.value);
+            
+            let pricePerUser = 199;
+            let discount = 0;
+
+            if (qty === 10) discount = 0.10;
+            if (qty === 20) discount = 0.15;
+            if (qty === 30) discount = 0.20;
+            if (qty === 50) discount = 0.30;
+
+            let total = Math.floor((qty * pricePerUser) * (1 - discount));
+            display.innerHTML = `$${total.toLocaleString()} <span>/ mes</span>`;
+        }
+    </script>
 </body>
 </html>
-
-
