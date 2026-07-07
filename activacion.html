@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroClarity - Activación de Cuenta</title>
+    
+    <!-- Fuentes legibles y limpias para evitar fatiga visual -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Afacad+Flux:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-crema: #F7F4EE;
+            --morado-oscuro: #473363;
+            --morado-claro: #6A4C93;
+            --texto-principal: #2C2536;
+            --blanco: #FFFFFF;
+            --borde-suave: #E6E1ED;
+            --sombra-elegante: 0 10px 30px rgba(44, 37, 54, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Afacad Flux', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-crema);
+            color: var(--texto-principal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Comfortaa', cursive;
+            color: var(--morado-oscuro);
+            font-weight: 700;
+        }
+
+        /* CABECERA INSTITUCIONAL (De lado a lado - 200px) */
+        .brand-header-full {
+            width: 100%;
+            height: 200px;
+            background-color: #F1EBE1;
+            border-bottom: 2px solid var(--borde-suave);
+            overflow: hidden;
+        }
+
+        .brand-header-full img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* CONTENEDOR PRINCIPAL CENTRALIZADO */
+        .activation-container {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .success-card {
+            background-color: var(--blanco);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--borde-suave);
+            box-shadow: var(--sombra-elegante);
+            text-align: center;
+        }
+
+        .icon-success {
+            width: 70px;
+            height: 70px;
+            background-color: #EBF7E9;
+            color: #38B000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            margin: 0 auto 20px auto;
+        }
+
+        .success-card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .success-card p {
+            color: #7C708F;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        /* FORMULARIOS Y SELECTORES */
+        .activation-flow-box {
+            text-align: left;
+            border-top: 2px solid var(--bg-crema);
+            padding-top: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--morado-oscuro);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1.5px solid var(--borde-suave);
+            font-size: 15px;
+            outline: none;
+            background-color: var(--blanco);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--morado-claro);
+        }
+
+        .btn-action {
+            background-color: var(--morado-claro);
+            color: var(--blanco);
+            border: none;
+            padding: 14px 22px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        .btn-action:hover {
+            background-color: var(--morado-oscuro);
+        }
+
+        /* CUADRO DEL CÓDIGO DE VINCULACIÓN */
+        .code-display-box {
+            background-color: #FAF8F5;
+            border: 2px dashed var(--morado-claro);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .code-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--morado-oscuro);
+            letter-spacing: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA INSTITUCIONAL DE LADO A LADO -->
+    <header class="brand-header-full">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner">
+    </header>
+
+    <div class="activation-container">
+        <div class="success-card">
+            <div class="icon-success">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>¡Pago Confirmado con Éxito!</h2>
+            <p>Gracias por unirte a NeuroClarity. Vamos a configurar tu espacio de calma pedagógica etapa por etapa.</p>
+
+            <!-- SIMULADOR DE DETECCIÓN DE COMPRA (INVISIBLE PARA EL USUARIO COMPRADOR REAL) -->
+            <div style="margin-bottom: 25px; background: #FAF8F5; padding: 10px; border-radius: 8px; border: 1px dashed #ccc; font-size: 13px;">
+                <label style="font-weight: bold; color: var(--morado-oscuro);">Simular tipo de comprador:</label>
+                <select id="simulador-comprador" onchange="cambiarFlujoDeVista()" style="padding: 5px; margin-top: 5px; width: 100%; border-radius: 5px;">
+                    <option value="padre">Padre de Familia (Licencia Individual)</option>
+                    <option value="escuela">Escuela o Docente (Paquete por Volumen)</option>
+                </select>
+            </div>
+
+            <!-- FLUJO A: CONFIGURACIÓN PARA EL PADRE DE FAMILIA -->
+            <div id="flujo-padre" class="activation-flow-box">
+                <h3 style="font-size: 18px; margin-bottom: 15px;"><i class="fa-solid fa-child" style="color: var(--morado-claro);"></i> 1. Crea el Perfil de tu Hijo</h3>
+                
+                <div class="form-group">
+                    <label>Nombre Completo del Alumno</label>
+                    <input type="text" id="padre-nombre-hijo" placeholder="Ej. Carlos Hernández">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Grado Escolar</label>
+                        <select id="padre-grado">
+                            <option value="3">3° de Primaria</option>
+                            <option value="4">4° de Primaria</option>
+                            <option value="5">5° de Primaria</option>
+                            <option value="6">6° de Primaria</option>
+                            <option value="1-sec">1° de Secundaria</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Grupo / Sección</label>
+                        <input type="text" id="padre-grupo" placeholder="Ej. A o B">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label>Línea de Enfoque Inicial (Opcional - Modificable)</label>
+                    <select id="padre-enfoque">
+                        <option value="dislexia">Línea de Enfoque (Apoyo Dislexia)</option>
+                        <option value="tdah">Bloques de Lectura + Temporizador (Apoyo TDAH)</option>
+                        <option value="tea">Lectura con Apoyos Pictográficos (Apoyo TEA)</option>
+                    </select>
+                </div>
+
+                <h3 style="font-size: 18px; margin-bottom: 15px;"><i class="fa-solid fa-link" style="color: var(--morado-claro);"></i> 2. Código de Vinculación Docente</h3>
+                <p style="text-align: left; font-size: 14px; margin-bottom: 15px;">Proporciona este código al profesor de tu hijo para que pueda enviarle materiales adaptados de forma automática desde su panel.</p>
+                
+                <div class="code-display-box">
+                    <h4>Tu Código Único de Vinculación:</h4>
+                    <div class="code-text" id="codigo-vinculacion-txt">NC-8849</div>
+                </div>
+
+                <button class="btn-action" onclick="guardarActivacionPadre()">
+                    <i class="fa-solid fa-rocket"></i> Activar y Guardar Perfil
+                </button>
+            </div>
+
+            <!-- FLUJO B: CONFIGURACIÓN PARA LA ESCUELA / DOCENTE -->
+            <div id="flujo-escuela" class="activation-flow-box" style="display: none;">
+                <h3 style="font-size: 18px; margin-bottom: 15px;"><i class="fa-solid fa-school" style="color: var(--morado-claro);"></i> Configuración de tu Espacio Escolar</h3>
+                <p style="font-size: 14px; margin-bottom: 20px;">Hemos abonado exitosamente tus cupos contratados. Configura tu cuenta de acceso principal.</p>
+
+                <div class="form-group">
+                    <label>Nombre del Colegio / Institución</label>
+                    <input type="text" id="escuela-nombre" placeholder="Ej. Colegio Americano">
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña de Acceso para tu Panel de Profesor</label>
+                    <input type="password" id="escuela-pass" placeholder="Crea una contraseña segura">
+                </div>
+
+                <div style="background-color: #FDFDFB; padding: 15px; border-radius: 10px; border: 1px solid var(--borde-suave); margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <span style="font-weight: bold; color: var(--morado-oscuro); display: block;">Cupos Disponibles Cargados:</span>
+                        <span style="font-size: 13px; color: #7C708F;">Listos para asignar de manera autónoma</span>
+                    </div>
+                    <div style="background-color: var(--purple-pale, #F2EDFA); padding: 8px 15px; border-radius: 8px; font-weight: bold; font-size: 20px; color: var(--morado-claro);">
+                        30
+                    </div>
+                </div>
+
+                <button class="btn-action" onclick="guardarActivacionEscuela()">
+                    <i class="fa-solid fa-folder-open"></i> Entrar a mi Panel de Profesor
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Función para alternar dinámicamente las vistas según el simulador de compra
+        function cambiarFlujoDeVista() {
+            const tipo = document.getElementById('simulador-comprador').value;
+            const flujoPadre = document.getElementById('flujo-padre');
+            const flujoEscuela = document.getElementById('flujo-escuela');
+
+            if (tipo === 'padre') {
+                flujoPadre.style.display = 'block';
+                flujoEscuela.style.display = 'none';
+            } else {
+                flujoPadre.style.display = 'none';
+                flujoEscuela.style.display = 'block';
+            }
+        }
+
+        // Acciones al confirmar formularios
+        function guardarActivacionPadre() {
+            const nombre = document.getElementById('padre-nombre-hijo').value.trim();
+            if(!nombre) return alert("Por favor introduce el nombre de tu hijo.");
+            
+            alert("¡Perfil creado con éxito! Redirigiendo al portal de inicio...");
+            window.location.href = "index.html";
+        }
+
+        function guardarActivacionEscuela() {
+            const colegio = document.getElementById('escuela-nombre').value.trim();
+            const pass = document.getElementById('escuela-pass').value.trim();
+            if(!colegio || !pass) return alert("Por favor rellena todos los campos.");
+            
+            alert("¡Cuenta de profesor activada! Redirigiendo a tu nuevo Panel de Control...");
+            window.location.href = "profesor.html";
+        }
+    </script>
+</body>
+</html>
