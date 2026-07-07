@@ -3,1343 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Mi Portal de Aprendizaje</title>
+    <title>NeuroClarity - Portal del Alumno</title>
     
-    <!-- Fuentes para Calma Visual, Dislexia y Lectura Activa -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Afacad+Flux:wght@400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Afacad+Flux:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* ==========================================================================
-           1. VARIABLES DE DISEÑO DINÁMICAS (Temas Niño vs Adolescente - TODO CLARO Y COLORIDO)
-           ========================================================================== */
-        
-        /* Tema por Defecto: INFANTIL (Primaria) */
-        body.theme-infantil {
-            --bg-principal: #F7F4EE;      /* Crema suave */
-            --bg-panel: #FFFFFF;
+        :root {
+            --bg-crema: #F7F4EE;
             --morado-oscuro: #473363;
             --morado-claro: #6A4C93;
             --texto-principal: #2C2536;
-            --texto-secundario: #7C708F;
-            --borde: #E6E1ED;
-            --sombra: 0 10px 25px rgba(106, 76, 147, 0.05);
-            --font-titulo: 'Comfortaa', cursive;
-            --font-cuerpo: 'Afacad Flux', sans-serif;
-            --radio-panel: 24px;
-            
-            /* Colores de Enfoque Visuales Neutros */
-            --guia-color: #FFB703;
-            --enfoque-color: #4A90E2;
-            --apoyo-color: #38B000;
+            --blanco: #FFFFFF;
+            --borde-suave: #E6E1ED;
+            --sombra-elegante: 0 10px 30px rgba(44, 37, 54, 0.04);
         }
 
-        /* Tema Alterno: ADOLESCENTE (Secundaria/Bachillerato) - Estilo Claro, Moderno y Pastel */
-        body.theme-adolescente {
-            --bg-principal: #E8EBF5;      /* Marino Cósmico - Lavanda/Azul Claro Suave */
-            --bg-panel: #FFFFFF;          /* Panel blanco para alto contraste suave */
-            --morado-oscuro: #3D344B;
-            --morado-claro: #8241C7;
-            --texto-principal: #1F1B2E;
-            --texto-secundario: #645A75;
-            --borde: #D0D5E5;
-            --sombra: 0 10px 30px rgba(130, 65, 199, 0.08);
-            --font-titulo: 'Afacad Flux', sans-serif;
-            --font-cuerpo: 'Afacad Flux', sans-serif;
-            --radio-panel: 12px;
-            
-            /* Colores de Apoyo Adaptados a Temas Claros */
-            --guia-color: #D97706;
-            --enfoque-color: #2563EB;
-            --apoyo-color: #16A34A;
-        }
-
-        /* Variaciones de Fondo Reales, Claras y Relajantes para el Modo Adolescente */
-        body.theme-adolescente.bg-verde-bosque {
-            --bg-principal: #E2ECE9;      /* Verde Bosque / Sabio Claro */
-            --bg-panel: #FFFFFF;
-            --borde: #CAD6D2;
-            --texto-principal: #1D2B24;
-            --texto-secundario: #4F6156;
-            --morado-claro: #16A34A;
-            --morado-oscuro: #1D2B24;
-        }
-
-        body.theme-adolescente.bg-gris-tormenta {
-            --bg-principal: #E2E8F0;      /* Gris Tormenta / Slate Claro */
-            --bg-panel: #FFFFFF;
-            --borde: #CBD5E1;
-            --texto-principal: #1E293B;
-            --texto-secundario: #475569;
-            --morado-claro: #0284C7;
-            --morado-oscuro: #1E293B;
-        }
-
-        body.theme-adolescente.bg-cacao-calido {
-            --bg-principal: #F1E5D1;      /* Cacao & Vainilla Sepia Cálido */
-            --bg-panel: #FAF6F0;
-            --borde: #DAC0A3;
-            --texto-principal: #3E2723;
-            --texto-secundario: #6D4C41;
-            --morado-claro: #D84315;
-            --morado-oscuro: #3E2723;
-        }
-
-        /* Selector de colores exclusivo de adolescente */
-        .color-selector-wrapper {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-            border-top: 1px solid var(--borde);
-            padding-top: 15px;
-        }
-
-        body.theme-adolescente .color-selector-wrapper {
-            display: flex;
-        }
-
-        .color-dots-container {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-start;
-            margin-top: 5px;
-        }
-
-        .color-dot {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .color-dot:hover {
-            transform: scale(1.15);
-        }
-
-        .color-dot.active {
-            border-color: var(--texto-principal);
-            transform: scale(1.1);
-            box-shadow: 0 0 10px var(--morado-claro);
-        }
-
-        /* ==========================================================================
-           2. ESTILOS BASE Y CONTROLADOR DE CONTENEDORES
-           ========================================================================== */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, border-radius 0.3s ease;
+            font-family: 'Afacad Flux', sans-serif;
         }
 
         body {
-            background-color: var(--bg-principal);
+            background-color: var(--bg-crema);
             color: var(--texto-principal);
-            font-family: var(--font-cuerpo);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4 {
-            font-family: var(--font-titulo);
+        h1, h2, h3 {
+            font-family: 'Comfortaa', cursive;
             color: var(--morado-oscuro);
             font-weight: 700;
         }
 
-        /* ==========================================================================
-           3. DISEÑO DE INTERFAZ DEL PORTAL (Estructura de Tres Columnas/Paneles)
-           ========================================================================== */
-        .app-container {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 30px;
-            padding: 30px;
-            flex-grow: 1;
-            max-width: 1600px;
+        /* CABECERA INSTITUTIONAL (De lado a lado - 200px) */
+        .brand-header-full {
             width: 100%;
-            margin: 0 auto;
-        }
-
-        /* Panel de Misiones / Proyectos (Izquierda) */
-        .missions-sidebar {
-            background-color: var(--bg-panel);
-            border-radius: var(--radio-panel);
-            border: 1px solid var(--borde);
-            padding: 30px;
-            box-shadow: var(--sombra);
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            height: fit-content;
-        }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-bottom: 1px solid var(--borde);
-            padding-bottom: 20px;
-        }
-
-        .student-avatar {
-            font-size: 40px;
-            width: 65px;
-            height: 65px;
-            background-color: var(--bg-principal);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2.5px solid var(--morado-claro);
-        }
-
-        .student-info h3 {
-            font-size: 20px;
-        }
-
-        .student-info p {
-            color: var(--texto-secundario);
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .mission-section-title {
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--texto-secundario);
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .missions-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .mission-card {
-            background-color: var(--bg-principal);
-            border: 1.5px solid var(--borde);
-            border-radius: calc(var(--radio-panel) * 0.7);
-            padding: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
+            height: 200px;
+            background-color: #F1EBE1;
+            border-bottom: 2px solid var(--borde-suave);
             overflow: hidden;
         }
 
-        .mission-card:hover {
-            border-color: var(--morado-claro);
-            transform: translateY(-2px);
-        }
-
-        .mission-card.active {
-            border-color: var(--morado-claro);
-            background-color: rgba(106, 76, 147, 0.04);
-            font-weight: bold;
-        }
-
-        body.theme-adolescente .mission-card.active {
-            background-color: rgba(130, 65, 199, 0.06);
-        }
-
-        .mission-icon {
-            font-size: 24px;
-        }
-
-        .mission-meta {
-            flex-grow: 1;
-        }
-
-        .mission-meta h4 {
-            font-size: 16px;
-            margin-bottom: 3px;
-        }
-
-        .mission-meta p {
-            font-size: 13px;
-            color: var(--texto-secundario);
-        }
-
-        .mission-status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: var(--guia-color);
-        }
-
-        .mission-card.completed .mission-status-dot {
-            background-color: var(--apoyo-color);
-        }
-
-        /* Cofre de Logros / Barra de Metas */
-        .achievements-box {
-            border-top: 1px solid var(--borde);
-            padding-top: 20px;
-            margin-top: 10px;
-        }
-
-        .achievements-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .stars-container {
-            display: flex;
-            gap: 8px;
-            font-size: 22px;
-            color: #FFB703;
-        }
-
-        .progress-bar-container {
+        .brand-header-full img {
             width: 100%;
-            height: 10px;
-            background-color: var(--bg-principal);
-            border-radius: 5px;
-            overflow: hidden;
-            border: 1px solid var(--borde);
-        }
-
-        .progress-fill {
             height: 100%;
-            width: 66%;
-            background: linear-gradient(90deg, var(--morado-claro), var(--enfoque-color));
-            border-radius: 5px;
+            object-fit: contain;
+            display: block;
         }
 
-        /* Workspace Principal (Centro y Derecha) */
-        .workspace-main {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
+        /* CONTENEDOR CENTRAL DE BIENVENIDA */
+        .workspace-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+            text-align: center;
         }
 
-        .workspace-card {
-            background-color: var(--bg-panel);
-            border-radius: var(--radio-panel);
-            border: 1px solid var(--borde);
-            padding: 40px;
-            box-shadow: var(--sombra);
+        .welcome-header {
+            margin-bottom: 35px;
             position: relative;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* Barra de Herramientas del Estudiante (Adaptaciones sin etiquetas médicas) */
-        .student-controls-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--bg-principal);
-            border: 1px solid var(--borde);
-            border-radius: calc(var(--radio-panel) * 0.7);
-            padding: 15px 25px;
-            margin-bottom: 30px;
+        .welcome-header h2 {
+            font-size: 26px;
+            margin-bottom: 10px;
         }
 
-        .controls-group {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .control-btn {
-            background: var(--bg-panel);
-            border: 1.5px solid var(--borde);
-            color: var(--texto-principal);
-            padding: 10px 18px;
-            border-radius: 12px;
-            font-size: 15px;
+        .btn-audio-guide {
+            background-color: var(--blanco);
+            border: 1px solid var(--borde-suave);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: var(--morado-claro);
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .control-btn:hover {
-            border-color: var(--morado-claro);
-            color: var(--morado-claro);
-        }
-
-        .control-btn.active {
-            background-color: var(--morado-claro);
-            color: #FFFFFF;
-            border-color: var(--morado-claro);
-        }
-
-        /* ==========================================================================
-           4. ADAPTACIONES INTERACTIVAS DINÁMICAS (Nombres totalmente neutrales)
-           ========================================================================== */
-        
-        /* Contenedor del Texto de Lectura */
-        .reader-container {
-            position: relative;
-            background-color: var(--bg-panel);
-            border: 1px solid var(--borde);
-            border-radius: calc(var(--radio-panel) * 0.6);
-            padding: 35px;
-            flex-grow: 1;
-            line-height: 1.7;
-            font-size: 19px;
-            overflow: hidden;
-        }
-
-        /* 4.1 REGLETA DE LECTURA (Línea de Enfoque) */
-        .reading-ruler {
-            display: none;
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 38px;
-            background-color: rgba(217, 119, 6, 0.08);
-            border-top: 2.5px dashed var(--guia-color);
-            border-bottom: 2.5px dashed var(--guia-color);
-            pointer-events: none; /* Crucial para poder hacer click debajo */
-            z-index: 10;
-        }
-
-        .reading-ruler.active {
-            display: block !important;
-        }
-
-        /* Fuente para Dislexia (Tipografía de Apoyo) */
-        .font-adapted-dislexia {
-            font-family: 'Comic Neue', sans-serif !important;
-            font-weight: 700;
-            letter-spacing: 0.14em !important;
-            word-spacing: 0.28em !important;
-            line-height: 2.1 !important;
-        }
-
-        /* 4.2 MODO ENFOQUE EXTREMO (Bloques de Lectura) */
-        .workspace-card.focus-mode-active {
-            padding: 50px 100px;
-        }
-
-        .workspace-card.focus-mode-active .student-controls-bar {
-            opacity: 0.15;
-        }
-
-        .workspace-card.focus-mode-active .student-controls-bar:hover {
-            opacity: 1;
-        }
-
-        /* Bloques de aprendizaje aislados */
-        .tdah-segment-card {
-            background-color: var(--bg-panel);
-            border-left: 5px solid var(--enfoque-color);
-            padding: 20px 25px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-            animation: cardSlideIn 0.5s ease;
-        }
-
-        @keyframes cardSlideIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Widgets Especiales */
-        .tdah-widget-container {
-            display: none;
-            background-color: var(--bg-principal);
-            border: 1px solid var(--borde);
-            border-radius: 12px;
-            padding: 15px 25px;
-            margin-bottom: 20px;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .tdah-widget-container.active {
-            display: flex;
-        }
-
-        .pomodoro-timer-student {
-            font-family: monospace;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--enfoque-color);
-            background: var(--bg-panel);
-            padding: 6px 16px;
-            border-radius: 10px;
-            border: 1.5px solid var(--borde);
-        }
-
-        /* 4.3 MODO DE APOYO DE LECTURA VISUAL (TEA) */
-        .tea-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            background-color: rgba(56, 176, 0, 0.08);
-            color: var(--apoyo-color);
-            padding: 2px 10px;
-            border-radius: 8px;
-            font-weight: bold;
-            margin: 0 4px;
-            border: 1px solid rgba(56, 176, 0, 0.15);
+            gap: 8px;
+            box-shadow: var(--sombra-elegante);
+            transition: all 0.2s ease;
+            margin-top: 5px;
         }
 
-        .tea-literal-phrase {
-            border-bottom: 2px dotted var(--apoyo-color);
-            font-weight: 600;
-            color: var(--texto-principal);
+        .btn-audio-guide:hover {
+            background-color: var(--morado-pale, #F2EDFA);
+            transform: scale(1.02);
         }
 
-        /* ==========================================================================
-           5. ACTIVIDAD ESPECIAL: DESAFÍO DE ATENCIÓN (Matemáticas Visuales)
-           ========================================================================== */
-        .shape-counter-game {
+        /* SECCIONES DE AVATARES */
+        .category-section {
+            background-color: var(--blanco);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--borde-suave);
+            box-shadow: var(--sombra-elegante);
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .category-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--bg-crema);
             display: flex;
-            flex-direction: column;
-            gap: 20px;
             align-items: center;
-            text-align: center;
+            gap: 10px;
         }
 
-        .shapes-grid {
+        .avatar-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            background: var(--bg-principal);
-            padding: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+        }
+
+        .avatar-card {
+            background-color: var(--bg-crema);
+            border: 1px solid var(--borde-suave);
             border-radius: 16px;
-            border: 1.5px solid var(--borde);
-            max-width: 400px;
-            margin: 20px auto;
-        }
-
-        .shape-item {
-            font-size: 30px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .shape-item:nth-child(even) {
-            animation-delay: 1.5s;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .game-input-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .game-input-group input {
-            width: 80px;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1.5px solid var(--borde);
-            font-size: 18px;
+            padding: 20px;
             text-align: center;
-            font-weight: bold;
-            outline: none;
-            background: var(--bg-panel);
-            color: var(--texto-principal);
-        }
-
-        .game-input-group input:focus {
-            border-color: var(--morado-claro);
-        }
-
-        /* ==========================================================================
-           6. COMPONENTES GLOBALES (Notificaciones Toast Custom)
-           ========================================================================== */
-        .toast-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .toast {
-            background-color: var(--bg-panel);
-            color: var(--texto-principal);
-            padding: 15px 25px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            animation: toastSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1.5px solid var(--borde);
-        }
-
-        @keyframes toastSlideIn {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .toast.success {
-            border-left: 5px solid var(--apoyo-color);
-        }
-
-        /* Botón de Enviar Misión / Terminar */
-        .btn-submit-mission {
-            background-color: var(--apoyo-color);
-            color: #FFFFFF;
-            border: none;
-            padding: 16px 30px;
-            border-radius: 14px;
-            font-size: 18px;
-            font-weight: 700;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 30px;
-            width: fit-content;
-            align-self: center;
-            box-shadow: 0 4px 15px rgba(56, 176, 0, 0.2);
+            transition: all 0.2s ease;
         }
 
-        .btn-submit-mission:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(56, 176, 0, 0.3);
+        .avatar-card:hover {
+            border-color: var(--morado-claro);
+            background-color: var(--blanco);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(106, 76, 147, 0.1);
+        }
+
+        .avatar-emoji {
+            font-size: 45px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .avatar-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--texto-principal);
         }
     </style>
 </head>
-<body class="theme-infantil">
+<body>
 
-    <!-- ==========================================================================
-       BARRA DEMO PARA PRESENTACIÓN (Conexión real con base de datos del profesor)
-       ========================================================================== -->
-    <div class="demo-toolbar">
-        <div class="demo-title">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <span><strong>NeuroClarity:</strong> Simular sesión de alumno registrado</span>
+    <!-- CABECERA DE LADO A LADO -->
+    <header class="brand-header-full">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner">
+    </header>
+
+    <div class="workspace-container">
+        
+        <div class="welcome-header">
+            <h2>¡Hola! Qué alegría verte hoy</h2>
+            <button class="btn-audio-guide" onclick="leerInstruccion()">
+                <i class="fa-solid fa-volume-high"></i> Escuchar instrucción
+            </button>
         </div>
-        <div class="theme-selector-container">
-            <label for="demo-student-picker" style="font-weight: 600; font-size: 13px;">Ver como:</label>
-            <select id="demo-student-picker" class="student-select-dropdown" onchange="autoLoadStudentProfile(this.value)">
-                <!-- Se cargará dinámicamente la lista de alumnos guardada -->
-            </select>
-        </div>
-    </div>
 
-    <!-- Selector de colores exclusivo de adolescente -->
-    <style>
-        .student-select-dropdown {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #FFFFFF;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: bold;
-            outline: none;
-            cursor: pointer;
-        }
-        .student-select-dropdown option {
-            background-color: #473363;
-            color: #FFFFFF;
-        }
-        .theme-selector-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-    </style>
-
-    <!-- ==========================================================================
-       CONTENEDOR DE LA APLICACIÓN
-       ========================================================================== -->
-    <div class="app-container">
-
-        <!-- PANEL LATERAL (Información del estudiante + Selector de misiones) -->
-        <aside class="missions-sidebar">
-            
-            <div class="sidebar-header">
-                <div class="student-avatar" id="student-avatar-display">🐨</div>
-                <div class="student-info">
-                    <h3 id="student-name-display">Lucas Gómez</h3>
-                    <p id="student-tag-display">Alumno de Primaria</p>
+        <!-- CATEGORÍA 1: INFANTIL (NIÑOS) -->
+        <section class="category-section">
+            <h3><i class="fa-solid fa-child" style="color: var(--morado-claro);"></i> Espacio Infantil</h3>
+            <div class="avatar-grid">
+                <div class="avatar-card" onclick="entrarComo('Koala')">
+                    <span class="avatar-emoji">🐨</span>
+                    <span class="avatar-name">Koala</span>
+                </div>
+                <div class="avatar-card" onclick="entrarComo('Dinosaurio')">
+                    <span class="avatar-emoji">🦖</span>
+                    <span class="avatar-name">Dinosaurio</span>
+                </div>
+                <div class="avatar-card" onclick="entrarComo('Leoncito')">
+                    <span class="avatar-emoji">🦁</span>
+                    <span class="avatar-name">Leoncito</span>
+                </div>
+                <div class="avatar-card" onclick="entrarComo('Zorrito')">
+                    <span class="avatar-emoji">🦊</span>
+                    <span class="avatar-name">Zorrito</span>
                 </div>
             </div>
+        </section>
 
-            <div>
-                <h3 class="mission-section-title" id="misiones-list-title">Misiones Pendientes</h3>
-                <div class="missions-list">
-                    
-                    <div class="mission-card active" id="mission-1" onclick="loadMission(1)">
-                        <span class="mission-icon">🐻</span>
-                        <div class="mission-meta">
-                            <h4 id="mission-1-title">El Oso Pardo</h4>
-                            <p id="mission-1-sub">Ciencias Naturales</p>
-                        </div>
-                        <div class="mission-status-dot"></div>
-                    </div>
-
-                    <div class="mission-card" id="mission-2" onclick="loadMission(2)">
-                        <span class="mission-icon">🐬</span>
-                        <div class="mission-meta">
-                            <h4 id="mission-2-title">El Viaje del Delfín</h4>
-                            <p id="mission-2-sub">Lectura y Español</p>
-                        </div>
-                        <div class="mission-status-dot"></div>
-                    </div>
-
-                    <div class="mission-card" id="mission-3" onclick="loadMission(3)">
-                        <span class="mission-icon">🧩</span>
-                        <div class="mission-meta">
-                            <h4 id="mission-3-title">Reto de Estrellas</h4>
-                            <p id="mission-3-sub">Desafío Cognitivo</p>
-                        </div>
-                        <div class="mission-status-dot"></div>
-                    </div>
-
+        <!-- CATEGORÍA 2: JUVENIL (ADOLESCENTES) -->
+        <section class="category-section">
+            <h3><i class="fa-solid fa-user-astronaut" style="color: var(--morado-claro);"></i> Espacio Juvenil</h3>
+            <div class="avatar-grid">
+                <div class="avatar-card" onclick="entrarComo('Astronauta')">
+                    <span class="avatar-emoji">🚀</span>
+                    <span class="avatar-name">Astronauta</span>
+                </div>
+                <div class="avatar-card" onclick="entrarComo('Música')">
+                    <span class="avatar-emoji">🎧</span>
+                    <span class="avatar-name">Música</span>
+                </div>
+                <div class="avatar-card" onclick="entrarComo('Creativo')">
+                    <span class="avatar-emoji">🎨</span>
+                    <span class="avatar-name">Creativo</span>
+                </div>
+                <div class="avatar-card" onclick="entrarComo('Gamer')">
+                    <span class="avatar-emoji">🎮</span>
+                    <span class="avatar-name">Gamer</span>
                 </div>
             </div>
-
-            <!-- Selector de fondo visual personalizable para Adolescente con colores reales claros y vibrantes -->
-            <div class="color-selector-wrapper">
-                <h4 style="font-size: 13px; text-transform: uppercase; color: var(--texto-secundario);">Tono de Fondo Cómodo:</h4>
-                <div class="color-dots-container">
-                    <div class="color-dot active" style="background-color: #E8EBF5; border: 2px solid #D0D5E5;" onclick="changeAdolescentBg('default', this)" title="Marino Cósmico"></div>
-                    <div class="color-dot" style="background-color: #E2ECE9; border: 2px solid #CAD6D2;" onclick="changeAdolescentBg('verde-bosque', this)" title="Bosque Verde Sabio"></div>
-                    <div class="color-dot" style="background-color: #E2E8F0; border: 2px solid #CBD5E1;" onclick="changeAdolescentBg('gris-tormenta', this)" title="Gris Tormenta"></div>
-                    <div class="color-dot" style="background-color: #F1E5D1; border: 2px solid #DAC0A3;" onclick="changeAdolescentBg('cacao-calido', this)" title="Cacao & Sepia Claro"></div>
-                </div>
-            </div>
-
-            <!-- Cofre de logros infantil o barra de proyectos adolescente -->
-            <div class="achievements-box">
-                <div class="achievements-title">
-                    <h4 id="achievements-box-title" style="font-size: 15px; text-transform: uppercase; color: var(--texto-secundario);">Mi Cofre de Estrellas</h4>
-                    <span id="achievement-text" style="font-weight: bold; color: var(--morado-claro);">2/3</span>
-                </div>
-                
-                <div id="stars-display" class="stars-container">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-regular fa-star" style="color: var(--borde)"></i>
-                </div>
-
-                <div id="adolescent-progress" style="display: none;">
-                    <div class="progress-bar-container">
-                        <div class="progress-fill" id="progress-fill-bar" style="width: 66%;"></div>
-                    </div>
-                </div>
-            </div>
-
-        </aside>
-
-        <!-- AREA DE TRABAJO PRINCIPAL (Workspace del Estudiante) -->
-        <main class="workspace-main">
-
-            <div class="workspace-card" id="workspace-card-panel">
-                
-                <!-- Barra superior de adaptaciones visuales -->
-                <div class="student-controls-bar">
-                    <div class="controls-group">
-                        <span style="font-weight: bold; font-size: 15px; color: var(--texto-secundario);">Adaptación Activa:</span>
-                        <button class="control-btn" id="btn-adapt-dys" onclick="toggleAdaptation('dislexia')">
-                            <i class="fa-solid fa-font"></i> Línea de Enfoque
-                        </button>
-                        <button class="control-btn" id="btn-adapt-tdah" onclick="toggleAdaptation('tdah')">
-                            <i class="fa-solid fa-brain"></i> Bloques de Lectura
-                        </button>
-                        <button class="control-btn" id="btn-adapt-tea" onclick="toggleAdaptation('tea')">
-                            <i class="fa-solid fa-shapes"></i> Lectura con Apoyos
-                        </button>
-                    </div>
-
-                    <div class="controls-group">
-                        <button class="control-btn" onclick="adjustTextSize(1)" style="padding: 10px;"><i class="fa-solid fa-plus"></i></button>
-                        <button class="control-btn" onclick="adjustTextSize(-1)" style="padding: 10px;"><i class="fa-solid fa-minus"></i></button>
-                    </div>
-                </div>
-
-                <!-- Temporizador TDAH -->
-                <div class="tdah-widget-container" id="tdah-timer-container">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid fa-hourglass-start animate-spin" style="color: var(--enfoque-color);"></i>
-                        <span id="tdah-timer-label" style="font-weight: bold; color: var(--texto-secundario);">Tiempo de Enfoque Sostenido:</span>
-                    </div>
-                    <div class="pomodoro-timer-student" id="student-pomodoro">25:00</div>
-                </div>
-
-                <!-- Lector / Zona de Contenido Adaptado -->
-                <div class="reader-container" id="reading-container">
-                    
-                    <!-- Regleta de lectura para Dislexia -->
-                    <div class="reading-ruler" id="text-reading-ruler"></div>
-                    
-                    <!-- Contenido de texto dinámico -->
-                    <div id="adapted-reading-content">
-                        <!-- Se carga e inyecta dinámicamente según la misión activa -->
-                    </div>
-
-                </div>
-
-                <!-- Botón de Envío de Misión Completada -->
-                <button class="btn-submit-mission" onclick="submitActiveMission()">
-                    <i class="fa-solid fa-circle-check"></i>
-                    <span id="submit-btn-text">¡Entregar Misión Completada!</span>
-                </button>
-
-            </div>
-
-        </main>
+        </section>
 
     </div>
 
-    <!-- Contenedor para notificaciones flotantes -->
-    <div class="toast-container" id="toast-notif-box"></div>
-
-    <!-- ==========================================================================
-       LÓGICA JAVASCRIPT DE INTERACTIVIDAD MULTI-TEMA Y ADAPTACIONES
-       ========================================================================== -->
     <script>
-        const missionsData = {
-            1: {
-                title: "El Oso Pardo",
-                subject: "Ciencias Naturales",
-                icon: "🐻",
-                rawText: "El oso pardo vive en el bosque. Le gusta mucho comer peces frescos del río y bayas dulces de los arbustos durante el verano. Para el oso, pescar es pan comido porque tiene garras enormes y mucha paciencia. Antes de que llegue el frío invierno, busca una cueva oscura para dormir durante meses.",
-                // Versión para TDAH dividida en micro-cards
-                tdahSegments: [
-                    "🐻 El oso pardo es un gran mamífero que vive en los densos bosques templados.",
-                    "🐟 En el verano, le gusta comer peces frescos directamente del río y bayas dulces.",
-                    "💪 Pescar es un trabajo muy fácil para él gracias a sus garras gigantes y paciencia.",
-                    "😴 Antes de que empiece el invierno frío, busca una cueva para dormir por meses."
-                ],
-                // Versión para autismo (Pictogramas y literalidad sin metáforas)
-                teaText: "El oso pardo <span class='tea-badge'>🐻</span> vive en el bosque <span class='tea-badge'>🌲</span>. Le gusta mucho comer peces <span class='tea-badge'>🐟</span> frescos del río y bayas dulces en el verano. Para el oso, pescar es <span class='tea-literal-phrase'>muy fácil</span> <span class='tea-badge'>💪</span> porque tiene garras enormes y mucha paciencia. Antes de que llegue el frío invierno <span class='tea-badge'>❄️</span>, busca una cueva oscura para dormir <span class='tea-badge'>😴</span> durante meses."
-            },
-            2: {
-                title: "El Viaje del Delfín",
-                subject: "Lectura y Español",
-                icon: "🐬",
-                rawText: "El delfín de río es un animal sorprendente que viaja largas distancias por el Amazonas. Su piel es muy suave y cambia de color según su edad. Es un nadador tan rápido que cruzar los ríos es un juego de niños para él. Le encanta jugar con ramas y pequeños objetos flotantes que encuentra a su paso.",
-                tdahSegments: [
-                    "🐬 El delfín rosado de río es un mamífero acuático sorprendente.",
-                    "🗺️ Viaja distancias muy largas a través de los ríos de la selva del Amazonas.",
-                    "⚡ Nadar rápido es un trabajo muy fácil para él gracias a su cuerpo flexible.",
-                    "🌿 Le encanta jugar con ramas y hojas flotantes que encuentra en su camino."
-                ],
-                teaText: "El delfín <span class='tea-badge'>🐬</span> es un animal sorprendente que viaja largas distancias por el río Amazonas <span class='tea-badge'>🌊</span>. Su piel cambia de color según su edad. Es un nadador muy rápido, por lo que cruzar el río es <span class='tea-literal-phrase'>muy sencillo</span> <span class='tea-badge'>⚡</span> para él. Le encanta jugar con ramas <span class='tea-badge'>🌿</span> y objetos que flotan en el agua."
-            },
-            3: {
-                title: "Reto de Estrellas",
-                subject: "Desafío Cognitivo",
-                icon: "🧩",
-                isGame: true // Indica que carga el juego matemático interactivo
-            }
-        };
-
-        // Estado de la aplicación
-        let activeMissionId = 1;
-        let currentTheme = 'infantil'; // 'infantil' o 'adolescente'
-        let activeAdaptations = {
-            dislexia: false,
-            tdah: false,
-            tea: false
-        };
-        let currentTextSize = 19; // Tamaño de fuente base
-        let completedMissions = { 1: false, 2: false, 3: false };
-
-        // Alumnos por defecto (Sincronizados con el profesor)
-        const defaultStudents = [
-            { id: 1, name: "Sofía Martínez", profile: "dislexia", avatar: "🐨", level: "primaria" },
-            { id: 2, name: "Mateo Pérez", profile: "tdah", avatar: "🦖", level: "secundaria" },
-            { id: 3, name: "Lucas Gómez", profile: "tea", avatar: "🦁", level: "primaria" }
-        ];
-
-        let studentsList = JSON.parse(localStorage.getItem('students')) || defaultStudents;
-
-        // Aseguramos que la carga ocurra con seguridad tan pronto como el DOM esté listo
-        document.addEventListener('DOMContentLoaded', () => {
-            initStudentPicker();
-            setupReadingRulerTracker();
-        });
-
-        // Inicializar el cargador dinámico de perfiles de alumnos
-        function initStudentPicker() {
-            const picker = document.getElementById('demo-student-picker');
-            if (!picker) return;
-            
-            picker.innerHTML = '';
-            studentsList.forEach(student => {
-                const opt = document.createElement('option');
-                opt.value = student.id;
-                // En el selector demo mostramos solo el nombre para el profesor que simula la sesión
-                opt.textContent = `${student.avatar} ${student.name}`;
-                picker.appendChild(opt);
-            });
-
-            // Cargar por defecto al primer alumno de la base de datos
-            if (studentsList.length > 0) {
-                autoLoadStudentProfile(studentsList[0].id);
-            }
+        // Lectura asistida por voz para accesibilidad completa
+        function leerInstruccion() {
+            const texto = "Haz clic en tu avatar favorito para entrar a tu espacio de estudio.";
+            const utterance = new SpeechSynthesisUtterance(texto);
+            utterance.lang = 'es-MX';
+            window.speechSynthesis.speak(utterance);
         }
 
-        // 1. CARGA AUTOMÁTICA DE PERFIL REGISTRADO (¡Por defecto según guardado!)
-        function autoLoadStudentProfile(studentId) {
-            const student = studentsList.find(s => s.id == studentId);
-            if (!student) return;
-
-            // Resetear adaptaciones antes de aplicar la nueva
-            activeAdaptations.dislexia = false;
-            activeAdaptations.tdah = false;
-            activeAdaptations.tea = false;
-
-            // Activar solo la adaptación registrada
-            if (student.profile === 'dislexia') activeAdaptations.dislexia = true;
-            if (student.profile === 'tdah') activeAdaptations.tdah = true;
-            if (student.profile === 'tea') activeAdaptations.tea = true;
-
-            // Ajustar el tema visual según nivel escolar
-            const levelTheme = (student.level === 'secundaria' || student.level === 'adolescente') ? 'adolescente' : 'infantil';
-            setPortalThemeFromProfile(levelTheme, student);
-        }
-
-        // Aplicación del tema exacto configurando los textos dinámicamente
-        function setPortalThemeFromProfile(theme, student) {
-            currentTheme = theme;
-            const body = document.body;
-            
-            body.className = '';
-            body.classList.add(`theme-${theme}`);
-            
-            // Actualizar avatar y nombre del estudiante de la base de datos
-            document.getElementById('student-avatar-display').textContent = student.avatar;
-            document.getElementById('student-name-display').textContent = student.name;
-
-            // Actualizar botones del motor de control visual superior (con nombres neutrales)
-            document.getElementById('btn-adapt-dys').classList.toggle('active', activeAdaptations.dislexia);
-            document.getElementById('btn-adapt-tdah').classList.toggle('active', activeAdaptations.tdah);
-            document.getElementById('btn-adapt-tea').classList.toggle('active', activeAdaptations.tea);
-
-            if (theme === 'infantil') {
-                document.getElementById('student-tag-display').textContent = "Alumno de Primaria";
-                document.getElementById('misiones-list-title').textContent = "Misiones Pendientes";
-                document.getElementById('achievements-box-title').textContent = "Mi Cofre de Estrellas";
-                document.getElementById('submit-btn-text').textContent = "¡Entregar Misión Completada!";
-                
-                document.getElementById('mission-1-title').textContent = "El Oso Pardo";
-                document.getElementById('mission-1-sub').textContent = "Ciencias Naturales";
-                document.getElementById('mission-2-title').textContent = "El Viaje del Delfín";
-                document.getElementById('mission-2-sub').textContent = "Lectura y Español";
-                document.getElementById('mission-3-title').textContent = "Reto de Estrellas";
-                document.getElementById('mission-3-sub').textContent = "Desafío Cognitivo";
-                
-                document.getElementById('stars-display').style.display = 'flex';
-                document.getElementById('adolescent-progress').style.display = 'none';
-                
-                showToast(`🧒 Bienvenido/a ${student.name}. Perfil infantil adaptado por defecto.`);
-            } else {
-                document.getElementById('student-tag-display').textContent = "Estudiante de Secundaria";
-                document.getElementById('misiones-list-title').textContent = "Proyectos Académicos";
-                document.getElementById('achievements-box-title').textContent = "Meta de Avance Semanal";
-                document.getElementById('submit-btn-text').textContent = "Completar y Registrar Progreso";
-                
-                document.getElementById('mission-1-title').textContent = "Biodiversidad: El Oso Pardo";
-                document.getElementById('mission-1-sub').textContent = "Ecología & Ciencias";
-                document.getElementById('mission-2-title').textContent = "Análisis: El Delfín del Amazonas";
-                document.getElementById('mission-2-sub').textContent = "Comprensión Lectora";
-                document.getElementById('mission-3-title').textContent = "Dinámica de Atención";
-                document.getElementById('mission-3-sub').textContent = "Ejercitación Cognitiva";
-                
-                document.getElementById('stars-display').style.display = 'none';
-                document.getElementById('adolescent-progress').style.display = 'block';
-                
-                showToast(`🎧 Bienvenido/a ${student.name}. Perfil juvenil adaptado por defecto.`);
-            }
-            
-            loadMission(activeMissionId);
-        }
-
-        // Lógica de tema para botones de la barra demo
-        function setPortalTheme(theme) {
-            currentTheme = theme;
-            const body = document.body;
-            
-            body.className = '';
-            body.classList.add(`theme-${theme}`);
-            
-            document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('active'));
-            const defaultDot = document.querySelector('.color-dot[onclick*="default"]');
-            if (defaultDot) defaultDot.classList.add('active');
-            
-            document.querySelectorAll('.btn-demo-theme').forEach(btn => btn.classList.remove('active'));
-            if (theme === 'infantil') {
-                if (event && event.target) event.target.classList.add('active');
-                
-                document.getElementById('student-avatar-display').textContent = "🐨";
-                document.getElementById('student-name-display').textContent = "Lucas Gómez";
-                document.getElementById('student-tag-display').textContent = "Alumno de Primaria";
-                document.getElementById('misiones-list-title').textContent = "Misiones Pendientes";
-                document.getElementById('achievements-box-title').textContent = "Mi Cofre de Estrellas";
-                document.getElementById('submit-btn-text').textContent = "¡Entregar Misión Completada!";
-                
-                document.getElementById('mission-1-title').textContent = "El Oso Pardo";
-                document.getElementById('mission-1-sub').textContent = "Ciencias Naturales";
-                document.getElementById('mission-2-title').textContent = "El Viaje del Delfín";
-                document.getElementById('mission-2-sub').textContent = "Lectura y Español";
-                document.getElementById('mission-3-title').textContent = "Reto de Estrellas";
-                document.getElementById('mission-3-sub').textContent = "Desafío Cognitivo";
-                
-                document.getElementById('stars-display').style.display = 'flex';
-                document.getElementById('adolescent-progress').style.display = 'none';
-                
-                showToast("🧒 Tema Infantil de Primaria activado.");
-            } else {
-                const targetBtn = document.querySelector('button[onclick="setPortalTheme(\'adolescente\')"]');
-                if (targetBtn) targetBtn.classList.add('active');
-                
-                document.getElementById('student-avatar-display').textContent = "🎧";
-                document.getElementById('student-name-display').textContent = "Lucas Gómez";
-                document.getElementById('student-tag-display').textContent = "Estudiante de Secundaria";
-                document.getElementById('misiones-list-title').textContent = "Proyectos Académicos";
-                document.getElementById('achievements-box-title').textContent = "Meta de Avance Semanal";
-                document.getElementById('submit-btn-text').textContent = "Completar y Registrar Progreso";
-                
-                document.getElementById('mission-1-title').textContent = "Biodiversidad: El Oso Pardo";
-                document.getElementById('mission-1-sub').textContent = "Ecología & Ciencias";
-                document.getElementById('mission-2-title').textContent = "Análisis: El Delfín del Amazonas";
-                document.getElementById('mission-2-sub').textContent = "Comprensión Lectora";
-                document.getElementById('mission-3-title').textContent = "Dinámica de Atención";
-                document.getElementById('mission-3-sub').textContent = "Ejercitación Cognitiva";
-                
-                document.getElementById('stars-display').style.display = 'none';
-                document.getElementById('adolescent-progress').style.display = 'block';
-                
-                showToast("🎧 Tema Adolescente de Secundaria activado.");
-            }
-            
-            loadMission(activeMissionId);
-        }
-
-        // Lógica para cambiar dinámicamente el color de fondo personalizado del adolescente (FONDOS CLAROS COMODOS)
-        function changeAdolescentBg(bgClass, dotElement) {
-            const body = document.body;
-            
-            body.classList.remove('bg-verde-bosque', 'bg-gris-tormenta', 'bg-cacao-calido');
-            document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('active'));
-            
-            if (bgClass !== 'default') {
-                body.classList.add(`bg-${bgClass}`);
-                if (bgClass === 'cacao-calido') {
-                    showToast(`🎨 Fondo Sepia Cálido activado.`);
-                } else if (bgClass === 'verde-bosque') {
-                    showToast(`🎨 Fondo Verde Bosque Claro activado.`);
-                } else {
-                    showToast(`🎨 Fondo Gris Tormenta Claro activado.`);
-                }
-            } else {
-                showToast(`🎨 Fondo Marino Cósmico Claro restaurado.`);
-            }
-            
-            dotElement.classList.add('active');
-        }
-
-        // 2. CARGA DE MISIONES / TEXTOS
-        function loadMission(id) {
-            activeMissionId = id;
-            
-            document.querySelectorAll('.mission-card').forEach(card => card.classList.remove('active'));
-            
-            const targetCard = document.getElementById(`mission-${id}`);
-            if (targetCard) targetCard.classList.add('active');
-            
-            const contentBox = document.getElementById('adapted-reading-content');
-            const ruler = document.getElementById('text-reading-ruler');
-            const data = missionsData[id];
-            
-            if (ruler) {
-                ruler.style.display = 'none';
-                ruler.classList.remove('active');
-            }
-            
-            if (data && data.isGame) {
-                loadShapeGame(contentBox);
-                document.getElementById('btn-adapt-dys').style.display = 'none';
-                document.getElementById('btn-adapt-tdah').style.display = 'none';
-                document.getElementById('btn-adapt-tea').style.display = 'none';
-                return;
-            } else {
-                document.getElementById('btn-adapt-dys').style.display = 'flex';
-                document.getElementById('btn-adapt-tdah').style.display = 'flex';
-                document.getElementById('btn-adapt-tea').style.display = 'flex';
-            }
-            
-            renderAdaptedContent();
-        }
-
-        // 3. LOGICA DEL MOTOR DE ADAPTACIÓN DEL ALUMNO
-        function toggleAdaptation(type) {
-            activeAdaptations[type] = !activeAdaptations[type];
-            
-            if (type === 'tdah' && activeAdaptations.tdah) {
-                activeAdaptations.tea = false;
-                document.getElementById('btn-adapt-tea').classList.remove('active');
-            }
-            if (type === 'tea' && activeAdaptations.tea) {
-                activeAdaptations.tdah = false;
-                document.getElementById('btn-adapt-tdah').classList.remove('active');
-            }
-            
-            const btn = document.getElementById(`btn-adapt-${type}`);
-            if (btn) {
-                if (activeAdaptations[type]) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            }
-            
-            renderAdaptedContent();
-        }
-
-        function renderAdaptedContent() {
-            const data = missionsData[activeMissionId];
-            const contentBox = document.getElementById('adapted-reading-content');
-            const ruler = document.getElementById('text-reading-ruler');
-            const timerContainer = document.getElementById('tdah-timer-container');
-            const workspaceCard = document.getElementById('workspace-card-panel');
-            
-            if (!contentBox) return;
-            
-            if (ruler) {
-                ruler.style.display = 'none';
-                ruler.classList.remove('active');
-            }
-            
-            contentBox.className = ''; // Limpiar clases
-            if (timerContainer) timerContainer.classList.remove('active');
-            if (workspaceCard) workspaceCard.classList.remove('focus-mode-active');
-            
-            if (!data || data.isGame) return;
-            
-            // Aplicar Dislexia (Y mostrar la regleta de lectura SÓLO si este modo está activo)
-            if (activeAdaptations.dislexia) {
-                contentBox.classList.add('font-adapted-dislexia');
-                if (ruler) {
-                    ruler.style.display = 'block';
-                    ruler.classList.add('active');
-                }
-            }
-            
-            // Aplicar TDAH (Bloques fragmentados + Temporizador)
-            if (activeAdaptations.tdah) {
-                if (timerContainer) timerContainer.classList.add('active');
-                if (workspaceCard) workspaceCard.classList.add('focus-mode-active');
-                startStudentTimer();
-                
-                contentBox.innerHTML = '';
-                data.tdahSegments.forEach(seg => {
-                    const segCard = document.createElement('div');
-                    segCard.className = 'tdah-segment-card';
-                    segCard.innerHTML = `<p>${seg}</p>`;
-                    contentBox.appendChild(segCard);
-                });
-            }
-            // Aplicar TEA (Pictogramas + Literalidad)
-            else if (activeAdaptations.tea) {
-                contentBox.innerHTML = `<p>${data.teaText}</p>`;
-            } 
-            // Texto Normal estándar
-            else {
-                contentBox.innerHTML = `<p>${data.rawText}</p>`;
-            }
-            
-            contentBox.style.fontSize = `${currentTextSize}px`;
-        }
-
-        // Regleta de Lectura interactiva siguiendo coordenadas del mouse
-        function setupReadingRulerTracker() {
-            const container = document.getElementById('reading-container');
-            const ruler = document.getElementById('text-reading-ruler');
-            
-            if (!container || !ruler) return;
-            
-            container.addEventListener('mousemove', (e) => {
-                if (!activeAdaptations.dislexia || (missionsData[activeMissionId] && missionsData[activeMissionId].isGame)) {
-                    ruler.style.display = 'none';
-                    ruler.classList.remove('active');
-                    return;
-                }
-                
-                const rect = container.getBoundingClientRect();
-                const relativeY = e.clientY - rect.top;
-                
-                if (relativeY > 10 && relativeY < rect.height - 25) {
-                    ruler.style.top = `${relativeY - 18}px`;
-                }
-            });
-        }
-
-        // Temporizador para simular enfoque TDAH
-        let studentTimerInterval = null;
-        function startStudentTimer() {
-            if (studentTimerInterval) clearInterval(studentTimerInterval);
-            let time = 25 * 60;
-            const display = document.getElementById('student-pomodoro');
-            
-            if (!display) return;
-            
-            studentTimerInterval = setInterval(() => {
-                let min = Math.floor(time / 60);
-                let sec = time % 60;
-                
-                min = min < 10 ? '0' + min : min;
-                sec = sec < 10 ? '0' + sec : sec;
-                
-                display.textContent = `${min}:${sec}`;
-                
-                if (--time < 0) {
-                    clearInterval(studentTimerInterval);
-                    display.textContent = "¡Pausa!";
-                    showToast("🌟 ¡Excelente trabajo de enfoque! Toma un pequeño descanso.");
-                }
-            }, 1000);
-        }
-
-        // Cambiar tamaño de letra
-        function adjustTextSize(step) {
-            currentTextSize += (step * 2);
-            if (currentTextSize < 14) currentTextSize = 14;
-            if (currentTextSize > 32) currentTextSize = 32;
-            
-            const contentBox = document.getElementById('adapted-reading-content');
-            if (contentBox) contentBox.style.fontSize = `${currentTextSize}px`;
-        }
-
-        // 4. MICROJUEGO MATEMÁTICO ADAPTADO PARA TDAH
-        function loadShapeGame(container) {
-            if (!container) return;
-            container.innerHTML = `
-                <div class="shape-counter-game">
-                    <h3 style="font-size: 22px; color: var(--morado-oscuro);">¡Desafío de Atención Sostenida!</h3>
-                    <p style="color: var(--texto-secundario); font-size: 16px;">Cuenta cuántas <strong>estrellas amarillas (⭐)</strong> ves en el cuadro misterioso y escribe tu respuesta abajo:</p>
-                    
-                    <div class="shapes-grid">
-                        <span class="shape-item">⭐</span>
-                        <span class="shape-item">🔵</span>
-                        <span class="shape-item">⭐</span>
-                        <span class="shape-item">🔺</span>
-                        <span class="shape-item">⭐</span>
-                        <span class="shape-item">🔵</span>
-                        <span class="shape-item">⭐</span>
-                        <span class="shape-item">⭐</span>
-                        <span class="shape-item">🔺</span>
-                        <span class="shape-item">⭐</span>
-                    </div>
-
-                    <div class="game-input-group">
-                        <input type="number" id="game-answer" placeholder="?">
-                        <button class="control-btn" onclick="checkGameAnswer()" style="background-color: var(--morado-claro); color: white;">Verificar</button>
-                    </div>
-                    <p id="game-feedback" style="font-weight: bold; font-size: 16px; margin-top: 10px;"></p>
-                </div>
-            `;
-        }
-
-        function checkGameAnswer() {
-            const ans = document.getElementById('game-answer').value;
-            const feedback = document.getElementById('game-feedback');
-            
-            if (parseInt(ans) === 6) {
-                feedback.style.color = "var(--tea-color)";
-                feedback.innerHTML = "🎉 ¡Perfecto! Tu atención está muy afilada hoy.";
-                completedMissions[3] = true;
-                updateAchievements();
-                showToast("⭐ ¡Completaste el Desafío de Atención!");
-            } else {
-                feedback.style.color = "red";
-                feedback.innerHTML = "Casi... Cuenta con cuidado de izquierda a derecha. ¡Inténtalo otra vez!";
-            }
-        }
-
-        // 5. SISTEMA DE ENTREGAR MISIONES & COFRE
-        function submitActiveMission() {
-            completedMissions[activeMissionId] = true;
-            
-            const card = document.getElementById(`mission-${activeMissionId}`);
-            if (card) card.classList.add('completed');
-            
-            updateAchievements();
-            
-            if (currentTheme === 'infantil') {
-                showToast(`🎉 ¡Misión "${missionsData[activeMissionId].title}" completada y guardada en tu Cofre!`);
-            } else {
-                showToast(`📈 Proyecto "${missionsData[activeMissionId].title}" completado con éxito. Registro de progreso escolar guardado.`);
-            }
-        }
-
-        function updateAchievements() {
-            let count = 0;
-            for (let k in completedMissions) {
-                if (completedMissions[k]) count++;
-            }
-            
-            const achText = document.getElementById('achievement-text');
-            if (achText) achText.textContent = `${count}/3`;
-            
-            const starsContainer = document.getElementById('stars-display');
-            if (starsContainer) {
-                starsContainer.innerHTML = '';
-                for (let i = 1; i <= 3; i++) {
-                    const star = document.createElement('i');
-                    if (i <= count) {
-                        star.className = 'fa-solid fa-star';
-                    } else {
-                        star.className = 'fa-regular fa-star';
-                        star.style.color = 'var(--borde)';
-                    }
-                    starsContainer.appendChild(star);
-                }
-            }
-            
-            const progressPercent = (count / 3) * 100;
-            const progressFill = document.getElementById('progress-fill-bar');
-            if (progressFill) progressFill.style.width = `${progressPercent}%`;
-        }
-
-        // 6. NOTIFICACIONES TOAST PERSONALIZADAS (Sin alert del sistema)
-        function showToast(message) {
-            const container = document.getElementById('toast-notif-box');
-            if (!container) return;
-            
-            const toast = document.createElement('div');
-            toast.className = 'toast success';
-            toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--apoyo-color)"></i> <span>${message}</span>`;
-            
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.animation = "toastSlideIn 0.3s reverse";
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 3500);
+        // Lógica de acceso temporal
+        function entrarComo(perfil) {
+            alert("Accediendo al espacio adaptado de: " + perfil);
+            // Aquí cargaremos el espacio de lectura inmersiva en la siguiente etapa
         }
     </script>
 </body>
