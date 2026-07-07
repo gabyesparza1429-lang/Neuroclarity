@@ -222,12 +222,34 @@
 
     <script>
         // Lectura asistida por voz para accesibilidad completa
-        function leerInstruccion() {
-            const texto = "Haz clic en tu avatar favorito para entrar a tu espacio de estudio.";
-            const utterance = new SpeechSynthesisUtterance(texto);
-            utterance.lang = 'es-MX';
-            window.speechSynthesis.speak(utterance);
-        }
+function leerInstruccion() {
+    const texto = "Haz clic en tu avatar favorito para entrar a tu espacio de estudio.";
+    const utterance = new SpeechSynthesisUtterance(texto);
+    
+    // Solicitamos el catálogo de voces disponibles en el dispositivo
+    const voces = window.speechSynthesis.getVoices();
+    
+    // Buscamos una voz premium en español (Manta, Google o Microsoft Natural)
+    const vozAgradable = voces.find(voz => 
+        (voz.lang.includes('es-MX') || voz.lang.includes('es-ES')) && 
+        (voz.name.includes('Google') || voz.name.includes('Natural') || voz.name.includes('Microsoft'))
+    );
+
+    if (vozAgradable) {
+        utterance.voice = vozAgradable;
+    }
+    
+    utterance.lang = 'es-MX';
+    utterance.rate = 0.95; // Velocidad ligeramente más pausada para favorecer la concentración
+    utterance.pitch = 1.0; // Tono equilibrado y natural
+    
+    window.speechSynthesis.speak(utterance);
+}
+
+// Esto asegura que las voces carguen correctamente en navegadores como Chrome
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = window.speechSynthesis.getVoices;
+}
 
         // Lógica de acceso temporal
         function entrarComo(perfil) {
