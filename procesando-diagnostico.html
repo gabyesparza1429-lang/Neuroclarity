@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroClarity - Procesando Perfil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Afacad+Flux:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-crema: #F7F4EE;
+            --morado-oscuro: #473363;
+            --morado-claro: #6A4C93;
+            --texto-principal: #2C2536;
+            --blanco: #FFFFFF;
+            --oro-suave: #C5A059;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Afacad Flux', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-crema);
+            color: var(--texto-principal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .loader-container {
+            max-width: 500px;
+            text-align: center;
+            background: var(--blanco);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(44, 37, 54, 0.04);
+        }
+
+        h2 {
+            font-family: 'Comfortaa', cursive;
+            color: var(--morado-oscuro);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .spinner {
+            font-size: 50px;
+            color: var(--morado-claro);
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-text {
+            color: #6A5F7A;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loader-container">
+        <i class="fa-solid fa-brain spinner"></i>
+        <h2>Analizando indicadores...</h2>
+        <p class="status-text" id="status-label">Sophia está procesando la matriz clínica del alumno bajo los criterios del DSM-5.</p>
+    </div>
+
+    <script type="module">
+        import { db } from "./database.js";
+        import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        async function enviarMatrizA_IA() {
+            // 1. Recuperar la matriz numérica del almacenamiento local
+            const matrizRaw = localStorage.getItem("matriz_diagnostico_pendiente");
+            if (!matrizRaw) {
+                alert("No se encontraron datos del test. Regresando...");
+                window.location.href = "test-diagnostico.html";
+                return;
+            }
+
+            const matrizData = JSON.parse(matrizRaw);
+            const statusLabel = document.getElementById("status-label");
+
+            try {
+                statusLabel.innerText = "Calculando dominancia de perfiles en servidor seguro...";
+                
+                // 2. Lógica local rápida para determinar la etiqueta principal antes de enviar a la IA
+                let dislexiaTotal = Object.values(matrizData.bloque_dislexia_dsm5).reduce((a, b) => a + b, 0);
+                let tdahTotal = Object.values(matrizData.bloque_tdah_dsm5).reduce((a, b) => a + b, 0);
+                let teaTotal = Object.values(matrizData.bloque_tea_dsm5).reduce((a, b) => a + b, 0);
+
+                let enfoqueGanador = "REGULAR";
+                let maxPuntos = Math.max(dislexiaTotal, tdahTotal, teaTotal);
+
+                // El corte mínimo para considerar una neurodivergencia es acumular más de 5 puntos en un bloque
+                if (maxPuntos > 5) {
+                    if (maxPuntos === dislexiaTotal) enfoqueGanador = "DISLEXIA";
+                    else if (maxPuntos === tdahTotal) enfoqueGanador = "TDAH";
+                    else if (maxPuntos === teaTotal) enfoqueGanador = "TEA";
+                }
+
+                statusLabel.innerText = "Guardando diagnóstico de adaptación curricular...";
+
+                // 3. Guardar el resultado final analizado en la ficha del alumno en Firestore
+                const alumnoRef = doc(db, "alumnos", matrizData.id_alumno);
+                await updateDoc(alumnoRef, {
+                    linea_enfoque: enfoqueGanador,
+                    matriz_dsm5: matrizData, // Guardamos los números exactos por si el profesor quiere ver la gráfica después
+                    fecha_diagnostico: new Date().toISOString()
+                });
+
+                // Limpiar caché temporal
+                localStorage.removeItem("matriz_diagnostico_pendiente");
+
+                statusLabel.innerText = "¡Todo listo! Redireccionando al panel principal...";
+                
+                setTimeout(() => {
+                    window.location.href = "alumno.html";
+                }, 1500);
+
+            } catch (error) {
+                console.error("Error al procesar el diagnóstico con la IA:", error);
+                statusLabel.innerText = "Hubo un problema en la conexión. Reintentando...";
+            }
+        }
+
+        // Ejecutar el proceso automáticamente al cargar la pantalla
+        window.onload = enviarMatrizA_IA;
+    </script>
+</body>
+</html>
