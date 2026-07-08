@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Test de Apoyo</title>
+    <title>NeuroClarity - Test Profesional DSM-5</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Afacad+Flux:wght@400;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,6 @@
             --blanco: #FFFFFF;
             --borde-suave: #E6E1ED;
             --oro-suave: #C5A059;
-            --verde-exito: #2D6A4F;
         }
 
         * {
@@ -35,7 +34,7 @@
         }
 
         .test-container {
-            max-width: 700px;
+            max-width: 750px;
             margin: 0 auto;
             background: var(--blanco);
             padding: 40px;
@@ -46,7 +45,7 @@
 
         .progress-bar {
             width: 100%;
-            height: 6px;
+            height: 8px;
             background: var(--borde-suave);
             border-radius: 10px;
             margin-bottom: 30px;
@@ -54,62 +53,82 @@
         }
 
         .progress-fill {
-            width: 33.33%;
+            width: 2.77%;
             height: 100%;
             background: var(--morado-claro);
-            transition: width 0.3s ease;
+            transition: width 0.2s ease;
         }
 
-        h2, h3 {
+        h2 {
             font-family: 'Comfortaa', cursive;
             color: var(--morado-oscuro);
+            margin-bottom: 8px;
+            font-size: 22px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: #F2EDFA;
+            color: var(--morado-claro);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
             margin-bottom: 15px;
         }
 
         .question-block {
             display: none;
-            animation: fadeIn 0.3s ease-in-out forwards;
         }
 
         .question-block.active {
             display: block;
+            animation: fadeIn 0.3s ease-in-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .options-vertical {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-top: 25px;
+            gap: 12px;
+            margin-top: 20px;
         }
 
         .option-card {
             background: #FAF8F5;
             border: 2px solid var(--borde-suave);
-            padding: 20px;
+            padding: 16px 20px;
             border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 17px;
+            font-size: 16px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: space-between;
             transition: all 0.2s;
         }
 
         .option-card:hover {
             border-color: var(--morado-claro);
             background: #F2EDFA;
-            transform: translateX(4px);
         }
 
-        .option-card i {
-            font-size: 20px;
-            color: var(--oro-suave);
+        .option-card span {
+            flex: 1;
+        }
+
+        .value-badge {
+            background: var(--borde-suave);
+            color: var(--texto-principal);
+            padding: 2px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -120,79 +139,146 @@
             <div class="progress-fill" id="progress-fill"></div>
         </div>
 
-        <!-- INDICADOR 1: PROCESAMIENTO DE LECTURA (DISLEXIA) -->
-        <div class="question-block active" id="q1">
-            <h2>Indicador de Lectura y Escritura</h2>
-            <p style="color: #6A5F7A; font-size: 16px;">¿Cómo interactúa el alumno con los textos impresos o digitales de las lecciones?</p>
-            
-            <div class="options-vertical">
-                <div class="option-card" onclick="registrarRespuesta('lectura', 'lineal', 2)">
-                    <i class="fa-solid fa-font"></i>
-                    <span>Lee de forma fluida, pero le cuesta recordar el orden de fechas o datos exactos.</span>
-                </div>
-                <div class="option-card" onclick="registrarRespuesta('lectura', 'dislexia', 2)">
-                    <i class="fa-solid fa-text-slash"></i>
-                    <span>Suele saltarse líneas, confunde palabras de apariencia similar o prefiere explicaciones con diagramas y audio.</span>
-                </div>
-            </div>
+        <div id="quiz-wrapper">
+            <!-- LAS 36 PREGUNTAS SE INYECTAN DINÁMICAMENTE AQUÍ VÍA JAVASCRIPT -->
         </div>
-
-        <!-- INDICADOR 2: ENFOQUE Y ATENCIÓN (TDAH) -->
-        <div class="question-block" id="q2">
-            <h2>Indicador de Enfoque</h2>
-            <p style="color: #6A5F7A; font-size: 16px;">Al realizar una actividad académica o de estudio, ¿cómo gestiona el tiempo?</p>
-            
-            <div class="options-vertical">
-                <div class="option-card" onclick="registrarRespuesta('enfoque', 'tdah', 3)">
-                    <i class="fa-solid fa-bolt"></i>
-                    <span>Genera muchas ideas, pero pierde el foco con facilidad, se distrae con estímulos mínimos y le cuesta terminar lo que empieza.</span>
-                </div>
-                <div class="option-card" onclick="registrarRespuesta('enfoque', 'regular', 3)">
-                    <i class="fa-solid fa-hourglass-half"></i>
-                    <span>Mantiene el foco constante si el entorno es silencioso, aunque se cansa de forma normal tras sesiones largas.</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- INDICADOR 3: RESPUESTA A RUTINAS (TEA) -->
-        <div class="question-block" id="q3">
-            <h2>Indicador de Organización</h2>
-            <p style="color: #6A5F7A; font-size: 16px;">¿Cómo reacciona el estudiante cuando hay cambios repentinos en sus actividades diarias?</p>
-            
-            <div class="options-vertical">
-                <div class="option-card" onclick="registrarRespuesta('estructura', 'tea', 'fin')">
-                    <i class="fa-solid fa-shapes"></i>
-                    <span>Prefiere esquemas fijos y estructurados; los cambios imprevistos en las pantallas o instrucciones le generan frustración notable.</span>
-                </div>
-                <div class="option-card" onclick="registrarRespuesta('estructura', 'flexible', 'fin')">
-                    <i class="fa-solid fa-shuffle"></i>
-                    <span>Se adapta con facilidad a las instrucciones variables sin experimentar estrés significativo.</span>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <script>
-        let respuestas = { lectura: "", enfoque: "", estructura: "" };
+    <script type="module">
+        import { db } from "./database.js";
+        import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        function registrarRespuesta(categoria, valor, siguientePaso) {
-            respuestas[categoria] = valor;
+        // Banco de preguntas estructurado según dimensiones del DSM-5
+        const bancoPreguntas = [
+            // === BLOQUE 1: DISLEXIA (1 a 12) ===
+            { id: 1, bloque: "dislexia", tag: "Lectura - Precisión", q: "¿Con qué frecuencia el alumno omite, añade o sustituye letras o palabras completas al leer en voz alta?" },
+            { id: 2, bloque: "dislexia", tag: "Lectura - Precisión", q: "¿Con qué frecuencia confunde visualmente letras con orientaciones simétricas o formas similares (b-d, p-q, u-n)?" },
+            { id: 3, bloque: "dislexia", tag: "Lectura - Precisión", q: "¿Con qué frecuencia altera el orden de las letras dentro de una palabra al leer (ej. \"sol\" por \"los\")?" },
+            { id: 4, bloque: "dislexia", tag: "Lectura - Fluidez", q: "¿Con qué frecuencia recurre a una lectura silábica o se detiene excesivamente ante palabras largas?" },
+            { id: 5, bloque: "dislexia", tag: "Lectura - Fluidez", q: "¿Con qué frecuencia pierde la línea o renglón donde iba leyendo, necesitando usar el dedo o guía física?" },
+            { id: 6, bloque: "dislexia", tag: "Lectura - Fluidez", q: "¿Con qué frecuencia muestra fatiga extrema o rechazo evidente tras leer de forma continua más de 5 minutos?" },
+            { id: 7, bloque: "dislexia", tag: "Lectura - Comprensión", q: "¿Con qué frecuencia, a pesar de leer bien las palabras, le cuesta explicar la idea principal del párrafo terminado?" },
+            { id: 8, bloque: "dislexia", tag: "Lectura - Comprensión", q: "¿Con qué frecuencia le cuesta recordar la secuencia cronológica o lógica de los hechos de un texto?" },
+            { id: 9, bloque: "dislexia", tag: "Lectura - Comprensión", q: "¿Con qué frecuencia presenta dificultades para interpretar metáforas, ironías o dobles sentidos en la lectura?" },
+            { id: 10, bloque: "dislexia", tag: "Escritura - Ortografía", q: "¿Con qué frecuencia mezcla letras mayúsculas y minúsculas sin un criterio ortográfico en una palabra?" },
+            { id: 11, bloque: "dislexia", tag: "Escritura - Ortografía", q: "¿Con qué frecuencia omite los signos de puntuación o invierte notablemente la estructura gramatical al escribir?" },
+            { id: 12, bloque: "dislexia", tag: "Escritura - Ortografía", q: "¿Con qué frecuencia la escritura en su cuaderno se vuelve inconsistente en tamaño, forma o espaciado de palabras?" },
 
-            if (siguientePaso === 'fin') {
-                document.getElementById('progress-fill').style.width = '100%';
-                alert('Respuestas recolectadas. Listos para procesar los indicadores en la sub-etapa 2.3.');
-                console.log(respuestas);
-                // Aquí se enlazará el algoritmo procesador
-            } else {
-                // Avanzar de pantalla de forma limpia
-                document.getElementById(`q${siguientePaso - 1}`).classList.remove('active');
-                document.getElementById(`q${siguientePaso}`).classList.add('active');
+            // === BLOQUE 2: TDAH (13 a 24) ===
+            { id: 13, bloque: "tdah", tag: "Atención - Detalles", q: "¿Con qué frecuencia comete errores por descuido en tareas escolares al no prestar atención a los detalles?" },
+            { id: 14, bloque: "tdah", tag: "Atención - Foco", q: "¿Con qué frecuencia tiene dificultades para mantener la concentración en deberes largos o explicaciones del profesor?" },
+            { id: 15, bloque: "tdah", tag: "Atención - Escucha", q: "¿Con qué frecuencia parece no escuchar cuando se le habla directamente, mostrando la mente en otro lugar?" },
+            { id: 16, bloque: "tdah", tag: "Atención - Instrucciones", q: "¿Con qué frecuencia no sigue las instrucciones completas y deja los trabajos escolares o proyectos a medias?" },
+            { id: 17, bloque: "tdah", tag: "Atención - Organización", q: "¿Con qué frecuencia se le dificulta organizar tareas secuenciales, gestionar su tiempo o mantener sus materiales ordenados?" },
+            { id: 18, bloque: "tdah", tag: "Atención - Evitación", q: "¿Con qué frecuencia evita, rechaza o pospone tareas que requieren un esfuerzo mental sostenido?" },
+            { id: 19, bloque: "tdah", tag: "Hiperactividad - Motor", q: "¿Con qué frecuencia juguetea con las manos o pies, se retuerce en el asiento o le cuesta quedarse quieto?" },
+            { id: 20, bloque: "tdah", tag: "Hiperactividad - Motor", q: "¿Con qué frecuencia se levanta de su lugar en situaciones donde se espera que permanezca sentado?" },
+            { id: 21, bloque: "tdah", tag: "Hiperactividad - Ruido", q: "¿Con qué frecuencia le resulta difícil dedicarse tranquilamente a actividades recreativas o de estudio?" },
+            { id: 22, bloque: "tdah", tag: "Impulsividad - Verbal", q: "¿Con qué frecuencia habla de manera excesiva o interrumpe las conversaciones antes de que terminen de hablarle?" },
+            { id: 23, bloque: "tdah", tag: "Impulsividad - Espera", q: "¿Con qué frecuencia le cuesta esperar su turno en juegos, filas o dinámicas grupales?" },
+            { id: 24, bloque: "tdah", tag: "Impulsividad - Intrusión", q: "¿Con qué frecuencia interrumpe o se mete en las actividades, juegos o explicaciones de otros?" },
+
+            // === BLOQUE 3: TEA (25 a 36) ===
+            { id: 25, bloque: "tea", tag: "Social - Reciprocidad", q: "¿Con qué frecuencia muestra dificultades para iniciar o mantener una conversación fluida de ida y vuelta?" },
+            { id: 26, bloque: "tea", tag: "Social - Comunicación", q: "¿Con qué frecuencia le cuesta comprender la comunicación no verbal, como gestos, expresiones faciales o posturas?" },
+            { id: 27, bloque: "tea", tag: "Social - Relaciones", q: "¿Con qué frecuencia se le dificulta adaptar su comportamiento a diferentes contextos sociales o hacer amigos de su edad?" },
+            { id: 28, bloque: "tea", tag: "Rutinas - Rigidez", q: "¿Con qué frecuencia experimenta angustia o frustración extrema ante cambios mínimos en sus horarios o rutinas diarias?" },
+            { id: 29, bloque: "tea", tag: "Rutinas - Transiciones", q: "¿Con qué frecuencia requiere que las transiciones entre materias o actividades le sean anticipadas de forma muy estructurada?" },
+            { id: 30, bloque: "tea", tag: "Rutinas - Comportamiento", q: "¿Con qué frecuencia exhibe patrones de conducta rígidos, rituales específicos o saludos e insistencia en la monotonía?" },
+            { id: 31, bloque: "tea", tag: "Intereses - Fijo", q: "¿Con qué frecuencia muestra un interés hiperfocalizado, obsesivo o sumamente intenso por un tema muy específico?" },
+            { id: 32, bloque: "tea", tag: "Intereses - Apego", q: "¿Con qué frecuencia muestra un fuerte apego a objetos particulares de manera inusual para su edad?" },
+            { id: 33, bloque: "tea", tag: "Sensorial - Estímulos", q: "¿Con qué frecuencia muestra indiferencia aparente al dolor o a temperaturas extremas?" },
+            { id: 34, bloque: "tea", tag: "Sensorial - Reacción", q: "¿Con qué frecuencia reacciona de forma adversa o hipersensible a sonidos específicos, texturas de ropa o luces?" },
+            { id: 35, bloque: "tea", tag: "Sensorial - Exploración", q: "¿Con qué frecuencia observa, huele o toca en exceso los materiales u objetos de estudio de manera persistente?" },
+            { id: 36, bloque: "tea", tag: "Sensorial - Fascinación", q: "¿Con qué frecuencia muestra fascinación visual por luces, objetos que giran o movimientos repetitivos en su entorno?" }
+        ];
+
+        let pasoActual = 1;
+        const totalPreguntas = bancoPreguntas.length;
+
+        // Estructura de almacenamiento técnico para enviar a Firestore/IA
+        let matrizResultados = {
+            id_alumno: localStorage.getItem("id_alumno_registro") || "ALUMNO_PROBANDO",
+            bloque_dislexia_dsm5: { precision_lectura: 0, velocidad_fluidez: 0, compresion_textual: 0, ortografia_expresion: 0 },
+            bloque_tdah_dsm5: { falta_atencion_detalles: 0, dificultad_sostener_foco: 0, organizacion_tiempo_tareas: 0, hiperactividad_impulsividad: 0 },
+            bloque_tea_dsm5: { comunicacion_social_reciprocidad: 0, rigidez_rutinas_cambios: 0, intereses_hiperfocalizados: 0, procesamiento_sensorial: 0 }
+        };
+
+        // Mapeo preciso de preguntas a sub-dimensiones de la matriz
+        function acumularEnMatriz(idPregunta, valor) {
+            if (idPregunta >= 1 && idPregunta <= 3) matrizResultados.bloque_dislexia_dsm5.precision_lectura += valor;
+            else if (idPregunta >= 4 && idPregunta <= 6) matrizResultados.bloque_dislexia_dsm5.velocidad_fluidez += valor;
+            else if (idPregunta >= 7 && idPregunta <= 9) matrizResultados.bloque_dislexia_dsm5.compresion_textual += valor;
+            else if (idPregunta >= 10 && idPregunta <= 12) matrizResultados.bloque_dislexia_dsm5.ortografia_expresion += valor;
+            
+            else if (idPregunta >= 13 && idPregunta <= 15) matrizResultados.bloque_tdah_dsm5.falta_atencion_detalles += valor;
+            else if (idPregunta >= 16 && idPregunta <= 18) matrizResultados.bloque_tdah_dsm5.dificultad_sostener_foco += valor;
+            else if (idPregunta >= 19 && idPregunta <= 21) matrizResultados.bloque_tdah_dsm5.organizacion_tiempo_tareas += valor;
+            else if (idPregunta >= 22 && idPregunta <= 24) matrizResultados.bloque_tdah_dsm5.hiperactividad_impulsividad += valor;
+            
+            else if (idPregunta >= 25 && idPregunta <= 27) matrizResultados.bloque_tea_dsm5.comunicacion_social_reciprocidad += valor;
+            else if (idPregunta >= 28 && idPregunta <= 30) matrizResultados.bloque_tea_dsm5.rigidez_rutinas_cambios += valor;
+            else if (idPregunta >= 31 && idPregunta <= 32) matrizResultados.bloque_tea_dsm5.intereses_hiperfocalizados += valor;
+            else if (idPregunta >= 33 && idPregunta <= 36) matrizResultados.bloque_tea_dsm5.procesamiento_sensorial += valor;
+        }
+
+        // Renderizar dinámicamente las preguntas en la pantalla
+        const wrapper = document.getElementById("quiz-wrapper");
+        bancoPreguntas.forEach((item, index) => {
+            const block = document.createElement("div");
+            block.className = `question-block ${index === 0 ? 'active' : ''}`;
+            block.id = `q-${item.id}`;
+            block.innerHTML = `
+                <span class="section-tag">${item.tag}</span>
+                <h2>Pregunta ${item.id} de ${totalPreguntas}</h2>
+                <p style="color: #6A5F7A; font-size: 18px; margin-bottom: 10px;">${item.q}</p>
+                <div class="options-vertical">
+                    <div class="option-card" onclick="procesarPaso(${item.id}, 0)"><span>Nunca</span><div class="value-badge">0 pts</div></div>
+                    <div class="option-card" onclick="procesarPaso(${item.id}, 1)"><span>Pocas veces</span><div class="value-badge">1 pt</div></div>
+                    <div class="option-card" onclick="procesarPaso(${item.id}, 2)"><span>Frecuentemente</span><div class="value-badge">2 pts</div></div>
+                    <div class="option-card" onclick="procesarPaso(${item.id}, 3)"><span>Siempre</span><div class="value-badge">3 pts</div></div>
+                </div>
+            `;
+            wrapper.appendChild(block);
+        });
+
+        async function procesarPaso(idPregunta, valor) {
+            acumularEnMatriz(idPregunta, valor);
+
+            if (pasoActual < totalPreguntas) {
+                document.getElementById(`q-${idPregunta}`).classList.remove('active');
+                pasoActual++;
+                document.getElementById(`q-${pasoActual}`).classList.add('active');
                 
-                let porcentaje = (siguientePaso === 2) ? '66.66%' : '100%';
-                document.getElementById('progress-fill').style.width = porcentaje;
+                // Actualizar barra de progreso de forma uniforme
+                document.getElementById('progress-fill').style.width = `${(pasoActual / totalPreguntas) * 100}%`;
+            } else {
+                document.getElementById('progress-fill').style.width = '100%';
+                await finalizarTest();
             }
         }
+
+        async function finalizarTest() {
+            try {
+                // Guardar de inmediato la matriz técnica estructurada localmente en localStorage
+                localStorage.setItem("matriz_diagnostico_pendiente", JSON.stringify(matrizResultados));
+                
+                // Guardar indicador inicial en Firestore para control de flujo
+                const alumnoRef = doc(db, "alumnos", matrizResultados.id_alumno);
+                await updateDoc(alumnoRef, {
+                    test_completado: true
+                });
+
+                alert("Respuestas registradas con total rigor clínico. Enviando matriz de datos a Sophia para el análisis del perfil pedagógico...");
+                // Redirección directa al backend/pantalla de procesamiento de la IA
+                window.location.href = "procesando-diagnostico.html";
+            } catch (error) {
+                console.error("Error al guardar la matriz del test:", error);
+                alert("Hubo un detalle de red al guardar las respuestas. Inténtalo de nuevo.");
+            }
+        }
+
+        window.procesarPaso = procesarPaso;
     </script>
 </body>
 </html>
