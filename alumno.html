@@ -44,7 +44,6 @@
             font-weight: 700;
         }
 
-        /* ENCABEZADO DE LADO A LADO (200px) */
         .brand-header-full {
             width: 100%;
             height: 200px;
@@ -60,7 +59,6 @@
             display: block;
         }
 
-        /* ESPACIO DE TRABAJO ENFOCADO */
         .workspace-container {
             max-width: 850px;
             margin: 30px auto;
@@ -78,7 +76,6 @@
             margin-bottom: 25px;
         }
 
-        /* BOTONERA DE MATERIAS DEL DÍA */
         .subjects-headline {
             font-size: 18px;
             margin: 20px 0 15px 0;
@@ -125,7 +122,6 @@
             color: var(--blanco);
         }
 
-        /* FLUJO DE ESTUDIO INMERSIVO */
         .immersive-session-card {
             background-color: var(--blanco);
             border-radius: 20px;
@@ -139,7 +135,6 @@
             display: block;
         }
 
-        /* INDICADOR DE ETAPAS (BLOOM) */
         .bloom-timeline {
             display: flex;
             justify-content: space-between;
@@ -160,7 +155,6 @@
             font-weight: 700;
         }
 
-        /* CRONÓMETROS Y REPASOS */
         .timer-banner {
             background-color: #FAF8F5;
             border: 1px solid var(--borde-suave);
@@ -173,7 +167,6 @@
             font-weight: 600;
         }
 
-        /* ZONA DE CONTENIDO Y SISTEMATIZACIÓN */
         .content-display-area {
             font-size: 18px;
             line-height: 1.8;
@@ -181,7 +174,6 @@
             text-align: left;
         }
 
-        /* EVALUACIONES INTERACTIVAS */
         .quiz-box {
             background-color: #FAF9F6;
             border: 1px solid var(--borde-suave);
@@ -206,7 +198,6 @@
             border-color: var(--morado-claro);
         }
 
-        /* CIERRES PERSONALIZADOS PARA CUADERNO */
         .notebook-options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -239,14 +230,12 @@
 </head>
 <body>
 
-    <!-- BANNER DE MARCA COMPLETO -->
     <header class="brand-header-full">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity">
     </header>
 
     <div class="workspace-container">
         
-        <!-- BIENVENIDA Y SALUDO -->
         <div class="student-welcome-box">
             <h2 id="saludo-texto">¡Hola! Qué alegría verte hoy</h2>
             <p style="color: #6A5F7A; margin-top: 5px;">Tu horario está listo. Cero horas muertas. Elige una materia para empezar.</p>
@@ -264,25 +253,21 @@
             </div>
         </div>
 
-        <!-- ESPACIO DE ESTUDIO UNIFICADO -->
         <div id="session-card" class="immersive-session-card">
             
-            <!-- Barra de Progreso de la sesión según la Taxonomía de Bloom -->
             <div class="bloom-timeline">
                 <span id="bloom-1" class="bloom-step current">1. Activación y Diagnóstico</span>
                 <span id="bloom-2" class="bloom-step">2. Contenido y Sistematización</span>
                 <span id="bloom-3" class="bloom-step">3. Evaluación y Cuaderno</span>
             </div>
 
-            <!-- Cabecera de la Sesión Activa con Temporizadores -->
             <div class="timer-banner">
                 <div><i class="fa-solid fa-graduation-cap"></i> Materia: <span id="active-subject-title">--</span></div>
                 <div id="session-timer-text" style="color: var(--morado-claro);"><i class="fa-solid fa-clock"></i> Tiempo: 02:00</div>
             </div>
 
-            <!-- ÁREA VISUAL VARIABLE -->
             <div id="dynamic-content-area" class="content-display-area">
-                <!-- Se inyecta dinámicamente mediante JS -->
+                <!-- Inyección dinámica -->
             </div>
 
             <div style="text-align: right;">
@@ -295,13 +280,28 @@
 
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWcmGtB3rlZ3zhcY5x3pOyZVrZb-ko8D8",
+            authDomain: "objectif-reussite-delf.firebaseapp.com",
+            projectId: "objectif-reussite-delf",
+            storageBucket: "objectif-reussite-delf.firebasestorage.app",
+            messagingSenderId: "942279633770",
+            appId: "1:942279633770:web:e90614774e16f5aa9c1313"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         let flujoEtapa = 1; 
         let materiaActiva = "";
-        let tiempoRestante = 120; // 2 minutos iniciales para la activación cognitiva
+        let tiempoRestante = 120; 
         let intervaloReloj;
+        let agendaDataLocal = null;
 
-        // Al cargar la página de forma offline u online, se lanza el saludo por voz natural
         window.addEventListener('DOMContentLoaded', () => {
             ejecutarVozNatural("Hola. Qué alegría tenerte aquí hoy. Tus materias están listas y organizadas para estudiar perfectamente. ¿Con cuál quieres empezar?");
         });
@@ -317,33 +317,49 @@
                 );
                 if (vozPremium) utterance.voice = vozPremium;
                 utterance.lang = 'es-MX';
-                utterance.rate = 0.95; // Pausado para favorecer el foco
+                utterance.rate = 0.95; 
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        function iniciarMateria(materia) {
+        async function iniciarMateria(materia) {
             materiaActiva = materia;
             flujoEtapa = 1;
-            tiempoRestante = 120; // 2 minutos para el repaso previo
+            tiempoRestante = 120; 
             
             document.getElementById('active-subject-title').innerText = materia;
+            const containerContent = document.getElementById('dynamic-content-area');
+            containerContent.innerHTML = `<p style="text-align:center; color:var(--morado-claro); font-weight:600;"><i class="fa-solid fa-spinner fa-spin"></i> Cargando tu agenda adaptada por Sophia...</p>`;
             document.getElementById('session-card').classList.add('active');
-            
-            // Etapa Bloom 1: Recordar lección anterior
-            document.getElementById('bloom-1').className = "bloom-step current";
-            document.getElementById('bloom-2').className = "bloom-step";
-            document.getElementById('bloom-3').className = "bloom-step";
-            
-            document.getElementById('dynamic-content-area').innerHTML = `
-                <h3 style="margin-bottom:15px;"><i class="fa-solid fa-brain"></i> Activación Cognitiva (2 Minutos)</h3>
-                <p style="background:#FAF8F5; padding:20px; border-radius:10px; border-left:4px solid var(--morado-claro);">
-                    Antes de ver el tema nuevo, tómate estos dos minutos para recordar con calma la lección anterior junto a tu profesor o tutor. Esto prepara tu mente para aprender mejor.
-                </p>
-            `;
-            
-            ejecutarVozNatural("Iniciamos con dos minutos de repaso para recordar nuestra lección anterior y despertar tu mente.");
-            iniciarReloj();
+
+            try {
+                const idAlumno = localStorage.getItem("id_alumno_registro") || "ALUMNO_PROBANDO";
+                const docRef = doc(db, "agendas_diarias", `${idAlumno}_${materia}`);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    agendaDataLocal = docSnap.data().bloques_bloom;
+                    
+                    document.getElementById('bloom-1').className = "bloom-step current";
+                    document.getElementById('bloom-2').className = "bloom-step";
+                    document.getElementById('bloom-3').className = "bloom-step";
+                    
+                    containerContent.innerHTML = `
+                        <h3 style="margin-bottom:15px;"><i class="fa-solid fa-brain"></i> Activación Cognitiva (2 Minutos)</h3>
+                        <p style="background:#FAF8F5; padding:20px; border-radius:10px; border-left:4px solid var(--morado-claro);">
+                            ${agendaDataLocal.activacion}
+                        </p>
+                    `;
+                    
+                    ejecutarVozNatural("Iniciamos con dos minutos de repaso para recordar nuestra lección anterior y despertar tu mente.");
+                    iniciarReloj();
+                } else {
+                    containerContent.innerHTML = `<p style="color:red; font-weight:600;">No se encontró una agenda generada para esta materia. Pide al profesor que procese el texto primero.</p>`;
+                }
+            } catch (error) {
+                console.error("Error al recuperar la agenda:", error);
+                containerContent.innerHTML = `<p style="color:red;">Error de conexión con la base de datos.</p>`;
+            }
         }
 
         function iniciarReloj() {
@@ -362,59 +378,57 @@
         }
 
         function avanzarFlujo() {
+            if (!agendaDataLocal) return;
             clearInterval(intervaloReloj);
             flujoEtapa++;
 
             if(flujoEtapa === 2) {
-                // Evaluación Diagnóstica
+                const diag = agendaDataLocal.diagnostico;
+                let opcionesHtml = diag.opciones.map((opc, i) => `
+                    <div class="quiz-option" onclick="verificarRespuesta(${i}, ${diag.correcta}, this)">${opc}</div>
+                `).join('');
+
                 document.getElementById('dynamic-content-area').innerHTML = `
                     <h3 style="margin-bottom:15px;"><i class="fa-solid fa-clipboard-question"></i> Evaluación Diagnóstica</h3>
                     <p style="margin-bottom:15px; font-size:16px; color:#555;">Responde esta pregunta rápida basada en el examen de tu profesor para ver tu punto de partida:</p>
                     <div class="quiz-box">
-                        <h4>¿Cuál fue la causa principal que detonó el movimiento estudiado?</h4>
-                        <div class="quiz-option" onclick="this.style.background='#EBF7E9'">A) La búsqueda de autonomía y derechos básicos.</div>
-                        <div class="quiz-option" onclick="this.style.background='#EBF7E9'">B) Un acuerdo económico internacional fortuito.</div>
+                        <h4>${diag.pregunta}</h4>
+                        ${opcionesHtml}
                     </div>
                 `;
                 ejecutarVozNatural("Momento de tu evaluación diagnóstica. Responde la pregunta en pantalla.");
             } 
             else if(flujoEtapa === 3) {
-                // Etapa Bloom 2: Contenido y Sistematización Adaptada
                 document.getElementById('bloom-1').className = "bloom-step";
                 document.getElementById('bloom-2').className = "bloom-step current";
                 
                 document.getElementById('dynamic-content-area').innerHTML = `
                     <h3 style="margin-bottom:15px;"><i class="fa-solid fa-book"></i> Tema del Día y Espacio de Sistematización</h3>
-                    <p style="margin-bottom:20px; font-size:18px;">El movimiento de independencia buscaba establecer un gobierno soberano, eliminando el control absoluto de la corona extranjera sobre las decisiones locales...</p>
-                    
-                    <div style="background:#F4F1EA; padding:20px; border-radius:10px; border: 1.5px dashed var(--morado-claro);">
-                        <h4 style="font-size:16px; margin-bottom:10px;"><i class="fa-solid fa-gears"></i> Espacio de Sistematización Activa:</h4>
-                        <p style="font-size:15px; color:#444;">Organiza la idea central. Haz clic en el concepto clave que resume el párrafo anterior:</p>
-                        <div style="display:flex; gap:10px; margin-top:10px;">
-                            <button style="padding:8px 15px; border-radius:6px; border:1px solid #ccc; background:#fff; cursor:pointer;" onclick="alert('¡Excelente concepto analizado!')">Soberanía Local</button>
-                            <button style="padding:8px 15px; border-radius:6px; border:1px solid #ccc; background:#fff; cursor:pointer;">Dependencia Externa</button>
-                        </div>
+                    <div class="content-display-area">
+                        ${agendaDataLocal.sistematizacion}
                     </div>
                 `;
-                ejecutarVozNatural("Leamos el tema del día y trabajemos juntos en tu espacio de sistematización para organizar los conceptos.");
+                ejecutarVozNatural("Leamos el tema del día estructurado especialmente para ti.");
             }
             else if(flujoEtapa === 4) {
-                // Etapa Bloom 3: Evaluación Final Cerrada
                 document.getElementById('bloom-2').className = "bloom-step";
                 document.getElementById('bloom-3').className = "bloom-step current";
                 
+                const ev = agendaDataLocal.evaluacion_final;
+                let opcionesHtml = ev.opciones.map((opc, i) => `
+                    <div class="quiz-option" onclick="verificarRespuesta(${i}, ${ev.correcta}, this)">${opc}</div>
+                `).join('');
+
                 document.getElementById('dynamic-content-area').innerHTML = `
                     <h3 style="margin-bottom:15px;"><i class="fa-solid fa-square-check"></i> Evaluación Final de Comprensión</h3>
                     <div class="quiz-box">
-                        <h4>Según lo aprendido en la sesión, ¿cuál fue el logro inmediato del movimiento?</h4>
-                        <div class="quiz-option" onclick="alert('¡Correcto! Avance validado.');">A) La estructuración de un territorio independiente y libre.</div>
-                        <div class="quiz-option">B) El mantenimiento del mismo esquema de gobierno anterior.</div>
+                        <h4>${ev.pregunta}</h4>
+                        ${opcionesHtml}
                     </div>
                 `;
                 ejecutarVozNatural("Completemos tu evaluación final de la sesión.");
             }
             else if(flujoEtapa === 5) {
-                // Salida de estudio: Elige tu cierre para el cuaderno
                 document.getElementById('btn-next-step').style.display = "none";
                 document.getElementById('dynamic-content-area').innerHTML = `
                     <h3 style="margin-bottom:10px;"><i class="fa-solid fa-pen-to-square"></i> ¡Sesión Completada con Éxito!</h3>
@@ -436,6 +450,22 @@
                 ejecutarVozNatural("¡Felicidades! Terminaste tu estudio de hoy. Elige el formato que prefieras para copiar tus notas en tu cuaderno.");
             }
         }
+
+        function verificarRespuesta(seleccionada, correcta, elemento) {
+            if (seleccionada === correcta) {
+                elemento.style.background = '#EBF7E9';
+                elemento.style.borderColor = 'var(--verde-exito)';
+                ejecutarVozNatural("¡Correcto! Excelente trabajo.");
+            } else {
+                elemento.style.background = '#FDF0F0';
+                elemento.style.borderColor = '#D90429';
+                ejecutarVozNatural("Inténtalo de nuevo.");
+            }
+        }
+
+        window.iniciarMateria = iniciarMateria;
+        window.avanzarFlujo = avanzarFlujo;
+        window.verificarRespuesta = verificarRespuesta;
     </script>
 </body>
 </html>
