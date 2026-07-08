@@ -708,20 +708,35 @@
             document.getElementById('student-modal').classList.toggle('active', show);
         }
 
-        function addStudent(e) {
-            e.preventDefault();
-            const name = document.getElementById('student-name').value;
-            const group = document.getElementById('student-group-string').value;
-            const profile = document.getElementById('student-profile').value;
-            const avatar = document.getElementById('student-emoji').value;
+        async function addStudent(e) {
+    e.preventDefault();
+    const name = document.getElementById('student-name').value;
+    const group = document.getElementById('student-group-string').value;
+    const profile = document.getElementById('student-profile').value;
+    const avatar = document.getElementById('student-emoji').value;
 
-            students.push({ id: Date.now(), name, profile, avatar, group, focus: "0 min" });
-            localStorage.setItem('students', JSON.stringify(students));
-            
-            renderStudents();
-            toggleModal(false);
-            document.getElementById('student-form').reset();
+    const idUnico = Date.now().toString();
+    const nuevoAlumno = { id: idUnico, name, profile, avatar, group, focus: "0 min" };
+
+    // Guarda el ID en localStorage para enlazar la sesión del alumno
+    localStorage.setItem("id_alumno_registro", idUnico);
+
+    // Envía el alumno a Firestore mediante la función global de app.js
+    if (typeof window.guardarAlumnoEnFirestore === "function") {
+        const guardadoOk = await window.guardarAlumnoEnFirestore(idUnico, name, profile, group);
+        if (!guardadoOk) {
+            alert("Error al registrar en la base de datos.");
+            return;
         }
+    }
+
+    students.push(nuevoAlumno);
+    localStorage.setItem('students', JSON.stringify(students));
+    
+    renderStudents();
+    toggleModal(false);
+    document.getElementById('student-form').reset();
+}
 
         function triggerMockUpload() {
             alert("Archivo de planeación didáctica cargado con éxito en el búfer temporal.");
