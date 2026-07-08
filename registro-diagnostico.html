@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroClarity - Registro de Perfil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Afacad+Flux:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-crema: #F7F4EE;
+            --morado-oscuro: #473363;
+            --morado-claro: #6A4C93;
+            --texto-principal: #2C2536;
+            --blanco: #FFFFFF;
+            --borde-suave: #E6E1ED;
+            --oro-suave: #C5A059;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Afacad Flux', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-crema);
+            color: var(--texto-principal);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: var(--blanco);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--borde-suave);
+            box-shadow: 0 10px 30px rgba(44, 37, 54, 0.04);
+            text-align: center;
+        }
+
+        h2, h3 {
+            font-family: 'Comfortaa', cursive;
+            color: var(--morado-oscuro);
+            margin-bottom: 15px;
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--oro-suave);
+            border-radius: 12px;
+            padding: 40px 20px;
+            background: #FAF8F5;
+            cursor: pointer;
+            margin: 25px 0;
+            transition: background 0.2s;
+        }
+
+        .drop-zone:hover, .drop-zone.drag-over {
+            background: #F4EFE6;
+        }
+
+        .drop-zone i {
+            font-size: 40px;
+            color: var(--oro-suave);
+            margin-bottom: 15px;
+        }
+
+        .file-info {
+            margin-top: 10px;
+            font-weight: 600;
+            color: var(--verde-exito);
+            display: none;
+        }
+
+        .btn-option {
+            background-color: var(--morado-claro);
+            color: var(--blanco);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--morado-claro);
+            border: 2px solid var(--morado-claro);
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Registro del Alumno</h2>
+        <p style="color: #6A5F7A;">Para adaptar el portal a las necesidades del estudiante, necesitamos identificar su perfil de aprendizaje.</p>
+
+        <!-- OPCIÓN A: CARGAR DIAGNÓSTICO OFICIAL -->
+        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <i class="fa-solid fa-file-pdf"></i>
+            <h3>Opción A: Sube su Diagnóstico Oficial</h3>
+            <p style="color: #777; font-size: 15px;">Arrastra tu archivo aquí o haz clic para buscarlo (PDF o Imagen)</p>
+            <input type="file" id="file-input" accept=".pdf,image/*" style="display: none;" onchange="mostrarArchivo(this)">
+            <div class="file-info" id="file-info"></div>
+        </div>
+
+        <button class="btn-option" id="btn-subir" onclick="guardarPdf()" style="display: none;">
+            Confirmar y guardar documento <i class="fa-solid fa-cloud-arrow-up"></i>
+        </button>
+
+        <div style="margin: 20px 0; color: #A094B3; font-weight: 600;">— O TAMBIÉN —</div>
+
+        <!-- OPCIÓN B: TEST DE APOYO INTERNO -->
+        <div style="background: #FAF9F6; padding: 25px; border-radius: 12px; border: 1px solid var(--borde-suave);">
+            <h3>Opción B: ¿No tienes un diagnóstico oficial?</h3>
+            <p style="color: #666; font-size: 15px; margin-bottom: 15px;">Genera un diagnóstico de apoyo respondiendo un cuestionario guiado de indicadores clave.</p>
+            <button class="btn-option btn-secondary" onclick="irAlTest()">
+                Iniciar Test de Diagnóstico de Apoyo <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            document.getElementById('file-input').files = files;
+            mostrarArchivo(document.getElementById('file-input'));
+        });
+
+        function mostrarArchivo(input) {
+            if(input.files.length > 0) {
+                const info = document.getElementById('file-info');
+                info.innerHTML = `<i class="fa-solid fa-circle-check"></i> Archivo listo: <strong>${input.files[0].name}</strong>`;
+                info.style.display = 'block';
+                document.getElementById('btn-subir').style.display = 'inline-flex';
+            }
+        }
+
+        function guardarPdf() {
+            alert('Documento recibido de forma segura. Conectando con Firebase Storage...');
+            // Aquí se enlazará la lógica de la sub-etapa posterior
+        }
+
+        function irAlTest() {
+            alert('Redireccionando a la Sub-etapa 2.2: Test interactivo...');
+            // Aquí enlazaremos la siguiente pantalla del test
+        }
+    </script>
+</body>
+</html>
