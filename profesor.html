@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Afacad+Flux:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://.brand-header-full {cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         /* ==========================================================================
@@ -60,20 +60,21 @@
            3. CABECERA INSTITUCIONAL (De lado a lado - Vendemos la Marca)
            ========================================================================== */
         .brand-header-full {
-    width: 100%;
-    height: auto;
-    background-color: #F1EBE1; /* Color de fondo que combina con el banner */
-    border-bottom: 1px solid var(--borde-suave);
-    display: block;
-}
+            width: 100%;
+            height: auto;
+            background-color: #F1EBE1; /* Color de fondo que combina con el banner */
+            border-bottom: 1px solid var(--borde-suave);
+            display: block;
+        }
 
-.brand-header-full img {
-    width: 100%;
-    height: auto;
-    max-height: 200px; /* Le damos un poco más de margen vertical */
-    object-fit: contain; /* Evita que la imagen se corte o se deforme */
-    display: block;
-}
+        .brand-header-full img {
+            width: 100%;
+            height: auto;
+            max-height: 200px; /* Le damos un poco más de margen vertical */
+            object-fit: contain; /* Evita que la imagen se corte o se deforme */
+            display: block;
+        }
+
         /* ==========================================================================
            4. ESTRUCTURA INFERIOR (Sidebar + Espacio de Trabajo)
            ========================================================================== */
@@ -518,7 +519,7 @@
                 </div>
             </section>
 
-            <!-- VISTA 2: LISTADO DE ALUMNOS (Fichas sin diagnósticos expuestos para el alumno) -->
+            <!-- VISTA 2: LISTADO DE ALUMNOS -->
             <section id="view-alumnos" class="panel-view">
                 <div class="student-actions">
                     <h2>Fichas de Control Escolar</h2>
@@ -529,7 +530,7 @@
                 <div class="student-grid" id="student-grid"></div>
             </section>
 
-            <!-- VISTA 3: CARGA DE PLANEACIONES (Etapa 1 Completada) -->
+            <!-- VISTA 3: CARGA DE PLANEACIONES -->
             <section id="view-planeacion" class="panel-view">
                 <div class="planning-layout">
                     <h3 class="step-title"><i class="fa-solid fa-sliders" style="color: var(--morado-claro);"></i> Configuración de Ubicación</h3>
@@ -556,10 +557,10 @@
                         <div class="form-group">
                             <label>Asignatura / Materia</label>
                             <select id="plan-materia">
-                                <option value="ciencias">Ciencias Naturales</option>
-                                <option value="espanol">Español / Lectura</option>
-                                <option value="mate">Matemáticas</option>
-                                <option value="historia">Historia</option>
+                                <option value="Ciencias">Ciencias Naturales</option>
+                                <option value="Historia">Historia</option>
+                                <option value="Espanol">Español / Lectura</option>
+                                <option value="Mate">Matemáticas</option>
                             </select>
                         </div>
                     </div>
@@ -587,7 +588,7 @@
         </main>
     </div>
 
-    <!-- MODAL DE REGISTRO (Cupos Autónomos) -->
+    <!-- MODAL DE REGISTRO -->
     <div class="modal" id="student-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -625,7 +626,10 @@
         </div>
     </div>
 
-    <!-- SCRIPT DE CONTROL -->
+    <!-- Vinculamos el motor global de Firebase e Inteligencia Artificial -->
+    <script type="module" src="app.js"></script>
+
+    <!-- SCRIPT DE CONTROL VISUAL Y ACCIONES -->
     <script>
         let totalLicencias = 30;
         let defaultStudents = [
@@ -723,8 +727,32 @@
             alert("Archivo de planeación didáctica cargado con éxito en el búfer temporal.");
         }
 
-        function processPlanningWithIA() {
-            alert("Motor de Inteligencia Artificial iniciado. Extrayendo materias, taxonomía de Bloom y calendarizando objetivos automáticamente...");
+        // LLAMADA REAL AL MOTOR DE IA DE SOPHIA (INTEGRADO)
+        async function processPlanningWithIA() {
+            const textoOriginal = document.getElementById('plan-text-input').value;
+            const materiaSelect = document.getElementById('plan-materia');
+            const materia = materiaSelect.options[materiaSelect.selectedIndex].text;
+
+            if (!textoOriginal.trim()) {
+                alert("Por favor, escribe o pega el texto de tu lección en el cuadro de texto libre antes de procesar.");
+                return;
+            }
+
+            alert("Motor de Inteligencia Artificial iniciado. Sophia está leyendo la radiografía clínica del alumno para reestructurar esta lección bajo la Taxonomía de Bloom...");
+
+            // Validación de la función expuesta globalmente en app.js
+            if (typeof window.generarAgendaConSophia === "function") {
+                const idAlumno = localStorage.getItem("id_alumno_registro") || "ALUMNO_PROBANDO";
+                const exito = await window.generarAgendaConSophia(idAlumno, textoOriginal, materia);
+                
+                if (exito) {
+                    alert(`¡Éxito total! La lección de "${materia}" ha sido fragmentada y guardada en la agenda diaria del alumno.`);
+                } else {
+                    alert("Hubo un contratiempo al guardar la agenda adaptada en la base de datos.");
+                }
+            } else {
+                alert("Error técnico: El motor de IA (app.js) no se ha detectado en el navegador.");
+            }
         }
     </script>
 </body>
