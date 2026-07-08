@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroClarity - Test de Apoyo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Afacad+Flux:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-crema: #F7F4EE;
+            --morado-oscuro: #473363;
+            --morado-claro: #6A4C93;
+            --texto-principal: #2C2536;
+            --blanco: #FFFFFF;
+            --borde-suave: #E6E1ED;
+            --oro-suave: #C5A059;
+            --verde-exito: #2D6A4F;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Afacad Flux', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-crema);
+            color: var(--texto-principal);
+            padding: 40px 20px;
+        }
+
+        .test-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--blanco);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--borde-suave);
+            box-shadow: 0 10px 30px rgba(44, 37, 54, 0.04);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--borde-suave);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 33.33%;
+            height: 100%;
+            background: var(--morado-claro);
+            transition: width 0.3s ease;
+        }
+
+        h2, h3 {
+            font-family: 'Comfortaa', cursive;
+            color: var(--morado-oscuro);
+            margin-bottom: 15px;
+        }
+
+        .question-block {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        .question-block.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .options-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .option-card {
+            background: #FAF8F5;
+            border: 2px solid var(--borde-suave);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s;
+        }
+
+        .option-card:hover {
+            border-color: var(--morado-claro);
+            background: #F2EDFA;
+            transform: translateX(4px);
+        }
+
+        .option-card i {
+            font-size: 20px;
+            color: var(--oro-suave);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="test-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- INDICADOR 1: PROCESAMIENTO DE LECTURA (DISLEXIA) -->
+        <div class="question-block active" id="q1">
+            <h2>Indicador de Lectura y Escritura</h2>
+            <p style="color: #6A5F7A; font-size: 16px;">¿Cómo interactúa el alumno con los textos impresos o digitales de las lecciones?</p>
+            
+            <div class="options-vertical">
+                <div class="option-card" onclick="registrarRespuesta('lectura', 'lineal', 2)">
+                    <i class="fa-solid fa-font"></i>
+                    <span>Lee de forma fluida, pero le cuesta recordar el orden de fechas o datos exactos.</span>
+                </div>
+                <div class="option-card" onclick="registrarRespuesta('lectura', 'dislexia', 2)">
+                    <i class="fa-solid fa-text-slash"></i>
+                    <span>Suele saltarse líneas, confunde palabras de apariencia similar o prefiere explicaciones con diagramas y audio.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- INDICADOR 2: ENFOQUE Y ATENCIÓN (TDAH) -->
+        <div class="question-block" id="q2">
+            <h2>Indicador de Enfoque</h2>
+            <p style="color: #6A5F7A; font-size: 16px;">Al realizar una actividad académica o de estudio, ¿cómo gestiona el tiempo?</p>
+            
+            <div class="options-vertical">
+                <div class="option-card" onclick="registrarRespuesta('enfoque', 'tdah', 3)">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Genera muchas ideas, pero pierde el foco con facilidad, se distrae con estímulos mínimos y le cuesta terminar lo que empieza.</span>
+                </div>
+                <div class="option-card" onclick="registrarRespuesta('enfoque', 'regular', 3)">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                    <span>Mantiene el foco constante si el entorno es silencioso, aunque se cansa de forma normal tras sesiones largas.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- INDICADOR 3: RESPUESTA A RUTINAS (TEA) -->
+        <div class="question-block" id="q3">
+            <h2>Indicador de Organización</h2>
+            <p style="color: #6A5F7A; font-size: 16px;">¿Cómo reacciona el estudiante cuando hay cambios repentinos en sus actividades diarias?</p>
+            
+            <div class="options-vertical">
+                <div class="option-card" onclick="registrarRespuesta('estructura', 'tea', 'fin')">
+                    <i class="fa-solid fa-shapes"></i>
+                    <span>Prefiere esquemas fijos y estructurados; los cambios imprevistos en las pantallas o instrucciones le generan frustración notable.</span>
+                </div>
+                <div class="option-card" onclick="registrarRespuesta('estructura', 'flexible', 'fin')">
+                    <i class="fa-solid fa-shuffle"></i>
+                    <span>Se adapta con facilidad a las instrucciones variables sin experimentar estrés significativo.</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let respuestas = { lectura: "", enfoque: "", estructura: "" };
+
+        function registrarRespuesta(categoria, valor, siguientePaso) {
+            respuestas[categoria] = valor;
+
+            if (siguientePaso === 'fin') {
+                document.getElementById('progress-fill').style.width = '100%';
+                alert('Respuestas recolectadas. Listos para procesar los indicadores en la sub-etapa 2.3.');
+                console.log(respuestas);
+                // Aquí se enlazará el algoritmo procesador
+            } else {
+                // Avanzar de pantalla de forma limpia
+                document.getElementById(`q${siguientePaso - 1}`).classList.remove('active');
+                document.getElementById(`q${siguientePaso}`).classList.add('active');
+                
+                let porcentaje = (siguientePaso === 2) ? '66.66%' : '100%';
+                document.getElementById('progress-fill').style.width = porcentaje;
+            }
+        }
+    </script>
+</body>
+</html>
