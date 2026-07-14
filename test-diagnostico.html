@@ -140,7 +140,7 @@
         </div>
 
         <div id="quiz-wrapper">
-            <!-- LAS 36 PREGUNTAS SE INYECTAN DINÁMICAMENTE AQUÍ VÍA JAVASCRIPT -->
+            <!-- Las 36 preguntas se inyectan dinámicamente aquí -->
         </div>
     </div>
 
@@ -148,7 +148,6 @@
         import { db } from "./database.js";
         import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Banco de preguntas estructurado según dimensiones del DSM-5
         const bancoPreguntas = [
             // === BLOQUE 1: DISLEXIA (1 a 12) ===
             { id: 1, bloque: "dislexia", tag: "Lectura - Precisión", q: "¿Con qué frecuencia el alumno omite, añade o sustituye letras o palabras completas al leer en voz alta?" },
@@ -185,7 +184,7 @@
             { id: 28, bloque: "tea", tag: "Rutinas - Rigidez", q: "¿Con qué frecuencia experimenta angustia o frustración extrema ante cambios mínimos en sus horarios o rutinas diarias?" },
             { id: 29, bloque: "tea", tag: "Rutinas - Transiciones", q: "¿Con qué frecuencia requiere que las transiciones entre materias o actividades le sean anticipadas de forma muy estructurada?" },
             { id: 30, bloque: "tea", tag: "Rutinas - Comportamiento", q: "¿Con qué frecuencia exhibe patrones de conducta rígidos, rituales específicos o saludos e insistencia en la monotonía?" },
-            { id: 31, bloque: "tea", tag: "Intereses - Fijo", q: "¿Con qué frecuencia muestra un interés hiperfocalizado, obsesivo o sumamente intenso por un tema muy específico?" },
+            { id: 31, bloque: "tea", tag: "Intereses - Fijo", q: "¿Con qué frecuencia muestra un interest hiperfocalizado, obsesivo o sumamente intenso por un tema muy específico?" },
             { id: 32, bloque: "tea", tag: "Intereses - Apego", q: "¿Con qué frecuencia muestra un fuerte apego a objetos particulares de manera inusual para su edad?" },
             { id: 33, bloque: "tea", tag: "Sensorial - Estímulos", q: "¿Con qué frecuencia muestra indiferencia aparente al dolor o a temperaturas extremas?" },
             { id: 34, bloque: "tea", tag: "Sensorial - Reacción", q: "¿Con qué frecuencia reacciona de forma adversa o hipersensible a sonidos específicos, texturas de ropa o luces?" },
@@ -196,7 +195,6 @@
         let pasoActual = 1;
         const totalPreguntas = bancoPreguntas.length;
 
-        // Estructura de almacenamiento técnico para enviar a Firestore/IA
         let matrizResultados = {
             id_alumno: localStorage.getItem("id_alumno_registro") || "ALUMNO_PROBANDO",
             bloque_dislexia_dsm5: { precision_lectura: 0, velocidad_fluidez: 0, compresion_textual: 0, ortografia_expresion: 0 },
@@ -204,7 +202,6 @@
             bloque_tea_dsm5: { comunicacion_social_reciprocidad: 0, rigidez_rutinas_cambios: 0, intereses_hiperfocalizados: 0, procesamiento_sensorial: 0 }
         };
 
-        // Mapeo preciso de preguntas a sub-dimensiones de la matriz
         function acumularEnMatriz(idPregunta, valor) {
             if (idPregunta >= 1 && idPregunta <= 3) matrizResultados.bloque_dislexia_dsm5.precision_lectura += valor;
             else if (idPregunta >= 4 && idPregunta <= 6) matrizResultados.bloque_dislexia_dsm5.velocidad_fluidez += valor;
@@ -222,7 +219,6 @@
             else if (idPregunta >= 33 && idPregunta <= 36) matrizResultados.bloque_tea_dsm5.procesamiento_sensorial += valor;
         }
 
-        // Renderizar dinámicamente las preguntas en la pantalla
         const wrapper = document.getElementById("quiz-wrapper");
         bancoPreguntas.forEach((item, index) => {
             const block = document.createElement("div");
@@ -249,8 +245,6 @@
                 document.getElementById(`q-${idPregunta}`).classList.remove('active');
                 pasoActual++;
                 document.getElementById(`q-${pasoActual}`).classList.add('active');
-                
-                // Actualizar barra de progreso de forma uniforme
                 document.getElementById('progress-fill').style.width = `${(pasoActual / totalPreguntas) * 100}%`;
             } else {
                 document.getElementById('progress-fill').style.width = '100%';
@@ -260,17 +254,20 @@
 
         async function finalizarTest() {
             try {
-                // Guardar de inmediato la matriz técnica estructurada localmente en localStorage
                 localStorage.setItem("matriz_diagnostico_pendiente", JSON.stringify(matrizResultados));
                 
-                // Guardar indicador inicial en Firestore para control de flujo
+                // Conexión y almacenamiento de la matriz numérica real en Firestore
                 const alumnoRef = doc(db, "alumnos", matrizResultados.id_alumno);
                 await updateDoc(alumnoRef, {
-                    test_completado: true
+                    test_completado: true,
+                    matriz_dsm5: {
+                        dislexia: matrizResultados.bloque_dislexia_dsm5,
+                        tdah: matrizResultados.bloque_tdah_dsm5,
+                        tea: matrizResultados.bloque_tea_dsm5
+                    }
                 });
 
                 alert("Respuestas registradas con total rigor clínico. Enviando matriz de datos a Sophia para el análisis del perfil pedagógico...");
-                // Redirección directa al backend/pantalla de procesamiento de la IA
                 window.location.href = "procesando-diagnostico.html";
             } catch (error) {
                 console.error("Error al guardar la matriz del test:", error);
