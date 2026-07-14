@@ -194,9 +194,7 @@
             color: var(--text-muted);
         }
 
-        /* ==========================================================================
-           NUEVA SECCIÓN: MÓDULO COMERCIAL DE MEMBRESÍAS DINÁMICAS
-           ========================================================================== */
+        /* SECCIÓN DE PRECIOS */
         .pricing-section {
             padding: 80px 0;
             text-align: center;
@@ -302,7 +300,7 @@
             color: var(--purple-light);
             font-weight: bold;
             font-size: 18px;
-        }
+            }
 
         /* Selector de Licencias por Volumen */
         .license-counter-box {
@@ -362,7 +360,6 @@
 </head>
 <body>
 
-    <!-- BANNER SUPERIOR AJUSTADO A 200PX -->
     <header class="hero-banner-header">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" class="banner-img">
         
@@ -412,8 +409,8 @@
 
             <!-- Selector de Pestañas -->
             <div class="tab-container">
-                <button class="tab-btn active" onclick="togglePricingTab('padres')">Padres de Familia</button>
-                <button class="tab-btn" onclick="togglePricingTab('escuelas')">Escuelas y Docentes</button>
+                <button class="tab-btn active" onclick="togglePricingTab('padres', event)">Padres de Familia</button>
+                <button class="tab-btn" onclick="togglePricingTab('escuelas', event)">Escuelas y Docentes</button>
             </div>
 
             <!-- VISTA A: PADRES DE FAMILIA -->
@@ -427,7 +424,8 @@
                         <li>1 Código de Vinculación para su Profesor</li>
                         <li>Adaptación de materiales con IA ilimitada</li>
                     </ul>
-                    <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center;">Comprar Licencia Individual</a>
+                    <!-- Redirección directa al flujo de registro familiar para pruebas -->
+                    <a href="registro-padre.html" class="btn btn-secondary" style="width: 100%; text-align: center;">Registrarse como Papá</a>
                 </div>
             </div>
 
@@ -453,7 +451,7 @@
                         <li>Códigos de vinculación familiar automáticos</li>
                         <li>Asistente IA de Procesamiento de Planeaciones</li>
                     </ul>
-                    <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center;">Adquirir Paquete Escolar</a>
+                    <a href="profesor.html" class="btn btn-secondary" style="width: 100%; text-align: center;">Acceder como Profesor</a>
                 </div>
             </div>
 
@@ -467,22 +465,18 @@
     </footer>
 
     <script>
-        // Cambiar entre pestañas de manera fluida
-        function togglePricingTab(type) {
+        function togglePricingTab(type, e) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.pricing-view').forEach(view => view.classList.remove('active'));
 
+            e.target.classList.add('active');
             if (type === 'padres') {
-                event.target.classList.add('active');
                 document.getElementById('view-padres').classList.add('active');
             } else {
-                const targetBtn = document.querySelector('button[onclick*="escuelas"]');
-                if (targetBtn) targetBtn.classList.add('active');
                 document.getElementById('view-escuelas').classList.add('active');
             }
         }
 
-        // Calcular precio dinámico con descuento por volumen para escuelas
         function calculateSchoolPrice() {
             const select = document.getElementById('license-select');
             const display = document.getElementById('school-price-display');
