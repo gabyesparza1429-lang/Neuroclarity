@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroClarity - Registro Familiar</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-cream: #FAF8F5;
+            --purple-dark: #2A1654;
+            --purple-light: #6339A6;
+            --purple-pale: #F2EDFA;
+            --white: #FFFFFF;
+            --text-muted: #4E4266;
+            --border-suave: #E6E1ED;
+            --verde-exito: #2D6A4F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--purple-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .register-card {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-suave);
+            box-shadow: 0 10px 30px rgba(42, 22, 84, 0.02);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h2 {
+            font-family: 'Comfortaa', cursive;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1.5px solid var(--border-suave);
+            font-size: 15px;
+            outline: none;
+            background: var(--white);
+            color: var(--purple-dark);
+        }
+
+        input:focus, select:focus {
+            border-color: var(--purple-light);
+        }
+
+        .btn-submit {
+            background-color: var(--purple-light);
+            color: var(--white);
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--purple-dark);
+        }
+
+        /* Zona del código generado */
+        .code-box {
+            display: none;
+            background-color: var(--purple-pale);
+            border: 2px dashed var(--purple-light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .code-display {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--purple-dark);
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-card">
+        <div id="form-wrapper">
+            <h2>Alta de Licencia Familiar</h2>
+            <p>Configura el perfil inicial de tu hijo para dar de alta su cuenta en la base de datos.</p>
+            
+            <form id="parent-reg-form">
+                <div class="form-group">
+                    <label>Nombre del Padre o Tutor:</label>
+                    <input type="text" id="parent-name" required placeholder="Ej. Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label>Nombre del Alumno (Hijo/a):</label>
+                    <input type="text" id="child-name" required placeholder="Ej. Carlos Pérez">
+                </div>
+                <div class="form-group">
+                    <label>Grado Escolar:</label>
+                    <input type="text" id="child-grade" required placeholder="Ej. 6° Primaria">
+                </div>
+                <div class="form-group">
+                    <label>Línea de Enfoque Inicial:</label>
+                    <select id="child-focus">
+                        <option value="dislexia">Línea de Enfoque (Apoyo Dislexia)</option>
+                        <option value="tdah">Bloques de Lectura + Temporizador (Apoyo TDAH)</option>
+                        <option value="tea">Lectura con Apoyos Pictográficos (Apoyo TEA)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">
+                    Activar Licencia e Inscribir <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Caja de éxito y entrega de credenciales -->
+        <div id="code-wrapper" class="code-box">
+            <i class="fa-solid fa-circle-check" style="color: var(--verde-exito); font-size: 40px; margin-bottom: 10px;"></i>
+            <h3>¡Licencia Activada!</h3>
+            <p style="margin-bottom: 10px;">Copia y guarda este código único. Tu hijo lo necesitará para ingresar a su portal y realizar su evaluación.</p>
+            <div class="code-display" id="generated-id-display">--------</div>
+            <button class="btn-submit" onclick="irAlPortalAlumno()" style="margin-top: 15px; background-color: var(--purple-dark);">
+                Ir al Portal del Alumno <i class="fa-solid fa-graduation-cap"></i>
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWcmGtB3rlZ3zhcY5x3pOyZVrZb-ko8D8",
+            authDomain: "objectif-reussite-delf.firebaseapp.com",
+            projectId: "objectif-reussite-delf",
+            storageBucket: "objectif-reussite-delf.firebasestorage.app",
+            messagingSenderId: "942279633770",
+            appId: "1:942279633770:web:e90614774e16f5aa9c1313"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        document.getElementById('parent-reg-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const parentName = document.getElementById('parent-name').value;
+            const childName = document.getElementById('child-name').value;
+            const grade = document.getElementById('child-grade').value;
+            const focus = document.getElementById('child-focus').value;
+
+            // Generar código numérico único basado en tiempo
+            const idUnico = Date.now().toString();
+
+            try {
+                // Registrar el alumno en la colección global alumnos
+                await setDoc(doc(db, "alumnos", idUnico), {
+                    id: idUnico,
+                    nombre: childName,
+                    nombre_tutor: parentName,
+                    linea_enfoque: focus,
+                    grupo: grade,
+                    matriz_dsm5: {}, 
+                    fecha_registro: new Date().toISOString().split('T')[0],
+                    tipo_licencia: "familiar"
+                });
+
+                // Almacenar localmente en la sesión actual
+                localStorage.setItem("id_alumno_registro", idUnico);
+
+                // Ocultar formulario y mostrar credenciales
+                document.getElementById('form-wrapper').style.display = 'none';
+                document.getElementById('generated-id-display').innerText = idUnico;
+                document.getElementById('code-wrapper').style.display = 'block';
+
+            } catch (error) {
+                console.error("Error al registrar alta familiar:", error);
+                alert("Hubo un detalle de conexión al activar la licencia.");
+            }
+        });
+
+        function irAlPortalAlumno() {
+            window.location.href = "registro-diagnostico.html";
+        }
+        window.irAlPortalAlumno = irAlPortalAlumno;
+    </script>
+</body>
+</html>
