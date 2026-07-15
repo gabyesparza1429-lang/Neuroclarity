@@ -4,12 +4,13 @@ import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.
 
 // 1. Conexión automática con tu consola de Firebase
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "tu-proyecto.firebaseapp.com",
-    projectId: "tu-proyecto",
-    storageBucket: "tu-proyecto.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:1234:web:abcd"
+  apiKey: "AIzaSyB-uxzwCNpLvMUMUjm0FcoOWsX2wOzOFBE",
+  authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+  projectId: "neuroclarity-dcf0e",
+  storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
+  messagingSenderId: "34116345239",
+  appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2",
+  measurementId: "G-1C875WNG8X"
 };
 
 const app = initializeApp(firebaseConfig);
