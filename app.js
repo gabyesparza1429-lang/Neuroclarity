@@ -81,6 +81,25 @@ export async function generarAgendaConSophia(idAlumno, textoOriginal, materia) {
         return false;
     }
 }
+export async function guardarAlumnoEnFirestore(idAlumno, nombre, lineaEnfoque, grupo) {
+    try {
+        const alumnoRef = doc(db, "alumnos", idAlumno);
+        await setDoc(alumnoRef, {
+            id: idAlumno,
+            nombre: nombre,
+            linea_enfoque: lineaEnfoque,
+            grupo: grupo,
+            matriz_dsm5: {},
+            fecha_registro: new Date().toISOString().split('T')[0]
+        }, { merge: true });
+        return true;
+    } catch (error) {
+        console.error("Error al guardar alumno desde el panel:", error);
+        return false;
+    }
+}
 
+// Lo exponemos globalmente para que profesor.html lo pueda invocar
+window.guardarAlumnoEnFirestore = guardarAlumnoEnFirestore;
 // Vinculación global
 window.generarAgendaConSophia = generarAgendaConSophia;
