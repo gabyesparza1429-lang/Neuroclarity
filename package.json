@@ -1,17 +1,10 @@
 {
-  "hosting": {
-    "site": "neuroclarity-app",
-    "public": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+  "name": "neuroclarity",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
