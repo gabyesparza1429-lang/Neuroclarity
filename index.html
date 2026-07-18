@@ -462,7 +462,7 @@
     <section class="hero-text-block">
         <div class="container">
             <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
-            <p>Plataforma de aprendizaje adaptativa que eliminates barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
+            <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
             <a href="#membresias" class="btn btn-secondary">Ver Planes Disponibles</a>
         </div>
     </section>
@@ -572,7 +572,7 @@
         </div>
     </div>
 
-    <!-- Scripts de Control de Precios y Pestañas -->
+    <!-- 1. Scripts de Control de Precios y Pestañas -->
     <script>
         function togglePricingTab(type, e) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -604,12 +604,37 @@
         }
     </script>
 
-    <!-- Conexión y Apertura del Modal con Firebase Auth -->
+    <!-- 2. CONTROL VISUAL DEL MODAL (100% Autónomo y Seguro) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('loginModal');
+            const openBtn = document.getElementById('openLoginBtn');
+            const closeBtn = document.getElementById('closeLoginBtn');
+
+            if (openBtn && modal && closeBtn) {
+                openBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.classList.add('active');
+                });
+
+                closeBtn.addEventListener('click', () => {
+                    modal.classList.remove('active');
+                });
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- 3. LÓGICA DE FIREBASE AISLADA (Solo escucha el envío del formulario) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
-        // Configuración con tu API Key limpia generada
         const ncConfig = {
             apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
             authDomain: "neuroclarity-dcf0e.firebaseapp.com",
@@ -620,40 +645,31 @@
             measurementId: "G-1C875WNG8X"
         };
 
-        const appNC = initializeApp(ncConfig, "neuroclarityApp");
-        const authNC = getAuth(appNC);
+        try {
+            const appNC = initializeApp(ncConfig, "neuroclarityApp");
+            const authNC = getAuth(appNC);
 
-        const modal = document.getElementById('loginModal');
-        const openBtn = document.getElementById('openLoginBtn');
-        const closeBtn = document.getElementById('closeLoginBtn');
+            const form = document.getElementById('loginForm');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('loginEmail').value;
+                    const password = document.getElementById('loginPassword').value;
 
-        // Control de apertura y cierre
-        openBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            modal.classList.add('active');
-        });
-
-        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-        modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
-
-        // Ejecución del inicio de sesión
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            try {
-                const userCredential = await signInWithEmailAndPassword(authNC, email, password);
-                modal.classList.remove('active');
-                alert("¡Sesión iniciada con éxito!");
-                
-                // Redirección directa al panel del profesor
-                window.location.href = "profesor.html";
-            } catch (error) {
-                console.error(error);
-                alert("Error al iniciar sesión: " + error.message);
+                    try {
+                        const userCredential = await signInWithEmailAndPassword(authNC, email, password);
+                        document.getElementById('loginModal').classList.remove('active');
+                        alert("¡Sesión iniciada con éxito!");
+                        window.location.href = "profesor.html";
+                    } catch (error) {
+                        console.error(error);
+                        alert("Error al iniciar sesión: " + error.message);
+                    }
+                });
             }
-        });
+        } catch (error) {
+            console.error("Error al inicializar Firebase Auth:", error);
+        }
     </script>
 </body>
 </html>
