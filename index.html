@@ -630,7 +630,7 @@
         });
     </script>
 
-    <!-- 3. LÓGICA DE FIREBASE AISLADA CON DIRECCIONAMIENTO POR ROLES -->
+   <!-- 3. LÓGICA DE FIREBASE AISLADA CON DIRECCIONAMIENTO POR ROLES -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -655,15 +655,14 @@
             if (form) {
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    const email = document.getElementById('loginEmail').value;
+                    const email = document.getElementById('loginEmail').value.trim();
                     const password = document.getElementById('loginPassword').value;
 
                     try {
                         const userCredential = await signInWithEmailAndPassword(authNC, email, password);
-                        const user = userCredential.user;
-
-                        // 1. Consultamos el perfil del usuario en Firestore usando su UID único
-                        const userDocRef = doc(dbNC, "users", user.uid);
+                        
+                        // Buscamos en la colección exacta usando el correo como ID del documento
+                        const userDocRef = doc(dbNC, "NeuroClarity_Membresias", email);
                         const userDoc = await getDoc(userDocRef);
 
                         document.getElementById('loginModal').classList.remove('active');
@@ -671,27 +670,22 @@
 
                         if (userDoc.exists()) {
                             const userData = userDoc.data();
-                            
-                            // Extrae el rol (busca tanto 'role' como 'tipo' por si acaso)
-                            const rol = userData.role || userData.tipo || userData.rol; 
+                            const tipoLicencia = userData.tipo_licencia; // Campo exacto de tu captura
 
-                            // 2. Enrutador según el tipo de cuenta detectado en tu base de datos
-                            if (rol === "profesor" || rol === "Profesor") {
+                            // Enrutador inteligente según el valor de tipo_licencia
+                            if (tipoLicencia === "Padre" || tipoLicencia === "padre") {
+                                window.location.href = "registro-padre.html";
+                            } else if (tipoLicencia === "Profesor" || tipoLicencia === "profesor") {
                                 window.location.href = "profesor.html";
-                            } else if (rol === "alumno" || rol === "Alumno") {
-                                window.location.href = "alumno.html";
-                            } else if (rol === "padre" || rol === "Padre") {
-                                window.location.href = "registro-padre.html"; 
-                            } else if (rol === "admin" || rol === "administrador") {
+                            } else if (tipoLicencia === "Admin" || tipoLicencia === "admin") {
                                 window.location.href = "admin.html";
                             } else {
-                                // Ruta de respaldo si el rol no coincide exactamente
-                                window.location.href = "profesor.html";
+                                window.location.href = "alumno.html";
                             }
                         } else {
-                            // Si está registrado en Auth pero no tiene documento de perfil en Firestore
-                            console.warn("No se encontró documento de configuración de rol para el UID:", user.uid);
-                            window.location.href = "profesor.html"; 
+                            // Si no se encuentra en membresías, asumimos que es un alumno (colección 'alumnos')
+                            console.warn("No se encontró el correo en NeuroClarity_Membresias. Redirigiendo a alumno...");
+                            window.location.href = "alumno.html";
                         }
 
                     } catch (error) {
