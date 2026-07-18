@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroClarity - Iniciar Sesión</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container" style="max-width: 400px; margin: 100px auto; padding: 20px; font-family: sans-serif;">
+        <h2 style="text-align: center;">Iniciar Sesión</h2>
+        <form id="loginForm">
+            <div style="margin-bottom: 15px;">
+                <label for="email" style="display: block; margin-bottom: 5px;">Correo Electrónico:</label>
+                <input type="email" id="email" required style="width: 100%; padding: 8px; box-sizing: border-box;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="password" style="display: block; margin-bottom: 5px;">Contraseña:</label>
+                <input type="password" id="password" required style="width: 100%; padding: 8px; box-sizing: border-box;">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; cursor: pointer;">Ingresar</button>
+        </form>
+    </div>
+
+    <!-- SDK de Firebase Modular -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+
+        // Configuración oficial y limpia de tu proyecto
+        const ncConfig = {
+            apiKey: "AIzaSyB-uxzwCNpLvMUMUJm0FcoOWsX2wOzOFBE",
+            authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+            projectId: "neuroclarity-dcf0e",
+            storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
+            messagingSenderId: "34116345239",
+            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2",
+            measurementId: "G-1C875WNG8X"
+        };
+
+        const appNC = initializeApp(ncConfig, "neuroclarityApp");
+        const authNC = getAuth(appNC);
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(authNC, email, password);
+                const user = userCredential.user;
+                
+                alert("¡Sesión iniciada con éxito!");
+                
+                // Aquí definiremos a qué pantalla enviarlo según su rol
+                console.log("Usuario firmado:", user.uid);
+                
+            } catch (error) {
+                console.error("Error en el acceso:", error);
+                alert("Error al iniciar sesión: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
