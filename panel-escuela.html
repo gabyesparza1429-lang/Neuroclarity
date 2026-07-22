@@ -405,7 +405,10 @@
                 userUID = user.uid;
                 cargarDatosEscuela(userUID);
             } else {
-                // Si abres la página directamente sin loguearte, te manda a index
+                // Modo Pruebas: Carga datos de muestra sin redirigir
+        console.warn("Sin sesión activa. Cargando vista previa...");
+        document.getElementById('lblNombreEscuela').textContent = "Colegio de Prueba (Modo Vista Previa)";
+        document.getElementById('lblCupos').textContent = "12 / 30";guearte, te manda a index
                 window.location.href = "index.html";
             }
         });
