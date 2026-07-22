@@ -19,7 +19,6 @@
             --text-muted: #4E4266;
             --font-main: 'Outfit', sans-serif;
             --border-suave: #E6E1ED;
-            --success: #2e7d32;
         }
 
         * {
@@ -37,8 +36,25 @@
             flex-direction: column;
         }
 
-        /* HEADER / NAVBAR */
-        .navbar {
+        /* ENCABEZADO OFICIAL DE LA MARCA */
+        .hero-banner-header {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background-color: #F1EBE1;
+            border-bottom: 1px solid var(--border-suave);
+            overflow: hidden;
+        }
+
+        .hero-banner-header .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* NAVBAR SUB-HEADER DE CONTROL */
+        .sub-navbar {
             background-color: var(--white);
             border-bottom: 1px solid var(--border-suave);
             padding: 16px 32px;
@@ -47,7 +63,7 @@
             align-items: center;
         }
 
-        .navbar h1 {
+        .sub-navbar h1 {
             font-size: 20px;
             font-weight: 700;
             color: var(--purple-dark);
@@ -61,6 +77,7 @@
             color: var(--text-muted);
             cursor: pointer;
             font-weight: 500;
+            font-size: 14px;
         }
 
         .btn-logout:hover {
@@ -93,9 +110,6 @@
             font-weight: 700;
             margin-bottom: 16px;
             color: var(--purple-dark);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         /* MÉTRICA DE LICENCIAS */
@@ -156,7 +170,7 @@
             background-color: var(--purple-light);
         }
 
-        /* LISTA DE DOCENTES Y PLANEACIONES */
+        /* LISTAS */
         .item-list {
             list-style: none;
         }
@@ -192,11 +206,11 @@
             font-weight: 600;
         }
 
-        /* MÓDULO DE CHAT INTERNO */
+        /* CHAT INTERNO */
         .chat-box {
             display: flex;
             flex-direction: column;
-            height: 300px;
+            height: 280px;
             border: 1px solid var(--border-suave);
             border-radius: 12px;
             overflow: hidden;
@@ -274,20 +288,26 @@
 </head>
 <body>
 
-    <nav class="navbar">
+    <!-- ENCABEZADO SUPERIOR -->
+    <header class="hero-banner-header">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" class="banner-img">
+    </header>
+
+    <!-- BARRA DE INFORMACIÓN Y SESIÓN -->
+    <nav class="sub-navbar">
         <h1 id="lblNombreEscuela">Cargando Institución...</h1>
         <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
     </nav>
 
     <div class="dashboard-container">
         
-        <!-- COLUMNA IZQUIERDA: LICENCIAS E INVITACIONES -->
+        <!-- COLUMNA IZQUIERDA -->
         <div class="col-side">
             <div class="card">
                 <h2>Licencias Escolares</h2>
                 <div class="quota-box">
                     <div class="quota-number" id="lblCupos">0 / 0</div>
-                    <div class="quota-label">Cupos de alumnos activos</div>
+                    <div class="quota-label">Cupos activos en plataforma</div>
                 </div>
             </div>
 
@@ -307,16 +327,15 @@
                 <ul class="item-list" id="listaProfesores">
                     <li class="item-row">
                         <div class="item-info">
-                            <p>Cargando lista de profesores...</p>
+                            <p>Cargando lista...</p>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <!-- COLUMNA DERECHA: SUPERVISIÓN Y CHAT INTERNO -->
+        <!-- COLUMNA DERECHA -->
         <div class="col-main">
-            <!-- SUPERVISIÓN DE PLANEACIONES -->
             <div class="card">
                 <h2>Supervisión de Planeaciones Docentes</h2>
                 <ul class="item-list" id="listaPlaneaciones">
@@ -325,33 +344,28 @@
                             <h4>Planeación Semanal - 3° Primaria</h4>
                             <p>Profra. Ana Gómez • Adaptada para TDAH y Dislexia</p>
                         </div>
-                        <span class="badge">Pendiente de revisión</span>
+                        <span class="badge">Pendiente</span>
                     </li>
                 </ul>
                 <div style="margin-top: 16px;">
                     <div class="form-group">
                         <label for="retroalimentacionTexto">Enviar Retroalimentación al Profesor</label>
-                        <textarea id="retroalimentacionTexto" rows="2" placeholder="Escribe tus observaciones o aprobación de la planeación..."></textarea>
+                        <textarea id="retroalimentacionTexto" rows="2" placeholder="Escribe observaciones o aprobación de la planeación..."></textarea>
                     </div>
                     <button class="btn-action" style="background-color: var(--purple-light);" id="btnEnviarRetro">Enviar Observaciones</button>
                 </div>
             </div>
 
-            <!-- CHAT INTERNO MULTIRROL -->
             <div class="card">
                 <h2>Chat de Seguimiento Escolar</h2>
                 <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
-                    Comunicación directa entre Dirección, Docentes y Padres de Familia.
+                    Canal directo entre Dirección, Docentes y Padres.
                 </p>
                 <div class="chat-box">
                     <div class="chat-messages" id="chatBox">
                         <div class="message received">
                             <div class="sender">Profra. Ana (3° Primaria)</div>
-                            Subí la planeación adaptada para la alumna Sofía. Favor de revisar el apartado de lecturas.
-                        </div>
-                        <div class="message sent">
-                            <div class="sender">Dirección</div>
-                            Revisado. Todo en orden con la adaptación de tipografía y bloques visuales.
+                            Subí la planeación adaptada para la alumna Sofía.
                         </div>
                     </div>
                     <form class="chat-input-area" id="formChat">
@@ -364,7 +378,7 @@
 
     </div>
 
-    <!-- LOGIC DE FIREBASE INTEGRADA -->
+    <!-- FIREBASE UNIFICADO -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -379,23 +393,23 @@
             appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2"
         };
 
-        const app = initializeApp(ncConfig, "panelEscuelaApp");
+        // Inicialización estándar para no perder la sesión
+        const app = initializeApp(ncConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
         let userUID = null;
 
-        // Validar sesión del usuario
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 userUID = user.uid;
                 cargarDatosEscuela(userUID);
             } else {
+                // Si abres la página directamente sin loguearte, te manda a index
                 window.location.href = "index.html";
             }
         });
 
-        // Cargar datos de la escuela desde Firestore
         async function cargarDatosEscuela(uid) {
             try {
                 const docRef = doc(db, "escuelas", uid);
@@ -405,7 +419,6 @@
                     const data = docSnap.data();
                     document.getElementById('lblNombreEscuela').textContent = data.nombreEscuela || "Institución Escolar";
                     
-                    // Renderizar profesores
                     const lista = document.getElementById('listaProfesores');
                     lista.innerHTML = "";
                     if (data.profesoresInvitados && data.profesoresInvitados.length > 0) {
@@ -423,15 +436,14 @@
                         });
                         document.getElementById('lblCupos').textContent = `${data.profesoresInvitados.length * 10} / 30`;
                     } else {
-                        lista.innerHTML = "<p style='font-size:13px; color:#64748b;'>No hay profesores agregados aún.</p>";
+                        lista.innerHTML = "<p style='font-size:13px; color:#64748b;'>No hay profesores registrados.</p>";
                     }
                 }
             } catch (e) {
-                console.error("Error al cargar datos:", e);
+                console.error("Error al cargar la información:", e);
             }
         }
 
-        // Agregar nuevo profesor
         document.getElementById('formInvitarProfesor').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('emailDocente').value.trim();
@@ -442,15 +454,14 @@
                 await updateDoc(docRef, {
                     profesoresInvitados: arrayUnion(email)
                 });
-                alert("Profesor invitado correctamente.");
+                alert("Profesor agregado.");
                 document.getElementById('emailDocente').value = "";
                 cargarDatosEscuela(userUID);
             } catch (err) {
-                alert("Error al invitar profesor: " + err.message);
+                alert("Error: " + err.message);
             }
         });
 
-        // Chat en vivo local
         document.getElementById('formChat').addEventListener('submit', (e) => {
             e.preventDefault();
             const input = document.getElementById('inputMensaje');
@@ -466,7 +477,6 @@
             input.value = "";
         });
 
-        // Cerrar sesión
         document.getElementById('btnLogout').addEventListener('click', () => {
             signOut(auth).then(() => {
                 window.location.href = "index.html";
