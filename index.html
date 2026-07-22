@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Variables de Paleta de Colores Extraídas de tu Logo */
+        /* Variables de Paleta de Colores */
         :root {
             --bg-cream: #FAF8F5;
             --purple-dark: #2A1654;   /* Morado exacto del logotipo */
@@ -22,7 +22,7 @@
             --border-suave: #E6E1ED;
         }
 
-        /* Reseteo y Calma Visual */
+        /* Reseteo */
         * {
             margin: 0;
             padding: 0;
@@ -60,7 +60,7 @@
             display: block;
         }
 
-        /* Los botones posicionados sobre la imagen a la derecha */
+        /* Botones posicionados sobre la imagen a la derecha */
         .nav-actions-overlay {
             position: absolute;
             top: 24px;
@@ -243,22 +243,34 @@
         /* Vistas de Planes */
         .pricing-view {
             display: none;
-            max-width: 500px;
+            max-width: 1000px;
             margin: 0 auto;
             animation: fadeIn 0.3s ease;
         }
 
         .pricing-view.active {
-            display: block;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            justify-content: center;
         }
 
         .pricing-card {
             background-color: var(--white);
             border-radius: 20px;
-            padding: 45px;
+            padding: 40px;
             border: 1px solid var(--border-suave);
             box-shadow: 0 10px 30px rgba(42, 22, 84, 0.02);
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pricing-card.centered-card {
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .pricing-card h3 {
@@ -267,7 +279,7 @@
         }
 
         .pricing-card .price {
-            font-size: 42px;
+            font-size: 38px;
             font-weight: 700;
             color: var(--purple-light);
             margin-bottom: 25px;
@@ -288,7 +300,7 @@
         }
 
         .benefits-list li {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--text-muted);
             display: flex;
             align-items: center;
@@ -321,7 +333,7 @@
 
         .license-counter-box select {
             padding: 8px 15px;
-            font-size: 16px;
+            font-size: 15px;
             border-radius: 6px;
             border: 1px solid var(--border-suave);
             background: var(--white);
@@ -355,9 +367,10 @@
             }
             .hero-text-block h1 { font-size: 26px; }
             .section-header h2, .pricing-section h2 { font-size: 24px; }
+            .pricing-view.active { grid-template-columns: 1fr; }
         }
 
-        /* DISEÑO DE LA VENTANA FLOTANTE (MODAL BONITO) */
+        /* DISEÑO DE LA VENTANA FLOTANTE (MODAL) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -495,7 +508,7 @@
     <section class="pricing-section" id="membresias">
         <div class="container">
             <h2>Adquiere tu Licencia NeuroClarity</h2>
-            <p class="sub-title">Un solo plan por alumno. Un ecosistema completo de soporte.</p>
+            <p class="sub-title">Selecciona la modalidad que mejor se adapte a tus necesidades.</p>
 
             <!-- Selector de Pestañas -->
             <div class="tab-container">
@@ -505,42 +518,62 @@
 
             <!-- VISTA A: PADRES DE FAMILIA -->
             <div id="view-padres" class="pricing-view active">
+                <!-- Plan Estándar -->
                 <div class="pricing-card">
-                    <h3>Plan Familiar Individual</h3>
-                    <div class="price">$199 <span>/ mes por alumno</span></div>
-                    <ul class="benefits-list">
-                        <li>Acceso total al Portal del Alumno</li>
-                        <li>Panel de Monitoreo para la Familia</li>
-                        <li>1 Código de Vinculación para su Profesor</li>
-                        <li>Adaptación de materiales con IA ilimitada</li>
-                    </ul>
-                    <a href="registro-padre.html" class="btn btn-secondary" style="width: 100%; text-align: center;">Registrarse como Papá</a>
+                    <div>
+                        <h3>Plan Familiar Estándar</h3>
+                        <div class="price">$681.55 <span>MXN / mes</span></div>
+                        <ul class="benefits-list">
+                            <li>Acceso total al Portal del Alumno</li>
+                            <li>Panel de Monitoreo para la Familia</li>
+                            <li>1 Código de Vinculación para Profesor</li>
+                            <li>Adaptación de materiales con IA ilimitada</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_7sYeV540jeIEaxd03C5ZC00" class="btn btn-secondary" style="width: 100%; text-align: center;">Suscribirme</a>
+                </div>
+
+                <!-- Plan Premium -->
+                <div class="pricing-card">
+                    <div>
+                        <h3>Plan Familiar Premium</h3>
+                        <div class="price">$1,214.18 <span>MXN / mes</span></div>
+                        <ul class="benefits-list">
+                            <li>Todo lo del Plan Estándar</li>
+                            <li>Evaluación psicopedagógica asistida por IA</li>
+                            <li>Reportes avanzados de avance cognitivo</li>
+                            <li>Soporte prioritario 24/7</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_5kQeV5gN5eIEeNt5nW5ZC01" class="btn btn-secondary" style="width: 100%; text-align: center;">Suscribirme</a>
                 </div>
             </div>
 
             <!-- VISTA B: ESCUELAS Y DOCENTES -->
             <div id="view-escuelas" class="pricing-view">
-                <div class="pricing-card">
-                    <h3>Plan Escolar por Volumen</h3>
-                    <div class="price" id="school-price-display">$1,500 <span>/ mes</span></div>
-                    
-                    <div class="license-counter-box">
-                        <label for="license-select">Cantidad de Alumnos (Cupos):</label>
-                        <select id="license-select" onchange="calculateSchoolPrice()">
-                            <option value="10">10 Alumnos (10% Desc.)</option>
-                            <option value="20">20 Alumnos (15% Desc.)</option>
-                            <option value="30" selected>30 Alumnos (20% Desc.)</option>
-                            <option value="50">50 Alumnos (30% Desc.)</option>
-                        </select>
-                    </div>
+                <div class="pricing-card centered-card">
+                    <div>
+                        <h3>Licencia Escolar por Volumen</h3>
+                        <div class="price" id="school-price-display">$12,278 <span>MXN / mes</span></div>
+                        
+                        <div class="license-counter-box">
+                            <label for="license-select">Cupos de Alumnos:</label>
+                            <select id="license-select" onchange="calculateSchoolPrice()">
+                                <option value="10">1 a 10 Alumnos</option>
+                                <option value="20">11 a 20 Alumnos</option>
+                                <option value="30" selected>21 a 30 Alumnos</option>
+                                <option value="50">31 a 50 Alumnos</option>
+                            </select>
+                        </div>
 
-                    <ul class="benefits-list">
-                        <li>Panel de Gestión Centralizada para el Docente</li>
-                        <li>Cupos de asignación autónoma e inmediata</li>
-                        <li>Códigos de vinculación familiar automáticos</li>
-                        <li>Asistente IA de Procesamiento de Planeaciones</li>
-                    </ul>
-                    <a href="profesor.html" class="btn btn-secondary" style="width: 100%; text-align: center;">Acceder como Profesor</a>
+                        <ul class="benefits-list">
+                            <li>Panel de Gestión Centralizada para la Institución</li>
+                            <li>Asignación inmediata de licencias docentes</li>
+                            <li>Códigos de vinculación familiar automáticos</li>
+                            <li>Asistente IA para Procesamiento de Planeaciones</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_14A4grbsL440gVB3fO5ZC02" class="btn btn-secondary" style="width: 100%; text-align: center;">Contratar Plan Escolar</a>
                 </div>
             </div>
 
@@ -553,7 +586,7 @@
         </div>
     </footer>
 
-    <!-- Estructura de la Ventana Flotante -->
+    <!-- Ventana Flotante Login -->
     <div id="loginModal" class="modal-overlay">
         <div class="modal-card">
             <button class="modal-close" id="closeLoginBtn">&times;</button>
@@ -572,7 +605,7 @@
         </div>
     </div>
 
-    <!-- 1. Scripts de Control de Precios y Pestañas -->
+    <!-- Scripts de Control de Precios y Pestañas -->
     <script>
         function togglePricingTab(type, e) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -591,20 +624,18 @@
             const display = document.getElementById('school-price-display');
             const qty = parseInt(select.value);
             
-            let pricePerUser = 199;
-            let discount = 0;
+            let total = 12278;
 
-            if (qty === 10) discount = 0.10;
-            if (qty === 20) discount = 0.15;
-            if (qty === 30) discount = 0.20;
-            if (qty === 50) discount = 0.30;
+            if (qty === 10) total = 4679;
+            else if (qty === 20) total = 8770;
+            else if (qty === 30) total = 12278;
+            else if (qty === 50) total = 18997;
 
-            let total = Math.floor((qty * pricePerUser) * (1 - discount));
-            display.innerHTML = `$${total.toLocaleString()} <span>/ mes</span>`;
+            display.innerHTML = `$${total.toLocaleString('es-MX')} <span>MXN / mes</span>`;
         }
     </script>
 
-    <!-- 2. CONTROL VISUAL DEL MODAL (100% Autónomo y Seguro) -->
+    <!-- Control visual del Modal -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const modal = document.getElementById('loginModal');
@@ -630,7 +661,7 @@
         });
     </script>
 
-   <!-- 3. LÓGICA DE FIREBASE AISLADA CON DIRECCIONAMIENTO POR ROLES -->
+    <!-- Lógica de Firebase para Login -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -661,7 +692,6 @@
                     try {
                         const userCredential = await signInWithEmailAndPassword(authNC, email, password);
                         
-                        // Buscamos en la colección exacta usando el correo como ID del documento
                         const userDocRef = doc(dbNC, "NeuroClarity_Membresias", email);
                         const userDoc = await getDoc(userDocRef);
 
@@ -670,9 +700,8 @@
 
                         if (userDoc.exists()) {
                             const userData = userDoc.data();
-                            const tipoLicencia = userData.tipo_licencia; // Campo exacto de tu captura
+                            const tipoLicencia = userData.tipo_licencia;
 
-                            // Enrutador inteligente según el valor de tipo_licencia
                             if (tipoLicencia === "Padre" || tipoLicencia === "padre") {
                                 window.location.href = "registro-padre.html";
                             } else if (tipoLicencia === "Profesor" || tipoLicencia === "profesor") {
@@ -683,7 +712,6 @@
                                 window.location.href = "alumno.html";
                             }
                         } else {
-                            // Si no se encuentra en membresías, asumimos que es un alumno (colección 'alumnos')
                             console.warn("No se encontró el correo en NeuroClarity_Membresias. Redirigiendo a alumno...");
                             window.location.href = "alumno.html";
                         }
