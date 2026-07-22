@@ -150,5 +150,60 @@
     </form>
   </div>
 
+  <!-- Carga de SDKs de Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // Reemplaza con tus claves reales de Firebase Console
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_PROJECT_ID.firebaseapp.com",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_PROJECT_ID.appspot.com",
+      messagingSenderId: "TU_SENDER_ID",
+      appId: "TU_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const form = document.getElementById('formRegistroEscuela');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nombreEscuela = document.getElementById('nombreEscuela').value.trim();
+      const nombreDirector = document.getElementById('nombreDirector').value.trim();
+      const email = document.getElementById('emailEscuela').value.trim();
+      const password = document.getElementById('passwordEscuela').value;
+      const correosTexto = document.getElementById('correosDocentes').value.trim();
+
+      const listaProfesores = correosTexto ? correosTexto.split(',').map(c => c.trim()) : [];
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCredential.user.uid;
+
+        await setDoc(doc(db, "escuelas", uid), {
+          nombreEscuela: nombreEscuela,
+          nombreDirector: nombreDirector,
+          email: email,
+          profesoresInvitados: listaProfesores,
+          rol: "escuela",
+          fechaRegistro: serverTimestamp()
+        });
+
+        alert("¡Cuenta institucional activada con éxito!");
+        window.location.href = "panel-escuela.html";
+
+      } catch (error) {
+        console.error("Error al registrar la escuela:", error);
+        alert("Ocurrió un error al crear la cuenta: " + error.message);
+      }
+    });
+  </script>
 </body>
 </html>
