@@ -36,7 +36,7 @@
             flex-direction: column;
         }
 
-        /* ENCABEZADO OFICIAL DE LA MARCA */
+        /* ENCABEZADO SUPERIOR */
         .hero-banner-header {
             position: relative;
             width: 100%;
@@ -53,7 +53,7 @@
             display: block;
         }
 
-        /* NAVBAR SUB-HEADER DE CONTROL */
+        /* BARRA DE INFORMACIÓN */
         .sub-navbar {
             background-color: var(--white);
             border-bottom: 1px solid var(--border-suave);
@@ -303,6 +303,7 @@
         
         <!-- COLUMNA IZQUIERDA -->
         <div class="col-side">
+            <!-- 1. Licencias -->
             <div class="card">
                 <h2>Licencias Escolares</h2>
                 <div class="quota-box">
@@ -311,6 +312,7 @@
                 </div>
             </div>
 
+            <!-- 2. Invitar Docente -->
             <div class="card">
                 <h2>Invitar Docente</h2>
                 <form id="formInvitarProfesor">
@@ -322,6 +324,7 @@
                 </form>
             </div>
 
+            <!-- 3. Docentes Registrados -->
             <div class="card">
                 <h2>Docentes Registrados</h2>
                 <ul class="item-list" id="listaProfesores">
@@ -332,10 +335,25 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- 4. ALUMNOS REGISTRADOS (AQUÍ VA LA NUEVA TARJETA) -->
+            <div class="card">
+                <h2>Alumnos Registrados</h2>
+                <ul class="item-list" id="listaAlumnosEscuela">
+                    <li class="item-row">
+                        <div class="item-info">
+                            <h4>Sofía Martínez</h4>
+                            <p>3° Primaria • Profra. Ana Gómez</p>
+                        </div>
+                        <span class="badge">Código: NC-8392</span>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <!-- COLUMNA DERECHA -->
         <div class="col-main">
+            <!-- Supervisión de Planeaciones -->
             <div class="card">
                 <h2>Supervisión de Planeaciones Docentes</h2>
                 <ul class="item-list" id="listaPlaneaciones">
@@ -356,6 +374,7 @@
                 </div>
             </div>
 
+            <!-- Chat Interno -->
             <div class="card">
                 <h2>Chat de Seguimiento Escolar</h2>
                 <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
@@ -378,7 +397,7 @@
 
     </div>
 
-    <!-- FIREBASE UNIFICADO -->
+    <!-- FIREBASE UNIFICADO (Con modo vista previa) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -393,7 +412,6 @@
             appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2"
         };
 
-        // Inicialización estándar para no perder la sesión
         const app = initializeApp(ncConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -405,11 +423,20 @@
                 userUID = user.uid;
                 cargarDatosEscuela(userUID);
             } else {
-                // Modo Pruebas: Carga datos de muestra sin redirigir
-        console.warn("Sin sesión activa. Cargando vista previa...");
-        document.getElementById('lblNombreEscuela').textContent = "Colegio de Prueba (Modo Vista Previa)";
-        document.getElementById('lblCupos').textContent = "12 / 30";guearte, te manda a index
-                window.location.href = "index.html";
+                // Modo Vista Previa: muestra la pantalla sin redirigirte a index
+                document.getElementById('lblNombreEscuela').textContent = "Instituto Pedagógico (Vista Previa)";
+                document.getElementById('lblCupos').textContent = "1 / 30";
+                
+                const lista = document.getElementById('listaProfesores');
+                lista.innerHTML = `
+                    <li class="item-row">
+                        <div class="item-info">
+                            <h4>maestro@colegio.edu.mx</h4>
+                            <p>Profesor Vinculado</p>
+                        </div>
+                        <span class="badge">Activo</span>
+                    </li>
+                `;
             }
         });
 
@@ -450,18 +477,23 @@
         document.getElementById('formInvitarProfesor').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('emailDocente').value.trim();
-            if (!email || !userUID) return;
+            if (!email) return;
 
-            try {
-                const docRef = doc(db, "escuelas", userUID);
-                await updateDoc(docRef, {
-                    profesoresInvitados: arrayUnion(email)
-                });
-                alert("Profesor agregado.");
+            if (userUID) {
+                try {
+                    const docRef = doc(db, "escuelas", userUID);
+                    await updateDoc(docRef, {
+                        profesoresInvitados: arrayUnion(email)
+                    });
+                    alert("Profesor agregado.");
+                    document.getElementById('emailDocente').value = "";
+                    cargarDatosEscuela(userUID);
+                } catch (err) {
+                    alert("Error: " + err.message);
+                }
+            } else {
+                alert("Profesor invitado (Simulación Vista Previa).");
                 document.getElementById('emailDocente').value = "";
-                cargarDatosEscuela(userUID);
-            } catch (err) {
-                alert("Error: " + err.message);
             }
         });
 
