@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <title>NeuroClarity | Panel Familiar</title>
     
+    <!-- Tipografía Outfit e Íconos FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -70,6 +71,12 @@
             font-weight: 700;
         }
 
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .btn-logout {
             background: none;
             border: 1px solid var(--border-suave);
@@ -127,8 +134,9 @@
         }
 
         .live-pulse {
-            width: 10px;
+            width: 100px;
             height: 10px;
+            width: 10px;
             background-color: var(--green-live);
             border-radius: 50%;
             box-shadow: 0 0 0 rgba(46, 125, 50, 0.4);
@@ -243,6 +251,31 @@
             font-weight: 700;
         }
 
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-suave);
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            margin-top: 4px;
+        }
+
+        .btn-primary-sm {
+            background: var(--purple-dark);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .premium-only-block {
+            display: block;
+        }
+
         @media (max-width: 850px) {
             .dashboard-container { grid-template-columns: 1fr; }
         }
@@ -255,20 +288,34 @@
     </header>
 
     <nav class="sub-navbar">
-        <h1 id="lblNombrePadre">Familia Martínez • Portal de Monitoreo</h1>
-        <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
+        <h1 id="lblNombrePadre">Familia Martínez • Portal Familiar</h1>
+        <div class="navbar-actions">
+            <!-- CONMUTADOR DE PRUEBA DE SUSCRIPCIÓN (ESTÁNDAR VS PREMIUM) -->
+            <select id="selectTipoPlan" style="padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-suave); font-size: 13px; background: var(--purple-pale); color: var(--purple-dark); font-weight: 600;">
+                <option value="premium">Plan Activo: PREMIUM ($1,214.18/mes)</option>
+                <option value="estandar">Plan Activo: ESTÁNDAR (Básico)</option>
+            </select>
+            <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
+        </div>
     </nav>
 
     <div class="dashboard-container">
         
-        <!-- COLUMNA IZQUIERDA -->
+        <!-- COLUMNA IZQUIERDA: GESTIÓN Y PERFIL -->
         <div class="col-side">
-            <!-- VINCULACIÓN -->
+
+            <!-- SELECCIÓN DE HIJO Y VINCULACIÓN -->
             <div class="card">
-                <h2>Código de Alumno</h2>
+                <h2>Alumnos Vinculados</h2>
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 12px; color: var(--text-muted);">Hijo seleccionado:</label>
+                    <select class="form-control" id="selectAlumnoVinculado">
+                        <option value="sofia">Sofía Martínez (3° Primaria)</option>
+                    </select>
+                </div>
                 <div style="background: var(--purple-pale); padding: 16px; border-radius: 12px; text-align: center;">
-                    <p style="font-size: 12px; color: var(--text-muted);">Entrega este código al profesor de tu hijo:</p>
-                    <h3 id="lblCodigoVinculacion" style="font-size: 28px; margin: 8px 0; color: var(--purple-light);">NC-8392</h3>
+                    <p style="font-size: 12px; color: var(--text-muted);">Código de Vinculación Escolar:</p>
+                    <h3 id="lblCodigoVinculacion" style="font-size: 26px; margin: 6px 0; color: var(--purple-light);">NC-8392</h3>
                     <button style="background: var(--purple-dark); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;" onclick="navigator.clipboard.writeText('NC-8392'); alert('Código copiado');">Copiar Código</button>
                 </div>
             </div>
@@ -281,127 +328,154 @@
                     Muestra mayor rendimiento con tipografía ajustada y temporizadores de trabajo corto (15 min).
                 </p>
             </div>
-        </div>
 
-        <!-- COLUMNA DERECHA -->
-<div class="col-main">
-
-    <!-- 1. REVISIÓN EN VIVO (EXCLUSIVO PREMIUM) -->
-    <div class="card live-card">
-        <h2>
-            <span><i class="fa-solid fa-tower-broadcast" style="color: var(--purple-light);"></i> Supervisión en Vivo</span>
-            <span class="badge-premium">PREMIUM</span>
-        </h2>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <div>
-                <h4 style="font-size: 16px;">Sofía Martínez</h4>
-                <p style="font-size: 13px; color: var(--text-muted);">Sesión de Historia • 3° Primaria</p>
+            <!-- GESTIÓN DE CUENTA Y TUTOR -->
+            <div class="card">
+                <h2>Perfil del Tutor</h2>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div>
+                        <label style="font-size: 12px; color: var(--text-muted);">Nombre Completo</label>
+                        <input type="text" class="form-control" value="Carlos Martínez">
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; color: var(--text-muted);">Correo de Notificaciones</label>
+                        <input type="email" class="form-control" value="carlos.martinez@email.com">
+                    </div>
+                    <button class="btn-primary-sm" style="margin-top: 5px;" onclick="alert('Perfil actualizado con éxito');">Guardar Cambios</button>
+                </div>
             </div>
-            <div class="live-status-pill">
-                <span class="live-pulse"></span>
-                Estudiando Ahora
-            </div>
-        </div>
-        <div style="background: var(--white); padding: 12px; border-radius: 8px; font-size: 13px; border-left: 4px solid var(--green-live);">
-            <i class="fa-solid fa-circle-check" style="color: var(--green-live);"></i> Mantiene ritmo constante. Herramienta activa: <strong>Bloques de Lectura</strong>.
-        </div>
-    </div>
 
-    <!-- 2. REPORTE DE INCIDENCIAS ATENDIDAS POR IA / PROFESOR -->
-    <div class="card" style="border-left: 4px solid var(--purple-dark);">
-        <h2>
-            <span><i class="fa-solid fa-robot" style="color: var(--purple-dark);"></i> Asistencias e Intervenciones de Hoy</span>
-            <span style="font-size: 11px; background: var(--purple-pale); color: var(--purple-dark); padding: 4px 8px; border-radius: 6px; font-weight: 700;">Bitácora IA</span>
-        </h2>
-        <div style="background: var(--bg-cream); padding: 14px; border-radius: 10px; border: 1px solid var(--border-suave); font-size: 13px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                <strong style="color: var(--purple-dark);">🔴 Bloqueo detectado en Ciencias (10:15 AM)</strong>
-                <span style="color: #2e7d32; font-weight: 700;">Resuelto en 2 min</span>
-            </div>
-            <p style="color: var(--text-muted); line-height: 1.4;">
-                <strong>Detalle:</strong> Sofía solicitó ayuda en la lección de Fotosíntesis.<br>
-                <strong>Acción de Sophia (IA):</strong> Se desglosó el concepto en 2 pictogramas clave. Sofía comprendió la lectura y continuó su sesión sin sobrecarga.
-            </p>
         </div>
-    </div>
 
-    <!-- 3. SUGERENCIAS PARA EL HOGAR (ALINEACIÓN EDUCATIVA) -->
-    <div class="card" style="border-left: 4px solid var(--purple-light);">
-        <h2>
-            <span><i class="fa-solid fa-house-chimney-user" style="color: var(--purple-light);"></i> Cómo apoyar a Sofía hoy en casa</span>
-            <span class="badge-premium">PREMIUM</span>
-        </h2>
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-            Pautas prácticas basadas en el desempeño real de la sesión de hoy:
-        </p>
-        <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
-            <li style="background: var(--bg-cream); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-suave); display: flex; gap: 12px; align-items: flex-start;">
-                <i class="fa-solid fa-lightbulb" style="color: #d97706; margin-top: 3px;"></i>
-                <div>
-                    <strong style="font-size: 14px; color: var(--purple-dark);">Acompañamiento en lectura</strong>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
-                        Usa una regla o tarjeta física para cubrir el texto inferior mientras lee los párrafos de tarea en casa.
+        <!-- COLUMNA DERECHA: MONITOREO Y REPORTES -->
+        <div class="col-main">
+
+            <!-- 1. REVISIÓN EN VIVO (EXCLUSIVO PREMIUM) -->
+            <div class="card live-card premium-only-block" id="blockLiveSupervision">
+                <h2>
+                    <span><i class="fa-solid fa-tower-broadcast" style="color: var(--purple-light);"></i> Supervisión en Vivo</span>
+                    <span class="badge-premium">PREMIUM</span>
+                </h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div>
+                        <h4 style="font-size: 16px;">Sofía Martínez</h4>
+                        <p style="font-size: 13px; color: var(--text-muted);">Sesión de Historia • 3° Primaria</p>
+                    </div>
+                    <div class="live-status-pill">
+                        <span class="live-pulse"></span>
+                        Estudiando Ahora
+                    </div>
+                </div>
+                <div style="background: var(--white); padding: 12px; border-radius: 8px; font-size: 13px; border-left: 4px solid var(--green-live);">
+                    <i class="fa-solid fa-circle-check" style="color: var(--green-live);"></i> Mantiene ritmo constante. Herramienta activa: <strong>Bloques de Lectura</strong>.
+                </div>
+            </div>
+
+            <!-- 2. REPORTE DE INCIDENCIAS ATENDIDAS POR IA / PROFESOR -->
+            <div class="card" style="border-left: 4px solid var(--purple-dark);">
+                <h2>
+                    <span><i class="fa-solid fa-robot" style="color: var(--purple-dark);"></i> Asistencias e Intervenciones de Hoy</span>
+                    <span style="font-size: 11px; background: var(--purple-pale); color: var(--purple-dark); padding: 4px 8px; border-radius: 6px; font-weight: 700;">Bitácora IA</span>
+                </h2>
+                <div style="background: var(--bg-cream); padding: 14px; border-radius: 10px; border: 1px solid var(--border-suave); font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                        <strong style="color: var(--purple-dark);">🔴 Bloqueo detectado en Ciencias (10:15 AM)</strong>
+                        <span style="color: #2e7d32; font-weight: 700;">Resuelto en 2 min</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.4;">
+                        <strong>Detalle:</strong> Sofía solicitó ayuda en la lección de Fotosíntesis.<br>
+                        <strong>Acción de Sophia (IA):</strong> Se desglosó el concepto en 2 pictogramas clave. Sofía comprendió la lectura y continuó su sesión sin sobrecarga.
                     </p>
                 </div>
-            </li>
-            <li style="background: var(--bg-cream); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-suave); display: flex; gap: 12px; align-items: flex-start;">
-                <i class="fa-solid fa-clock" style="color: var(--purple-light); margin-top: 3px;"></i>
-                <div>
-                    <strong style="font-size: 14px; color: var(--purple-dark);">Pausas activas de 15 minutos</strong>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
-                        Permítele descansos de 5 minutos con movimiento físico entre cada bloque de estudio.
-                    </p>
+            </div>
+
+            <!-- 3. SUGERENCIAS PARA EL HOGAR (ALINEACIÓN EDUCATIVA PREMIUM) -->
+            <div class="card premium-only-block" id="blockHomeTips" style="border-left: 4px solid var(--purple-light);">
+                <h2>
+                    <span><i class="fa-solid fa-house-chimney-user" style="color: var(--purple-light);"></i> Cómo apoyar a Sofía hoy en casa</span>
+                    <span class="badge-premium">PREMIUM</span>
+                </h2>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+                    Pautas prácticas basadas en el desempeño real de la sesión de hoy:
+                </p>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
+                    <li style="background: var(--bg-cream); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-suave); display: flex; gap: 12px; align-items: flex-start;">
+                        <i class="fa-solid fa-lightbulb" style="color: #d97706; margin-top: 3px;"></i>
+                        <div>
+                            <strong style="font-size: 14px; color: var(--purple-dark);">Acompañamiento en lectura</strong>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                                Usa una regla o tarjeta física para cubrir el texto inferior mientras lee los párrafos de tarea en casa.
+                            </p>
+                        </div>
+                    </li>
+                    <li style="background: var(--bg-cream); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-suave); display: flex; gap: 12px; align-items: flex-start;">
+                        <i class="fa-solid fa-clock" style="color: var(--purple-light); margin-top: 3px;"></i>
+                        <div>
+                            <strong style="font-size: 14px; color: var(--purple-dark);">Pausas activas de 15 minutos</strong>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                                Permítele descansos de 5 minutos con movimiento físico entre cada bloque de estudio.
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 4. REPORTE DE AVANCE COGNITIVO CON HISTORIAL MENSUAL -->
+            <div class="card">
+                <h2>
+                    <span>Reporte de Avance Cognitivo</span>
+                    <!-- FILTRO HISTÓRICO MENSUAL -->
+                    <select id="selectPeriodoHistorioc" style="font-size: 12px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border-suave); outline: none;">
+                        <option value="actual">Semana Actual</option>
+                        <option value="mes_actual">Este Mes (Julio 2026)</option>
+                        <option value="mes_anterior">Mes Anterior (Junio 2026)</option>
+                    </select>
+                </h2>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="num" id="metricAtencion">88%</div>
+                        <div class="label">Atención Sostenida</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="num" id="metricVelocidad">120</div>
+                        <div class="label">Palabras / Minuto</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="num" id="metricRetencion">92%</div>
+                        <div class="label">Índice Retención</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="num">Pictogramas</div>
+                        <div class="label">Apoyo Más Usado</div>
+                    </div>
                 </div>
-            </li>
-        </ul>
-    </div>
+            </div>
 
-    <!-- 4. REPORTE DE AVANCE COGNITIVO (TODOS LOS PLANES) -->
-    <div class="card">
-        <h2>Reporte de Avance Cognitivo</h2>
-        <div class="metrics-grid">
-            <div class="metric-box">
-                <div class="num">88%</div>
-                <div class="label">Atención Sostenida</div>
-            </div>
-            <div class="metric-box">
-                <div class="num">120</div>
-                <div class="label">Palabras / Minuto</div>
-            </div>
-            <div class="metric-box">
-                <div class="num">92%</div>
-                <div class="label">Índice Retención</div>
-            </div>
-            <div class="metric-box">
-                <div class="num">Pictogramas</div>
-                <div class="label">Apoyo Más Usado</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 5. CHAT DIRECTO -->
-    <div class="card">
-        <h2>Chat con Profesor y Dirección</h2>
-        <div class="chat-box">
-            <div class="chat-messages" id="chatPadreBox">
-                <div class="msg received">
-                    <strong>Profra. Ana:</strong> Sofía completó adecuadamente el bloque de Ciencias de hoy.
+            <!-- 5. CHAT DIRECTO -->
+            <div class="card">
+                <h2>Chat con Profesor y Dirección</h2>
+                <div class="chat-box">
+                    <div class="chat-messages" id="chatPadreBox">
+                        <div class="msg received">
+                            <strong>Profra. Ana:</strong> Sofía completó adecuadamente el bloque de Ciencias de hoy.
+                        </div>
+                    </div>
+                    <form class="chat-form" id="formChatPadre">
+                        <input type="text" id="inputMsgPadre" placeholder="Escribe al docente..." required>
+                        <button type="submit">Enviar</button>
+                    </form>
                 </div>
             </div>
-            <form class="chat-form" id="formChatPadre">
-                <input type="text" id="inputMsgPadre" placeholder="Escribe al docente..." required>
-                <button type="submit">Enviar</button>
-            </form>
-        </div>
-    </div>
 
-</div>
+        </div>
+
+    </div>
 
     <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
@@ -414,12 +488,41 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
 
-        onAuthStateChanged(auth, (user) => {
-            // Carga de datos o simulación activa
+        // MANEJO DE PLAN (ESTÁNDAR VS PREMIUM)
+        document.getElementById("selectTipoPlan").addEventListener("change", (e) => {
+            const plan = e.target.value;
+            const liveBlock = document.getElementById("blockLiveSupervision");
+            const tipsBlock = document.getElementById("blockHomeTips");
+
+            if (plan === "estandar") {
+                liveBlock.style.display = "none";
+                tipsBlock.style.display = "none";
+            } else {
+                liveBlock.style.display = "block";
+                tipsBlock.style.display = "block";
+            }
         });
 
+        // MANEJO DE MÉRTRICAS SEGÚN EL FILTRO HISTÓRICO
+        document.getElementById("selectPeriodoHistorioc").addEventListener("change", (e) => {
+            const periodo = e.target.value;
+            if (periodo === "mes_anterior") {
+                document.getElementById("metricAtencion").innerText = "82%";
+                document.getElementById("metricVelocidad").innerText = "110";
+                document.getElementById("metricRetencion").innerText = "85%";
+            } else if (periodo === "mes_actual") {
+                document.getElementById("metricAtencion").innerText = "86%";
+                document.getElementById("metricVelocidad").innerText = "118";
+                document.getElementById("metricRetencion").innerText = "90%";
+            } else {
+                document.getElementById("metricAtencion").innerText = "88%";
+                document.getElementById("metricVelocidad").innerText = "120";
+                document.getElementById("metricRetencion").innerText = "92%";
+            }
+        });
+
+        // CHAT DIRECTO
         document.getElementById('formChatPadre').addEventListener('submit', (e) => {
             e.preventDefault();
             const input = document.getElementById('inputMsgPadre');
