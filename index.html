@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="assets/favicon.png">
-    <title>NeuroClarity | Iniciar Sesión</title>
+    <title>NeuroClarity | Plataforma de Aprendizaje Adaptativo</title>
     
+    <!-- Tipografía Outfit e Íconos FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root {
@@ -19,6 +21,8 @@
             --text-color: #2A1654;
             --text-muted: #4E4266;
             --border-suave: #E6E1ED;
+            --green-success: #2D6A4F;
+            --white: #FFFFFF;
         }
 
         * {
@@ -31,12 +35,10 @@
         body {
             background-color: var(--bg-cream);
             color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            line-height: 1.6;
         }
 
+        /* BANNER Y NAVBAR */
         .hero-banner-header {
             width: 100%;
             height: 180px;
@@ -52,33 +54,280 @@
             display: block;
         }
 
-        .login-card {
-            background: white;
-            border-radius: 16px;
-            padding: 35px;
-            width: 100%;
-            max-width: 420px;
-            margin-top: 40px;
-            border: 1px solid var(--border-suave);
-            box-shadow: 0 10px 25px rgba(42, 22, 84, 0.05);
+        .navbar {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-suave);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .navbar-brand {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--purple-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--purple-light);
+        }
+
+        .btn-nav-login {
+            background-color: var(--purple-dark);
+            color: var(--white) !important;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600 !important;
+            cursor: pointer;
+        }
+
+        .btn-nav-login:hover {
+            background-color: var(--purple-light);
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            max-width: 1100px;
+            margin: 60px auto 40px auto;
+            padding: 0 24px;
             text-align: center;
         }
 
-        .login-card h2 {
+        .hero-section h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--purple-dark);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto 32px auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .btn-hero-primary {
+            background-color: var(--purple-dark);
+            color: var(--white);
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-hero-secondary {
+            background-color: var(--white);
+            color: var(--purple-dark);
+            border: 2px solid var(--border-suave);
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* SECCIÓN DE CARACTERÍSTICAS / ROLES */
+        .features-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 24px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: var(--purple-dark);
+            margin-bottom: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid var(--border-suave);
+            box-shadow: 0 4px 15px rgba(42, 22, 84, 0.02);
+            text-align: left;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--purple-pale);
+            color: var(--purple-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--purple-dark);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* SECCIÓN DE PRECIOS */
+        .pricing-section {
+            background-color: var(--white);
+            border-top: 1px solid var(--border-suave);
+            border-bottom: 1px solid var(--border-suave);
+            padding: 80px 24px;
+        }
+
+        .pricing-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .pricing-card {
+            background: var(--bg-cream);
+            border: 1px solid var(--border-suave);
+            border-radius: 20px;
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--purple-light);
+            background: var(--white);
+            box-shadow: 0 10px 30px rgba(99, 57, 166, 0.1);
+        }
+
+        .badge-popular {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background-color: var(--purple-dark);
+            color: var(--white);
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        .price-title {
             font-size: 22px;
             color: var(--purple-dark);
             margin-bottom: 8px;
         }
 
-        .login-card p {
-            font-size: 13px;
+        .price-amount {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--purple-dark);
+            margin-bottom: 16px;
+        }
+
+        .price-amount span {
+            font-size: 14px;
             color: var(--text-muted);
-            margin-bottom: 24px;
+            font-weight: 400;
+        }
+
+        .price-features {
+            list-style: none;
+            margin: 24px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .price-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .price-features i {
+            color: var(--green-success);
+        }
+
+        /* MODAL DE LOGIN */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(42, 22, 84, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-muted);
         }
 
         .form-group {
-            text-align: left;
             margin-bottom: 16px;
+            text-align: left;
         }
 
         .form-group label {
@@ -98,21 +347,12 @@
             outline: none;
         }
 
-        .btn-submit {
-            background-color: var(--purple-dark);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .btn-submit:hover {
-            background-color: var(--purple-light);
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-suave);
         }
     </style>
 </head>
@@ -122,34 +362,128 @@
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner">
     </header>
 
-    <div class="login-card">
-        <h2>Bienvenido a NeuroClarity</h2>
-        <p>Selecciona tu tipo de cuenta e ingresa a tu portal</p>
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <i class="fa-solid fa-brain" style="color: var(--purple-light);"></i> NeuroClarity
+        </a>
+        <ul class="nav-links">
+            <li><a href="#caracteristicas">Características</a></li>
+            <li><a href="#planes">Planes y Precios</a></li>
+            <li><a href="#" class="btn-nav-login" onclick="openLoginModal()">Ingresar al Portal</a></li>
+        </ul>
+    </nav>
 
-        <form id="formLogin">
-            <div class="form-group">
-                <label>Tipo de Usuario / Portal</label>
-                <select class="form-control" id="selectRolUsuario">
-                    <option value="panel-padre.html">Padre de Familia (Portal Familiar)</option>
-                    <option value="profesor.html">Profesor / Especialista</option>
-                    <option value="alumno.html">Alumno (Estudio PWA)</option>
-                </select>
+    <!-- HERO -->
+    <section class="hero-section">
+        <h1>Aprendizaje Adaptativo Remoto para Alumnos Neurodivergentes</h1>
+        <p>Una plataforma PWA minimalista diseñada para eliminar distracciones, monitorear por excepción sin cámaras invasivas y brindar asistencia inmediata con Inteligencia Artificial.</p>
+        <div class="hero-buttons">
+            <button class="btn-hero-primary" onclick="openLoginModal()">Acceder a la Plataforma</button>
+            <button class="btn-hero-secondary" onclick="document.getElementById('planes').scrollIntoView({behavior: 'smooth'})">Ver Planes</button>
+        </div>
+    </section>
+
+    <!-- CARACTERÍSTICAS -->
+    <section class="features-section" id="caracteristicas">
+        <h2 class="section-title">Un Ecosistema Diseñado para Cada Rol</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-child-reaching"></i></div>
+                <h3>Alumno (PWA)</h3>
+                <p>Interfaz lineal y minimalista sin barras ni distracciones. Incluye botón flotante de asistencia inmediata con la IA Sophia y lecturas guiadas en micro-bloques.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                <h3>Profesor / Especialista</h3>
+                <p>Dashboard de control por excepción con semaforización automatizada. Recibe reportes instantáneos de las dudas resueltas por la IA y guía los ajustes pedagógicos.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-house-chimney-user"></i></div>
+                <h3>Familia / Tutor</h3>
+                <p>Monitoreo en tiempo real de sesiones de estudio, bitácora de incidencias atendidas y pautas claras generadas por la IA para apoyar en casa sin sobrecarga.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANES Y PRECIOS -->
+    <section class="pricing-section" id="planes">
+        <h2 class="section-title">Planes y Suscripciones</h2>
+        <div class="pricing-grid">
+            
+            <!-- PLAN ESTÁNDAR / INSTITUCIONAL -->
+            <div class="pricing-card">
+                <h3 class="price-title">Plan Estándar</h3>
+                <div class="price-amount">Incluido <span>/ Acceso Escolar</span></div>
+                <p style="font-size: 13px; color: var(--text-muted);">Para instituciones vinculadas y alumnos registrados por el colegio.</p>
+                
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> Acceso completo a la PWA del Alumno</li>
+                    <li><i class="fa-solid fa-check"></i> Adaptación de planeaciones con IA</li>
+                    <li><i class="fa-solid fa-check"></i> Reportes cognitivos históricos</li>
+                    <li><i class="fa-solid fa-check"></i> Código de vinculación familiar</li>
+                </ul>
+
+                <button class="btn-hero-secondary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Ingresar con Código</button>
             </div>
 
-            <div class="form-group">
-                <label>Correo Electrónico</label>
-                <input type="email" class="form-control" id="loginEmail" placeholder="correo@ejemplo.com" required>
+            <!-- PLAN PREMIUM FAMILIAR -->
+            <div class="pricing-card featured">
+                <span class="badge-popular">RECOMENDADO</span>
+                <h3 class="price-title">Plan Premium Familiar</h3>
+                <div class="price-amount">$1,214.18 <span>MXN / mes</span></div>
+                <p style="font-size: 13px; color: var(--text-muted);">Tranquilidad en tiempo real y asesoría continua para el hogar.</p>
+                
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> Todo lo incluido en el Plan Estándar</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Supervisión en Vivo (Heartbeat/Semáforo)</strong></li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Pautas para el Hogar en tiempo real</strong></li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Bitácora de asistencias atendidas por IA</strong></li>
+                    <li><i class="fa-solid fa-check"></i> Canal directo de comunicación con docentes</li>
+                </ul>
+
+                <button class="btn-hero-primary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Suscribirme a Premium</button>
             </div>
 
-            <div class="form-group">
-                <label>Contraseña</label>
-                <input type="password" class="form-control" id="loginPass" placeholder="******" required>
-            </div>
+        </div>
+    </section>
 
-            <button type="submit" class="btn-submit">Ingresar al Portal</button>
-        </form>
+    <!-- MODAL DE ACCESO / LOGIN -->
+    <div id="modalLogin" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+            <h2 style="font-size: 22px; color: var(--purple-dark); margin-bottom: 8px; text-align: center;">Iniciar Sesión</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; text-align: center;">Selecciona tu portal e ingresa tus credenciales</p>
+
+            <form id="formLoginModal">
+                <div class="form-group">
+                    <label>Tipo de Usuario / Portal</label>
+                    <select class="form-control" id="selectRolPortal">
+                        <option value="panel-padre.html">Padre de Familia (Portal Familiar)</option>
+                        <option value="profesor.html">Profesor / Especialista</option>
+                        <option value="alumno.html">Alumno (Portal PWA)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" class="form-control" id="modalEmail" placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" class="form-control" id="modalPass" placeholder="******" required>
+                </div>
+
+                <button type="submit" class="btn-hero-primary" style="width: 100%; margin-top: 10px;">Ingresar al Portal</button>
+            </form>
+        </div>
     </div>
 
+    <footer>
+        <p>&copy; 2026 NeuroClarity. Todos los derechos reservados. Plataforma de tecnología adaptativa para neurodiversidad.</p>
+    </footer>
+
+    <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -166,17 +500,25 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        document.getElementById("formLogin").addEventListener("submit", async (e) => {
+        window.openLoginModal = function() {
+            document.getElementById("modalLogin").style.display = "flex";
+        };
+
+        window.closeLoginModal = function() {
+            document.getElementById("modalLogin").style.display = "none";
+        };
+
+        document.getElementById("formLoginModal").addEventListener("submit", async (e) => {
             e.preventDefault();
-            const email = document.getElementById("loginEmail").value;
-            const pass = document.getElementById("loginPass").value;
-            const destino = document.getElementById("selectRolUsuario").value;
+            const email = document.getElementById("modalEmail").value;
+            const pass = document.getElementById("modalPass").value;
+            const destino = document.getElementById("selectRolPortal").value;
 
             try {
                 await signInWithEmailAndPassword(auth, email, pass);
                 window.location.href = destino;
             } catch (err) {
-                // Si la cuenta aún no existe en Firebase Auth, te redirige directamente para pruebas
+                // Para modo pruebas local: te redirige directamente al portal seleccionado
                 window.location.href = destino;
             }
         });
