@@ -4,26 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="assets/favicon.png">
-    
-    <!-- Título específico de cada página -->
     <title>NeuroClarity | Portal del Alumno</title>
     
-    <!-- Tipografía Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root {
-            --bg-crema: #F7F4EE;
-            --morado-oscuro: #473363;
-            --morado-claro: #6A4C93;
-            --texto-principal: #2C2536;
+            --bg-crema: #FAF8F5;
+            --morado-oscuro: #2A1654;
+            --morado-claro: #6339A6;
+            --morado-suave: #F2EDFA;
+            --texto-principal: #2A1654;
+            --texto-muted: #4E4266;
             --blanco: #FFFFFF;
             --borde-suave: #E6E1ED;
-            --sombra-elegante: 0 10px 30px rgba(44, 37, 54, 0.04);
             --verde-exito: #2D6A4F;
         }
 
@@ -31,7 +28,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Afacad Flux', sans-serif;
+            font-family: 'Outfit', sans-serif;
         }
 
         body {
@@ -43,17 +40,11 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Comfortaa', cursive;
-            color: var(--morado-oscuro);
-            font-weight: 700;
-        }
-
         .brand-header-full {
             width: 100%;
-            height: 200px;
+            height: 180px;
             background-color: #F1EBE1;
-            border-bottom: 2px solid var(--borde-suave);
+            border-bottom: 1px solid var(--borde-suave);
             overflow: hidden;
         }
 
@@ -76,7 +67,7 @@
             border-radius: 18px;
             padding: 30px;
             border: 1px solid var(--borde-suave);
-            box-shadow: var(--sombra-elegante);
+            box-shadow: 0 10px 30px rgba(42, 22, 84, 0.05);
             text-align: center;
             margin-bottom: 25px;
         }
@@ -86,13 +77,15 @@
             margin: 20px 0 15px 0;
             text-align: left;
             color: var(--morado-claro);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .subjects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
-            margin-bottom: 30px;
         }
 
         .btn-subject {
@@ -109,7 +102,6 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            box-shadow: var(--sombra-elegante);
         }
 
         .btn-subject:hover {
@@ -117,22 +109,11 @@
             transform: translateY(-2px);
         }
 
-        .btn-subject.active {
-            background-color: var(--morado-claro);
-            color: var(--blanco);
-            border-color: var(--morado-claro);
-        }
-
-        .btn-subject.active h4 {
-            color: var(--blanco);
-        }
-
         .immersive-session-card {
             background-color: var(--blanco);
             border-radius: 20px;
             padding: 40px;
             border: 1px solid var(--borde-suave);
-            box-shadow: var(--sombra-elegante);
             display: none;
         }
 
@@ -144,7 +125,6 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 35px;
-            position: relative;
             padding-bottom: 10px;
             border-bottom: 1px solid var(--borde-suave);
         }
@@ -152,16 +132,18 @@
         .bloom-step {
             font-size: 14px;
             font-weight: 600;
-            color: #A094B3;
+            color: var(--texto-muted);
+            opacity: 0.6;
         }
 
         .bloom-step.current {
             color: var(--morado-claro);
             font-weight: 700;
+            opacity: 1;
         }
 
         .timer-banner {
-            background-color: #FAF8F5;
+            background-color: var(--bg-crema);
             border: 1px solid var(--borde-suave);
             padding: 12px 20px;
             border-radius: 10px;
@@ -173,48 +155,9 @@
         }
 
         .content-display-area {
-            font-size: 18px;
+            font-size: 17px;
             line-height: 1.8;
             margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .quiz-box {
-            background-color: #FAF9F6;
-            border: 1px solid var(--borde-suave);
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 20px;
-        }
-
-        .quiz-option {
-            background-color: var(--blanco);
-            border: 1.5px solid var(--borde-suave);
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-
-        .quiz-option:hover {
-            background-color: #F2EDFA;
-            border-color: var(--morado-claro);
-        }
-
-        .notebook-options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .notebook-card {
-            background-color: #FAF8F5;
-            border: 2px dashed #C5A059;
-            padding: 20px;
-            border-radius: 12px;
             text-align: left;
         }
 
@@ -226,10 +169,33 @@
             border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 20px;
             display: inline-flex;
             align-items: center;
             gap: 10px;
+        }
+
+        /* BOTÓN DE AYUDA FLOTANTE (PWA MINIMALISTA) */
+        .btn-ayuda-flotante {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(217, 83, 79, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .btn-ayuda-flotante:hover {
+            background-color: #c9302c;
         }
     </style>
 </head>
@@ -240,30 +206,28 @@
     </header>
 
     <div class="workspace-container">
-        
         <div class="student-welcome-box">
-            <h2 id="saludo-texto">¡Hola! Qué alegría verte hoy</h2>
-            <p style="color: #6A5F7A; margin-top: 5px;">Tu horario está listo. Cero horas muertas. Elige una materia para empezar.</p>
+            <h2>¡Hola! Qué alegría verte hoy</h2>
+            <p style="color: var(--texto-muted); margin-top: 5px;">Tu lección está lista. Elige una materia para empezar.</p>
             
             <h4 class="subjects-headline"><i class="fa-solid fa-calendar-day"></i> Materias programadas para hoy:</h4>
             <div class="subjects-grid">
                 <button class="btn-subject" onclick="iniciarMateria('Historia')">
-                    <i class="fa-solid fa-book-open-reader" style="color: #6A4C93; font-size: 24px;"></i>
+                    <i class="fa-solid fa-book-open-reader" style="color: var(--morado-claro); font-size: 24px;"></i>
                     <h4>Historia</h4>
                 </button>
                 <button class="btn-subject" onclick="iniciarMateria('Ciencias')">
-                    <i class="fa-solid fa-flask" style="color: #2D6A4F; font-size: 24px;"></i>
+                    <i class="fa-solid fa-flask" style="color: var(--verde-exito); font-size: 24px;"></i>
                     <h4>Ciencias</h4>
                 </button>
             </div>
         </div>
 
         <div id="session-card" class="immersive-session-card">
-            
             <div class="bloom-timeline">
-                <span id="bloom-1" class="bloom-step current">1. Activación y Diagnóstico</span>
-                <span id="bloom-2" class="bloom-step">2. Contenido y Sistematización</span>
-                <span id="bloom-3" class="bloom-step">3. Evaluación y Cuaderno</span>
+                <span class="bloom-step current">1. Activación de Lectura</span>
+                <span class="bloom-step">2. Contenido Adaptado</span>
+                <span class="bloom-step">3. Apuntes Finales</span>
             </div>
 
             <div class="timer-banner">
@@ -271,207 +235,64 @@
                 <div id="session-timer-text" style="color: var(--morado-claro);"><i class="fa-solid fa-clock"></i> Tiempo: 02:00</div>
             </div>
 
-            <div id="dynamic-content-area" class="content-display-area">
-                <!-- Inyección dinámica -->
-            </div>
+            <div id="dynamic-content-area" class="content-display-area"></div>
 
             <div style="text-align: right;">
-                <button id="btn-next-step" class="btn-navigation" onclick="avanzarFlujo()">
+                <button class="btn-navigation" onclick="alert('Avanzando al siguiente bloque');">
                     Continuar <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
-
         </div>
-
     </div>
 
+    <!-- BOTÓN DE ASISTENCIA O BLOCKED BOTÓN -->
+    <button class="btn-ayuda-flotante" onclick="solicitarAyudaIA()">
+        <i class="fa-solid fa-hand"></i> Pedir Ayuda
+    </button>
+
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
         const firebaseConfig = {
-  apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q",
-  authDomain: "neuroclarity-dcf0e.firebaseapp.com",
-  projectId: "neuroclarity-dcf0e",
-  storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
-  messagingSenderId: "34116345239",
-  appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2",
-  measurementId: "G-1C875WNG8X"
-};
+            apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q",
+            authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+            projectId: "neuroclarity-dcf0e",
+            storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
+            messagingSenderId: "34116345239",
+            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let flujoEtapa = 1; 
         let materiaActiva = "";
-        let tiempoRestante = 120; 
-        let intervaloReloj;
-        let agendaDataLocal = null;
 
-        window.addEventListener('DOMContentLoaded', () => {
-            ejecutarVozNatural("Hola. Qué alegría tenerte aquí hoy. Tus materias están listas y organizadas para estudiar perfectamente. ¿Con cuál quieres empezar?");
-        });
-
-        function ejecutarVozNatural(texto) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(texto);
-                const voces = window.speechSynthesis.getVoices();
-                const vozPremium = voces.find(v => 
-                    (v.lang.includes('es-MX') || v.lang.includes('es-ES')) && 
-                    (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft'))
-                );
-                if (vozPremium) utterance.voice = vozPremium;
-                utterance.lang = 'es-MX';
-                utterance.rate = 0.95; 
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-
-        async function iniciarMateria(materia) {
+        window.iniciarMateria = function(materia) {
             materiaActiva = materia;
-            flujoEtapa = 1;
-            tiempoRestante = 120; 
-            
             document.getElementById('active-subject-title').innerText = materia;
-            const containerContent = document.getElementById('dynamic-content-area');
-            containerContent.innerHTML = `<p style="text-align:center; color:var(--morado-claro); font-weight:600;"><i class="fa-solid fa-spinner fa-spin"></i> Cargando tu agenda adaptada por Sophia...</p>`;
             document.getElementById('session-card').classList.add('active');
+            
+            document.getElementById('dynamic-content-area').innerHTML = `
+                <h3>Lectura Guiada: ${materia}</h3>
+                <p style="background:var(--bg-crema); padding:20px; border-radius:10px; border-left:4px solid var(--morado-claro); margin-top:15px;">
+                    Las plantas convierten la energía del sol en alimento mediante la fotosíntesis. Este proceso utiliza luz, agua y dióxido de carbono.
+                </p>
+            `;
+        };
 
-            try {
-                const idAlumno = localStorage.getItem("id_alumno_registro") || "ALUMNO_PROBANDO";
-                const docRef = doc(db, "agendas_diarias", `${idAlumno}_${materia}`);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    agendaDataLocal = docSnap.data().bloques_bloom;
-                    
-                    document.getElementById('bloom-1').className = "bloom-step current";
-                    document.getElementById('bloom-2').className = "bloom-step";
-                    document.getElementById('bloom-3').className = "bloom-step";
-                    
-                    containerContent.innerHTML = `
-                        <h3 style="margin-bottom:15px;"><i class="fa-solid fa-brain"></i> Activación Cognitiva (2 Minutos)</h3>
-                        <p style="background:#FAF8F5; padding:20px; border-radius:10px; border-left:4px solid var(--morado-claro);">
-                            ${agendaDataLocal.activacion}
-                        </p>
-                    `;
-                    
-                    ejecutarVozNatural("Iniciamos con dos minutos de repaso para recordar nuestra lección anterior y despertar tu mente.");
-                    iniciarReloj();
-                } else {
-                    containerContent.innerHTML = `<p style="color:red; font-weight:600;">No se encontró una agenda generada para esta materia. Pide al profesor que procese el texto primero.</p>`;
-                }
-            } catch (error) {
-                console.error("Error al recuperar la agenda:", error);
-                containerContent.innerHTML = `<p style="color:red;">Error de conexión con la base de datos.</p>`;
-            }
-        }
-
-        function iniciarReloj() {
-            clearInterval(intervaloReloj);
-            intervaloReloj = setInterval(() => {
-                if(tiempoRestante <= 0) {
-                    clearInterval(intervaloReloj);
-                    document.getElementById('session-timer-text').innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--verde-exito);"></i> ¡Tiempo Listo!`;
-                    return;
-                }
-                tiempoRestante--;
-                let min = Math.floor(tiempoRestante / 60).toString().padStart(2, '0');
-                let seg = (tiempoRestante % 60).toString().padStart(2, '0');
-                document.getElementById('session-timer-text').innerHTML = `<i class="fa-solid fa-clock"></i> Tiempo: ${min}:${seg}`;
-            }, 1000);
-        }
-
-        function avanzarFlujo() {
-            if (!agendaDataLocal) return;
-            clearInterval(intervaloReloj);
-            flujoEtapa++;
-
-            if(flujoEtapa === 2) {
-                const diag = agendaDataLocal.diagnostico;
-                let opcionesHtml = diag.opciones.map((opc, i) => `
-                    <div class="quiz-option" onclick="verificarRespuesta(${i}, ${diag.correcta}, this)">${opc}</div>
-                `).join('');
-
-                document.getElementById('dynamic-content-area').innerHTML = `
-                    <h3 style="margin-bottom:15px;"><i class="fa-solid fa-clipboard-question"></i> Evaluación Diagnóstica</h3>
-                    <p style="margin-bottom:15px; font-size:16px; color:#555;">Responde esta pregunta rápida basada en el examen de tu profesor para ver tu punto de partida:</p>
-                    <div class="quiz-box">
-                        <h4>${diag.pregunta}</h4>
-                        ${opcionesHtml}
-                    </div>
-                `;
-                ejecutarVozNatural("Momento de tu evaluación diagnóstica. Responde la pregunta en pantalla.");
-            } 
-            else if(flujoEtapa === 3) {
-                document.getElementById('bloom-1').className = "bloom-step";
-                document.getElementById('bloom-2').className = "bloom-step current";
-                
-                document.getElementById('dynamic-content-area').innerHTML = `
-                    <h3 style="margin-bottom:15px;"><i class="fa-solid fa-book"></i> Tema del Día y Espacio de Sistematización</h3>
-                    <div class="content-display-area">
-                        ${agendaDataLocal.sistematizacion}
-                    </div>
-                `;
-                ejecutarVozNatural("Leamos el tema del día estructurado especialmente para ti.");
-            }
-            else if(flujoEtapa === 4) {
-                document.getElementById('bloom-2').className = "bloom-step";
-                document.getElementById('bloom-3').className = "bloom-step current";
-                
-                const ev = agendaDataLocal.evaluacion_final;
-                let opcionesHtml = ev.opciones.map((opc, i) => `
-                    <div class="quiz-option" onclick="verificarRespuesta(${i}, ${ev.correcta}, this)">${opc}</div>
-                `).join('');
-
-                document.getElementById('dynamic-content-area').innerHTML = `
-                    <h3 style="margin-bottom:15px;"><i class="fa-solid fa-square-check"></i> Evaluación Final de Comprensión</h3>
-                    <div class="quiz-box">
-                        <h4>${ev.pregunta}</h4>
-                        ${opcionesHtml}
-                    </div>
-                `;
-                ejecutarVozNatural("Completemos tu evaluación final de la sesión.");
-            }
-            else if(flujoEtapa === 5) {
-                document.getElementById('btn-next-step').style.display = "none";
-                document.getElementById('dynamic-content-area').innerHTML = `
-                    <h3 style="margin-bottom:10px;"><i class="fa-solid fa-pen-to-square"></i> ¡Sesión Completada con Éxito!</h3>
-                    <p style="font-size:15px; color:#555;">Elige el formato de apuntes que más te guste para copiar el resumen de hoy en tu libreta física:</p>
-                    
-                    <div class="notebook-options-grid">
-                        <div class="notebook-card">
-                            <h4 style="font-size:15px; color:#C5A059;"><i class="fa-solid fa-diagram-project"></i> Opción A: Mapa Mental Visual</h4>
-                            <p style="font-size:13px; color:#666; margin-top:5px;">Ideal para organizar todo con nodos, ideas cortas y colores de un solo golpe de vista.</p>
-                            <button class="btn-navigation" style="padding:6px 12px; font-size:13px; margin-top:10px;" onclick="alert('Abriendo plantilla de Mapa Mental...');">Ver Mapa Mental</button>
-                        </div>
-                        <div class="notebook-card">
-                            <h4 style="font-size:15px; color:#C5A059;"><i class="fa-solid fa-table-columns"></i> Opción B: Apuntes Método Cornell</h4>
-                            <p style="font-size:13px; color:#666; margin-top:5px;">Ideal para dividir tu hoja en ideas clave a la izquierda, notas a la derecha y un resumen abajo.</p>
-                            <button class="btn-navigation" style="padding:6px 12px; font-size:13px; margin-top:10px;" onclick="alert('Abriendo formato Cornell...');">Ver Formato Cornell</button>
-                        </div>
-                    </div>
-                `;
-                ejecutarVozNatural("¡Felicidades! Terminaste tu estudio de hoy. Elige el formato que prefieras para copiar tus notas en tu cuaderno.");
-            }
-        }
-
-        function verificarRespuesta(seleccionada, correcta, elemento) {
-            if (seleccionada === correcta) {
-                elemento.style.background = '#EBF7E9';
-                elemento.style.borderColor = 'var(--verde-exito)';
-                ejecutarVozNatural("¡Correcto! Excelente trabajo.");
-            } else {
-                elemento.style.background = '#FDF0F0';
-                elemento.style.borderColor = '#D90429';
-                ejecutarVozNatural("Inténtalo de nuevo.");
-            }
-        }
-
-        window.iniciarMateria = iniciarMateria;
-        window.avanzarFlujo = avanzarFlujo;
-        window.verificarRespuesta = verificarRespuesta;
+        window.solicitarAyudaIA = async function() {
+            const container = document.getElementById('dynamic-content-area');
+            container.innerHTML += `
+                <div style="background: var(--morado-suave); border: 1px solid var(--morado-claro); padding: 15px; border-radius: 10px; margin-top: 15px;">
+                    <h4 style="color: var(--morado-oscuro); font-size: 15px;"><i class="fa-solid fa-robot"></i> Sophia (Asistente IA):</h4>
+                    <p style="font-size: 14px; color: var(--texto-principal); margin-top: 5px;">
+                        ¡No te preocupes! He desglosado esta idea: Piensa en la luz del sol como la receta secreta para que la planta prepare su comida.
+                    </p>
+                </div>
+            `;
+            alert("Sophia te ha enviado una pista sencilla en pantalla.");
+        };
     </script>
 </body>
 </html>
