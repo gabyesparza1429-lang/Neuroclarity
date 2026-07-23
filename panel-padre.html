@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>NeuroClarity | Panel Familiar</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-cream: #FAF8F5;
+            --purple-dark: #2A1654;
+            --purple-light: #6339A6;
+            --purple-pale: #F2EDFA;
+            --white: #FFFFFF;
+            --text-muted: #4E4266;
+            --font-main: 'Outfit', sans-serif;
+            --border-suave: #E6E1ED;
+            --green-live: #2e7d32;
+            --orange-alert: #d97706;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--purple-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-banner-header {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            background-color: #F1EBE1;
+            border-bottom: 1px solid var(--border-suave);
+            overflow: hidden;
+        }
+
+        .hero-banner-header .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .sub-navbar {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-suave);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sub-navbar h1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid var(--border-suave);
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 24px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border: 1px solid var(--border-suave);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(42, 22, 84, 0.02);
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* MONITOREO EN VIVO (PREMIUM) */
+        .live-card {
+            border: 2px solid var(--purple-light);
+            background: linear-gradient(135deg, #ffffff 0%, var(--purple-pale) 100%);
+        }
+
+        .live-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #e8f5e9;
+            color: var(--green-live);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .live-pulse {
+            width: 10px;
+            height: 10px;
+            background-color: var(--green-live);
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(46, 125, 50, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 125, 50, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .metric-box {
+            background: var(--white);
+            border: 1px solid var(--border-suave);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .metric-box .num {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--purple-light);
+        }
+
+        .metric-box .label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* CHAT */
+        .chat-box {
+            display: flex;
+            flex-direction: column;
+            height: 260px;
+            border: 1px solid var(--border-suave);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--bg-cream);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .msg.sent {
+            align-self: flex-end;
+            background-color: var(--purple-dark);
+            color: var(--white);
+        }
+
+        .msg.received {
+            align-self: flex-start;
+            background-color: var(--white);
+            border: 1px solid var(--border-suave);
+        }
+
+        .chat-form {
+            display: flex;
+            padding: 10px;
+            background-color: var(--white);
+            border-top: 1px solid var(--border-suave);
+            gap: 8px;
+        }
+
+        .chat-form input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border-suave);
+            border-radius: 6px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .chat-form button {
+            background-color: var(--purple-dark);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .badge-premium {
+            background-color: var(--purple-dark);
+            color: var(--white);
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 850px) {
+            .dashboard-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-banner-header">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" class="banner-img">
+    </header>
+
+    <nav class="sub-navbar">
+        <h1 id="lblNombrePadre">Familia Martínez • Portal de Monitoreo</h1>
+        <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
+    </nav>
+
+    <div class="dashboard-container">
+        
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="col-side">
+            <!-- VINCULACIÓN -->
+            <div class="card">
+                <h2>Código de Alumno</h2>
+                <div style="background: var(--purple-pale); padding: 16px; border-radius: 12px; text-align: center;">
+                    <p style="font-size: 12px; color: var(--text-muted);">Entrega este código al profesor de tu hijo:</p>
+                    <h3 id="lblCodigoVinculacion" style="font-size: 28px; margin: 8px 0; color: var(--purple-light);">NC-8392</h3>
+                    <button style="background: var(--purple-dark); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;" onclick="navigator.clipboard.writeText('NC-8392'); alert('Código copiado');">Copiar Código</button>
+                </div>
+            </div>
+
+            <!-- DIAGNÓSTICO IA SOPHIA -->
+            <div class="card">
+                <h2>Evaluación IA (Sophia)</h2>
+                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;" id="lblDiagnosticoIA">
+                    Perfil detectado: <strong>Línea de Enfoque Activa</strong>.<br>
+                    Muestra mayor rendimiento con tipografía ajustada y temporizadores de trabajo corto (15 min).
+                </p>
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA -->
+        <div class="col-main">
+            <!-- REVISIÓN EN VIVO (EXCLUSIVO PREMIUM) -->
+            <div class="card live-card">
+                <h2>
+                    <span><i class="fa-solid fa-tower-broadcast" style="color: var(--purple-light);"></i> Supervisión en Vivo</span>
+                    <span class="badge-premium">PREMIUM</span>
+                </h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div>
+                        <h4 style="font-size: 16px;">Sofía Martínez</h4>
+                        <p style="font-size: 13px; color: var(--text-muted);">Sesión de Historia • 3° Primaria</p>
+                    </div>
+                    <div class="live-status-pill">
+                        <span class="live-pulse"></span>
+                        Estudiando Ahora
+                    </div>
+                </div>
+                <div style="background: var(--white); padding: 12px; border-radius: 8px; font-size: 13px; border-left: 4px solid var(--green-live);">
+                    <i class="fa-solid fa-circle-check" style="color: var(--green-live);"></i> Mantiene ritmo constante. Herramienta activa: <strong>Bloques de Lectura</strong>.
+                </div>
+            </div>
+
+            <!-- REPORTE DE AVANCE COGNITIVO (TODOS LOS PLANES) -->
+            <div class="card">
+                <h2>Reporte de Avance Cognitivo</h2>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="num">88%</div>
+                        <div class="label">Atención Sostenida</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="num">120</div>
+                        <div class="label">Palabras / Minuto</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="num">92%</div>
+                        <div class="label">Índice Retención</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="num">Pictogramas</div>
+                        <div class="label">Apoyo Más Usado</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHAT DIRECTO -->
+            <div class="card">
+                <h2>Chat con Profesor y Dirección</h2>
+                <div class="chat-box">
+                    <div class="chat-messages" id="chatPadreBox">
+                        <div class="msg received">
+                            <strong>Profra. Ana:</strong> Sofía completó adecuadamente el bloque de Ciencias de hoy.
+                        </div>
+                    </div>
+                    <form class="chat-form" id="formChatPadre">
+                        <input type="text" id="inputMsgPadre" placeholder="Escribe al docente..." required>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FIREBASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
+            authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+            projectId: "neuroclarity-dcf0e",
+            storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
+            messagingSenderId: "34116345239",
+            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, (user) => {
+            // Carga de datos o simulación activa
+        });
+
+        document.getElementById('formChatPadre').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = document.getElementById('inputMsgPadre');
+            const texto = input.value.trim();
+            if (!texto) return;
+
+            const chatBox = document.getElementById('chatPadreBox');
+            chatBox.innerHTML += `<div class="msg sent">${texto}</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            input.value = "";
+        });
+
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            signOut(auth).then(() => window.location.href = "index.html");
+        });
+    </script>
+</body>
+</html>
