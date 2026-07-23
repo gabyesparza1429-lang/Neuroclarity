@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root {
@@ -40,7 +41,6 @@
         }
 
         .hero-banner-header {
-            position: relative;
             width: 100%;
             height: 180px;
             background-color: #F1EBE1;
@@ -149,13 +149,6 @@
             transition: transform 0.2s;
         }
 
-        .student-card:nth-child(2n) { border-top-color: var(--purple-light); }
-        .student-card:nth-child(3n) { border-top-color: #2e7d32; }
-
-        .student-card:hover {
-            transform: translateY(-3px);
-        }
-
         .student-photo {
             width: 90px;
             height: 90px;
@@ -205,19 +198,11 @@
             width: 100%;
         }
 
-        /* DISEÑO MÓDULO CHAT */
         .chat-container-card {
             background: white;
             border-radius: var(--border-radius);
             border: 1px solid var(--border-suave);
             padding: 24px;
-        }
-
-        .chat-controls-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 20px;
         }
 
         .chat-box {
@@ -239,34 +224,6 @@
             gap: 12px;
         }
 
-        .chat-msg {
-            max-width: 75%;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-
-        .chat-msg.envio-profesor {
-            align-self: flex-end;
-            background-color: var(--purple-dark);
-            color: white;
-        }
-
-        .chat-msg.recibido {
-            align-self: flex-start;
-            background-color: white;
-            border: 1px solid var(--border-suave);
-            color: var(--purple-dark);
-        }
-
-        .chat-msg .tag-dest {
-            font-size: 11px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            opacity: 0.8;
-        }
-
         .chat-form {
             display: flex;
             padding: 12px;
@@ -284,7 +241,6 @@
             font-size: 14px;
         }
 
-        /* MODALES */
         .modal {
             display: none;
             position: fixed;
@@ -336,37 +292,6 @@
             outline: none;
         }
 
-        .photo-hybrid-container {
-            border: 2px dashed var(--border-suave);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            background: var(--bg-cream);
-        }
-
-        .camera-box video {
-            width: 100%;
-            max-width: 240px;
-            border-radius: 8px;
-            background: #000;
-        }
-
-        .preview-box img {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-top: 10px;
-        }
-
-        .info-section {
-            background: var(--purple-pale);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--purple-dark);
-        }
-
         .pane-section {
             display: none;
         }
@@ -408,7 +333,7 @@
                         <h1>Control de Alumnos</h1>
                         <p>Gestión de alumnos e historial de perfiles adaptativos.</p>
                     </div>
-                    <button class="btn-primary" onclick="openModal('modal-registro')">+ Registrar Alumno</button>
+                    <button class="btn-primary" onclick="openModal('modal-registro')">+ Registrar Nuevo Alumno</button>
                 </div>
 
                 <div class="student-grid" id="students-container"></div>
@@ -472,7 +397,7 @@
                 </div>
 
                 <div class="chat-container-card">
-                    <div class="chat-controls-row">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
                         <div class="form-group" style="margin-bottom:0;">
                             <label>Seleccionar Alumno</label>
                             <select class="form-control" id="chatSelectAlumno">
@@ -500,21 +425,31 @@
                 </div>
             </div>
 
-            <!-- PANE 4: OBSERVACIONES DIRECCIÓN -->
+            <!-- PANE 4: OBSERVACIONES DIRECCIÓN / ASISTENCIAS IA -->
             <div id="pane-direccion" class="pane-section">
                 <div class="header-panel">
                     <div class="header-title">
-                        <h1>Observaciones de Dirección</h1>
-                        <p>Comentarios y aprobaciones enviadas por el equipo directivo.</p>
+                        <h1>Alertas e Intervenciones de IA (Sophia)</h1>
+                        <p>Reporte de asistencias automáticas ante bloqueos cognitivos de alumnos.</p>
                     </div>
                 </div>
 
-                <div class="material-card">
-                    <h4>Planeación Semanal - 3° Primaria</h4>
-                    <p style="font-size: 14px; color: var(--text-muted); margin-top: 6px;">
-                        "Revisada la adaptación para la alumna Sofía. Favor de reforzar los apoyos pictográficos en la sección de vocabulario."
+                <div class="material-card" style="border-left: 4px solid #d9534f;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong>🔴 Alerta Atendida por IA — Sofía Martínez (3° Primaria)</strong>
+                        <span style="font-size:12px; color:#2e7d32; font-weight:700;">Estado: Resuelto</span>
+                    </div>
+                    <p style="font-size:13px; color: var(--text-muted); margin-top: 8px;">
+                        <strong>Bloqueo:</strong> Consulta de duda en lección de Ciencias.<br>
+                        <strong>Pista entregada por Sophia:</strong> Se desglosó el concepto en 2 pictogramas clave. El alumno continuó su lectura sin sobrecarga.
                     </p>
-                    <span style="font-size: 12px; color: var(--purple-light); font-weight: 600; margin-top: 10px; display: inline-block;">Enviado por: Dirección Escolar</span>
+                    <div class="form-group" style="margin-top:12px;">
+                        <label style="font-size:12px;">Instrucción del Profesor para Sophia (Ajuste Pedagógico):</label>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" class="form-control" placeholder="Ej: Mantén el uso de pictogramas en las lecturas de Ciencias..." id="promptProfesorIA">
+                            <button class="btn-primary" style="font-size:12px; padding:6px 12px; width:auto;" onclick="alert('Instrucción enviada a la IA');">Instruir</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -529,7 +464,7 @@
             <div style="margin-top: 20px;">
                 <div class="form-group">
                     <label>Nombre Completo</label>
-                    <input type="text" class="form-control" id="reg-nombre">
+                    <input type="text" class="form-control" id="reg-nombre" placeholder="Ej: Sofía Martínez">
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
@@ -541,69 +476,16 @@
                         <input type="text" class="form-control" id="reg-grupo" placeholder="Ej: A">
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label>Fotografía (Subir archivo o tomar foto)</label>
-                    <div class="photo-hybrid-container">
-                        <input type="file" id="photo-file" accept="image/*" style="margin-bottom: 10px;"><br>
-                        <span>ó</span><br>
-                        <button class="btn-secondary" style="width:auto; margin: 10px 0;" id="btn-start-camera">Activar Cámara</button>
-                        
-                        <div class="camera-box" id="camera-box" style="display:none; margin-top:10px;">
-                            <video id="video-feed" autoplay playsinline></video><br>
-                            <button class="btn-primary" style="padding:6px 14px; font-size:12px; margin-top:5px;" id="btn-capture">Capturar</button>
-                        </div>
-
-                        <div class="preview-box">
-                            <img id="photo-preview" src="https://via.placeholder.com/150" alt="Vista previa">
-                            <input type="hidden" id="student-base64">
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn-primary" id="btnGuardarAlumno" style="width: 100%; margin-top: 10px;">Alta de Alumno</button>
+                <button class="btn-primary" id="btnGuardarAlumno" style="width: 100%; margin-top: 10px;">Crear Alumno</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: EXPEDIENTE -->
-    <div id="modal-expediente" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
-            <span class="close-modal" onclick="closeModal('modal-expediente')">&times;</span>
-            <h2 id="exp-nombre-titulo">Expediente Escolar</h2>
-            <p id="exp-meta" style="font-size: 13px; color:#888; margin-bottom: 20px;"></p>
-
-            <div class="info-section">
-                <h4>Procesamiento Cognitivo (IA)</h4>
-                <p id="exp-ia-procesamiento" style="font-size: 14px; color:#555;">Cargando análisis...</p>
-            </div>
-
-            <div class="info-section" style="border-left-color: #2e7d32;">
-                <h4>Recomendaciones Pedagógicas</h4>
-                <p id="exp-ia-recomendaciones" style="font-size: 14px; color:#555;">Cargando pautas...</p>
-            </div>
-
-            <div class="form-group" style="margin-top: 20px;">
-                <label>Diagnóstico Provisto por el Padre / Tutor</label>
-                <textarea class="form-control" id="exp-padre-diag" rows="3"></textarea>
-            </div>
-            <button class="btn-primary" id="btnGuardarDiagPadre" style="font-size: 13px; padding: 8px 16px;">Guardar Observación</button>
-
-            <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed #ddd; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h4 style="font-size: 14px; color: #d9534f;">Reiniciar Evaluación</h4>
-                    <p style="font-size: 12px; color: #777;">Obliga al alumno a repetir el test inicial.</p>
-                </div>
-                <button class="btn-primary" id="btnReiniciarTest" style="background-color: #d9534f;">Reiniciar Test</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- LOGICA FIREBASE -->
+    <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, doc, getDoc, updateDoc, onSnapshot, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
@@ -617,10 +499,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-
-        let currentStudentId = null;
-        let streamRef = null;
-        let unsubscribeChat = null;
 
         onAuthStateChanged(auth, (user) => {
             escucharAlumnos();
@@ -638,20 +516,9 @@
             btn.classList.add('active');
         };
 
-        window.openModal = function(id) {
-            document.getElementById(id).style.display = 'flex';
-        };
+        window.openModal = function(id) { document.getElementById(id).style.display = 'flex'; };
+        window.closeModal = function(id) { document.getElementById(id).style.display = 'none'; };
 
-        window.closeModal = function(id) {
-            document.getElementById(id).style.display = 'none';
-            if(streamRef) {
-                streamRef.getTracks().forEach(track => track.stop());
-                streamRef = null;
-            }
-            document.getElementById("camera-box").style.display = "none";
-        };
-
-        // Escuchar alumnos y llenar selector de chat
         function escucharAlumnos() {
             onSnapshot(collection(db, "alumnos"), (snapshot) => {
                 const container = document.getElementById("students-container");
@@ -668,228 +535,67 @@
                     const st = docSnap.data();
                     const id = docSnap.id;
                     const codigoVinculacion = `NC-${id.substring(0, 4).toUpperCase()}`;
-                    
-                    // Llenar selector de chat
                     selectChat.innerHTML += `<option value="${id}">${st.nombre} (${st.grado})</option>`;
-
-                    let badgeClass = "badge-pending";
-                    if (st.perfilIA === "Línea de Enfoque") badgeClass = "badge-focus";
-                    if (st.perfilIA === "Bloques de Lectura") badgeClass = "badge-reading";
-                    if (st.perfilIA === "Apoyo Pictográfico") badgeClass = "badge-picto";
-
-                    const photo = st.fotoBase64 || "https://via.placeholder.com/150";
 
                     container.innerHTML += `
                         <div class="student-card">
-                            <img src="${photo}" class="student-photo" alt="Foto Alumno">
+                            <img src="https://via.placeholder.com/150" class="student-photo" alt="Foto Alumno">
                             <h3>${st.nombre}</h3>
-                            <span class="badge ${badgeClass}">${st.perfilIA || 'Pendiente'}</span>
+                            <span class="badge badge-focus">${st.perfilIA || 'Pendiente'}</span>
                             <div class="student-info-text">
                                 <strong>Grado:</strong> ${st.grado} - ${st.grupo}<br>
                                 <strong>Código Padre:</strong> ${codigoVinculacion}
                             </div>
-                            <button class="btn-secondary" onclick="abrirExpediente('${id}')">Ver Expediente</button>
                         </div>
                     `;
                 });
             });
         }
-
-        // LÓGICA DE MENSAJERÍA EN TIEMPO REAL
-        document.getElementById("chatSelectAlumno").addEventListener("change", (e) => {
-            const alumnoId = e.target.value;
-            if (!alumnoId) return;
-            cargarHistorialChat(alumnoId);
-        });
-
-        function cargarHistorialChat(alumnoId) {
-            if (unsubscribeChat) unsubscribeChat();
-
-            const q = query(
-                collection(db, "mensajes"),
-                where("alumnoId", "==", alumnoId)
-            );
-
-            unsubscribeChat = onSnapshot(q, (snapshot) => {
-                const box = document.getElementById("chatHistorial");
-                box.innerHTML = "";
-
-                if (snapshot.empty) {
-                    box.innerHTML = '<p style="font-size:13px; color:var(--text-muted); text-align:center;">No hay mensajes registrados con este alumno/padre.</p>';
-                    return;
-                }
-
-                snapshot.forEach((docSnap) => {
-                    const msg = docSnap.data();
-                    const esProfesor = msg.remitente === "Profesor";
-                    const claseMsg = esProfesor ? "envio-profesor" : "recibido";
-
-                    box.innerHTML += `
-                        <div class="chat-msg ${claseMsg}">
-                            <div class="tag-dest">${msg.remitente} ➔ ${msg.destinatario}</div>
-                            ${msg.texto}
-                        </div>
-                    `;
-                });
-
-                box.scrollTop = box.scrollHeight;
-            });
-        }
-
-        document.getElementById("formEnviarChat").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const alumnoId = document.getElementById("chatSelectAlumno").value;
-            const destinatario = document.getElementById("chatSelectDestinatario").value;
-            const input = document.getElementById("inputChatTexto");
-            const texto = input.value.trim();
-
-            if (!alumnoId) return alert("Selecciona un alumno para enviar el mensaje.");
-            if (!texto) return;
-
-            await addDoc(collection(db, "mensajes"), {
-                alumnoId: alumnoId,
-                remitente: "Profesor",
-                destinatario: destinatario,
-                texto: texto,
-                fecha: new Date()
-            });
-
-            input.value = "";
-        });
-
-        // Camara/Archivo
-        document.getElementById("photo-file").addEventListener("change", function(e) {
-            const file = e.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById("photo-preview").src = event.target.result;
-                    document.getElementById("student-base64").value = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        document.getElementById("btn-start-camera").addEventListener("click", async () => {
-            const cameraBox = document.getElementById("camera-box");
-            cameraBox.style.display = "block";
-            try {
-                streamRef = await navigator.mediaDevices.getUserMedia({ video: true });
-                document.getElementById("video-feed").srcObject = streamRef;
-            } catch (err) {
-                alert("Cámara no disponible: " + err.message);
-            }
-        });
-
-        document.getElementById("btn-capture").addEventListener("click", () => {
-            const video = document.getElementById("video-feed");
-            const canvas = document.createElement("canvas");
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext("2d").drawImage(video, 0, 0);
-            
-            const dataUrl = canvas.toDataURL("image/jpeg");
-            document.getElementById("photo-preview").src = dataUrl;
-            document.getElementById("student-base64").value = dataUrl;
-            
-            if(streamRef) streamRef.getTracks().forEach(track => track.stop());
-            document.getElementById("camera-box").style.display = "none";
-        });
 
         document.getElementById("btnGuardarAlumno").addEventListener("click", async () => {
             const nombre = document.getElementById("reg-nombre").value;
             const grado = document.getElementById("reg-grado").value;
             const grupo = document.getElementById("reg-grupo").value;
-            const fotoBase64 = document.getElementById("student-base64").value;
 
             if(!nombre || !grado || !grupo) return alert("Llena todos los campos.");
 
             await addDoc(collection(db, "alumnos"), {
-                nombre, grado, grupo, fotoBase64,
-                perfilIA: "Pendiente",
-                diagnosticoCompletado: false,
-                diagnosticoPadre: "",
-                procesamientoCognitivo: "Pendiente de evaluación.",
-                recomendaciones: "Pendiente de diagnóstico."
+                nombre, grado, grupo,
+                perfilIA: "Línea de Enfoque",
+                fechaCreacion: new Date()
             });
 
             closeModal('modal-registro');
             document.getElementById("reg-nombre").value = "";
         });
 
-        window.abrirExpediente = async function(id) {
-            currentStudentId = id;
-            const docSnap = await getDoc(doc(db, "alumnos", id));
-            if(docSnap.exists()) {
-                const data = docSnap.data();
-                document.getElementById("exp-nombre-titulo").innerText = `Expediente: ${data.nombre}`;
-                document.getElementById("exp-meta").innerText = `${data.grado} - ${data.grupo}`;
-                document.getElementById("exp-ia-procesamiento").innerText = data.procesamientoCognitivo || "Sin datos.";
-                document.getElementById("exp-ia-recomendaciones").innerText = data.recomendaciones || "Sin recomendaciones.";
-                document.getElementById("exp-padre-diag").value = data.diagnosticoPadre || "";
-                openModal('modal-expediente');
-            }
-        };
-
-        document.getElementById("btnGuardarDiagPadre").addEventListener("click", async () => {
-            if(!currentStudentId) return;
-            await updateDoc(doc(db, "alumnos", currentStudentId), {
-                diagnosticoPadre: document.getElementById("exp-padre-diag").value
-            });
-            alert("Diagnóstico guardado.");
-        });
-
-        document.getElementById("btnReiniciarTest").addEventListener("click", async () => {
-            if(!currentStudentId || !confirm("¿Deseas reiniciar la evaluación del alumno?")) return;
-            await updateDoc(doc(db, "alumnos", currentStudentId), {
-                diagnosticoCompletado: false,
-                perfilIA: "Pendiente"
-            });
-            alert("Evaluación reiniciada.");
-            closeModal('modal-expediente');
-        });
-
         function escucharMateriales() {
             onSnapshot(collection(db, "materiales"), (snapshot) => {
                 const container = document.getElementById("materials-container");
                 container.innerHTML = "";
-                
                 snapshot.forEach((docSnap) => {
                     const mat = docSnap.data();
-                    const id = docSnap.id;
-                    
                     container.innerHTML += `
                         <div class="material-card">
                             <strong>${mat.asignatura} (${mat.grado})</strong>
-                            <div class="form-group" style="margin-top:10px;">
-                                <textarea class="form-control" rows="4" id="mat-text-${id}">${mat.contenidoTexto}</textarea>
-                            </div>
-                            <button class="btn-primary" style="font-size:12px; padding:6px 14px;" onclick="actualizarMaterial('${id}')">Guardar Cambios</button>
+                            <p style="font-size:13px; margin-top:6px; color:var(--text-muted);">${mat.contenidoTexto}</p>
                         </div>
                     `;
                 });
             });
         }
 
-        window.actualizarMaterial = async function(id) {
-            const nuevoTexto = document.getElementById(`mat-text-${id}`).value;
-            await updateDoc(doc(db, "materiales", id), {
-                contenidoTexto: nuevoTexto
-            });
-            alert("Material actualizado.");
-        };
-
         document.getElementById("btnProcesarPlaneacion").addEventListener("click", async () => {
             const grado = document.getElementById("plan-grado").value;
             const grupo = document.getElementById("plan-grupo").value;
             const asignatura = document.getElementById("plan-materia").value;
-            const textoPlaneacion = document.getElementById("plan-texto").value;
+            const texto = document.getElementById("plan-texto").value;
 
-            if(!asignatura || !textoPlaneacion) return alert("Completa los datos de la planeación.");
+            if(!asignatura || !texto) return alert("Completa los datos de la planeación.");
 
             await addDoc(collection(db, "materiales"), {
                 grado, grupo, asignatura,
-                contenidoTexto: `[Adaptación IA NeuroClarity - ${asignatura}]\n${textoPlaneacion}`
+                contenidoTexto: `[Adaptación IA NeuroClarity - ${asignatura}]\n${texto}`
             });
 
             alert("Planeación procesada exitosamente.");
