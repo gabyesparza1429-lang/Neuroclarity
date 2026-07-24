@@ -68,6 +68,17 @@
 
         .card-panel { background: white; border: 1px solid var(--border-suave); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
 
+        /* ESTILOS DEL CHAT EN TIEMPO REAL */
+        .msg-bubble { max-width: 80%; padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.4; word-break: break-word; }
+        .msg-bubble.sent { align-self: flex-end; background-color: var(--purple-dark); color: white; }
+        .msg-bubble.received { align-self: flex-start; background-color: var(--bg-cream); border: 1px solid var(--border-suave); color: var(--purple-dark); }
+
+        .item-chat-familia {
+            padding: 10px 12px; border-radius: 8px; background: white; border: 1px solid var(--border-suave);
+            cursor: pointer; transition: all 0.2s ease; text-align: left;
+        }
+        .item-chat-familia:hover, .item-chat-familia.active { background: var(--purple-pale); border-color: var(--purple-light); }
+
         /* MODALES */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 22, 84, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 32px; border-radius: var(--border-radius); width: 100%; max-width: 480px; position: relative; }
@@ -85,6 +96,7 @@
     </header>
 
     <div class="app-body">
+        <!-- MENÚ LATERAL -->
         <div class="sidebar">
             <div style="font-weight: 700; font-size: 20px; margin-bottom: 30px; color: var(--purple-dark);">Panel Docente</div>
             <button class="sidebar-btn active" onclick="cambiarSeccion('alumnos', event)"><i class="fa-solid fa-users"></i> Mis Alumnos</button>
@@ -135,16 +147,41 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: MENSAJERÍA DIRECTA -->
+            <!-- SECCIÓN 3: MENSAJERÍA DIRECTA CON CHAT REAL -->
             <div id="sec-mensajeria" class="panel-section">
                 <div class="header-panel">
                     <div class="header-title">
                         <h1>Mensajería Directa</h1>
-                        <p>Comunicación con las familias y tutores de tus alumnos vinculados.</p>
+                        <p>Canal de comunicación en tiempo real con los tutores de tus alumnos vinculados.</p>
                     </div>
                 </div>
-                <div class="card-panel">
-                    <p style="color: var(--text-muted); font-size: 14px;">Selecciona un alumno vinculado para iniciar conversación con la familia.</p>
+                
+                <div class="card-panel" style="display: grid; grid-template-columns: 260px 1fr; gap: 0; padding: 0; min-height: 420px; overflow: hidden;">
+                    
+                    <!-- Lista de Familias Vinculadas -->
+                    <div style="border-right: 1px solid var(--border-suave); background: var(--bg-cream); padding: 16px;" id="chatListFamilias">
+                        <h4 style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; font-weight: 700;">Alumnos Vinculados</h4>
+                        <div id="containerListaChat" style="display: flex; flex-direction: column; gap: 8px;">
+                            <p style="font-size: 12px; color: var(--text-muted);">Cargando alumnos...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Ventana de Chat Activo -->
+                    <div style="display: flex; flex-direction: column; height: 100%; background: white;">
+                        <div style="padding: 16px; border-bottom: 1px solid var(--border-suave); background: var(--purple-pale);">
+                            <h3 id="lblChatHeaderNombre" style="font-size: 16px; color: var(--purple-dark); font-weight: 700;">Selecciona un alumno para chatear</h3>
+                        </div>
+                        
+                        <div id="chatMessagesDocente" style="flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; min-height: 280px; max-height: 320px;">
+                            <p style="font-size: 13px; color: var(--text-muted); text-align: center; margin-top: 60px;">Selecciona una familia del menú izquierdo para iniciar la conversación.</p>
+                        </div>
+
+                        <form id="formChatDocente" style="display: flex; padding: 12px; border-top: 1px solid var(--border-suave); gap: 10px; background: white;">
+                            <input type="text" id="inputMsgDocente" class="form-control" placeholder="Escribe un mensaje al tutor..." disabled required>
+                            <button type="submit" id="btnEnviarChatDocente" class="btn-primary" style="width: auto; padding: 8px 20px;" disabled>Enviar</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
 
@@ -220,7 +257,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-        import { getFirestore, collection, query, where, getDocs, doc, setDoc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, doc, setDoc, getDoc, updateDoc, onSnapshot, addDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
@@ -237,6 +274,8 @@
 
         let profesorUid = null;
         let canceladoresOnSnapshot = [];
+        let padreUidChatActivo = null;
+        let unsubChatMensajes = null;
 
         function analizarConSophia(notasFamilia, notasDocente) {
             const combinado = (notasFamilia + " " + notasDocente).toLowerCase();
@@ -302,44 +341,46 @@
         // ESCUCHAR LISTA Y DOCUMENTOS INDIVIDUALES EN TIEMPO REAL
         function escucharAlumnosVinculados() {
             onSnapshot(collection(db, "profesores", profesorUid, "alumnos_vinculados"), (snapshot) => {
-                const container = document.getElementById("students-container");
+                const containerCards = document.getElementById("students-container");
+                const containerListaChat = document.getElementById("containerListaChat");
                 
-                // Limpiar escuchadores previos
                 canceladoresOnSnapshot.forEach(unsub => unsub());
                 canceladoresOnSnapshot = [];
 
                 if (snapshot.empty) {
-                    container.innerHTML = `
+                    containerCards.innerHTML = `
                         <div class="empty-state" style="grid-column: 1 / -1;">
                             <i class="fa-solid fa-user-plus" style="font-size: 32px; color: var(--purple-light); margin-bottom: 12px;"></i>
                             <h3 style="font-size: 18px; color: var(--purple-dark); margin-bottom: 6px;">No tienes alumnos vinculados</h3>
                             <p style="font-size: 14px;">Haz clic en el botón superior e ingresa el código proporcionado por la familia (ej: NC-4457).</p>
                         </div>
                     `;
+                    containerListaChat.innerHTML = `<p style="font-size: 12px; color: var(--text-muted);">Sin alumnos vinculados.</p>`;
                     return;
                 }
 
-                container.innerHTML = "";
+                containerCards.innerHTML = "";
+                containerListaChat.innerHTML = "";
 
                 snapshot.docs.forEach((docVinculo) => {
                     const padreUid = docVinculo.data().padreUid;
                     
-                    // Crear tarjeta vacía para este alumno
                     const cardDiv = document.createElement("div");
                     cardDiv.id = `card-alumno-${padreUid}`;
                     cardDiv.className = "student-card";
-                    container.appendChild(cardDiv);
+                    containerCards.appendChild(cardDiv);
 
-                    // Suscribirse EN TIEMPO REAL a los cambios del documento del alumno en /padres/
                     const unsub = onSnapshot(doc(db, "padres", padreUid), (padreSnap) => {
                         if (padreSnap.exists()) {
                             const st = padreSnap.data();
                             const nombre = st.nombreHijo || "Alumno";
+                            const familia = st.nombreFamilia || "Familia";
                             const grado = st.gradoHijo || "Sin grado";
                             const perfil = st.perfilPedagogico || "Línea de Enfoque Básica";
                             const detalle = st.detallePedagogico || "Diagnóstico cargado desde la evaluación de los padres.";
                             const codigo = st.codigoVinculacion || docVinculo.data().codigoVinculacion;
 
+                            // Actualizar Tarjeta
                             cardDiv.innerHTML = `
                                 <div>
                                     <span class="badge-profile"><i class="fa-solid fa-brain"></i> ${perfil}</span>
@@ -356,6 +397,21 @@
                                     <i class="fa-solid fa-pen-to-square"></i> Agregar Notas / Reevaluar con IA
                                 </button>
                             `;
+
+                            // Actualizar / Insertar opción en la lista del chat
+                            let btnChat = document.getElementById(`btn-chat-${padreUid}`);
+                            if (!btnChat) {
+                                btnChat = document.createElement("button");
+                                btnChat.id = `btn-chat-${padreUid}`;
+                                btnChat.className = "item-chat-familia";
+                                containerListaChat.appendChild(btnChat);
+                            }
+
+                            btnChat.innerHTML = `
+                                <strong style="font-size: 13px; color: var(--purple-dark); display: block;">${nombre}</strong>
+                                <span style="font-size: 11px; color: var(--text-muted);">${familia}</span>
+                            `;
+                            btnChat.onclick = () => abrirChatConFamilia(padreUid, nombre, familia);
                         }
                     });
 
@@ -363,6 +419,71 @@
                 });
             });
         }
+
+        // LÓGICA DE ABRIR Y ENVIAR MENSAJES EN EL CHAT
+        function abrirChatConFamilia(padreUid, nombreHijo, nombreFamilia) {
+            padreUidChatActivo = padreUid;
+
+            // Resaltar en la lista
+            document.querySelectorAll('.item-chat-familia').forEach(el => el.classList.remove('active'));
+            const btnSel = document.getElementById(`btn-chat-${padreUid}`);
+            if (btnSel) btnSel.classList.add('active');
+
+            document.getElementById("lblChatHeaderNombre").innerText = `Chat con ${nombreFamilia} (${nombreHijo})`;
+            document.getElementById("inputMsgDocente").disabled = false;
+            document.getElementById("btnEnviarChatDocente").disabled = false;
+
+            if (unsubChatMensajes) unsubChatMensajes();
+
+            const chatContainer = document.getElementById("chatMessagesDocente");
+            chatContainer.innerHTML = `<p style="font-size: 12px; color: var(--text-muted); text-align: center;">Cargando mensajes...</p>`;
+
+            // Escuchar colección de mensajes del alumno en tiempo real
+            const qMensajes = query(collection(db, "chats", padreUid, "mensajes"), orderBy("fecha", "asc"));
+            unsubChatMensajes = onSnapshot(qMensajes, (snapMsgs) => {
+                chatContainer.innerHTML = "";
+
+                if (snapMsgs.empty) {
+                    chatContainer.innerHTML = `<p style="font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 40px;">No hay mensajes registrados. Escribe el primer mensaje a la familia.</p>`;
+                    return;
+                }
+
+                snapMsgs.forEach(mDoc => {
+                    const m = mDoc.data();
+                    const esDocente = m.remitente === "profesor";
+                    chatContainer.innerHTML += `
+                        <div class="msg-bubble ${esDocente ? 'sent' : 'received'}">
+                            <strong style="display: block; font-size: 11px; margin-bottom: 2px; opacity: 0.8;">${esDocente ? 'Tú (Docente)' : nombreFamilia}</strong>
+                            ${m.texto}
+                        </div>
+                    `;
+                });
+
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            });
+        }
+
+        // ENVIAR MENSAJE
+        document.getElementById("formChatDocente").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const input = document.getElementById("inputMsgDocente");
+            const texto = input.value.trim();
+
+            if (!texto || !padreUidChatActivo) return;
+
+            try {
+                await addDoc(collection(db, "chats", padreUidChatActivo, "mensajes"), {
+                    remitente: "profesor",
+                    texto: texto,
+                    fecha: new Date()
+                });
+
+                input.value = "";
+            } catch (err) {
+                console.error("Error al enviar mensaje:", err);
+                alert("Error al enviar mensaje: " + err.message);
+            }
+        });
 
         window.prepararReevaluacion = async function(padreUid) {
             try {
