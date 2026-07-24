@@ -48,18 +48,14 @@
         .btn-primary { background-color: var(--purple-dark); color: white; border: none; padding: 12px 24px; border-radius: var(--border-radius); font-weight: 600; cursor: pointer; }
         .btn-primary:hover { background-color: var(--purple-light); }
 
+        /* VISTAS MÚLTIPLES DEL PANEL */
+        .panel-section { display: none; }
+        .panel-section.active { display: block; }
+
         .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; }
         .student-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 24px; border: 1px solid var(--border-suave); display: flex; flex-direction: column; justify-content: space-between; }
         
         .badge-profile { display: inline-block; padding: 6px 12px; font-size: 12px; border-radius: 20px; font-weight: 700; background: var(--purple-pale); color: var(--purple-dark); margin-bottom: 12px; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 22, 84, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 32px; border-radius: var(--border-radius); width: 100%; max-width: 480px; position: relative; }
-        .close-modal { position: absolute; top: 16px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; }
-
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-muted); }
-        .form-control { width: 100%; padding: 10px 14px; border: 1px solid var(--border-suave); border-radius: 8px; font-size: 14px; outline: none; }
 
         .empty-state {
             background: white;
@@ -70,6 +66,17 @@
             color: var(--text-muted);
             margin-top: 20px;
         }
+
+        .card-panel { background: white; border: 1px solid var(--border-suave); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+
+        /* MODALES */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 22, 84, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 32px; border-radius: var(--border-radius); width: 100%; max-width: 480px; position: relative; }
+        .close-modal { position: absolute; top: 16px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-muted); }
+        .form-control { width: 100%; padding: 10px 14px; border: 1px solid var(--border-suave); border-radius: 8px; font-size: 14px; outline: none; }
     </style>
 </head>
 <body>
@@ -79,34 +86,92 @@
     </header>
 
     <div class="app-body">
+        <!-- MENÚ LATERAL COMPLETO -->
         <div class="sidebar">
             <div style="font-weight: 700; font-size: 20px; margin-bottom: 30px; color: var(--purple-dark);">Panel Docente</div>
-            <button class="sidebar-btn active"><i class="fa-solid fa-users"></i> Mis Alumnos</button>
+            <button class="sidebar-btn active" onclick="cambiarSeccion('alumnos', event)"><i class="fa-solid fa-users"></i> Mis Alumnos</button>
+            <button class="sidebar-btn" onclick="cambiarSeccion('planeacion', event)"><i class="fa-solid fa-file-arrow-up"></i> Subir Planeación</button>
+            <button class="sidebar-btn" onclick="cambiarSeccion('mensajeria', event)"><i class="fa-solid fa-comments"></i> Mensajería Directa</button>
+            <button class="sidebar-btn" onclick="cambiarSeccion('direccion', event)"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</button>
+            
             <button class="sidebar-btn" id="btnLogout" style="margin-top: auto; color: #d9534f;"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
         </div>
 
         <div class="main-content">
-            <div class="header-panel">
-                <div class="header-title">
-                    <h1>Control de Alumnos</h1>
-                    <p>Gestión de alumnos e historial de perfiles adaptativos.</p>
+            
+            <!-- SECCIÓN 1: MIS ALUMNOS -->
+            <div id="sec-alumnos" class="panel-section active">
+                <div class="header-panel">
+                    <div class="header-title">
+                        <h1>Control de Alumnos</h1>
+                        <p>Gestión de alumnos e historial de perfiles adaptativos.</p>
+                    </div>
+                    <button class="btn-primary" onclick="openModal('modal-vincular')">+ Vincular Nuevo Alumno</button>
                 </div>
-                <button class="btn-primary" onclick="openModal('modal-vincular')">+ Vincular Alumno con Código</button>
+
+                <div class="student-grid" id="students-container">
+                    <!-- Se carga dinámicamente o muestra estado vacío -->
+                </div>
             </div>
 
-            <!-- CONTENEDOR DE TARJETAS (VACÍO POR DEFECTO) -->
-            <div class="student-grid" id="students-container">
-                <!-- Se llena dinámicamente desde Firebase -->
+            <!-- SECCIÓN 2: SUBIR PLANEACIÓN -->
+            <div id="sec-planeacion" class="panel-section">
+                <div class="header-panel">
+                    <div class="header-title">
+                        <h1>Subir Planeación Didáctica</h1>
+                        <p>Sube tus temas o contenidos para que Sophia IA genere las adaptaciones automáticas.</p>
+                    </div>
+                </div>
+                <div class="card-panel">
+                    <form id="formPlaneacion">
+                        <div class="form-group">
+                            <label>Materia / Asignatura</label>
+                            <input type="text" class="form-control" placeholder="Ej: Historia / Ciencias 1° Secundaria" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contenido / Tema de la Clase</label>
+                            <textarea class="form-control" rows="5" placeholder="Pega aquí el texto del tema o la planeación pedagógica..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Procesar Adaptaciones con Sophia IA</button>
+                    </form>
+                </div>
             </div>
+
+            <!-- SECCIÓN 3: MENSAJERÍA DIRECTA -->
+            <div id="sec-mensajeria" class="panel-section">
+                <div class="header-panel">
+                    <div class="header-title">
+                        <h1>Mensajería Directa</h1>
+                        <p>Comunicación con las familias y tutores de tus alumnos vinculados.</p>
+                    </div>
+                </div>
+                <div class="card-panel">
+                    <p style="color: var(--text-muted); font-size: 14px;">Selecciona un alumno vinculado para iniciar conversación con la familia.</p>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 4: OBSERVACIONES DIRECCIÓN -->
+            <div id="sec-direccion" class="panel-section">
+                <div class="header-panel">
+                    <div class="header-title">
+                        <h1>Observaciones de Dirección</h1>
+                        <p>Notas institucionales y recomendaciones pedagógicas para tu grupo.</p>
+                    </div>
+                </div>
+                <div class="card-panel">
+                    <p style="color: var(--text-muted); font-size: 14px;">Sin observaciones o avisos pendientes por parte de Dirección Escolar.</p>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- VENTANA FLOTANTE: VINCULAR ALUMNO (PIDE SOLAMENTE EL CÓDIGO) -->
+    <!-- MODAL: VINCULAR ALUMNO MEDIANTE CÓDIGO DEL PADRE -->
     <div id="modal-vincular" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('modal-vincular')">&times;</span>
             <h2 style="font-size: 20px; color: var(--purple-dark); margin-bottom: 8px;">Vincular Alumno</h2>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Ingresa el código proporcionado por los padres (ejemplo: <strong>NC-4457</strong>).</p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Ingresa el código escolar generado en el portal del padre (ej: <strong>NC-4457</strong>).</p>
 
             <form id="formVincularCodigo">
                 <div class="form-group">
@@ -118,12 +183,12 @@
         </div>
     </div>
 
-    <!-- VENTANA FLOTANTE: REEVALUAR DIAGNÓSTICO CON IA -->
+    <!-- MODAL: REEVALUAR DIAGNÓSTICO CON IA -->
     <div id="modal-reevaluar" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('modal-reevaluar')">&times;</span>
             <h2 style="font-size: 20px; color: var(--purple-dark); margin-bottom: 8px;">Reevaluación Pedagógica IA</h2>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Agrega tus observaciones para que Sophia complemente el diagnóstico inicial de los padres.</p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Agrega tus observaciones de aula para que Sophia complemente el diagnóstico inicial de los padres.</p>
 
             <form id="formReevaluarIA">
                 <input type="hidden" id="modalPadreUid">
@@ -140,7 +205,21 @@
         </div>
     </div>
 
-    <!-- FIREBASE -->
+    <!-- CONTROL DE SECCIONES (NAVEGACIÓN LATERAL) -->
+    <script>
+        function cambiarSeccion(secId, e) {
+            document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.panel-section').forEach(sec => sec.classList.remove('active'));
+
+            e.currentTarget.classList.add('active');
+            document.getElementById('sec-' + secId).classList.add('active');
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    </script>
+
+    <!-- FIREBASE Y LÓGICA DE DATOS -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -189,10 +268,7 @@
             cargarAlumnosVinculados();
         });
 
-        window.openModal = function(id) { document.getElementById(id).style.display = 'flex'; };
-        window.closeModal = function(id) { document.getElementById(id).style.display = 'none'; };
-
-        // CÓDIGO DE VINCULACIÓN
+        // VINCULACIÓN POR CÓDIGO
         document.getElementById("formVincularCodigo").addEventListener("submit", async (e) => {
             e.preventDefault();
             const codigo = document.getElementById("txtCodigoVinculacion").value.trim().toUpperCase();
@@ -220,7 +296,7 @@
             });
         });
 
-        // ESCUCHAR Y MOSTRAR ALUMNOS VINCULADOS
+        // CARGA DINÁMICA DE ALUMNOS VINCULADOS
         function cargarAlumnosVinculados() {
             onSnapshot(collection(db, "profesores", profesorUid, "alumnos_vinculados"), async (snapshot) => {
                 const container = document.getElementById("students-container");
