@@ -38,7 +38,6 @@
             line-height: 1.6;
         }
 
-        /* BANNER Y NAVBAR */
         .hero-banner-header {
             width: 100%;
             height: 180px;
@@ -88,11 +87,6 @@
             color: var(--text-muted);
             font-weight: 500;
             font-size: 15px;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--purple-light);
         }
 
         .btn-nav-login {
@@ -104,31 +98,26 @@
             cursor: pointer;
         }
 
-        .btn-nav-login:hover {
-            background-color: var(--purple-light);
-        }
-
-        /* HERO SECTION */
+        /* HERO */
         .hero-section {
             max-width: 1100px;
-            margin: 60px auto 40px auto;
+            margin: 50px auto 30px auto;
             padding: 0 24px;
             text-align: center;
         }
 
         .hero-section h1 {
-            font-size: 42px;
+            font-size: 40px;
             font-weight: 700;
             color: var(--purple-dark);
             margin-bottom: 16px;
-            line-height: 1.2;
         }
 
         .hero-section p {
-            font-size: 18px;
+            font-size: 17px;
             color: var(--text-muted);
             max-width: 750px;
-            margin: 0 auto 32px auto;
+            margin: 0 auto 30px auto;
         }
 
         .hero-buttons {
@@ -137,103 +126,98 @@
             gap: 16px;
         }
 
-        .btn-hero-primary {
+        .btn-primary {
             background-color: var(--purple-dark);
             color: var(--white);
-            padding: 14px 28px;
-            border-radius: 10px;
-            font-size: 16px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 700;
             border: none;
             cursor: pointer;
         }
 
-        .btn-hero-secondary {
+        .btn-secondary {
             background-color: var(--white);
             color: var(--purple-dark);
-            border: 2px solid var(--border-suave);
-            padding: 14px 28px;
-            border-radius: 10px;
-            font-size: 16px;
+            border: 1px solid var(--border-suave);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
         }
 
-        /* SECCIÓN DE CARACTERÍSTICAS / ROLES */
+        /* CARACTERÍSTICAS */
         .features-section {
             max-width: 1200px;
-            margin: 60px auto;
+            margin: 50px auto;
             padding: 0 24px;
         }
 
         .section-title {
             text-align: center;
-            font-size: 28px;
+            font-size: 26px;
             color: var(--purple-dark);
-            margin-bottom: 40px;
+            margin-bottom: 35px;
+            font-weight: 700;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
         }
 
         .feature-card {
             background: var(--white);
-            padding: 32px;
-            border-radius: 16px;
+            padding: 25px;
+            border-radius: 14px;
             border: 1px solid var(--border-suave);
-            box-shadow: 0 4px 15px rgba(42, 22, 84, 0.02);
-            text-align: left;
-        }
-
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            background: var(--purple-pale);
-            color: var(--purple-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            margin-bottom: 20px;
         }
 
         .feature-card h3 {
-            font-size: 20px;
-            margin-bottom: 12px;
+            font-size: 18px;
+            margin-bottom: 8px;
             color: var(--purple-dark);
         }
 
         .feature-card p {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
-            line-height: 1.6;
         }
 
-        /* SECCIÓN DE PRECIOS */
+        /* SECCIÓN DE PRECIOS ESCALONADOS */
         .pricing-section {
             background-color: var(--white);
             border-top: 1px solid var(--border-suave);
             border-bottom: 1px solid var(--border-suave);
-            padding: 80px 24px;
+            padding: 60px 24px;
+        }
+
+        .pricing-subtitle {
+            text-align: center;
+            font-size: 15px;
+            color: var(--purple-light);
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .pricing-grid {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
         }
 
         .pricing-card {
             background: var(--bg-cream);
             border: 1px solid var(--border-suave);
-            border-radius: 20px;
-            padding: 36px;
+            border-radius: 16px;
+            padding: 28px;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -242,58 +226,60 @@
         .pricing-card.featured {
             border: 2px solid var(--purple-light);
             background: var(--white);
-            box-shadow: 0 10px 30px rgba(99, 57, 166, 0.1);
+            box-shadow: 0 8px 25px rgba(99, 57, 166, 0.08);
         }
 
-        .badge-popular {
+        .badge-tag {
             position: absolute;
             top: -12px;
-            right: 24px;
+            right: 20px;
             background-color: var(--purple-dark);
             color: var(--white);
             font-size: 11px;
-            padding: 4px 12px;
-            border-radius: 12px;
+            padding: 4px 10px;
+            border-radius: 10px;
             font-weight: 700;
         }
 
         .price-title {
-            font-size: 22px;
+            font-size: 18px;
             color: var(--purple-dark);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            font-weight: 700;
         }
 
         .price-amount {
-            font-size: 36px;
+            font-size: 30px;
             font-weight: 700;
             color: var(--purple-dark);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .price-amount span {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
             font-weight: 400;
         }
 
         .price-features {
             list-style: none;
-            margin: 24px 0;
+            margin: 16px 0;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            font-size: 14px;
+            gap: 10px;
+            font-size: 13px;
             color: var(--text-muted);
         }
 
         .price-features li {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            align-items: flex-start;
+            gap: 8px;
         }
 
         .price-features i {
             color: var(--green-success);
+            margin-top: 3px;
         }
 
         /* MODAL DE LOGIN */
@@ -349,7 +335,7 @@
 
         footer {
             text-align: center;
-            padding: 30px;
+            padding: 25px;
             font-size: 13px;
             color: var(--text-muted);
             border-top: 1px solid var(--border-suave);
@@ -368,7 +354,7 @@
         </a>
         <ul class="nav-links">
             <li><a href="#caracteristicas">Características</a></li>
-            <li><a href="#planes">Planes y Precios</a></li>
+            <li><a href="#planes">Planes Institucionales y Familias</a></li>
             <li><a href="#" class="btn-nav-login" onclick="openLoginModal()">Ingresar al Portal</a></li>
         </ul>
     </nav>
@@ -376,94 +362,112 @@
     <!-- HERO -->
     <section class="hero-section">
         <h1>Aprendizaje Adaptativo Remoto para Alumnos Neurodivergentes</h1>
-        <p>Una plataforma PWA minimalista diseñada para eliminar distracciones, monitorear por excepción sin cámaras invasivas y brindar asistencia inmediata con Inteligencia Artificial.</p>
+        <p>Plataforma PWA minimalista con gestión por excepción. Monitoreo en tiempo real, asistencias por IA y cero cámaras invasivas.</p>
         <div class="hero-buttons">
-            <button class="btn-hero-primary" onclick="openLoginModal()">Acceder a la Plataforma</button>
-            <button class="btn-hero-secondary" onclick="document.getElementById('planes').scrollIntoView({behavior: 'smooth'})">Ver Planes</button>
+            <button class="btn-primary" onclick="openLoginModal()">Ingresar a Mi Portal</button>
+            <button class="btn-secondary" onclick="document.getElementById('planes').scrollIntoView({behavior: 'smooth'})">Ver Precios</button>
         </div>
     </section>
 
     <!-- CARACTERÍSTICAS -->
     <section class="features-section" id="caracteristicas">
-        <h2 class="section-title">Un Ecosistema Diseñado para Cada Rol</h2>
+        <h2 class="section-title">Solución Integral Multirrol</h2>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-child-reaching"></i></div>
-                <h3>Alumno (PWA)</h3>
-                <p>Interfaz lineal y minimalista sin barras ni distracciones. Incluye botón flotante de asistencia inmediata con la IA Sophia y lecturas guiadas en micro-bloques.</p>
+                <h3><i class="fa-solid fa-child" style="color:var(--purple-light);"></i> Alumno (PWA)</h3>
+                <p>Navegación limpia sin barras ni distracciones. Botón de ayuda para resolver bloqueos cognitivos inmediatamente con la IA Sophia.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-                <h3>Profesor / Especialista</h3>
-                <p>Dashboard de control por excepción con semaforización automatizada. Recibe reportes instantáneos de las dudas resueltas por la IA y guía los ajustes pedagógicos.</p>
+                <h3><i class="fa-solid fa-chalkboard-user" style="color:var(--purple-light);"></i> Profesor</h3>
+                <p>Dashboard por excepción con semáforo inteligente. La IA atiende dudas menores y el docente guía el ajuste pedagógico.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-house-chimney-user"></i></div>
-                <h3>Familia / Tutor</h3>
-                <p>Monitoreo en tiempo real de sesiones de estudio, bitácora de incidencias atendidas y pautas claras generadas por la IA para apoyar en casa sin sobrecarga.</p>
+                <h3><i class="fa-solid fa-school" style="color:var(--purple-light);"></i> Dirección / Escuela</h3>
+                <p>Gestión de licencias institucionales, asignación de grupos y métricas agregadas de avance académico.</p>
+            </div>
+            <div class="feature-card">
+                <h3><i class="fa-solid fa-house-chimney-user" style="color:var(--purple-light);"></i> Familia / Tutor</h3>
+                <p>Supervisión en tiempo real, bitácora de asistencias prestadas y recomendaciones prácticas para aplicar en casa.</p>
             </div>
         </div>
     </section>
 
-    <!-- PLANES Y PRECIOS -->
+    <!-- PLANES Y PRECIOS ESCALONADOS -->
     <section class="pricing-section" id="planes">
-        <h2 class="section-title">Planes y Suscripciones</h2>
+        <div class="pricing-subtitle">Esquema de Licencias e Inversión</div>
+        <h2 class="section-title">Planes Escalonados para Escuelas y Suscripción Familiar</h2>
+        
         <div class="pricing-grid">
             
-            <!-- PLAN ESTÁNDAR / INSTITUCIONAL -->
+            <!-- ESCUELAS: NIVEL 1 -->
             <div class="pricing-card">
-                <h3 class="price-title">Plan Estándar</h3>
-                <div class="price-amount">Incluido <span>/ Acceso Escolar</span></div>
-                <p style="font-size: 13px; color: var(--text-muted);">Para instituciones vinculadas y alumnos registrados por el colegio.</p>
-                
+                <h3 class="price-title">Licencia Escuela Nivel 1</h3>
+                <div class="price-amount">$390 <span>MXN / alumno / mes</span></div>
+                <p style="font-size: 12px; color: var(--text-muted);">Para instituciones de <strong>1 a 50 alumnos</strong>.</p>
                 <ul class="price-features">
-                    <li><i class="fa-solid fa-check"></i> Acceso completo a la PWA del Alumno</li>
-                    <li><i class="fa-solid fa-check"></i> Adaptación de planeaciones con IA</li>
-                    <li><i class="fa-solid fa-check"></i> Reportes cognitivos históricos</li>
-                    <li><i class="fa-solid fa-check"></i> Código de vinculación familiar</li>
+                    <li><i class="fa-solid fa-check"></i> Acceso docente y dirección</li>
+                    <li><i class="fa-solid fa-check"></i> PWA del Alumno habilitada</li>
+                    <li><i class="fa-solid fa-check"></i> Adaptación de contenidos por IA</li>
+                    <li><i class="fa-solid fa-check"></i> Reportes cognitivos básicos</li>
                 </ul>
-
-                <button class="btn-hero-secondary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Ingresar con Código</button>
+                <button class="btn-secondary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Acceso Colegio</button>
             </div>
 
-            <!-- PLAN PREMIUM FAMILIAR -->
+            <!-- ESCUELAS: NIVEL 2 -->
             <div class="pricing-card featured">
-                <span class="badge-popular">RECOMENDADO</span>
-                <h3 class="price-title">Plan Premium Familiar</h3>
-                <div class="price-amount">$1,214.18 <span>MXN / mes</span></div>
-                <p style="font-size: 13px; color: var(--text-muted);">Tranquilidad en tiempo real y asesoría continua para el hogar.</p>
-                
+                <span class="badge-tag">MÁS POPULAR</span>
+                <h3 class="price-title">Licencia Escuela Nivel 2</h3>
+                <div class="price-amount">$290 <span>MXN / alumno / mes</span></div>
+                <p style="font-size: 12px; color: var(--text-muted);">Para instituciones de <strong>51 a 200 alumnos</strong>.</p>
                 <ul class="price-features">
-                    <li><i class="fa-solid fa-check"></i> Todo lo incluido en el Plan Estándar</li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Supervisión en Vivo (Heartbeat/Semáforo)</strong></li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Pautas para el Hogar en tiempo real</strong></li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Bitácora de asistencias atendidas por IA</strong></li>
-                    <li><i class="fa-solid fa-check"></i> Canal directo de comunicación con docentes</li>
+                    <li><i class="fa-solid fa-check"></i> Todo lo del Nivel 1</li>
+                    <li><i class="fa-solid fa-check"></i> Descuento por volumen escalar</li>
+                    <li><i class="fa-solid fa-check"></i> Asesoría de integración docente</li>
+                    <li><i class="fa-solid fa-check"></i> Códigos automáticos para padres</li>
                 </ul>
+                <button class="btn-primary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Acceso Colegio</button>
+            </div>
 
-                <button class="btn-hero-primary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Suscribirme a Premium</button>
+            <!-- ESCUELAS: NIVEL 3 -->
+            <div class="pricing-card">
+                <h3 class="price-title">Licencia Campus (200+)</h3>
+                <div class="price-amount">$190 <span>MXN / alumno / mes</span></div>
+                <p style="font-size: 12px; color: var(--text-muted);">Para colegios de <strong>más de 200 alumnos</strong>.</p>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> Todo lo del Nivel 2</li>
+                    <li><i class="fa-solid fa-check"></i> Servidor y canal prioritario</li>
+                    <li><i class="fa-solid fa-check"></i> Capacitación continua al equipo</li>
+                    <li><i class="fa-solid fa-check"></i> Soporte directivo dedicado</li>
+                </ul>
+                <button class="btn-secondary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Acceso Colegio</button>
+            </div>
+
+            <!-- FAMILIAR PREMIUM -->
+            <div class="pricing-card" style="border: 2px solid var(--purple-dark); background: var(--purple-pale);">
+                <span class="badge-tag" style="background:var(--purple-light);">FAMILIAS</span>
+                <h3 class="price-title">Plan Familiar Premium</h3>
+                <div class="price-amount">$1,214.18 <span>MXN / mes</span></div>
+                <p style="font-size: 12px; color: var(--text-muted);">Suscripción directa para el hogar.</p>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> <strong>Supervisión en Tiempo Real</strong></li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Sugerencias prácticas para el hogar</strong></li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Bitácora de asistencias por IA</strong></li>
+                    <li><i class="fa-solid fa-check"></i> Chat directo con profesores</li>
+                </ul>
+                <button class="btn-primary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Suscribir Familia</button>
             </div>
 
         </div>
     </section>
 
-    <!-- MODAL DE ACCESO / LOGIN -->
+    <!-- MODAL DE LOGIN CON DIRECCIONAMIENTO AUTOMÁTICO DE ROL -->
     <div id="modalLogin" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeLoginModal()">&times;</span>
-            <h2 style="font-size: 22px; color: var(--purple-dark); margin-bottom: 8px; text-align: center;">Iniciar Sesión</h2>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; text-align: center;">Selecciona tu portal e ingresa tus credenciales</p>
+            <h2 style="font-size: 20px; color: var(--purple-dark); margin-bottom: 6px; text-align: center;">Acceso al Portal</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; text-align: center;">Ingresa con tu correo registrado</p>
 
             <form id="formLoginModal">
-                <div class="form-group">
-                    <label>Tipo de Usuario / Portal</label>
-                    <select class="form-control" id="selectRolPortal">
-                        <option value="panel-padre.html">Padre de Familia (Portal Familiar)</option>
-                        <option value="profesor.html">Profesor / Especialista</option>
-                        <option value="alumno.html">Alumno (Portal PWA)</option>
-                    </select>
-                </div>
-
                 <div class="form-group">
                     <label>Correo Electrónico</label>
                     <input type="email" class="form-control" id="modalEmail" placeholder="correo@ejemplo.com" required>
@@ -474,19 +478,30 @@
                     <input type="password" class="form-control" id="modalPass" placeholder="******" required>
                 </div>
 
-                <button type="submit" class="btn-hero-primary" style="width: 100%; margin-top: 10px;">Ingresar al Portal</button>
+                <div class="form-group">
+                    <label>Portal / Selección de Respaldo</label>
+                    <select class="form-control" id="selectRolPortal">
+                        <option value="panel-padre.html">Padre de Familia (Portal Familiar)</option>
+                        <option value="profesor.html">Profesor / Especialista</option>
+                        <option value="panel-escuela.html">Dirección Escolar</option>
+                        <option value="alumno.html">Alumno (PWA)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Entrar a NeuroClarity</button>
             </form>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 NeuroClarity. Todos los derechos reservados. Plataforma de tecnología adaptativa para neurodiversidad.</p>
+        <p>&copy; 2026 NeuroClarity. Plataforma de tecnología adaptativa para neurodiversidad.</p>
     </footer>
 
-    <!-- FIREBASE -->
+    <!-- FIREBASE CON REDIRECCIÓN AUTOMÁTICA POR ROL -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q",
@@ -499,6 +514,7 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
         window.openLoginModal = function() {
             document.getElementById("modalLogin").style.display = "flex";
@@ -512,14 +528,27 @@
             e.preventDefault();
             const email = document.getElementById("modalEmail").value;
             const pass = document.getElementById("modalPass").value;
-            const destino = document.getElementById("selectRolPortal").value;
+            const respaldoDestino = document.getElementById("selectRolPortal").value;
 
             try {
-                await signInWithEmailAndPassword(auth, email, pass);
-                window.location.href = destino;
+                const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+                const user = userCredential.user;
+
+                // Consulta automática del rol en Firestore
+                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+                if (userDoc.exists()) {
+                    const rol = userDoc.data().rol;
+                    if (rol === "padre") window.location.href = "panel-padre.html";
+                    else if (rol === "profesor") window.location.href = "profesor.html";
+                    else if (rol === "escuela") window.location.href = "panel-escuela.html";
+                    else if (rol === "alumno") window.location.href = "alumno.html";
+                    else window.location.href = respaldoDestino;
+                } else {
+                    window.location.href = respaldoDestino;
+                }
             } catch (err) {
-                // Para modo pruebas local: te redirige directamente al portal seleccionado
-                window.location.href = destino;
+                // Modo pruebas local: te redirige a la opción seleccionada en el menú desplegable
+                window.location.href = respaldoDestino;
             }
         });
     </script>
