@@ -661,89 +661,73 @@
         });
     </script>
 
-    <!-- Lógica de Firebase para Login con Detección Flexible de Rol -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    <!-- Script de Firebase corregido para mantener la sesión activa -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-        const ncConfig = {
-            apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
-            authDomain: "neuroclarity-dcf0e.firebaseapp.com",
-            projectId: "neuroclarity-dcf0e",
-            storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
-            messagingSenderId: "34116345239",
-            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2",
-            measurementId: "G-1C875WNG8X"
-        };
+    const ncConfig = {
+        apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
+        authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+        projectId: "neuroclarity-dcf0e",
+        storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
+        messagingSenderId: "34116345239",
+        appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2"
+    };
 
-        try {
-            const appNC = initializeApp(ncConfig, "neuroclarityApp");
-            const authNC = getAuth(appNC);
-            const dbNC = getFirestore(appNC);
+    // Inicialización estándar para compartir la sesión entre todas las páginas
+    const app = initializeApp(ncConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-            const form = document.getElementById('loginForm');
-            if (form) {
-                form.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const email = document.getElementById('loginEmail').value.trim();
-                    const password = document.getElementById('loginPassword').value;
+    const form = document.getElementById('loginForm');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
 
-                    try {
-                        const userCredential = await signInWithEmailAndPassword(authNC, email, password);
-                        const user = userCredential.user;
+            try {
+                // 1. Autenticar en Firebase
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
 
-                        document.getElementById('loginModal').classList.remove('active');
+                document.getElementById('loginModal').classList.remove('active');
 
-                        // BÚSQUEDA FLEXIBLE DEL ROL EN FIRESTORE
-                        let rawRol = null;
+                // 2. Buscar rol en Firestore
+                let docRef = doc(db, "padres", user.uid);
+                let docSnap = await getDoc(docRef);
 
-                        // 1. Probar en NeuroClarity_Membresias usando el email como id
-                        let docRef = doc(dbNC, "NeuroClarity_Membresias", email);
-                        let docSnap = await getDoc(docRef);
+                if (!docSnap.exists()) {
+                    docRef = doc(db, "NeuroClarity_Membresias", email);
+                    docSnap = await getDoc(docRef);
+                }
 
-                        // 2. Si no existe, probar en NeuroClarity_Membresias usando el UID
-                        if (!docSnap.exists()) {
-                            docRef = doc(dbNC, "NeuroClarity_Membresias", user.uid);
-                            docSnap = await getDoc(docRef);
-                        }
+                let rawRol = "";
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    rawRol = (data.tipo_licencia || data.rol || "").toString().toLowerCase();
+                }
 
-                        // 3. Si tampoco existe, probar en la colección usuarios usando el UID
-                        if (!docSnap.exists()) {
-                            docRef = doc(dbNC, "usuarios", user.uid);
-                            docSnap = await getDoc(docRef);
-                        }
+                // 3. Redireccionar según el rol
+                if (rawRol.includes("profe") || rawRol.includes("docente")) {
+                    window.location.href = "profesor.html";
+                } else if (rawRol.includes("escuela") || rawRol.includes("admin")) {
+                    window.location.href = "panel-escuela.html";
+                } else if (rawRol.includes("alumno")) {
+                    window.location.href = "alumno.html";
+                } else {
+                    // Por defecto envía al panel de padres
+                    window.location.href = "panel-padre.html";
+                }
 
-                        if (docSnap.exists()) {
-                            const data = docSnap.data();
-                            rawRol = data.tipo_licencia || data.tipoLicencia || data.rol || data.role;
-                        }
-
-                        const rol = rawRol ? rawRol.toString().toLowerCase().trim() : "";
-
-                        // REDIRECCIÓN SEGÚN ROL DETECTADO
-                        if (rol.includes("padre") || rol.includes("tutor") || rol.includes("familia")) {
-                            window.location.href = "panel-padre.html";
-                        } else if (rol.includes("profe") || rol.includes("docente") || rol.includes("maestro")) {
-                            window.location.href = "profesor.html";
-                        } else if (rol.includes("escuela") || rol.includes("admin") || rol.includes("direccion")) {
-                            window.location.href = "panel-escuela.html";
-                        } else if (rol.includes("alumno") || rol.includes("estudiante")) {
-                            window.location.href = "alumno.html";
-                        } else {
-                            // Si es una cuenta de prueba sin registro previo en Firestore, enviamos a panel-padre.html
-                            window.location.href = "panel-padre.html";
-                        }
-
-                    } catch (error) {
-                        console.error("Error en autenticación:", error);
-                        alert("Error al iniciar sesión: " + error.message);
-                    }
-                });
+            } catch (error) {
+                console.error("Error al iniciar sesión:", error);
+                alert("Error al iniciar sesión: Revisa tu correo o contraseña.");
             }
-        } catch (error) {
-            console.error("Error al inicializar Firebase Auth/Firestore:", error);
-        }
-    </script>
+        });
+    }
+</script>
 </body>
 </html>
