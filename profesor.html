@@ -48,7 +48,6 @@
         .btn-primary { background-color: var(--purple-dark); color: white; border: none; padding: 12px 24px; border-radius: var(--border-radius); font-weight: 600; cursor: pointer; }
         .btn-primary:hover { background-color: var(--purple-light); }
 
-        /* VISTAS MÚLTIPLES DEL PANEL */
         .panel-section { display: none; }
         .panel-section.active { display: block; }
 
@@ -86,7 +85,6 @@
     </header>
 
     <div class="app-body">
-        <!-- MENÚ LATERAL COMPLETO -->
         <div class="sidebar">
             <div style="font-weight: 700; font-size: 20px; margin-bottom: 30px; color: var(--purple-dark);">Panel Docente</div>
             <button class="sidebar-btn active" onclick="cambiarSeccion('alumnos', event)"><i class="fa-solid fa-users"></i> Mis Alumnos</button>
@@ -110,7 +108,7 @@
                 </div>
 
                 <div class="student-grid" id="students-container">
-                    <!-- Se carga dinámicamente o muestra estado vacío -->
+                    <!-- Se carga dinámicamente -->
                 </div>
             </div>
 
@@ -166,7 +164,7 @@
         </div>
     </div>
 
-    <!-- MODAL: VINCULAR ALUMNO MEDIANTE CÓDIGO DEL PADRE -->
+    <!-- MODAL VINCULAR -->
     <div id="modal-vincular" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('modal-vincular')">&times;</span>
@@ -183,7 +181,7 @@
         </div>
     </div>
 
-    <!-- MODAL: REEVALUAR DIAGNÓSTICO CON IA -->
+    <!-- MODAL REEVALUAR -->
     <div id="modal-reevaluar" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('modal-reevaluar')">&times;</span>
@@ -205,7 +203,6 @@
         </div>
     </div>
 
-    <!-- CONTROL DE SECCIONES (NAVEGACIÓN LATERAL) -->
     <script>
         function cambiarSeccion(secId, e) {
             document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
@@ -219,7 +216,7 @@
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     </script>
 
-    <!-- FIREBASE Y LÓGICA DE DATOS -->
+    <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
@@ -239,6 +236,7 @@
         const db = getFirestore(app);
 
         let profesorUid = null;
+        let canceladoresOnSnapshot = [];
 
         function analizarConSophia(notasFamilia, notasDocente) {
             const combinado = (notasFamilia + " " + notasDocente).toLowerCase();
@@ -265,42 +263,50 @@
                 return;
             }
             profesorUid = user.uid;
-            cargarAlumnosVinculados();
+            escucharAlumnosVinculados();
         });
 
-        // VINCULACIÓN POR CÓDIGO
+        // FORMULARIO DE VINCULACIÓN
         document.getElementById("formVincularCodigo").addEventListener("submit", async (e) => {
             e.preventDefault();
             const codigo = document.getElementById("txtCodigoVinculacion").value.trim().toUpperCase();
 
-            const q = query(collection(db, "padres"), where("codigoVinculacion", "==", codigo));
-            const querySnap = await getDocs(q);
+            try {
+                const q = query(collection(db, "padres"), where("codigoVinculacion", "==", codigo));
+                const querySnap = await getDocs(q);
 
-            if (querySnap.empty) {
-                alert("Código no encontrado. Revisa el código generado en el portal del padre.");
-                return;
+                if (querySnap.empty) {
+                    alert("Código no encontrado. Revisa la clave generada en el portal del padre.");
+                    return;
+                }
+
+                for (const docSnap of querySnap.docs) {
+                    const padreUid = docSnap.id;
+                    
+                    await setDoc(doc(db, "profesores", profesorUid, "alumnos_vinculados", padreUid), {
+                        padreUid: padreUid,
+                        codigoVinculacion: codigo,
+                        fechaVinculacion: new Date()
+                    });
+
+                    alert("¡Alumno vinculado con éxito!");
+                    closeModal("modal-vincular");
+                    document.getElementById("txtCodigoVinculacion").value = "";
+                }
+            } catch (err) {
+                console.error("Error al vincular:", err);
+                alert("Ocurrió un error al vincular el código: " + err.message);
             }
-
-            querySnap.forEach(async (docSnap) => {
-                const padreUid = docSnap.id;
-                
-                await setDoc(doc(db, "profesores", profesorUid, "alumnos_vinculados", padreUid), {
-                    padreUid: padreUid,
-                    codigoVinculacion: codigo,
-                    fechaVinculacion: new Date()
-                });
-
-                alert("¡Alumno vinculado con éxito!");
-                closeModal("modal-vincular");
-                document.getElementById("txtCodigoVinculacion").value = "";
-            });
         });
 
-        // CARGA DINÁMICA DE ALUMNOS VINCULADOS
-        function cargarAlumnosVinculados() {
-            onSnapshot(collection(db, "profesores", profesorUid, "alumnos_vinculados"), async (snapshot) => {
+        // ESCUCHAR LISTA Y DOCUMENTOS INDIVIDUALES EN TIEMPO REAL
+        function escucharAlumnosVinculados() {
+            onSnapshot(collection(db, "profesores", profesorUid, "alumnos_vinculados"), (snapshot) => {
                 const container = document.getElementById("students-container");
-                container.innerHTML = "";
+                
+                // Limpiar escuchadores previos
+                canceladoresOnSnapshot.forEach(unsub => unsub());
+                canceladoresOnSnapshot = [];
 
                 if (snapshot.empty) {
                     container.innerHTML = `
@@ -313,21 +319,28 @@
                     return;
                 }
 
-                for (const docVinculo of snapshot.docs) {
+                container.innerHTML = "";
+
+                snapshot.docs.forEach((docVinculo) => {
                     const padreUid = docVinculo.data().padreUid;
-                    const padreSnap = await getDoc(doc(db, "padres", padreUid));
+                    
+                    // Crear tarjeta vacía para este alumno
+                    const cardDiv = document.createElement("div");
+                    cardDiv.id = `card-alumno-${padreUid}`;
+                    cardDiv.className = "student-card";
+                    container.appendChild(cardDiv);
 
-                    if (padreSnap.exists()) {
-                        const st = padreSnap.data();
-                        
-                        const nombre = st.nombreHijo || "Alumno";
-                        const grado = st.gradoHijo || "Sin grado";
-                        const perfil = st.perfilPedagogico || "Línea de Enfoque Básica";
-                        const detalle = st.detallePedagogico || "Diagnóstico cargado desde la evaluación de los padres.";
-                        const codigo = st.codigoVinculacion || docVinculo.data().codigoVinculacion;
+                    // Suscribirse EN TIEMPO REAL a los cambios del documento del alumno en /padres/
+                    const unsub = onSnapshot(doc(db, "padres", padreUid), (padreSnap) => {
+                        if (padreSnap.exists()) {
+                            const st = padreSnap.data();
+                            const nombre = st.nombreHijo || "Alumno";
+                            const grado = st.gradoHijo || "Sin grado";
+                            const perfil = st.perfilPedagogico || "Línea de Enfoque Básica";
+                            const detalle = st.detallePedagogico || "Diagnóstico cargado desde la evaluación de los padres.";
+                            const codigo = st.codigoVinculacion || docVinculo.data().codigoVinculacion;
 
-                        container.innerHTML += `
-                            <div class="student-card">
+                            cardDiv.innerHTML = `
                                 <div>
                                     <span class="badge-profile"><i class="fa-solid fa-brain"></i> ${perfil}</span>
                                     <h3 style="color: var(--purple-dark); font-size: 20px; margin-bottom: 4px;">${nombre}</h3>
@@ -342,41 +355,54 @@
                                         onclick="prepararReevaluacion('${padreUid}')">
                                     <i class="fa-solid fa-pen-to-square"></i> Agregar Notas / Reevaluar con IA
                                 </button>
-                            </div>
-                        `;
-                    }
-                }
+                            `;
+                        }
+                    });
+
+                    canceladoresOnSnapshot.push(unsub);
+                });
             });
         }
 
         window.prepararReevaluacion = async function(padreUid) {
-            const padreSnap = await getDoc(doc(db, "padres", padreUid));
-            if (padreSnap.exists()) {
-                const data = padreSnap.data();
-                document.getElementById("modalPadreUid").value = padreUid;
-                document.getElementById("txtNotasPadresPrevias").value = data.observaciones || "Sin observaciones iniciales de la familia.";
-                document.getElementById("txtNotasDocenteNuevas").value = data.observacionesDocente || "";
-                openModal("modal-reevaluar");
+            try {
+                const padreSnap = await getDoc(doc(db, "padres", padreUid));
+                if (padreSnap.exists()) {
+                    const data = padreSnap.data();
+                    document.getElementById("modalPadreUid").value = padreUid;
+                    document.getElementById("txtNotasPadresPrevias").value = data.observaciones || "Sin observaciones iniciales de la familia.";
+                    document.getElementById("txtNotasDocenteNuevas").value = data.observacionesDocente || "";
+                    openModal("modal-reevaluar");
+                }
+            } catch (e) {
+                console.error(e);
+                alert("Error al cargar datos del alumno: " + e.message);
             }
         };
 
+        // GUARDAR REEVALUACIÓN E INTEGRAR CON FIRESTORE
         document.getElementById("formReevaluarIA").addEventListener("submit", async (e) => {
             e.preventDefault();
             const padreUid = document.getElementById("modalPadreUid").value;
             const notasPadres = document.getElementById("txtNotasPadresPrevias").value;
             const notasDocente = document.getElementById("txtNotasDocenteNuevas").value.trim();
 
-            const nuevoAnalisis = analizarConSophia(notasPadres, notasDocente);
+            try {
+                const nuevoAnalisis = analizarConSophia(notasPadres, notasDocente);
 
-            await updateDoc(doc(db, "padres", padreUid), {
-                observacionesDocente: notasDocente,
-                perfilPedagogico: nuevoAnalisis.perfil,
-                detallePedagogico: nuevoAnalisis.detalle,
-                fechaReevaluacion: new Date()
-            });
+                await updateDoc(doc(db, "padres", padreUid), {
+                    observacionesDocente: notasDocente,
+                    perfilPedagogico: nuevoAnalisis.perfil,
+                    detallePedagogico: nuevoAnalisis.detalle,
+                    fechaReevaluacion: new Date()
+                });
 
-            alert("¡Diagnóstico reevaluado e integrado con éxito por Sophia IA!");
-            closeModal("modal-reevaluar");
+                alert("¡Diagnóstico reevaluado e integrado con éxito por Sophia IA!");
+                closeModal("modal-reevaluar");
+            } catch (error) {
+                console.error("Error al actualizar reevaluación:", error);
+                alert("Error al guardar en la base de datos: " + error.message);
+            }
         });
 
         document.getElementById("btnLogout").addEventListener("click", () => {
