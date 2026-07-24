@@ -3,554 +3,747 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <title>NeuroClarity | Plataforma de Aprendizaje Adaptativo</title>
+    <title>NeuroClarity - Ingeniería Pedagógica</title>
     
-    <!-- Tipografía Outfit e Íconos FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Variables de Paleta de Colores */
         :root {
             --bg-cream: #FAF8F5;
-            --purple-dark: #2A1654;
-            --purple-light: #6339A6;
-            --purple-pale: #F2EDFA;
-            --text-color: #2A1654;
-            --text-muted: #4E4266;
-            --border-suave: #E6E1ED;
-            --green-success: #2D6A4F;
+            --purple-dark: #2A1654;   /* Morado exacto del logotipo */
+            --purple-light: #6339A6;  /* Morado claro del logotipo */
+            --purple-pale: #F2EDFA;   /* Tono suave de fondo para tarjetas */
             --white: #FFFFFF;
+            --text-muted: #4E4266;
+            --font-main: 'Outfit', sans-serif;
+            --border-suave: #E6E1ED;
         }
 
+        /* Reseteo */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Outfit', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
+            font-family: var(--font-main);
             background-color: var(--bg-cream);
-            color: var(--text-color);
+            color: var(--purple-dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* BANNER SUPERIOR DE LADO A LADO (200px) */
         .hero-banner-header {
+            position: relative;
             width: 100%;
-            height: 180px;
+            height: 200px;
             background-color: #F1EBE1;
             border-bottom: 1px solid var(--border-suave);
             overflow: hidden;
         }
 
-        .hero-banner-header img {
+        .hero-banner-header .banner-img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             display: block;
         }
 
-        .navbar {
-            background-color: var(--white);
-            border-bottom: 1px solid var(--border-suave);
-            padding: 16px 40px;
+        /* Botones posicionados sobre la imagen a la derecha */
+        .nav-actions-overlay {
+            position: absolute;
+            top: 24px;
+            right: 40px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 90;
-        }
-
-        .navbar-brand {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--purple-dark);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 24px;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 500;
-            font-size: 15px;
-        }
-
-        .btn-nav-login {
-            background-color: var(--purple-dark);
-            color: var(--white) !important;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600 !important;
-            cursor: pointer;
-        }
-
-        /* HERO */
-        .hero-section {
-            max-width: 1100px;
-            margin: 50px auto 30px auto;
-            padding: 0 24px;
-            text-align: center;
-        }
-
-        .hero-section h1 {
-            font-size: 40px;
-            font-weight: 700;
-            color: var(--purple-dark);
-            margin-bottom: 16px;
-        }
-
-        .hero-section p {
-            font-size: 17px;
-            color: var(--text-muted);
-            max-width: 750px;
-            margin: 0 auto 30px auto;
-        }
-
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
             gap: 16px;
+            z-index: 10;
+        }
+
+        /* Estilo de Botones */
+        .btn {
+            font-family: var(--font-main);
+            font-size: 15px;
+            font-weight: 500;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-login {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--purple-dark);
+            border: 1px solid rgba(42, 22, 84, 0.2);
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-login:hover {
+            background-color: var(--white);
+            transform: translateY(-1px);
         }
 
         .btn-primary {
             background-color: var(--purple-dark);
             color: var(--white);
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 700;
             border: none;
-            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(42, 22, 84, 0.15);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--purple-light);
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background-color: var(--white);
-            color: var(--purple-dark);
-            border: 1px solid var(--border-suave);
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
+            background-color: var(--purple-light);
+            color: var(--white);
+            border: none;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
         }
 
-        /* CARACTERÍSTICAS */
-        .features-section {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 24px;
+        .btn-secondary:hover {
+            background-color: var(--purple-dark);
+            transform: translateY(-1px);
         }
 
-        .section-title {
+        /* HERO TEXT SECTION */
+        .hero-text-block {
+            padding: 50px 0 70px 0;
             text-align: center;
-            font-size: 26px;
-            color: var(--purple-dark);
-            margin-bottom: 35px;
+        }
+
+        .hero-text-block h1 {
+            font-size: 32px; 
             font-weight: 700;
+            line-height: 1.3;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-text-block p {
+            font-size: 17px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 32px auto;
+        }
+
+        /* SECCIÓN EXPLICATIVA */
+        .science {
+            padding: 80px 0;
+            background-color: var(--white);
+            border-top: 1px solid rgba(42, 22, 84, 0.04);
+            border-bottom: 1px solid rgba(42, 22, 84, 0.04);
+        }
+
+        .section-header {
+            max-width: 900px;
+            margin-bottom: 48px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.7;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
         }
 
         .feature-card {
-            background: var(--white);
-            padding: 25px;
-            border-radius: 14px;
-            border: 1px solid var(--border-suave);
+            background-color: var(--bg-cream);
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid rgba(42, 22, 84, 0.04);
         }
 
         .feature-card h3 {
-            font-size: 18px;
-            margin-bottom: 8px;
-            color: var(--purple-dark);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--purple-light);
         }
 
         .feature-card p {
-            font-size: 13px;
+            font-size: 15px;
             color: var(--text-muted);
         }
 
-        /* SECCIÓN DE PRECIOS ESCALONADOS */
+        /* SECCIÓN DE PRECIOS */
         .pricing-section {
-            background-color: var(--white);
-            border-top: 1px solid var(--border-suave);
-            border-bottom: 1px solid var(--border-suave);
-            padding: 60px 24px;
-        }
-
-        .pricing-subtitle {
+            padding: 80px 0;
             text-align: center;
-            font-size: 15px;
-            color: var(--purple-light);
-            font-weight: 700;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .pricing-grid {
-            max-width: 1100px;
+        .pricing-section h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .pricing-section .sub-title {
+            font-size: 17px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* Control de Pestañas */
+        .tab-container {
+            display: inline-flex;
+            background-color: var(--purple-pale);
+            padding: 6px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            border: 1px solid var(--border-suave);
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background-color: var(--white);
+            color: var(--purple-dark);
+            box-shadow: 0 4px 10px rgba(42, 22, 84, 0.05);
+        }
+
+        /* Vistas de Planes */
+        .pricing-view {
+            display: none;
+            max-width: 1000px;
             margin: 0 auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .pricing-view.active {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            justify-content: center;
         }
 
         .pricing-card {
-            background: var(--bg-cream);
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 40px;
             border: 1px solid var(--border-suave);
-            border-radius: 16px;
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .pricing-card.featured {
-            border: 2px solid var(--purple-light);
-            background: var(--white);
-            box-shadow: 0 8px 25px rgba(99, 57, 166, 0.08);
-        }
-
-        .badge-tag {
-            position: absolute;
-            top: -12px;
-            right: 20px;
-            background-color: var(--purple-dark);
-            color: var(--white);
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 10px;
-            font-weight: 700;
-        }
-
-        .price-title {
-            font-size: 18px;
-            color: var(--purple-dark);
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-
-        .price-amount {
-            font-size: 30px;
-            font-weight: 700;
-            color: var(--purple-dark);
-            margin-bottom: 12px;
-        }
-
-        .price-amount span {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .price-features {
-            list-style: none;
-            margin: 16px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .price-features li {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .price-features i {
-            color: var(--green-success);
-            margin-top: 3px;
-        }
-
-        /* MODAL DE LOGIN */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 22, 84, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: var(--white);
-            padding: 35px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 420px;
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px; right: 20px;
-            font-size: 22px;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .form-group {
-            margin-bottom: 16px;
+            box-shadow: 0 10px 30px rgba(42, 22, 84, 0.02);
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-
-        .form-control {
+        .pricing-card.centered-card {
+            max-width: 500px;
+            margin: 0 auto;
             width: 100%;
-            padding: 10px 14px;
+        }
+
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .pricing-card .price {
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--purple-light);
+            margin-bottom: 25px;
+        }
+
+        .pricing-card .price span {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .benefits-list li {
+            font-size: 15px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
+            color: var(--purple-light);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Selector de Licencias por Volumen */
+        .license-counter-box {
+            background-color: var(--bg-cream);
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
             border: 1px solid var(--border-suave);
-            border-radius: 8px;
-            font-size: 14px;
+        }
+
+        .license-counter-box label {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .license-counter-box select {
+            padding: 8px 15px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-suave);
+            background: var(--white);
+            color: var(--purple-dark);
+            font-weight: 600;
             outline: none;
         }
 
-        footer {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--purple-dark);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 0;
             text-align: center;
-            padding: 25px;
-            font-size: 13px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-actions-overlay {
+                position: relative;
+                top: 0;
+                right: 0;
+                padding: 16px;
+                justify-content: center;
+                background-color: var(--bg-cream);
+            }
+            .hero-text-block h1 { font-size: 26px; }
+            .section-header h2, .pricing-section h2 { font-size: 24px; }
+            .pricing-view.active { grid-template-columns: 1fr; }
+        }
+
+        /* DISEÑO DE LA VENTANA FLOTANTE (MODAL) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(42, 22, 84, 0.5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .modal-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(42, 22, 84, 0.2);
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            font-family: var(--font-main);
+        }
+        
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
             color: var(--text-muted);
-            border-top: 1px solid var(--border-suave);
+            background: none;
+            border: none;
+            font-weight: bold;
+        }
+        
+        .modal-card h2 {
+            font-size: 24px;
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--purple-dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-suave);
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+            color: var(--purple-dark);
+            background-color: var(--white);
+        }
+        
+        .form-group input:focus {
+            border-color: var(--purple-light);
         }
     </style>
 </head>
 <body>
 
     <header class="hero-banner-header">
-        <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" class="banner-img">
+        
+        <div class="nav-actions-overlay">
+            <a href="#" id="openLoginBtn" class="btn btn-login">Iniciar Sesión</a>
+            <a href="#membresias" class="btn btn-primary">Adquirir Licencia</a>
+        </div>
     </header>
 
-    <nav class="navbar">
-        <a href="#" class="navbar-brand">
-            <i class="fa-solid fa-brain" style="color: var(--purple-light);"></i> NeuroClarity
-        </a>
-        <ul class="nav-links">
-            <li><a href="#caracteristicas">Características</a></li>
-            <li><a href="#planes">Planes Institucionales y Familias</a></li>
-            <li><a href="#" class="btn-nav-login" onclick="openLoginModal()">Ingresar al Portal</a></li>
-        </ul>
-    </nav>
-
-    <!-- HERO -->
-    <section class="hero-section">
-        <h1>Aprendizaje Adaptativo Remoto para Alumnos Neurodivergentes</h1>
-        <p>Plataforma PWA minimalista con gestión por excepción. Monitoreo en tiempo real, asistencias por IA y cero cámaras invasivas.</p>
-        <div class="hero-buttons">
-            <button class="btn-primary" onclick="openLoginModal()">Ingresar a Mi Portal</button>
-            <button class="btn-secondary" onclick="document.getElementById('planes').scrollIntoView({behavior: 'smooth'})">Ver Precios</button>
+    <section class="hero-text-block">
+        <div class="container">
+            <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
+            <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
+            <a href="#membresias" class="btn btn-secondary">Ver Planes Disponibles</a>
         </div>
     </section>
 
-    <!-- CARACTERÍSTICAS -->
-    <section class="features-section" id="caracteristicas">
-        <h2 class="section-title">Solución Integral Multirrol</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3><i class="fa-solid fa-child" style="color:var(--purple-light);"></i> Alumno (PWA)</h3>
-                <p>Navegación limpia sin barras ni distracciones. Botón de ayuda para resolver bloqueos cognitivos inmediatamente con la IA Sophia.</p>
+    <section class="science">
+        <div class="container">
+            <div class="section-header">
+                <h2>Diferentes formas de procesar, el mismo derecho a triunfar</h2>
+                <p>La neurodivergencia (TDAH, Dislexia, Autismo) no es una incapacidad para aprender; es simplemente una estructura cognitiva distinta. El sistema educativo tradicional impone un estándar rígido de entrega de información que genera una brecha injusta. NeuroClarity no altera el contenido académico: adapta el canal de comunicación. Nuestra tecnología transforma materiales ordinarios en interfaces personalizadas según la necesidad del estudiante.</p>
             </div>
-            <div class="feature-card">
-                <h3><i class="fa-solid fa-chalkboard-user" style="color:var(--purple-light);"></i> Profesor</h3>
-                <p>Dashboard por excepción con semáforo inteligente. La IA atiende dudas menores y el docente guía el ajuste pedagógico.</p>
-            </div>
-            <div class="feature-card">
-                <h3><i class="fa-solid fa-school" style="color:var(--purple-light);"></i> Dirección / Escuela</h3>
-                <p>Gestión de licencias institucionales, asignación de grupos y métricas agregadas de avance académico.</p>
-            </div>
-            <div class="feature-card">
-                <h3><i class="fa-solid fa-house-chimney-user" style="color:var(--purple-light);"></i> Familia / Tutor</h3>
-                <p>Supervisión en tiempo real, bitácora de asistencias prestadas y recomendaciones prácticas para aplicar en casa.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- PLANES Y PRECIOS ESCALONADOS -->
-    <section class="pricing-section" id="planes">
-        <div class="pricing-subtitle">Esquema de Licencias e Inversión</div>
-        <h2 class="section-title">Planes Escalonados para Escuelas y Suscripción Familiar</h2>
-        
-        <div class="pricing-grid">
             
-            <!-- ESCUELAS: NIVEL 1 -->
-            <div class="pricing-card">
-                <h3 class="price-title">Licencia Escuela Nivel 1</h3>
-                <div class="price-amount">$390 <span>MXN / alumno / mes</span></div>
-                <p style="font-size: 12px; color: var(--text-muted);">Para instituciones de <strong>1 a 50 alumnos</strong>.</p>
-                <ul class="price-features">
-                    <li><i class="fa-solid fa-check"></i> Acceso docente y dirección</li>
-                    <li><i class="fa-solid fa-check"></i> PWA del Alumno habilitada</li>
-                    <li><i class="fa-solid fa-check"></i> Adaptación de contenidos por IA</li>
-                    <li><i class="fa-solid fa-check"></i> Reportes cognitivos básicos</li>
-                </ul>
-                <button class="btn-secondary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Acceso Colegio</button>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Línea de Enfoque</h3>
+                    <p>Fuentes optimizadas, espaciado activo y regletas de lectura visual para dislexia.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Bloques de Lectura</h3>
+                    <p>Fragmentación del texto en micro-bloques de enfoque y temporizadores integrados para TDAH.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Apoyos Pictográficos</h3>
+                    <p>Inyección automática de apoyos visuales y traducción de lenguaje figurado a literal para TEA.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÓDULO DE COMPRA DINÁMICO -->
+    <section class="pricing-section" id="membresias">
+        <div class="container">
+            <h2>Adquiere tu Licencia NeuroClarity</h2>
+            <p class="sub-title">Selecciona la modalidad que mejor se adapte a tus necesidades.</p>
+
+            <!-- Selector de Pestañas -->
+            <div class="tab-container">
+                <button class="tab-btn active" onclick="togglePricingTab('padres', event)">Padres de Familia</button>
+                <button class="tab-btn" onclick="togglePricingTab('escuelas', event)">Escuelas y Docentes</button>
             </div>
 
-            <!-- ESCUELAS: NIVEL 2 -->
-            <div class="pricing-card featured">
-                <span class="badge-tag">MÁS POPULAR</span>
-                <h3 class="price-title">Licencia Escuela Nivel 2</h3>
-                <div class="price-amount">$290 <span>MXN / alumno / mes</span></div>
-                <p style="font-size: 12px; color: var(--text-muted);">Para instituciones de <strong>51 a 200 alumnos</strong>.</p>
-                <ul class="price-features">
-                    <li><i class="fa-solid fa-check"></i> Todo lo del Nivel 1</li>
-                    <li><i class="fa-solid fa-check"></i> Descuento por volumen escalar</li>
-                    <li><i class="fa-solid fa-check"></i> Asesoría de integración docente</li>
-                    <li><i class="fa-solid fa-check"></i> Códigos automáticos para padres</li>
-                </ul>
-                <button class="btn-primary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Acceso Colegio</button>
+            <!-- VISTA A: PADRES DE FAMILIA -->
+            <div id="view-padres" class="pricing-view active">
+                <!-- Plan Estándar -->
+                <div class="pricing-card">
+                    <div>
+                        <h3>Plan Familiar Estándar</h3>
+                        <div class="price">$681.55 <span>MXN / mes</span></div>
+                        <ul class="benefits-list">
+                            <li>Acceso total al Portal del Alumno</li>
+                            <li>Panel de Monitoreo para la Familia</li>
+                            <li>1 Código de Vinculación para Profesor</li>
+                            <li>Adaptación de materiales con IA ilimitada</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_7sYeV540jeIEaxd03C5ZC00" class="btn btn-secondary" style="width: 100%; text-align: center;">Suscribirme</a>
+                </div>
+
+                <!-- Plan Premium -->
+                <div class="pricing-card">
+                    <div>
+                        <h3>Plan Familiar Premium</h3>
+                        <div class="price">$1,214.18 <span>MXN / mes</span></div>
+                        <ul class="benefits-list">
+                            <li>Todo lo del Plan Estándar</li>
+                            <li>Evaluación psicopedagógica asistida por IA</li>
+                            <li>Reportes avanzados de avance cognitivo</li>
+                            <li>Soporte prioritario 24/7</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_5kQeV5gN5eIEeNt5nW5ZC01" class="btn btn-secondary" style="width: 100%; text-align: center;">Suscribirme</a>
+                </div>
             </div>
 
-            <!-- ESCUELAS: NIVEL 3 -->
-            <div class="pricing-card">
-                <h3 class="price-title">Licencia Campus (200+)</h3>
-                <div class="price-amount">$190 <span>MXN / alumno / mes</span></div>
-                <p style="font-size: 12px; color: var(--text-muted);">Para colegios de <strong>más de 200 alumnos</strong>.</p>
-                <ul class="price-features">
-                    <li><i class="fa-solid fa-check"></i> Todo lo del Nivel 2</li>
-                    <li><i class="fa-solid fa-check"></i> Servidor y canal prioritario</li>
-                    <li><i class="fa-solid fa-check"></i> Capacitación continua al equipo</li>
-                    <li><i class="fa-solid fa-check"></i> Soporte directivo dedicado</li>
-                </ul>
-                <button class="btn-secondary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Acceso Colegio</button>
-            </div>
+            <!-- VISTA B: ESCUELAS Y DOCENTES -->
+            <div id="view-escuelas" class="pricing-view">
+                <div class="pricing-card centered-card">
+                    <div>
+                        <h3>Licencia Escolar por Volumen</h3>
+                        <div class="price" id="school-price-display">$12,278 <span>MXN / mes</span></div>
+                        
+                        <div class="license-counter-box">
+                            <label for="license-select">Cupos de Alumnos:</label>
+                            <select id="license-select" onchange="calculateSchoolPrice()">
+                                <option value="10">1 a 10 Alumnos</option>
+                                <option value="20">11 a 20 Alumnos</option>
+                                <option value="30" selected>21 a 30 Alumnos</option>
+                                <option value="50">31 a 50 Alumnos</option>
+                            </select>
+                        </div>
 
-            <!-- FAMILIAR PREMIUM -->
-            <div class="pricing-card" style="border: 2px solid var(--purple-dark); background: var(--purple-pale);">
-                <span class="badge-tag" style="background:var(--purple-light);">FAMILIAS</span>
-                <h3 class="price-title">Plan Familiar Premium</h3>
-                <div class="price-amount">$1,214.18 <span>MXN / mes</span></div>
-                <p style="font-size: 12px; color: var(--text-muted);">Suscripción directa para el hogar.</p>
-                <ul class="price-features">
-                    <li><i class="fa-solid fa-check"></i> <strong>Supervisión en Tiempo Real</strong></li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Sugerencias prácticas para el hogar</strong></li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Bitácora de asistencias por IA</strong></li>
-                    <li><i class="fa-solid fa-check"></i> Chat directo con profesores</li>
-                </ul>
-                <button class="btn-primary" style="margin-top: auto; width: 100%;" onclick="openLoginModal()">Suscribir Familia</button>
+                        <ul class="benefits-list">
+                            <li>Panel de Gestión Centralizada para la Institución</li>
+                            <li>Asignación inmediata de licencias docentes</li>
+                            <li>Códigos de vinculación familiar automáticos</li>
+                            <li>Asistente IA para Procesamiento de Planeaciones</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_14A4grbsL440gVB3fO5ZC02" class="btn btn-secondary" style="width: 100%; text-align: center;">Contratar Plan Escolar</a>
+                </div>
             </div>
 
         </div>
     </section>
 
-    <!-- MODAL DE LOGIN CON DIRECCIONAMIENTO AUTOMÁTICO DE ROL -->
-    <div id="modalLogin" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
-            <h2 style="font-size: 20px; color: var(--purple-dark); margin-bottom: 6px; text-align: center;">Acceso al Portal</h2>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; text-align: center;">Ingresa con tu correo registrado</p>
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 NeuroRéussit / NeuroClarity. Ingeniería Pedagógica para Mentes Diversas. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
-            <form id="formLoginModal">
+    <!-- Ventana Flotante Login -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" id="closeLoginBtn">&times;</button>
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
                 <div class="form-group">
-                    <label>Correo Electrónico</label>
-                    <input type="email" class="form-control" id="modalEmail" placeholder="correo@ejemplo.com" required>
+                    <label for="loginEmail">Correo Electrónico</label>
+                    <input type="email" id="loginEmail" required placeholder="ejemplo@correo.com">
                 </div>
-
                 <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" class="form-control" id="modalPass" placeholder="******" required>
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
                 </div>
-
-                <div class="form-group">
-                    <label>Portal / Selección de Respaldo</label>
-                    <select class="form-control" id="selectRolPortal">
-                        <option value="panel-padre.html">Padre de Familia (Portal Familiar)</option>
-                        <option value="profesor.html">Profesor / Especialista</option>
-                        <option value="panel-escuela.html">Dirección Escolar</option>
-                        <option value="alumno.html">Alumno (PWA)</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Entrar a NeuroClarity</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px; margin-top: 10px;">Ingresar</button>
             </form>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 NeuroClarity. Plataforma de tecnología adaptativa para neurodiversidad.</p>
-    </footer>
+    <!-- Scripts de Control de Precios y Pestañas -->
+    <script>
+        function togglePricingTab(type, e) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.pricing-view').forEach(view => view.classList.remove('active'));
 
-    <!-- FIREBASE CON REDIRECCIÓN AUTOMÁTICA POR ROL -->
+            e.target.classList.add('active');
+            if (type === 'padres') {
+                document.getElementById('view-padres').classList.add('active');
+            } else {
+                document.getElementById('view-escuelas').classList.add('active');
+            }
+        }
+
+        function calculateSchoolPrice() {
+            const select = document.getElementById('license-select');
+            const display = document.getElementById('school-price-display');
+            const qty = parseInt(select.value);
+            
+            let total = 12278;
+
+            if (qty === 10) total = 4679;
+            else if (qty === 20) total = 8770;
+            else if (qty === 30) total = 12278;
+            else if (qty === 50) total = 18997;
+
+            display.innerHTML = `$${total.toLocaleString('es-MX')} <span>MXN / mes</span>`;
+        }
+    </script>
+
+    <!-- Control visual del Modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('loginModal');
+            const openBtn = document.getElementById('openLoginBtn');
+            const closeBtn = document.getElementById('closeLoginBtn');
+
+            if (openBtn && modal && closeBtn) {
+                openBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.classList.add('active');
+                });
+
+                closeBtn.addEventListener('click', () => {
+                    modal.classList.remove('active');
+                });
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- Lógica de Firebase para Login con Detección Flexible de Rol -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q",
+        const ncConfig = {
+            apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
             authDomain: "neuroclarity-dcf0e.firebaseapp.com",
             projectId: "neuroclarity-dcf0e",
             storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
             messagingSenderId: "34116345239",
-            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2"
+            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2",
+            measurementId: "G-1C875WNG8X"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        try {
+            const appNC = initializeApp(ncConfig, "neuroclarityApp");
+            const authNC = getAuth(appNC);
+            const dbNC = getFirestore(appNC);
 
-        window.openLoginModal = function() {
-            document.getElementById("modalLogin").style.display = "flex";
-        };
+            const form = document.getElementById('loginForm');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('loginEmail').value.trim();
+                    const password = document.getElementById('loginPassword').value;
 
-        window.closeLoginModal = function() {
-            document.getElementById("modalLogin").style.display = "none";
-        };
+                    try {
+                        const userCredential = await signInWithEmailAndPassword(authNC, email, password);
+                        const user = userCredential.user;
 
-        document.getElementById("formLoginModal").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("modalEmail").value;
-            const pass = document.getElementById("modalPass").value;
-            const respaldoDestino = document.getElementById("selectRolPortal").value;
+                        document.getElementById('loginModal').classList.remove('active');
 
-            try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-                const user = userCredential.user;
+                        // BÚSQUEDA FLEXIBLE DEL ROL EN FIRESTORE
+                        let rawRol = null;
 
-                // Consulta automática del rol en Firestore
-                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-                if (userDoc.exists()) {
-                    const rol = userDoc.data().rol;
-                    if (rol === "padre") window.location.href = "panel-padre.html";
-                    else if (rol === "profesor") window.location.href = "profesor.html";
-                    else if (rol === "escuela") window.location.href = "panel-escuela.html";
-                    else if (rol === "alumno") window.location.href = "alumno.html";
-                    else window.location.href = respaldoDestino;
-                } else {
-                    window.location.href = respaldoDestino;
-                }
-            } catch (err) {
-                // Modo pruebas local: te redirige a la opción seleccionada en el menú desplegable
-                window.location.href = respaldoDestino;
+                        // 1. Probar en NeuroClarity_Membresias usando el email como id
+                        let docRef = doc(dbNC, "NeuroClarity_Membresias", email);
+                        let docSnap = await getDoc(docRef);
+
+                        // 2. Si no existe, probar en NeuroClarity_Membresias usando el UID
+                        if (!docSnap.exists()) {
+                            docRef = doc(dbNC, "NeuroClarity_Membresias", user.uid);
+                            docSnap = await getDoc(docRef);
+                        }
+
+                        // 3. Si tampoco existe, probar en la colección usuarios usando el UID
+                        if (!docSnap.exists()) {
+                            docRef = doc(dbNC, "usuarios", user.uid);
+                            docSnap = await getDoc(docRef);
+                        }
+
+                        if (docSnap.exists()) {
+                            const data = docSnap.data();
+                            rawRol = data.tipo_licencia || data.tipoLicencia || data.rol || data.role;
+                        }
+
+                        const rol = rawRol ? rawRol.toString().toLowerCase().trim() : "";
+
+                        // REDIRECCIÓN SEGÚN ROL DETECTADO
+                        if (rol.includes("padre") || rol.includes("tutor") || rol.includes("familia")) {
+                            window.location.href = "panel-padre.html";
+                        } else if (rol.includes("profe") || rol.includes("docente") || rol.includes("maestro")) {
+                            window.location.href = "profesor.html";
+                        } else if (rol.includes("escuela") || rol.includes("admin") || rol.includes("direccion")) {
+                            window.location.href = "panel-escuela.html";
+                        } else if (rol.includes("alumno") || rol.includes("estudiante")) {
+                            window.location.href = "alumno.html";
+                        } else {
+                            // Si es una cuenta de prueba sin registro previo en Firestore, enviamos a panel-padre.html
+                            window.location.href = "panel-padre.html";
+                        }
+
+                    } catch (error) {
+                        console.error("Error en autenticación:", error);
+                        alert("Error al iniciar sesión: " + error.message);
+                    }
+                });
             }
-        });
+        } catch (error) {
+            console.error("Error al inicializar Firebase Auth/Firestore:", error);
+        }
     </script>
 </body>
 </html>
