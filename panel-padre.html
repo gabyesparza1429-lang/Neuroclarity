@@ -252,7 +252,6 @@
             width: 100%;
         }
 
-        /* MODAL ONBOARDING (PRIMER INGRESO POST-PAGO) */
         .modal-onboarding {
             display: none;
             position: fixed;
@@ -271,6 +270,8 @@
             width: 100%;
             max-width: 480px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         @media (max-width: 850px) {
@@ -308,12 +309,31 @@
                 </div>
             </div>
 
-            <!-- DIAGNÓSTICO IA SOPHIA -->
-            <div class="card">
-                <h2>Evaluación IA (Sophia)</h2>
-                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;" id="lblDiagnosticoIA">
-                    Sin interacciones registradas aún. Al comenzar las sesiones se generará el perfil neuroeducativo.
-                </p>
+            <!-- DIAGNÓSTICO Y ORIENTACIÓN PEDAGÓGICA SOPHIA -->
+            <div class="card" style="border-left: 4px solid var(--purple-light);">
+                <h2>
+                    <span><i class="fa-solid fa-brain" style="color: var(--purple-light);"></i> Orientación Pedagógica IA</span>
+                </h2>
+                
+                <div id="boxAnalisisSophia" style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+                    <div style="background: var(--purple-pale); padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border-suave);">
+                        <strong style="color: var(--purple-dark); display: block; margin-bottom: 4px;">Perfil Sugerido:</strong>
+                        <span id="lblPerfilSugerido">Línea de Enfoque Básica</span>
+                    </div>
+                    <p id="lblDetalleAnalisis">
+                        Completa tus observaciones para que Sophia pueda adaptar las herramientas del estudiante.
+                    </p>
+                </div>
+
+                <!-- AVISO LEGAL / PEDAGÓGICO -->
+                <div style="margin-top: 12px; padding: 8px 12px; background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; font-size: 11px; color: #795548;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>Aviso:</strong> Esta orientación es exclusivamente pedagógica para adaptar la plataforma. No sustituye un diagnóstico clínico formal.
+                </div>
+
+                <!-- BOTÓN PARA ACTUALIZAR OBSERVACIONES -->
+                <button style="margin-top: 12px; background: none; border: 1px solid var(--border-suave); padding: 6px 12px; border-radius: 6px; font-size: 12px; color: var(--purple-dark); cursor: pointer; width: 100%; font-weight: 600;" onclick="abrirModalEditarObservaciones()">
+                    Editar Observaciones / Cargar Notas
+                </button>
             </div>
 
             <!-- PERFIL DEL TUTOR -->
@@ -425,26 +445,35 @@
 
     </div>
 
-    <!-- MODAL DE ONBOARDING (POST-PAGO) -->
+    <!-- MODAL DE ONBOARDING CON OBSERVACIONES PEDAGÓGICAS -->
     <div class="modal-onboarding" id="modalOnboarding">
         <div class="modal-onboarding-card">
             <h2 style="font-size: 22px; color: var(--purple-dark); margin-bottom: 8px; text-align: center;">¡Suscripción Confirmada! 🎉</h2>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; text-align: center;">Configura los datos de tu familia para habilitar el portal de monitoreo.</p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px; text-align: center;">Configura los datos iniciales y observaciones de tu hijo/a.</p>
             
             <form id="formOnboarding">
-                <div style="margin-bottom: 14px;">
+                <div style="margin-bottom: 12px;">
                     <label style="font-size: 13px; font-weight: 600;">Nombre de la Familia o Tutor</label>
                     <input type="text" class="form-control" id="onbNombreFamilia" placeholder="Ej: Familia Martínez" required>
                 </div>
-                <div style="margin-bottom: 14px;">
-                    <label style="font-size: 13px; font-weight: 600;">Nombre Completo del Alumno (Hijo/a)</label>
-                    <input type="text" class="form-control" id="onbNombreHijo" placeholder="Ej: Sofía Martínez" required>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600;">Nombre del Alumno</label>
+                        <input type="text" class="form-control" id="onbNombreHijo" placeholder="Ej: Sofía" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600;">Grado Escolar</label>
+                        <input type="text" class="form-control" id="onbGradoHijo" placeholder="Ej: 3° Primaria" required>
+                    </div>
                 </div>
-                <div style="margin-bottom: 20px;">
-                    <label style="font-size: 13px; font-weight: 600;">Grado Escolar</label>
-                    <input type="text" class="form-control" id="onbGradoHijo" placeholder="Ej: 3° Primaria" required>
+
+                <!-- CAMPO DE OBSERVACIONES / DIAGNÓSTICO -->
+                <div style="margin-bottom: 18px;">
+                    <label style="font-size: 13px; font-weight: 600;">Observaciones de Padres / Diagnósticos Previos</label>
+                    <textarea class="form-control" id="onbObservaciones" rows="4" placeholder="Describe lo que has notado: ¿Se distrae rápido? ¿Le cuesta leer párrafos largos? ¿Confunde letras o requiere apoyos visuales?"></textarea>
                 </div>
-                <button type="submit" class="btn-primary">Completar Registro e Ingresar</button>
+
+                <button type="submit" class="btn-primary">Generar Perfil con IA e Ingresar</button>
             </form>
         </div>
     </div>
@@ -453,7 +482,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
@@ -469,11 +498,36 @@
         const db = getFirestore(app);
 
         let userActual = null;
-        let idAlumnoVinculado = null;
+
+        // Motor de orientación pedagógica de Sophia según las observaciones
+        function analizarObservacionesPedagogicas(texto) {
+            if (!texto) {
+                return {
+                    perfil: "Línea de Enfoque Básica",
+                    detalle: "Sin observaciones particulares registrados. Sophia aplicará la interfaz estándar con pausas sugeridas."
+                };
+            }
+
+            const t = texto.toLowerCase();
+            let perfil = "Línea de Enfoque Estándar";
+            let detalle = "Ajustes de lectura clara y temporizadores flexibles.";
+
+            if (t.includes("atencion") || t.includes("distrae") || t.includes("hiper") || t.includes("tdah") || t.includes("concentr")) {
+                perfil = "Soporte TDAH / Micro-bloques Activos";
+                detalle = "Sophia activará temporizadores cortos de 15 minutos con descansos de movimiento y lectura fragmentada.";
+            } else if (t.includes("lee") || t.includes("letras") || t.includes("dislexia") || t.includes("renglon") || t.includes("confunde")) {
+                perfil = "Soporte Dislexia / Regleta Visual";
+                detalle = "Sophia aplicará la tipografía adaptada, espaciado amplio y resaltador de renglón activo.";
+            } else if (t.includes("visual") || t.includes("imagenes") || t.includes("autis") || t.includes("tea") || t.includes("literal")) {
+                perfil = "Soporte Visual / Pictográfico";
+                detalle = "Sophia inyectará apoyo pictográfico directo y simplificación de lenguaje figurado en las lecturas.";
+            }
+
+            return { perfil, detalle };
+        }
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                // Si no hay sesión iniciada, se redirige al login
                 window.location.href = "index.html";
                 return;
             }
@@ -481,33 +535,35 @@
             userActual = user;
             document.getElementById("txtCorreoTutor").value = user.email;
 
-            // Verificar si el tutor ya tiene datos registrados en Firestore
             const docRef = doc(db, "padres", user.uid);
             const docSnap = await getDoc(docRef);
 
             if (!docSnap.exists() || !docSnap.data().configurado) {
-                // Mostrar Modal de Onboarding si es la primera vez post-pago
                 document.getElementById("modalOnboarding").style.display = "flex";
             } else {
                 cargarDatosPanel(docSnap.data());
             }
         });
 
-        // PROCESAR ONBOARDING (COMPLETAR DATOS POST-PAGO)
+        // PROCESAR ONBOARDING Y GENERAR ANÁLISIS IA
         document.getElementById("formOnboarding").addEventListener("submit", async (e) => {
             e.preventDefault();
             const familia = document.getElementById("onbNombreFamilia").value.trim();
             const hijo = document.getElementById("onbNombreHijo").value.trim();
             const grado = document.getElementById("onbGradoHijo").value.trim();
+            const observaciones = document.getElementById("onbObservaciones").value.trim();
 
+            const analisis = analizarObservacionesPedagogicas(observaciones);
             const codigoGenerado = "NC-" + Math.floor(1000 + Math.random() * 9000);
 
-            // Guardar en Firestore
             const dataPadre = {
                 nombreFamilia: familia,
                 nombreTutor: familia,
                 nombreHijo: hijo,
                 gradoHijo: grado,
+                observaciones: observaciones,
+                perfilPedagogico: analisis.perfil,
+                detallePedagogico: analisis.detalle,
                 codigoVinculacion: codigoGenerado,
                 configurado: true,
                 tipoPlan: "premium",
@@ -527,7 +583,12 @@
             document.getElementById("lblCodigoVinculacion").innerText = data.codigoVinculacion;
             document.getElementById("lblLiveNombreAlumno").innerText = data.nombreHijo;
 
-            // Escuchar cambios en vivo del alumno
+            // Cargar Orientación Pedagógica de Sophia en el Dashboard
+            if (data.perfilPedagogico) {
+                document.getElementById("lblPerfilSugerido").innerText = data.perfilPedagogico;
+                document.getElementById("lblDetalleAnalisis").innerText = data.detallePedagogico;
+            }
+
             escucharEstadoEnVivo(data.codigoVinculacion);
         }
 
@@ -541,6 +602,35 @@
                 }
             });
         }
+
+        // GUARDAR CAMBIOS DEL PERFIL DEL TUTOR
+        document.getElementById("formPerfilTutor").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const nuevoNombre = document.getElementById("txtNombreTutor").value.trim();
+            if (!nuevoNombre || !userActual) return;
+
+            await updateDoc(doc(db, "padres", userActual.uid), {
+                nombreTutor: nuevoNombre
+            });
+
+            alert("Perfil del tutor actualizado correctamente.");
+        });
+
+        // ABRIR MODAL PARA REEDITAR OBSERVACIONES
+        window.abrirModalEditarObservaciones = async function() {
+            if (!userActual) return;
+            const docRef = doc(db, "padres", userActual.uid);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById("onbNombreFamilia").value = data.nombreFamilia || "";
+                document.getElementById("onbNombreHijo").value = data.nombreHijo || "";
+                document.getElementById("onbGradoHijo").value = data.gradoHijo || "";
+                document.getElementById("onbObservaciones").value = data.observaciones || "";
+                document.getElementById("modalOnboarding").style.display = "flex";
+            }
+        };
 
         window.copiarCodigo = function() {
             const cod = document.getElementById("lblCodigoVinculacion").innerText;
