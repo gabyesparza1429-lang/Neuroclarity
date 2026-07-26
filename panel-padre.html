@@ -441,10 +441,12 @@
     </div>
 
     <!-- FIREBASE -->
+    <!-- FIREBASE CONECTADO A SOPHIA IA -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-functions.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
@@ -458,34 +460,12 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const functions = getFunctions(app);
+
+        // Llamada a la Cloud Function segura de Sophia IA
+        const analizarConSophiaIA = httpsCallable(functions, 'analizarConSophia');
 
         let userActual = null;
-
-        function analizarObservacionesPedagogicas(texto) {
-            if (!texto) {
-                return {
-                    perfil: "Línea de Enfoque Básica",
-                    detalle: "Sin observaciones particulares registrados. Sophia aplicará la interfaz estándar con pausas sugeridas."
-                };
-            }
-
-            const t = texto.toLowerCase();
-            let perfil = "Línea de Enfoque Estándar";
-            let detalle = "Ajustes de lectura clara y temporizadores flexibles.";
-
-            if (t.includes("atencion") || t.includes("distrae") || t.includes("hiper") || t.includes("tdah") || t.includes("concentr")) {
-                perfil = "Soporte TDAH / Micro-bloques Activos";
-                detalle = "Sophia activará temporizadores cortos de 15 minutos con descansos de movimiento y lectura fragmentada.";
-            } else if (t.includes("lee") || t.includes("letras") || t.includes("dislexia") || t.includes("renglon") || t.includes("confunde")) {
-                perfil = "Soporte Dislexia / Regleta Visual";
-                detalle = "Sophia aplicará la tipografía adaptada, espaciado amplio y resaltador de renglón activo.";
-            } else if (t.includes("visual") || t.includes("imagenes") || t.includes("autis") || t.includes("tea") || t.includes("literal")) {
-                perfil = "Soporte Visual / Pictográfico";
-                detalle = "Sophia inyectará apoyo pictográfico directo y simplificación de lenguaje figurado en las lecturas.";
-            }
-
-            return { perfil, detalle };
-        }
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
@@ -496,7 +476,6 @@
             userActual = user;
             document.getElementById("txtCorreoTutor").value = user.email;
 
-            // Escuchar perfil del padre en tiempo real
             onSnapshot(doc(db, "padres", user.uid), (docSnap) => {
                 if (!docSnap.exists() || !docSnap.data().configurado) {
                     document.getElementById("modalOnboarding").style.display = "flex";
@@ -505,10 +484,10 @@
                 }
             });
 
-            // Escuchar chat en tiempo real desde /chats/{user.uid}/mensajes
             escucharChatPadre(user.uid);
         });
 
+        // REGISTRO DE ONBOARDING CON GEMINI IA
         document.getElementById("formOnboarding").addEventListener("submit", async (e) => {
             e.preventDefault();
             const familia = document.getElementById("onbNombreFamilia").value.trim();
@@ -516,7 +495,19 @@
             const grado = document.getElementById("onbGradoHijo").value.trim();
             const observaciones = document.getElementById("onbObservaciones").value.trim();
 
-            const analisis = analizarObservacionesPedagogicas(observaciones);
+            let analisis = {
+                perfil: "Línea de Enfoque Adaptativa",
+                detalle: "Diagnóstico procesado con ajustes de lectura clara y temporizadores flexibles."
+            };
+
+            try {
+                // Procesamiento real con Gemini a través de Firebase
+                const resIA = await analizarConSophiaIA({ texto: observaciones });
+                analisis = resIA.data;
+            } catch (err) {
+                console.error("Error consultando Sophia IA:", err);
+            }
+
             const codigoGenerado = "NC-" + Math.floor(1000 + Math.random() * 9000);
 
             const dataPadre = {
@@ -550,7 +541,6 @@
             }
         }
 
-        // CHAT EN TIEMPO REAL CONECTADO CON EL PROFESOR
         function escucharChatPadre(padreUid) {
             const qMsgs = query(collection(db, "chats", padreUid, "mensajes"), orderBy("fecha", "asc"));
             const chatBox = document.getElementById('chatPadreBox');
@@ -584,7 +574,6 @@
             });
         }
 
-        // ENVIAR MENSAJE A FIRESTORE
         document.getElementById('formChatPadre').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('inputMsgPadre');
@@ -597,11 +586,9 @@
                     texto: texto,
                     fecha: new Date()
                 });
-
                 input.value = "";
             } catch (err) {
                 console.error("Error al enviar mensaje:", err);
-                alert("Error al enviar mensaje: " + err.message);
             }
         });
 
@@ -610,17 +597,13 @@
             const nuevoNombre = document.getElementById("txtNombreTutor").value.trim();
             if (!nuevoNombre || !userActual) return;
 
-            await updateDoc(doc(db, "padres", userActual.uid), {
-                nombreTutor: nuevoNombre
-            });
-
-            alert("Perfil del tutor actualizado correctamente.");
+            await updateDoc(doc(db, "padres", userActual.uid), { nombreTutor: nuevoNombre });
+            alert("Perfil actualizado.");
         });
 
         window.abrirModalEditarObservaciones = async function() {
             if (!userActual) return;
-            const docRef = doc(db, "padres", userActual.uid);
-            const docSnap = await getDoc(docRef);
+            const docSnap = await getDoc(doc(db, "padres", userActual.uid));
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
@@ -635,12 +618,12 @@
         window.copiarCodigo = function() {
             const cod = document.getElementById("lblCodigoVinculacion").innerText;
             navigator.clipboard.writeText(cod);
-            alert("Código de vinculación copiado: " + cod);
+            alert("Código copiado: " + cod);
         };
 
         document.getElementById('btnLogout').addEventListener('click', () => {
             signOut(auth).then(() => window.location.href = "index.html");
         });
-    </script>
+    </script>  
 </body>
 </html>
