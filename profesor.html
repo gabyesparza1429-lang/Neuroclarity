@@ -254,10 +254,12 @@
     </script>
 
     <!-- FIREBASE -->
+    <!-- FIREBASE CONECTADO A SOPHIA IA -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
         import { getFirestore, collection, query, where, getDocs, doc, setDoc, getDoc, updateDoc, onSnapshot, addDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-functions.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
@@ -271,30 +273,15 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const functions = getFunctions(app);
+
+        // Llamada a la Cloud Function de Sophia IA
+        const analizarConSophiaIA = httpsCallable(functions, 'analizarConSophia');
 
         let profesorUid = null;
         let canceladoresOnSnapshot = [];
         let padreUidChatActivo = null;
         let unsubChatMensajes = null;
-
-        function analizarConSophia(notasFamilia, notasDocente) {
-            const combinado = (notasFamilia + " " + notasDocente).toLowerCase();
-            let perfil = "Línea de Enfoque Adaptativa";
-            let detalle = "Ajustes estándar de lectura guiada y temporizadores de trabajo corto.";
-
-            if (combinado.includes("atencion") || combinado.includes("distrae") || combinado.includes("hiper") || combinado.includes("concentr")) {
-                perfil = "Soporte TDAH / Enfoque Fragmentado";
-                detalle = "Sophia activará temporizadores de 15 min, lecturas divididas en micro-bloques y pausas de autorregulación.";
-            } else if (combinado.includes("lee") || combinado.includes("letras") || combinado.includes("dislexia") || combinado.includes("confunde")) {
-                perfil = "Soporte Dislexia / Regleta Visual";
-                detalle = "Sophia aplicará la tipografía especial, resalte de línea activa y lectura con apoyo de audio.";
-            } else if (combinado.includes("visual") || combinado.includes("esquema") || combinado.includes("pictogram") || combinado.includes("tea") || combinado.includes("literal")) {
-                perfil = "Soporte Visual / Pictográfico";
-                detalle = "Sophia inyectará apoyos pictográficos directos y simplificación de lenguaje figurado en las actividades.";
-            }
-
-            return { perfil, detalle };
-        }
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
@@ -424,7 +411,6 @@
         function abrirChatConFamilia(padreUid, nombreHijo, nombreFamilia) {
             padreUidChatActivo = padreUid;
 
-            // Resaltar en la lista
             document.querySelectorAll('.item-chat-familia').forEach(el => el.classList.remove('active'));
             const btnSel = document.getElementById(`btn-chat-${padreUid}`);
             if (btnSel) btnSel.classList.add('active');
@@ -438,7 +424,6 @@
             const chatContainer = document.getElementById("chatMessagesDocente");
             chatContainer.innerHTML = `<p style="font-size: 12px; color: var(--text-muted); text-align: center;">Cargando mensajes...</p>`;
 
-            // Escuchar colección de mensajes del alumno en tiempo real
             const qMensajes = query(collection(db, "chats", padreUid, "mensajes"), orderBy("fecha", "asc"));
             unsubChatMensajes = onSnapshot(qMensajes, (snapMsgs) => {
                 chatContainer.innerHTML = "";
@@ -501,16 +486,28 @@
             }
         };
 
-        // GUARDAR REEVALUACIÓN E INTEGRAR CON FIRESTORE
+        // GUARDAR REEVALUACIÓN CON GEMINI IA A TRAVÉS DE FIREBASE
         document.getElementById("formReevaluarIA").addEventListener("submit", async (e) => {
             e.preventDefault();
             const padreUid = document.getElementById("modalPadreUid").value;
             const notasPadres = document.getElementById("txtNotasPadresPrevias").value;
             const notasDocente = document.getElementById("txtNotasDocenteNuevas").value.trim();
 
-            try {
-                const nuevoAnalisis = analizarConSophia(notasPadres, notasDocente);
+            const textoCombinado = "Observaciones de la familia: " + notasPadres + ". Observaciones del docente en aula: " + notasDocente;
 
+            let nuevoAnalisis = {
+                perfil: "Línea de Enfoque Adaptativa",
+                detalle: "Diagnóstico procesado con ajustes de lectura clara y temporizadores flexibles."
+            };
+
+            try {
+                const resIA = await analizarConSophiaIA({ texto: textoCombinado });
+                nuevoAnalisis = resIA.data;
+            } catch (err) {
+                console.error("Error en Sophia IA:", err);
+            }
+
+            try {
                 await updateDoc(doc(db, "padres", padreUid), {
                     observacionesDocente: notasDocente,
                     perfilPedagogico: nuevoAnalisis.perfil,
