@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -168,7 +169,7 @@
         .chat-box {
             display: flex;
             flex-direction: column;
-            height: 240px;
+            height: 280px;
             border: 1px solid var(--border-suave);
             border-radius: 12px;
             overflow: hidden;
@@ -189,10 +190,12 @@
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 13px;
+            line-height: 1.4;
+            word-break: break-word;
         }
 
         .msg.sent { align-self: flex-end; background-color: var(--purple-dark); color: var(--white); }
-        .msg.received { align-self: flex-start; background-color: var(--white); border: 1px solid var(--border-suave); }
+        .msg.received { align-self: flex-start; background-color: var(--white); border: 1px solid var(--border-suave); color: var(--purple-dark); }
 
         .chat-form {
             display: flex;
@@ -325,12 +328,10 @@
                     </p>
                 </div>
 
-                <!-- AVISO LEGAL / PEDAGÓGICO -->
                 <div style="margin-top: 12px; padding: 8px 12px; background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; font-size: 11px; color: #795548;">
                     <i class="fa-solid fa-triangle-exclamation"></i> <strong>Aviso:</strong> Esta orientación es exclusivamente pedagógica para adaptar la plataforma. No sustituye un diagnóstico clínico formal.
                 </div>
 
-                <!-- BOTÓN PARA ACTUALIZAR OBSERVACIONES -->
                 <button style="margin-top: 12px; background: none; border: 1px solid var(--border-suave); padding: 6px 12px; border-radius: 6px; font-size: 12px; color: var(--purple-dark); cursor: pointer; width: 100%; font-weight: 600;" onclick="abrirModalEditarObservaciones()">
                     Editar Observaciones / Cargar Notas
                 </button>
@@ -357,7 +358,7 @@
         <!-- COLUMNA DERECHA -->
         <div class="col-main">
 
-            <!-- 1. SUPERVISIÓN EN VIVO (PREMIUM) -->
+            <!-- SUPERVISIÓN EN VIVO -->
             <div class="card live-card" id="cardLiveMonitor">
                 <h2>
                     <span><i class="fa-solid fa-tower-broadcast" style="color: var(--purple-light);"></i> Supervisión en Vivo</span>
@@ -378,7 +379,7 @@
                 </div>
             </div>
 
-            <!-- 2. BITÁCORA DE ASISTENCIAS DE HOY -->
+            <!-- BITÁCORA DE ASISTENCIAS -->
             <div class="card">
                 <h2>
                     <span><i class="fa-solid fa-robot" style="color: var(--purple-dark);"></i> Asistencias e Intervenciones de Hoy</span>
@@ -389,50 +390,12 @@
                 </div>
             </div>
 
-            <!-- 3. SUGERENCIAS PARA EL HOGAR -->
-            <div class="card" style="border-left: 4px solid var(--purple-light);">
-                <h2>
-                    <span><i class="fa-solid fa-house-chimney-user" style="color: var(--purple-light);"></i> Cómo apoyar en casa hoy</span>
-                    <span class="badge-premium">PREMIUM</span>
-                </h2>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;" id="listSugerenciasCasa">
-                    <li style="background: var(--bg-cream); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-suave); font-size: 13px; color: var(--text-muted);">
-                        Las sugerencias prácticas se actualizarán automáticamente cuando el alumno complete sus ejercicios diarios.
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 4. REPORTE COGNITIVO -->
-            <div class="card">
-                <h2>Reporte de Avance Cognitivo</h2>
-                <div class="metrics-grid">
-                    <div class="metric-box">
-                        <div class="num" id="valAtencion">-- %</div>
-                        <div class="label">Atención Sostenida</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="num" id="valVelocidad">--</div>
-                        <div class="label">Palabras / Minuto</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="num" id="valRetencion">-- %</div>
-                        <div class="label">Índice Retención</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="num" id="valHerramienta">--</div>
-                        <div class="label">Apoyo Más Usado</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. CHAT DIRECTO -->
+            <!-- CHAT DIRECTO CON EL PROFESOR (CONECTADO A FIRESTORE) -->
             <div class="card">
                 <h2>Chat con Profesor y Dirección</h2>
                 <div class="chat-box">
                     <div class="chat-messages" id="chatPadreBox">
-                        <div class="msg received">
-                            <strong>Dirección NeuroClarity:</strong> ¡Bienvenidos a la plataforma! Este es su canal directo con los docentes.
-                        </div>
+                        <p style="font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 20px;">Cargando conversación...</p>
                     </div>
                     <form class="chat-form" id="formChatPadre">
                         <input type="text" id="inputMsgPadre" placeholder="Escribe un mensaje al docente..." required>
@@ -445,7 +408,7 @@
 
     </div>
 
-    <!-- MODAL DE ONBOARDING CON OBSERVACIONES PEDAGÓGICAS -->
+    <!-- MODAL DE ONBOARDING -->
     <div class="modal-onboarding" id="modalOnboarding">
         <div class="modal-onboarding-card">
             <h2 style="font-size: 22px; color: var(--purple-dark); margin-bottom: 8px; text-align: center;">¡Suscripción Confirmada! 🎉</h2>
@@ -467,7 +430,6 @@
                     </div>
                 </div>
 
-                <!-- CAMPO DE OBSERVACIONES / DIAGNÓSTICO -->
                 <div style="margin-bottom: 18px;">
                     <label style="font-size: 13px; font-weight: 600;">Observaciones de Padres / Diagnósticos Previos</label>
                     <textarea class="form-control" id="onbObservaciones" rows="4" placeholder="Describe lo que has notado: ¿Se distrae rápido? ¿Le cuesta leer párrafos largos? ¿Confunde letras o requiere apoyos visuales?"></textarea>
@@ -478,11 +440,11 @@
         </div>
     </div>
 
-    <!-- FIREBASE Y LÓGICA DINÁMICA -->
+    <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
@@ -499,7 +461,6 @@
 
         let userActual = null;
 
-        // Motor de orientación pedagógica de Sophia según las observaciones
         function analizarObservacionesPedagogicas(texto) {
             if (!texto) {
                 return {
@@ -535,17 +496,19 @@
             userActual = user;
             document.getElementById("txtCorreoTutor").value = user.email;
 
-            const docRef = doc(db, "padres", user.uid);
-            const docSnap = await getDoc(docRef);
+            // Escuchar perfil del padre en tiempo real
+            onSnapshot(doc(db, "padres", user.uid), (docSnap) => {
+                if (!docSnap.exists() || !docSnap.data().configurado) {
+                    document.getElementById("modalOnboarding").style.display = "flex";
+                } else {
+                    cargarDatosPanel(docSnap.data());
+                }
+            });
 
-            if (!docSnap.exists() || !docSnap.data().configurado) {
-                document.getElementById("modalOnboarding").style.display = "flex";
-            } else {
-                cargarDatosPanel(docSnap.data());
-            }
+            // Escuchar chat en tiempo real desde /chats/{user.uid}/mensajes
+            escucharChatPadre(user.uid);
         });
 
-        // PROCESAR ONBOARDING Y GENERAR ANÁLISIS IA
         document.getElementById("formOnboarding").addEventListener("submit", async (e) => {
             e.preventDefault();
             const familia = document.getElementById("onbNombreFamilia").value.trim();
@@ -571,9 +534,7 @@
             };
 
             await setDoc(doc(db, "padres", userActual.uid), dataPadre);
-
             document.getElementById("modalOnboarding").style.display = "none";
-            cargarDatosPanel(dataPadre);
         });
 
         function cargarDatosPanel(data) {
@@ -583,27 +544,67 @@
             document.getElementById("lblCodigoVinculacion").innerText = data.codigoVinculacion;
             document.getElementById("lblLiveNombreAlumno").innerText = data.nombreHijo;
 
-            // Cargar Orientación Pedagógica de Sophia en el Dashboard
             if (data.perfilPedagogico) {
                 document.getElementById("lblPerfilSugerido").innerText = data.perfilPedagogico;
                 document.getElementById("lblDetalleAnalisis").innerText = data.detallePedagogico;
             }
-
-            escucharEstadoEnVivo(data.codigoVinculacion);
         }
 
-        function escucharEstadoEnVivo(codigo) {
-            onSnapshot(doc(db, "monitoreo_en_vivo", codigo), (snapshot) => {
-                if (snapshot.exists()) {
-                    const live = snapshot.data();
-                    document.getElementById("lblLiveMateria").innerText = `Sesión de ${live.materia || 'Estudio'}`;
-                    document.getElementById("lblLiveStatusText").innerText = live.estado === "rojo" ? "Bloqueo / Ayuda" : "Estudiando Ahora";
-                    document.getElementById("lblLiveDetalle").innerText = live.mensajeAyuda || `Herramienta activa: ${live.herramientaActiva || 'Lectura'}`;
+        // CHAT EN TIEMPO REAL CONECTADO CON EL PROFESOR
+        function escucharChatPadre(padreUid) {
+            const qMsgs = query(collection(db, "chats", padreUid, "mensajes"), orderBy("fecha", "asc"));
+            const chatBox = document.getElementById('chatPadreBox');
+
+            onSnapshot(qMsgs, (snapshot) => {
+                chatBox.innerHTML = "";
+
+                if (snapshot.empty) {
+                    chatBox.innerHTML = `
+                        <div class="msg received">
+                            <strong>Dirección NeuroClarity:</strong> ¡Bienvenidos a la plataforma! Este es su canal directo con los docentes.
+                        </div>
+                    `;
+                    return;
                 }
+
+                snapshot.forEach((mDoc) => {
+                    const m = mDoc.data();
+                    const esPadre = m.remitente === "padre";
+                    chatBox.innerHTML += `
+                        <div class="msg ${esPadre ? 'sent' : 'received'}">
+                            <strong style="display: block; font-size: 11px; opacity: 0.8; margin-bottom: 2px;">
+                                ${esPadre ? 'Tú' : 'Docente'}
+                            </strong>
+                            ${m.texto}
+                        </div>
+                    `;
+                });
+
+                chatBox.scrollTop = chatBox.scrollHeight;
             });
         }
 
-        // GUARDAR CAMBIOS DEL PERFIL DEL TUTOR
+        // ENVIAR MENSAJE A FIRESTORE
+        document.getElementById('formChatPadre').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('inputMsgPadre');
+            const texto = input.value.trim();
+            if (!texto || !userActual) return;
+
+            try {
+                await addDoc(collection(db, "chats", userActual.uid, "mensajes"), {
+                    remitente: "padre",
+                    texto: texto,
+                    fecha: new Date()
+                });
+
+                input.value = "";
+            } catch (err) {
+                console.error("Error al enviar mensaje:", err);
+                alert("Error al enviar mensaje: " + err.message);
+            }
+        });
+
         document.getElementById("formPerfilTutor").addEventListener("submit", async (e) => {
             e.preventDefault();
             const nuevoNombre = document.getElementById("txtNombreTutor").value.trim();
@@ -616,7 +617,6 @@
             alert("Perfil del tutor actualizado correctamente.");
         });
 
-        // ABRIR MODAL PARA REEDITAR OBSERVACIONES
         window.abrirModalEditarObservaciones = async function() {
             if (!userActual) return;
             const docRef = doc(db, "padres", userActual.uid);
@@ -637,19 +637,6 @@
             navigator.clipboard.writeText(cod);
             alert("Código de vinculación copiado: " + cod);
         };
-
-        // CHAT DIRECTO
-        document.getElementById('formChatPadre').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const input = document.getElementById('inputMsgPadre');
-            const texto = input.value.trim();
-            if (!texto) return;
-
-            const chatBox = document.getElementById('chatPadreBox');
-            chatBox.innerHTML += `<div class="msg sent">${texto}</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-            input.value = "";
-        });
 
         document.getElementById('btnLogout').addEventListener('click', () => {
             signOut(auth).then(() => window.location.href = "index.html");
