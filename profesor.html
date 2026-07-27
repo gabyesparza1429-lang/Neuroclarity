@@ -276,7 +276,7 @@
         const functions = getFunctions(app);
 
         // Llamada a la Cloud Function de Sophia IA
-        const analizarConSophiaIA = httpsCallable(functions, 'analizarConSophia');
+        const analizarconsophiaIA = httpsCallable(functions, 'analizarconsophia');
 
         let profesorUid = null;
         let canceladoresOnSnapshot = [];
@@ -501,7 +501,7 @@
             };
 
             try {
-                const resIA = await analizarConSophiaIA({ texto: textoCombinado });
+                const resIA = await analizarconsophiaIA({ texto: textoCombinado });
                 nuevoAnalisis = resIA.data;
             } catch (err) {
                 console.error("Error en Sophia IA:", err);
