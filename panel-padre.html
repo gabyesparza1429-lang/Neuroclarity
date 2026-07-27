@@ -463,7 +463,7 @@
         const functions = getFunctions(app);
 
         // Llamada a la Cloud Function segura de Sophia IA
-        const analizarConSophiaIA = httpsCallable(functions, 'analizarConSophia');
+        const analizarconsophiaIA = httpsCallable(functions, 'analizarconsophia');
 
         let userActual = null;
 
@@ -502,7 +502,7 @@
 
             try {
                 // Procesamiento real con Gemini a través de Firebase
-                const resIA = await analizarConSophiaIA({ texto: observaciones });
+                const resIA = await analizarconsophiaIA({ texto: observaciones });
                 analisis = resIA.data;
             } catch (err) {
                 console.error("Error consultando Sophia IA:", err);
