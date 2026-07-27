@@ -501,16 +501,20 @@
             };
 
             try {
-               // Procesamiento real con Gemini a través de Cloud Run
+              // Procesamiento real con Gemini a través de Cloud Run
             const response = await fetch('https://analizar-con-sophia-34116345239.us-central1.run.app', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ texto: observaciones })
             });
+
+            if (!response.ok) throw new Error("Error en servidor IA");
+
             const resIA = await response.json();
-            analisis = resIA.result;
+            analisis = resIA.result || { perfil: "Perfil Adaptativo Base", detalle: "Estrategia estándar activa." };
         } catch (err) {
             console.error("Error consultando Sophia IA:", err);
+            analisis = { perfil: "Perfil Adaptativo Base", detalle: "Estrategia estándar activa." };
         }
 
         const codigoGenerado = "NC-" + Math.floor(1000 + Math.random() * 9000);
