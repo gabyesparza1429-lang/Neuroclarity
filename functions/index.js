@@ -1,7 +1,7 @@
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-exports.analizarConSophia = onCall({ 
+exports["analizar-con-sophia"] = onCall({ 
     cors: true, 
     secrets: ["GEMINI_API_KEY"] 
 }, async (request) => {
