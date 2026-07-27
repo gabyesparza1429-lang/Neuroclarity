@@ -1,9 +1,10 @@
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-exports.analizarConSophia = onCall({ cors: true }, async (request) => {
+exports.analizarConSophia = onCall({ 
+    cors: true, 
+    secrets: ["GEMINI_API_KEY"] 
+}, async (request) => {
     if (!request.auth) {
         throw new HttpsError('unauthenticated', 'Debes iniciar sesión para usar Sophia IA.');
     }
@@ -31,8 +32,9 @@ Observaciones del alumno:
 `;
 
     try {
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({
-            model: "gemini-2.5-flash",
+            model: "gemini-1.5-flash",
             generationConfig: { responseMimeType: "application/json" }
         });
 
