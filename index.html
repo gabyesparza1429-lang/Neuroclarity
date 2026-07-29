@@ -459,37 +459,45 @@
         }
     </style>
 
-<style id="custom-sticky-nav">
+
+
+
+<style id="custom-floating-nav">
 .top-navbar-floating {
     position: sticky;
     top: 0;
     z-index: 9999;
     background-color: #FAF8F5;
     border-bottom: 1px solid #E6E1ED;
-    padding: 10px 30px;
+    padding: 12px 30px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .btn-nav-alumno {
-    background-color: #6339A6;
-    padding: 10px 20px;
+    border: 2px solid #6339A6;
+    padding: 10px 18px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
-    transition: background 0.2s;
 }
 .btn-nav-acceso {
-    background-color: #FFFFFF;
-    border: 1px solid #2A1654;
+    background-color: transparent;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+.btn-nav-stripe {
     padding: 10px 20px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
+    box-shadow: 0 4px 10px rgba(42, 22, 84, 0.3);
 }
 </style>
 
@@ -499,7 +507,11 @@
 <div class="top-navbar-floating">
     <a href="alumno.html" class="btn-nav-alumno">🎓 Acceso Alumnos</a>
     <a href="#" class="btn-nav-acceso">Acceso / Registrarse</a>
+    <a href="https://stripe.com" target="_blank" class="btn-nav-stripe">💳 Adquirir Licencia</a>
 </div>
+
+
+
 
 
     <header class="hero-banner-header">
