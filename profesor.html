@@ -404,7 +404,27 @@
                                     </div>
                                 </div>
 
-                                <button style="background: var(--purple-pale); color: var(--purple-dark); border: 1px solid var(--border-suave); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%;" 
+                                
+        <div style="margin: 15px 0; padding: 12px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e0e0e0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: bold; color: #4A154B; font-size: 0.9em;">Progreso por Nivel de Bloom</span>
+                <span style="font-size: 0.8em; background: #e0e0e0; color: #555; padding: 2px 8px; border-radius: 12px; font-weight: bold;">Sin iniciar (0%)</span>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; text-align: center; font-size: 0.7em;">
+                <div style="background: #e0e0e0; padding: 6px 2px; border-radius: 4px; color: #666; font-weight: bold;">1. Recordar</div>
+                <div style="background: #e0e0e0; padding: 6px 2px; border-radius: 4px; color: #666;">2. Comprender</div>
+                <div style="background: #e0e0e0; padding: 6px 2px; border-radius: 4px; color: #666;">3. Aplicar</div>
+                <div style="background: #e0e0e0; padding: 6px 2px; border-radius: 4px; color: #666;">4. Analizar</div>
+                <div style="background: #e0e0e0; padding: 6px 2px; border-radius: 4px; color: #666;">5. Evaluar</div>
+                <div style="background: #e0e0e0; padding: 6px 2px; border-radius: 4px; color: #666;">6. Crear</div>
+            </div>
+            
+            <div style="margin-top: 10px; font-size: 0.8em; color: #555;">
+                <strong>Tema activo:</strong> Español: Los acentos y sus reglas
+            </div>
+        </div>
+<button style="background: var(--purple-pale); color: var(--purple-dark); border: 1px solid var(--border-suave); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%;" 
                                         onclick="prepararReevaluacion('${padreUid}')">
                                     <i class="fa-solid fa-pen-to-square"></i> Agregar Notas / Reevaluar con IA
                                 </button>
