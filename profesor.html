@@ -99,7 +99,7 @@
         <!-- MENÚ LATERAL -->
         <div class="sidebar">
             <div style="font-weight: 700; font-size: 20px; margin-bottom: 30px; color: var(--purple-dark);">Panel Docente</div>
-            <button class="sidebar-btn active" onclick="cambiarSeccion('alumnos', event)"><i class="fa-solid fa-users"></i> Mis Alumnos</button>
+            <button class="sidebar-btn active" onclick="cambiarSeccion('alumnos', event)"><i class="fa-solid fa-users"></i> Avance de mis alumnos</button>
             <button class="sidebar-btn" onclick="cambiarSeccion('planeacion', event)"><i class="fa-solid fa-file-arrow-up"></i> Subir Planeación</button>
             <button class="sidebar-btn" onclick="cambiarSeccion('mensajeria', event)"><i class="fa-solid fa-comments"></i> Mensajería Directa</button>
             <button class="sidebar-btn" onclick="cambiarSeccion('direccion', event)"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</button>
@@ -149,6 +149,11 @@
             
                         </div>
                         
+
+<div style="margin: 20px 0; text-align: left;">
+    <label style="font-weight: bold; display: block; margin-bottom: 8px; color: #333;">O cargar archivo de planeación (PDF, Word, TXT):</label>
+    <input type="file" id="filePlaneacion" accept=".pdf,.docx,.doc,.txt" style="width: 100%; padding: 10px; background: #fff; border-radius: 8px; border: 1px solid #ccc;">
+</div>
 
 <div style="margin: 20px 0; text-align: left;">
     <label style="font-weight: bold; display: block; margin-bottom: 8px; color: #333;">O cargar archivo de planeación (PDF, Word, TXT):</label>
