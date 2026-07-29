@@ -458,15 +458,55 @@
             border-color: var(--purple-light);
         }
     </style>
+
+<style id="custom-sticky-nav">
+.top-navbar-floating {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    background-color: #FAF8F5;
+    border-bottom: 1px solid #E6E1ED;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.btn-nav-alumno {
+    background-color: #6339A6;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+.btn-nav-acceso {
+    background-color: #FFFFFF;
+    border: 1px solid #2A1654;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+</style>
+
 </head>
 <body>
+
+<div class="top-navbar-floating">
+    <a href="alumno.html" class="btn-nav-alumno">🎓 Acceso Alumnos</a>
+    <a href="#" class="btn-nav-acceso">Acceso / Registrarse</a>
+</div>
+
 
     <header class="hero-banner-header">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" class="banner-img">
         
         <div class="nav-actions-overlay">
-            <a href="alumno.html" style="background-color: #6339A6; color: #ffffff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block; margin-right: 10px;">🎓 Acceso Alumnos</a><a href="#" id="openLoginBtn" class="btn btn-login">Acceso / Registrarse</a>
-            <a href="#membresias" class="btn btn-primary">Adquirir Licencia</a>
+            
         </div>
     </header>
 
