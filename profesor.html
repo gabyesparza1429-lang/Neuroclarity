@@ -626,5 +626,49 @@ function cerrarModalAutorizacion() {
 }
 </script>
 
+
+<div id="modalAutorizacion" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#fff; width:90%; max-width:650px; padding:25px; border-radius:12px; max-height:85vh; overflow-y:auto; box-shadow:0 5px 15px rgba(0,0,0,0.3); text-align:left;">
+        <h2 style="color:#4A154B; margin-top:0;">Propuesta Pedagógica - Sophia IA</h2>
+        <p style="font-size:0.9em; color:#555;"><strong>Alumno:</strong> Gaby prueba | <strong>Tema:</strong> Español: Los acentos y sus reglas</p>
+        <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+        
+        <h4 style="margin-bottom:8px; color:#2E7D32;">1. Explicación Adaptada para el Alumno:</h4>
+        <div style="margin-bottom:15px; padding:12px; background:#f0f7f4; border-left:4px solid #2E7D32; border-radius:4px; font-size:0.9em; color:#333;">
+            <strong>💡 Enfoque Sophia:</strong> Texto dividido en micro-bloques con guías de énfasis visual.<br><br>
+            <em>"Las palabras tienen una sílaba que suena más fuerte: la <strong>sílaba tónica</strong>. Si esa sílaba fuerte es la última y la palabra termina en <strong>N, S o Vocal</strong>, siempre lleva tilde (como en <strong>café</strong> o <strong>canción</strong>)."</em>
+        </div>
+
+        <h4 style="margin-bottom:8px; color:#4A154B;">2. Secuencia de Actividades (Taxonomía de Bloom):</h4>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px; font-size:0.85em;">
+            <strong>1. Recordar:</strong> Identificar palabras con y sin acento en una lista dada.
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px; font-size:0.85em;">
+            <strong>2. Comprender:</strong> Seleccionar la regla correcta de palabras agudas en una opción múltiple.
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px; font-size:0.85em;">
+            <strong>3. Aplicar:</strong> Colocar la tilde correctamente en 5 oraciones (micro-desafío 5 min).
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px; font-size:0.85em;">
+            <strong>4. Analizar:</strong> Clasificar palabras en agudas, graves y esdrújulas.
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px; font-size:0.85em;">
+            <strong>5. Evaluar:</strong> Detectar y corregir 3 errores de acentuación en un texto corto.
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px; font-size:0.85em;">
+            <strong>6. Crear:</strong> Redactar una breve oración aplicando la regla aprendida.
+        </div>
+
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button onclick="cerrarModalAutorizacion(); alert('¡Explicación y actividades autorizadas para el alumno!');" style="flex:1; padding:12px; background:#2E7D32; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">
+                ✅ Autorizar Explicación y Actividades
+            </button>
+            <button onclick="cerrarModalAutorizacion();" style="padding:12px 20px; background:#e0e0e0; color:#333; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
