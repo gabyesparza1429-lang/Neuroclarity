@@ -863,5 +863,61 @@ function cerrarModalAuth() {
 }
 </script>
 
+
+<div id="modalAuth" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:#fff; width:90%; max-width:420px; padding:30px; border-radius:18px; text-align:center; position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <button onclick="cerrarModalAuth()" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:22px; cursor:pointer; color:#4E4266;">✕</button>
+        
+        <div style="display:flex; border-bottom:2px solid #E6E1ED; margin-bottom:20px;">
+            <button id="tabLoginBtn" onclick="cambiarTabAuth('login')" style="flex:1; padding:10px; border:none; background:none; font-weight:bold; font-size:15px; color:#6339A6; border-bottom:3px solid #6339A6; cursor:pointer;">Iniciar Sesión</button>
+            <button id="tabRegisterBtn" onclick="cambiarTabAuth('register')" style="flex:1; padding:10px; border:none; background:none; font-weight:bold; font-size:15px; color:#4E4266; border-bottom:3px solid transparent; cursor:pointer;">Registrarse</button>
+        </div>
+
+        <div id="formLogin" style="display:block;">
+            <input type="email" placeholder="Correo electrónico" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E6E1ED; border-radius:8px; font-size:14px;">
+            <input type="password" placeholder="Contraseña" style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #E6E1ED; border-radius:8px; font-size:14px;">
+            <button onclick="window.location.href='profesor.html'" style="width:100%; padding:12px; background:#6339A6; color:#fff; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:16px;">Entrar</button>
+        </div>
+
+        <div id="formRegister" style="display:none;">
+            <input type="text" placeholder="Nombre completo" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E6E1ED; border-radius:8px; font-size:14px;">
+            <input type="email" placeholder="Correo electrónico" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E6E1ED; border-radius:8px; font-size:14px;">
+            <input type="password" placeholder="Crear contraseña" style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #E6E1ED; border-radius:8px; font-size:14px;">
+            <button onclick="window.location.href='profesor.html'" style="width:100%; padding:12px; background:#2A1654; color:#fff; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:16px;">Crear Cuenta</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function abrirModalAuth() {
+    document.getElementById('modalAuth').style.display = 'flex';
+}
+function cerrarModalAuth() {
+    document.getElementById('modalAuth').style.display = 'none';
+}
+function cambiarTabAuth(tab) {
+    const fLogin = document.getElementById('formLogin');
+    const fReg = document.getElementById('formRegister');
+    const tLogin = document.getElementById('tabLoginBtn');
+    const tReg = document.getElementById('tabRegisterBtn');
+
+    if (tab === 'login') {
+        fLogin.style.display = 'block';
+        fReg.style.display = 'none';
+        tLogin.style.color = '#6339A6';
+        tLogin.style.borderBottom = '3px solid #6339A6';
+        tReg.style.color = '#4E4266';
+        tReg.style.borderBottom = '3px solid transparent';
+    } else {
+        fLogin.style.display = 'none';
+        fReg.style.display = 'block';
+        tReg.style.color = '#6339A6';
+        tReg.style.borderBottom = '3px solid #6339A6';
+        tLogin.style.color = '#4E4266';
+        tLogin.style.borderBottom = '3px solid transparent';
+    }
+}
+</script>
+
 </body>
 </html>
