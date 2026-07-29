@@ -141,8 +141,40 @@
                         <div class="form-group">
                             <label>Contenido / Tema de la Clase</label>
                             <textarea class="form-control" rows="5" placeholder="Pega aquí el texto del tema o la planeación pedagógica..." required></textarea>
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">Nivel de la Taxonomía de Bloom (Dosificación Cognitiva):</label>
+                <select id="bloomTaxonomy" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background-color: #fff;">
+                    <option value="recordar">1. Recordar (Identificar, listar, memorizar)</option>
+                    <option value="comprender">2. Comprender (Explicar, resumir, clasificar)</option>
+                    <option value="aplicar">3. Aplicar (Resolver, ejecutar, utilizar)</option>
+                    <option value="analizar">4. Analizar (Comparar, examinar, estructurar)</option>
+                    <option value="evaluar">5. Evaluar (Argumentar, criticar, validar)</option>
+                    <option value="crear">6. Crear (Diseñar, construir, formular)</option>
+                </select>
+            </div>
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">O cargar archivo de planeación (PDF, Word, TXT):</label>
+                <input type="file" id="filePlaneacion" accept=".pdf,.docx,.doc,.txt" style="width: 100%; padding: 8px; background: #fff; border-radius: 8px; border: 1px solid #ccc;">
+            </div>
+            
                         </div>
-                        <button type="submit" class="btn-primary">Procesar Adaptaciones con Sophia IA</button>
+                        
+<div style="margin: 20px 0; text-align: left;">
+    <label style="font-weight: bold; display: block; margin-bottom: 8px; color: #333;">Nivel de la Taxonomía de Bloom (Dosificación):</label>
+    <select id="bloomTaxonomy" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background-color: #fff;">
+        <option value="recordar">1. Recordar (Identificar, listar, memorizar)</option>
+        <option value="comprender">2. Comprender (Explicar, resumir, clasificar)</option>
+        <option value="aplicar">3. Aplicar (Resolver, ejecutar, utilizar)</option>
+        <option value="analizar">4. Analizar (Comparar, examinar, estructurar)</option>
+        <option value="evaluar">5. Evaluar (Argumentar, criticar, validar)</option>
+        <option value="crear">6. Crear (Diseñar, construir, formular)</option>
+    </select>
+</div>
+<div style="margin: 20px 0; text-align: left;">
+    <label style="font-weight: bold; display: block; margin-bottom: 8px; color: #333;">O cargar archivo de planeación (PDF, Word, TXT):</label>
+    <input type="file" id="filePlaneacion" accept=".pdf,.docx,.doc,.txt" style="width: 100%; padding: 10px; background: #fff; border-radius: 8px; border: 1px solid #ccc;">
+</div>
+<button type="submit" class="btn-primary">Procesar Adaptaciones con Sophia IA</button>
                     </form>
                 </div>
             </div>
@@ -230,10 +262,42 @@
                 <div class="form-group">
                     <label>Observaciones Previas de la Familia</label>
                     <textarea class="form-control" id="txtNotasPadresPrevias" rows="3" readonly style="background: var(--bg-cream); font-size: 12px;"></textarea>
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">Nivel de la Taxonomía de Bloom (Dosificación Cognitiva):</label>
+                <select id="bloomTaxonomy" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background-color: #fff;">
+                    <option value="recordar">1. Recordar (Identificar, listar, memorizar)</option>
+                    <option value="comprender">2. Comprender (Explicar, resumir, clasificar)</option>
+                    <option value="aplicar">3. Aplicar (Resolver, ejecutar, utilizar)</option>
+                    <option value="analizar">4. Analizar (Comparar, examinar, estructurar)</option>
+                    <option value="evaluar">5. Evaluar (Argumentar, criticar, validar)</option>
+                    <option value="crear">6. Crear (Diseñar, construir, formular)</option>
+                </select>
+            </div>
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">O cargar archivo de planeación (PDF, Word, TXT):</label>
+                <input type="file" id="filePlaneacion" accept=".pdf,.docx,.doc,.txt" style="width: 100%; padding: 8px; background: #fff; border-radius: 8px; border: 1px solid #ccc;">
+            </div>
+            
                 </div>
                 <div class="form-group">
                     <label>Observaciones del Docente (Comportamiento en Aula)</label>
                     <textarea class="form-control" id="txtNotasDocenteNuevas" rows="4" placeholder="Ej: Muestra bloqueos en lecturas individuales de Historia, pero responde excelente con esquemas visuales o resúmenes breves..." required></textarea>
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">Nivel de la Taxonomía de Bloom (Dosificación Cognitiva):</label>
+                <select id="bloomTaxonomy" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background-color: #fff;">
+                    <option value="recordar">1. Recordar (Identificar, listar, memorizar)</option>
+                    <option value="comprender">2. Comprender (Explicar, resumir, clasificar)</option>
+                    <option value="aplicar">3. Aplicar (Resolver, ejecutar, utilizar)</option>
+                    <option value="analizar">4. Analizar (Comparar, examinar, estructurar)</option>
+                    <option value="evaluar">5. Evaluar (Argumentar, criticar, validar)</option>
+                    <option value="crear">6. Crear (Diseñar, construir, formular)</option>
+                </select>
+            </div>
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">O cargar archivo de planeación (PDF, Word, TXT):</label>
+                <input type="file" id="filePlaneacion" accept=".pdf,.docx,.doc,.txt" style="width: 100%; padding: 8px; background: #fff; border-radius: 8px; border: 1px solid #ccc;">
+            </div>
+            
                 </div>
                 <button type="submit" class="btn-primary" style="width: 100%;">Reevaluar y Actualizar con Sophia IA</button>
             </form>
