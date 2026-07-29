@@ -425,7 +425,7 @@
             </div>
         </div>
 
-        <button style="width: 100%; margin-top: 8px; padding: 10px; background: #2E7D32; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+        <button  style="width: 100%; margin-top: 8px; padding: 10px; background: #2E7D32; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" onclick="abrirModalAutorizacion()">
             👁️ Revisar y Autorizar Propuesta Sophia
         </button>
 <button style="background: var(--purple-pale); color: var(--purple-dark); border: 1px solid var(--border-suave); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%;" 
@@ -576,5 +576,55 @@
             signOut(auth).then(() => window.location.href = "index.html");
         });
     </script>
+
+<div id="modalAutorizacion" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#fff; width:90%; max-width:600px; padding:25px; border-radius:12px; max-height:85vh; overflow-y:auto; box-shadow:0 5px 15px rgba(0,0,0,0.3); text-align:left;">
+        <h2 style="color:#4A154B; margin-top:0;">Plan de Lección - Sophia IA</h2>
+        <p style="font-size:0.9em; color:#555;"><strong>Alumno:</strong> Gaby prueba | <strong>Materia:</strong> Español: Los acentos y sus reglas</p>
+        <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+        
+        <h4 style="margin-bottom:10px; color:#333;">Propuesta de actividades por Nivel de Bloom:</h4>
+        
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px;">
+            <strong>1. Recordar:</strong> Identificar palabras con y sin acento en una lista dada.
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px;">
+            <strong>2. Comprender:</strong> Explicar la regla general de acentuación de las palabras agudas.
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px;">
+            <strong>3. Aplicar:</strong> Colocar la tilde correctamente en 5 oraciones (micro-desafío 5 min).
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px;">
+            <strong>4. Analizar:</strong> Clasificar un texto breve en palabras agudas, graves y esdrújulas.
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px;">
+            <strong>5. Evaluar:</strong> Detectar y corregir 3 errores de acentuación dentro de un párrafo.
+        </div>
+        <div style="margin-bottom:8px; padding:10px; background:#f9f9f9; border-left:4px solid #4A154B; border-radius:4px;">
+            <strong>6. Crear:</strong> Escribir una breve historia aplicando las reglas de acentuación aprendidas.
+        </div>
+
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button onclick="cerrarModalAutorizacion(); alert('¡Propuesta autorizada! Las actividades se han liberado para la alumna.');" style="flex:1; padding:12px; background:#2E7D32; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">
+                ✅ Autorizar y Publicar
+            </button>
+            <button onclick="cerrarModalAutorizacion();" style="padding:12px 20px; background:#e0e0e0; color:#333; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function abrirModalAutorizacion() {
+    var el = document.getElementById('modalAutorizacion');
+    if(el) el.style.display = 'flex';
+}
+function cerrarModalAutorizacion() {
+    var el = document.getElementById('modalAutorizacion');
+    if(el) el.style.display = 'none';
+}
+</script>
+
 </body>
 </html>
