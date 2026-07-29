@@ -489,6 +489,8 @@
 
         // REGISTRO DE ONBOARDING CON GEMINI IA
         document.getElementById("formOnboarding").addEventListener("submit", async (e) => {
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            if (btnSubmit) { btnSubmit.disabled = true; btnSubmit.innerText = "Procesando con IA..."; }
             e.preventDefault();
             const familia = document.getElementById("onbNombreFamilia").value.trim();
             const hijo = document.getElementById("onbNombreHijo").value.trim();
@@ -528,6 +530,7 @@
 
             await setDoc(doc(db, "padres", userActual.uid), dataPadre);
             document.getElementById("modalOnboarding").style.display = "none";
+            if (btnSubmit) { btnSubmit.disabled = false; btnSubmit.innerText = "Generar Perfil con IA e Ingresar"; }
         });
 
         function cargarDatosPanel(data) {

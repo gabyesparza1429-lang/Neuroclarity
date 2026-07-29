@@ -1,7 +1,7 @@
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-exports["analizar-con-sophia"] = onCall({ 
+exports.analizarConSophia = onCall({ 
     cors: true, 
     secrets: ["GEMINI_API_KEY"] 
 }, async (request) => {
@@ -34,7 +34,7 @@ Observaciones del alumno:
     try {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash",
+            model: "gemini-flash-latest",
             generationConfig: { responseMimeType: "application/json" }
         });
 
