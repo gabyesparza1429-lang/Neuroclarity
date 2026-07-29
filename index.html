@@ -464,11 +464,326 @@
     <header class="hero-banner-header">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" class="banner-img">
         
-        
+        <div class="nav-actions-overlay">
+            <a href="#" id="openLoginBtn" class="btn btn-login">Acceso / Registrarse</a>
+            <a href="#membresias" class="btn btn-primary">Adquirir Licencia</a>
+        </div>
+    </header>
 
+    <section class="hero-text-block">
+        <div class="container">
+            <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
+            <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
+            <a href="#membresias" class="btn btn-secondary">Ver Planes Disponibles</a>
+        </div>
+    </section>
 
-<div style="text-align: center; padding: 20px; background: #FAF8F5;">
-    <a href="alumno.html" style="display: inline-block; padding: 15px 30px; background-color: #6339A6; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 18px; box-shadow: 0 4px 15px rgba(99, 57, 166, 0.4);">
+    <section class="science">
+        <div class="container">
+            <div class="section-header">
+                <h2>Diferentes formas de procesar, el mismo derecho a triunfar</h2>
+                <p>La neurodivergencia (TDAH, Dislexia, Autismo) no es una incapacidad para aprender; es simplemente una estructura cognitiva distinta. El sistema educativo tradicional impone un estándar rígido de entrega de información que genera una brecha injusta. NeuroClarity no altera el contenido académico: adapta el canal de comunicación. Nuestra tecnología transforma materiales ordinarios en interfaces personalizadas según la necesidad del estudiante.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Línea de Enfoque</h3>
+                    <p>Fuentes optimizadas, espaciado activo y regletas de lectura visual para dislexia.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Bloques de Lectura</h3>
+                    <p>Fragmentación del texto en micro-bloques de enfoque y temporizadores integrados para TDAH.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Apoyos Pictográficos</h3>
+                    <p>Inyección automática de apoyos visuales y traducción de lenguaje figurado a literal para TEA.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÓDULO DE COMPRA Y TARIFAS -->
+    <section class="pricing-section" id="membresias">
+        <div class="container">
+            <h2>Adquiere tu Licencia NeuroClarity</h2>
+            <p class="sub-title">Selecciona la modalidad que mejor se adapte a tus necesidades.</p>
+
+            <div class="tab-container">
+                <button class="tab-btn active" onclick="togglePricingTab('padres', event)">Padres de Familia</button>
+                <button class="tab-btn" onclick="togglePricingTab('escuelas', event)">Escuelas y Docentes</button>
+            </div>
+
+            <!-- PADRES -->
+            <div id="view-padres" class="pricing-view active">
+                <div class="pricing-card">
+                    <div>
+                        <h3>Plan Familiar Estándar</h3>
+                        <div class="price">$681.55 <span>MXN / mes</span></div>
+                        <ul class="benefits-list">
+                            <li>Acceso total al Portal del Alumno</li>
+                            <li>Panel de Monitoreo para la Familia</li>
+                            <li>1 Código de Vinculación para Profesor</li>
+                            <li>Adaptación de materiales con IA ilimitada</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_7sYeV540jeIEaxd03C5ZC00" class="btn btn-secondary" style="width: 100%; text-align: center;">Suscribirme</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div>
+                        <h3>Plan Familiar Premium</h3>
+                        <div class="price">$1,214.18 <span>MXN / mes</span></div>
+                        <ul class="benefits-list">
+                            <li>Todo lo del Plan Estándar</li>
+                            <li>Evaluación psicopedagógica asistida por IA</li>
+                            <li>Reportes avanzados de avance cognitivo</li>
+                            <li>Soporte prioritario 24/7</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_5kQeV5gN5eIEeNt5nW5ZC01" class="btn btn-secondary" style="width: 100%; text-align: center;">Suscribirme</a>
+                </div>
+            </div>
+
+            <!-- ESCUELAS -->
+            <div id="view-escuelas" class="pricing-view">
+                <div class="pricing-card centered-card">
+                    <div>
+                        <h3>Licencia Escolar por Volumen</h3>
+                        <div class="price" id="school-price-display">$12,278 <span>MXN / mes</span></div>
+                        
+                        <div class="license-counter-box">
+                            <label for="license-select">Cupos de Alumnos:</label>
+                            <select id="license-select" onchange="calculateSchoolPrice()">
+                                <option value="10">1 a 10 Alumnos</option>
+                                <option value="20">11 a 20 Alumnos</option>
+                                <option value="30" selected>21 a 30 Alumnos</option>
+                                <option value="50">31 a 50 Alumnos</option>
+                            </select>
+                        </div>
+
+                        <ul class="benefits-list">
+                            <li>Panel de Gestión Centralizada para la Institución</li>
+                            <li>Asignación inmediata de licencias docentes</li>
+                            <li>Códigos de vinculación familiar automáticos</li>
+                            <li>Asistente IA para Procesamiento de Planeaciones</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_14A4grbsL440gVB3fO5ZC02" class="btn btn-secondary" style="width: 100%; text-align: center;">Contratar Plan Escolar</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 NeuroRéussit / NeuroClarity. Ingeniería Pedagógica para Mentes Diversas. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- VENTANA FLOTANTE (LOGIN Y REGISTRO AUTOMÁTICO) -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" id="closeLoginBtn">&times;</button>
+            
+            <div class="auth-tab-group">
+                <button class="auth-tab-btn active" onclick="cambiarAuthTab('login')">Iniciar Sesión</button>
+                <button class="auth-tab-btn" onclick="cambiarAuthTab('registro')">Crear Cuenta</button>
+            </div>
+
+            <!-- ACCESO -->
+            <form id="formLogin">
+                <div class="form-group">
+                    <label for="loginEmail">Correo Electrónico</label>
+                    <input type="email" id="loginEmail" required placeholder="ejemplo@correo.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px; margin-top: 10px;">Ingresar</button>
+            </form>
+
+            <!-- REGISTRO AUTOSERVICIO -->
+            <form id="formRegistro" style="display: none;">
+                <div class="form-group">
+                    <label for="regRol">Tipo de Cuenta / Rol</label>
+                    <select id="regRol" required>
+                        <option value="profesor">Profesor / Especialista</option>
+                        <option value="padre">Padre de Familia / Tutor</option>
+                        <option value="escuela">Dirección Escolar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="regNombre">Nombre Completo</label>
+                    <input type="text" id="regNombre" required placeholder="Ej: Profr. Roberto Gómez">
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Correo Electrónico</label>
+                    <input type="email" id="regEmail" required placeholder="tu@correo.com">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Contraseña</label>
+                    <input type="password" id="regPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px; margin-top: 10px;">Crear Cuenta e Ingresar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPTS DE PESTAÑAS Y CALCULADORA -->
+    <script>
+        function togglePricingTab(type, e) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.pricing-view').forEach(view => view.classList.remove('active'));
+
+            e.target.classList.add('active');
+            if (type === 'padres') {
+                document.getElementById('view-padres').classList.add('active');
+            } else {
+                document.getElementById('view-escuelas').classList.add('active');
+            }
+        }
+
+        function calculateSchoolPrice() {
+            const select = document.getElementById('license-select');
+            const display = document.getElementById('school-price-display');
+            const qty = parseInt(select.value);
+            let total = 12278;
+
+            if (qty === 10) total = 4679;
+            else if (qty === 20) total = 8770;
+            else if (qty === 30) total = 12278;
+            else if (qty === 50) total = 18997;
+
+            display.innerHTML = `$${total.toLocaleString('es-MX')} <span>MXN / mes</span>`;
+        }
+
+        function cambiarAuthTab(tab) {
+            const btns = document.querySelectorAll('.auth-tab-btn');
+            btns.forEach(b => b.classList.remove('active'));
+
+            if (tab === 'login') {
+                btns[0].classList.add('active');
+                document.getElementById('formLogin').style.display = 'block';
+                document.getElementById('formRegistro').style.display = 'none';
+            } else {
+                btns[1].classList.add('active');
+                document.getElementById('formLogin').style.display = 'none';
+                document.getElementById('formRegistro').style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('loginModal');
+            const openBtn = document.getElementById('openLoginBtn');
+            const closeBtn = document.getElementById('closeLoginBtn');
+
+            if (openBtn && modal && closeBtn) {
+                openBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.classList.add('active');
+                });
+
+                closeBtn.addEventListener('click', () => {
+                    modal.classList.remove('active');
+                });
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- FIREBASE AUTH & FIRESTORE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+        const ncConfig = {
+            apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
+            authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+            projectId: "neuroclarity-dcf0e",
+            storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
+            messagingSenderId: "34116345239",
+            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2"
+        };
+
+        const app = initializeApp(ncConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        function redirigirPorRol(rol) {
+            if (rol === "profesor") window.location.href = "profesor.html";
+            else if (rol === "escuela") window.location.href = "panel-escuela.html";
+            else window.location.href = "panel-padre.html";
+        }
+
+        // LOGIN
+        document.getElementById('formLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                let docSnap = await getDoc(doc(db, "usuarios", user.uid));
+                let rol = "padre";
+
+                if (docSnap.exists()) {
+                    rol = docSnap.data().rol || "padre";
+                } else {
+                    docSnap = await getDoc(doc(db, "NeuroClarity_Membresias", email));
+                    if (docSnap.exists()) {
+                        rol = (docSnap.data().tipo_licencia || "padre").toLowerCase();
+                    }
+                }
+
+                document.getElementById('loginModal').classList.remove('active');
+                redirigirPorRol(rol);
+            } catch (error) {
+                console.error(error);
+                alert("Error al ingresar: Revisa tu correo o contraseña.");
+            }
+        });
+
+        // REGISTRO
+        document.getElementById('formRegistro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const rol = document.getElementById('regRol').value;
+            const nombre = document.getElementById('regNombre').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                await setDoc(doc(db, "usuarios", user.uid), {
+                    nombre: nombre,
+                    email: email,
+                    rol: rol,
+                    fechaRegistro: new Date()
+                });
+
+                document.getElementById('loginModal').classList.remove('active');
+                alert("¡Cuenta creada exitosamente!");
+                redirigirPorRol(rol);
+            } catch (error) {
+                console.error(error);
+                alert("Error al registrar cuenta: " + error.message);
+            }
+        });
+    </script>
+
+<div style="text-align: center; margin: 20px;">
+    <a href="alumno.html" style="display: inline-block; padding: 14px 28px; background-color: #6339A6; color: #FFFFFF; border-radius: 12px; font-weight: bold; text-decoration: none; font-size: 16px; box-shadow: 0 4px 12px rgba(99, 57, 166, 0.3);">
         🎓 Acceso Alumnos
     </a>
 </div>
