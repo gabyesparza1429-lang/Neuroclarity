@@ -602,6 +602,15 @@
                     <input type="password" id="loginPassword" required placeholder="••••••••">
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px; margin-top: 10px;">Ingresar</button>
+
+        <div style="margin-top: 18px; padding-top: 15px; border-top: 1px solid #E6E1ED; text-align: center;">
+            <p style="font-size: 13px; color: #4E4266; margin-bottom: 8px; font-weight: bold;">¿Eres alumno con código?</p>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="inputCodigoAlumnoModal" placeholder="Ingresa tu código" style="flex: 1; padding: 10px; border: 1px solid #E6E1ED; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+                <button onclick="var c = document.getElementById('inputCodigoAlumnoModal').value; if(c.trim() !== '') { window.location.href='alumno.html?code=' + encodeURIComponent(c); } else { alert('Por favor ingresa un código válido'); }" style="padding: 10px 16px; background-color: #6339A6; color: #ffffff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px;">Entrar</button>
+            </div>
+        </div>
+    
             </form>
 
             <!-- REGISTRO AUTOSERVICIO -->
@@ -627,6 +636,15 @@
                     <input type="password" id="regPassword" required placeholder="••••••••">
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px; margin-top: 10px;">Crear Cuenta e Ingresar</button>
+
+        <div style="margin-top: 18px; padding-top: 15px; border-top: 1px solid #E6E1ED; text-align: center;">
+            <p style="font-size: 13px; color: #4E4266; margin-bottom: 8px; font-weight: bold;">¿Eres alumno con código?</p>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="inputCodigoAlumnoModal" placeholder="Ingresa tu código" style="flex: 1; padding: 10px; border: 1px solid #E6E1ED; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+                <button onclick="var c = document.getElementById('inputCodigoAlumnoModal').value; if(c.trim() !== '') { window.location.href='alumno.html?code=' + encodeURIComponent(c); } else { alert('Por favor ingresa un código válido'); }" style="padding: 10px 16px; background-color: #6339A6; color: #ffffff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px;">Entrar</button>
+            </div>
+        </div>
+    
             </form>
         </div>
     </div>
