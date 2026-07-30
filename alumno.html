@@ -124,7 +124,7 @@
 
     <div id="student-panel" style="display:none;">
         <div class="header-bar">
-            <h1 class="student-name" id="txtNombreAlumno">Alumno</h1>
+            <h1 class="student-name" id="txtNombreAlumno">Cargando...</h1>
             <div class="action-btns">
                 <button class="btn-sofia" onclick="alert('Pregúntale a Sofía activado')">
                     <i class="fa-solid fa-robot"></i> Pregúntale a Sofía
@@ -155,36 +155,37 @@
     const db = getFirestore(app);
 
     async function procesarValidacion(cod) {
+        const codLimpio = cod.trim().toUpperCase();
+        
+        // Ocultar login y mostrar panel de inmediato
+        document.getElementById('login-box').style.display = 'none';
+        document.getElementById('student-panel').style.display = 'block';
+
         try {
-            const q = query(collection(db, "padres"), where("codigoVinculacion", "==", cod.toUpperCase()));
+            const q = query(collection(db, "padres"), where("codigoVinculacion", "==", codLimpio));
             const querySnapshot = await getDocs(q);
 
                 let datosPadre = querySnapshot.docs[0].data();
-                
-                document.getElementById('login-box').style.display = 'none';
-                document.getElementById('student-panel').style.display = 'block';
-                
-                // Mostrar solo el nombre del alumno
                 document.getElementById('txtNombreAlumno').innerText = datosPadre.nombreHijo || 'Alumno';
-
-                // Mostrar materias asignadas
-                cargarMateriasProfesor(cod);
+                cargarMateriasProfesor(codLimpio);
             } else {
-                alert('Código no encontrado: ' + cod);
+                document.getElementById('txtNombreAlumno').innerText = 'Alumno (' + codLimpio + ')';
+                document.getElementById('contenedor-materias').innerHTML = '<p style="color: var(--text-muted);">Código no registrado en el sistema. Consulta con tu familia.</p>';
             }
         } catch(e) {
             console.error('Error:', e);
-            alert('Error al consultar el código.');
+            document.getElementById('txtNombreAlumno').innerText = 'Alumno';
+            document.getElementById('contenedor-materias').innerHTML = '<p style="color: var(--text-muted);">Error al consultar materias.</p>';
         }
     }
 
     async function cargarMateriasProfesor(codigo) {
         const contenedor = document.getElementById('contenedor-materias');
         try {
-            const qV = query(collection(db, "vinculaciones"), where("codigo_vinculo", "==", codigo.toUpperCase()));
+            const qV = query(collection(db, "vinculaciones"), where("codigo_vinculo", "==", codigo));
             const snapV = await getDocs(qV);
 
-                contenedor.innerHTML = '<div class="subject-card"><span>Lecciones de la clase</span><button style="padding: 8px 12px; background: #6339A6; color: white; border: none; border-radius: 6px;">Iniciar</button></div>';
+                contenedor.innerHTML = '<div class="subject-card"><span>Lecciones de la clase</span><button style="padding: 8px 12px; background: #6339A6; color: white; border: none; border-radius: 6px; cursor: pointer;">Iniciar</button></div>';
             } else {
                 contenedor.innerHTML = '<p style="color: var(--text-muted);">Tu profesor aún no ha publicado materias para este código.</p>';
             }
@@ -194,25 +195,15 @@
     }
 
     window.validarCodigo = function() {
-        const val = document.getElementById('codigoAlumnoInput').value.trim();
+        const val = document.getElementById('codigoAlumnoInput').value;
         procesarValidacion(val);
     };
 
-    function autoEntrar() {
-        const urlParams = new URLSearchParams(window.location.search);
-        let codeParam = urlParams.get('code');
-        if (codeParam) {
-            codeParam = codeParam.trim();
-            const input = document.getElementById('codigoAlumnoInput');
-            if (input) input.value = codeParam;
-            procesarValidacion(codeParam);
-        }
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', autoEntrar);
-    } else {
-        autoEntrar();
+    // Leer parametro de la URL inmediatamente
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeParam = urlParams.get('code');
+    if (codeParam) {
+        procesarValidacion(codeParam);
     }
 </script>
 </body>
