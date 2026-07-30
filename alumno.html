@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-brand: #F3EFEA;
+            --bg-brand: #F4EFEA;
             --card-bg: #FFFFFF;
             --primary: #6339A6;
             --primary-hover: #4F2C87;
@@ -19,18 +19,21 @@
             background-color: var(--bg-brand);
             color: var(--text-dark);
             margin: 0;
-            padding: 0 0 40px 0;
+            padding: 0 0 50px 0;
         }
-        .top-banner {
-            background-color: #FFFFFF;
+        /* ENCABEZADO IGUAL AL INDEX */
+        .top-header {
             width: 100%;
-            padding: 15px 0;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background-color: #F4EFEA;
+            padding: 25px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #E8E2D9;
             margin-bottom: 30px;
         }
-        .top-banner img {
-            max-height: 90px;
+        .top-header img {
+            max-height: 110px;
             width: auto;
             max-width: 90%;
         }
@@ -95,7 +98,7 @@
         }
         .subject-card {
             border: 1px solid #EAE5ED;
-            padding: 16px 20px;
+            padding: 18px 22px;
             border-radius: 12px;
             margin-top: 15px;
             display: flex;
@@ -107,9 +110,9 @@
 </head>
 <body>
 
-<div class="top-banner">
+<header class="top-header">
     <img src="assets/Encabezado-Web.png" alt="NeuroClarity Ingenieria Pedagogica">
-</div>
+</header>
 
 <div class="container">
     <div id="student-panel">
@@ -159,7 +162,7 @@
                 let nombre = d.nombreHijo || d.nombreAlumno || d.nombre || 'Alumno';
                 document.getElementById('txtNombreAlumno').innerText = '¡Hola, ' + nombre + '!';
             } else {
-                document.getElementById('txtNombreAlumno').innerText = '¡Hola, Alumno (' + codLimpio + ')!';
+                document.getElementById('txtNombreAlumno').innerText = '¡Hola, Alumno!';
             }
         } catch(e) {
             console.error('Error al cargar datos:', e);
@@ -179,7 +182,7 @@
                 snapV.forEach(doc => {
                     let d = doc.data();
                     let nombreMateria = d.materia || d.nombreMateria || 'Lección Asignada';
-                    htmlMaterias += '<div class="subject-card"><span><strong>' + nombreMateria + '</strong></span><button style="padding: 8px 16px; background: #6339A6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Iniciar Lección</button></div>';
+                    htmlMaterias += '<div class="subject-card"><span><strong>' + nombreMateria + '</strong></span><button style="padding: 10px 18px; background: #6339A6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Iniciar Lección</button></div>';
                 });
                 contenedor.innerHTML = htmlMaterias;
             } else {
