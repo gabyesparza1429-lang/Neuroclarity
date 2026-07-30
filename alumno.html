@@ -30,8 +30,9 @@
             margin-bottom: 30px;
         }
         .top-banner img {
-            max-height: 75px;
-            height: auto;
+            max-height: 90px;
+            width: auto;
+            max-width: 90%;
         }
         .container {
             max-width: 850px;
@@ -107,13 +108,12 @@
 <body>
 
 <div class="top-banner">
-    <img src="assets/logo-banner.png" alt="NeuroClarity Ingenieria Pedagogica" onerror="this.onerror=null; this.src='assets/logo.png';">
+    <img src="assets/Encabezado-Web.png" alt="NeuroClarity Ingenieria Pedagogica">
 </div>
 
 <div class="container">
     <div id="student-panel">
         <div class="header-bar">
-            <h1 class="student-name" id="txtNombreAlumno">Cargando...</h1>
             <div class="action-btns">
                 <button class="btn-sofia" onclick="alert('Pregúntale a Sofía activado')">
                     <i class="fa-solid fa-robot"></i> Pregúntale a Sofía
@@ -125,7 +125,7 @@
         <div class="subjects-section">
             <h3><i class="fa-solid fa-book-open"></i> Materias Asignadas por tu Profesor</h3>
             <div id="contenedor-materias">
-                <p style="color: var(--text-muted);">Cargando materias asignadas...</p>
+                <p style="color: var(--text-muted);">Buscando lecciones asignadas...</p>
             </div>
         </div>
     </div>
@@ -147,14 +147,19 @@
         const codLimpio = cod.trim().toUpperCase();
 
         try {
-            const q = query(collection(db, "padres"), where("codigoVinculacion", "==", codLimpio));
-            const querySnapshot = await getDocs(q);
+            let q = query(collection(db, "padres"), where("codigoVinculacion", "==", codLimpio));
+            let querySnapshot = await getDocs(q);
 
-                let datosPadre = querySnapshot.docs[0].data();
-                let nombre = datosPadre.nombreHijo || 'Alumno';
+            if(querySnapshot.empty) {
+                q = query(collection(db, "padres"), where("codigo", "==", codLimpio));
+                querySnapshot = await getDocs(q);
+            }
+
+                let d = querySnapshot.docs[0].data();
+                let nombre = d.nombreHijo || d.nombreAlumno || d.nombre || 'Alumno';
                 document.getElementById('txtNombreAlumno').innerText = '¡Hola, ' + nombre + '!';
             } else {
-                document.getElementById('txtNombreAlumno').innerText = '¡Hola, Alumno!';
+                document.getElementById('txtNombreAlumno').innerText = '¡Hola, Alumno (' + codLimpio + ')!';
             }
         } catch(e) {
             console.error('Error al cargar datos:', e);
@@ -173,7 +178,7 @@
                 let htmlMaterias = '';
                 snapV.forEach(doc => {
                     let d = doc.data();
-                    let nombreMateria = d.materia || 'Lección Asignada';
+                    let nombreMateria = d.materia || d.nombreMateria || 'Lección Asignada';
                     htmlMaterias += '<div class="subject-card"><span><strong>' + nombreMateria + '</strong></span><button style="padding: 8px 16px; background: #6339A6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Iniciar Lección</button></div>';
                 });
                 contenedor.innerHTML = htmlMaterias;
@@ -190,6 +195,9 @@
     const codeParam = urlParams.get('code');
     if (codeParam) {
         cargarDatosAlumno(codeParam);
+    } else {
+        document.getElementById('txtNombreAlumno').innerText = '¡Hola, Alumno!';
+        document.getElementById('contenedor-materias').innerHTML = '<p style="color: var(--text-muted);">Ingresa desde la portada con tu código de alumno.</p>';
     }
 </script>
 </body>
