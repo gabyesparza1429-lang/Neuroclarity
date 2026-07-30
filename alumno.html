@@ -257,7 +257,6 @@
             procesarValidacion(inputVal);
         };
 
-        // Autoejecutar inmediatamente si el codigo viene en la URL (?code=NC-XXXX)
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const codeParam = urlParams.get('code');
