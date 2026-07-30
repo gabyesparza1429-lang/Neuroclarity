@@ -198,14 +198,22 @@
         procesarValidacion(val);
     };
 
-    document.addEventListener('DOMContentLoaded', () => {
+    function autoEntrar() {
         const urlParams = new URLSearchParams(window.location.search);
-        const codeParam = urlParams.get('code');
+        let codeParam = urlParams.get('code');
         if (codeParam) {
-            document.getElementById('codigoAlumnoInput').value = codeParam;
+            codeParam = codeParam.trim();
+            const input = document.getElementById('codigoAlumnoInput');
+            if (input) input.value = codeParam;
             procesarValidacion(codeParam);
         }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', autoEntrar);
+    } else {
+        autoEntrar();
+    }
 </script>
 </body>
 </html>
