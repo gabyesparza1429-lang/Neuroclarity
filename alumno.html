@@ -220,7 +220,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-        // Reutilizar la configuracion existente o inicializar
         const firebaseConfig = {
             authDomain: "neuroclarity-dcf0e.firebaseapp.com",
             projectId: "neuroclarity-dcf0e",
@@ -229,14 +228,9 @@
         const app = initializeApp(firebaseConfig, "validarApp");
         const db = getFirestore(app);
 
-        window.validarCodigo = async function() {
-            const cod = document.getElementById('codigoAlumnoInput').value.trim().toUpperCase();
-                alert('Por favor ingresa un código válido.');
-                return;
-            }
-
+        async function procesarValidacion(cod) {
             try {
-                const q = query(collection(db, "padres"), where("codigoVinculacion", "==", cod));
+                const q = query(collection(db, "padres"), where("codigoVinculacion", "==", cod.toUpperCase()));
                 const querySnapshot = await getDocs(q);
 
                     let datosPadre = querySnapshot.docs[0].data();
@@ -245,19 +239,34 @@
                     document.getElementById('login-box').style.display = 'none';
                     document.getElementById('welcome-student-box').style.display = 'block';
                     
-                    // Personalizar bienvenida si existe el contenedor de texto
                     const tituloWelcome = document.querySelector('#welcome-student-box h2');
                     if(tituloWelcome) {
                         tituloWelcome.innerText = '¡Hola ' + nombreAlumno + '! Qué alegría verte hoy';
                     }
                 } else {
-                    alert('Código no encontrado. Por favor verifica el código proporcionado por tu familia.');
+                    alert('Código no encontrado: ' + cod + '. Por favor verifica el código de tu familia.');
                 }
             } catch(e) {
-                console.error('Error al validar código:', e);
-                alert('Ocurrió un error al consultar el código. Inténtalo de nuevo.');
+                console.error('Error al consultar código:', e);
+                alert('Error al consultar el código en la base de datos.');
             }
+        }
+
+        window.validarCodigo = function() {
+            const inputVal = document.getElementById('codigoAlumnoInput').value.trim();
+            procesarValidacion(inputVal);
         };
+
+        // Autoejecutar inmediatamente si el codigo viene en la URL (?code=NC-XXXX)
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeParam = urlParams.get('code');
+            if (codeParam) {
+                const input = document.getElementById('codigoAlumnoInput');
+                if (input) input.value = codeParam;
+                procesarValidacion(codeParam);
+            }
+        });
         </script>
 
         <div class="student-welcome-box" id="welcome-student-box" style="display:none;">
