@@ -3,375 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <title>NeuroClarity | Portal del Alumno</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <title>NeuroClarity - Portal del Alumno</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-crema: #FAF8F5;
-            --morado-oscuro: #2A1654;
-            --morado-claro: #6339A6;
-            --morado-suave: #F2EDFA;
-            --texto-principal: #2A1654;
-            --texto-muted: #4E4266;
-            --blanco: #FFFFFF;
-            --borde-suave: #E6E1ED;
-            --verde-exito: #2D6A4F;
+            --bg-color: #F8F6FA;
+            --card-bg: #FFFFFF;
+            --primary: #6339A6;
+            --primary-hover: #4F2C87;
+            --text-dark: #2D223B;
+            --text-muted: #6E6578;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Outfit', sans-serif;
-        }
-
         body {
-            background-color: var(--bg-crema);
-            color: var(--texto-principal);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        .brand-header-full {
-            width: 100%;
-            height: 180px;
-            background-color: #F1EBE1;
-            border-bottom: 1px solid var(--borde-suave);
-            overflow: hidden;
-        }
-
-        .brand-header-full img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        .workspace-container {
-            max-width: 850px;
-            margin: 30px auto;
-            padding: 0 20px;
-            width: 100%;
-        }
-
-        .student-welcome-box {
-            background-color: var(--blanco);
-            border-radius: 18px;
-            padding: 30px;
-            border: 1px solid var(--borde-suave);
-            box-shadow: 0 10px 30px rgba(42, 22, 84, 0.05);
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .subjects-headline {
-            font-size: 18px;
-            margin: 20px 0 15px 0;
-            text-align: left;
-            color: var(--morado-claro);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .subjects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-        }
-
-        .btn-subject {
-            background-color: var(--blanco);
-            border: 2px solid var(--borde-suave);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
             padding: 20px;
-            border-radius: 14px;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--morado-oscuro);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
         }
-
-        .btn-subject:hover {
-            border-color: var(--morado-claro);
-            transform: translateY(-2px);
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
-
-        .immersive-session-card {
-            background-color: var(--blanco);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid var(--borde-suave);
-            display: none;
-        }
-
-        .immersive-session-card.active {
-            display: block;
-        }
-
-        .bloom-timeline {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 35px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--borde-suave);
-        }
-
-        .bloom-step {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--texto-muted);
-            opacity: 0.6;
-        }
-
-        .bloom-step.current {
-            color: var(--morado-claro);
-            font-weight: 700;
-            opacity: 1;
-        }
-
-        .timer-banner {
-            background-color: var(--bg-crema);
-            border: 1px solid var(--borde-suave);
-            padding: 12px 20px;
-            border-radius: 10px;
+        .header-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
-            font-weight: 600;
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-
-        .content-display-area {
-            font-size: 17px;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            text-align: left;
+        .student-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0;
         }
-
-        .btn-navigation {
-            background-color: var(--morado-claro);
-            color: var(--blanco);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
+        .action-btns {
+            display: flex;
             gap: 10px;
         }
-
-        /* BOTÓN DE AYUDA FLOTANTE (PWA MINIMALISTA) */
-        .btn-ayuda-flotante {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background-color: #d9534f;
+        .btn-sofia {
+            background-color: #8E44AD;
             color: white;
             border: none;
-            padding: 14px 24px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(217, 83, 79, 0.4);
             display: flex;
             align-items: center;
-            gap: 10px;
-            z-index: 100;
+            gap: 8px;
         }
-
-        .btn-ayuda-flotante:hover {
-            background-color: #c9302c;
+        .btn-salir {
+            background-color: #E74C3C;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .login-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            margin: 50px auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .login-card input {
+            width: 80%;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            border: 2px solid #DDD;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .login-card button {
+            width: 88%;
+            padding: 12px;
+            font-size: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .subjects-section {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .subject-card {
+            border: 1px solid #EEE;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
 <body>
 
-    <header class="brand-header-full">
-        <img src="assets/Encabezado-Web.png" alt="NeuroClarity">
-    </header>
+<div class="container">
+    <div id="login-box" class="login-card">
+        <h2>Ingresa tu Código</h2>
+        <input type="text" id="codigoAlumnoInput" placeholder="NC-XXXX">
+        <button onclick="validarCodigo()">Entrar</button>
+    </div>
 
-    <div class="workspace-container">
-        
-        <div id="login-box" style="background: #fff; padding: 25px; border-radius: 18px; border: 1px solid #E6E1ED; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(42,22,84,0.05);">
-            <h3 style="color: #2A1654; margin-bottom: 10px;">🔑 Ingresa tu Código de Alumno</h3>
-            <p style="color: #4E4266; font-size: 14px; margin-bottom: 15px;">Escribe tu código para ver la lección autorizada por tu profesor.</p>
-            <div style="display: flex; gap: 10px; max-width: 350px; margin: 0 auto;">
-                <input type="text" id="codigoAlumnoInput" placeholder="Ej: NC-3476" style="flex: 1; padding: 12px; border: 2px solid #E6E1ED; border-radius: 10px; font-weight: bold; text-align: center; text-transform: uppercase; font-size: 16px;">
-                <button onclick="validarCodigo()" style="background: #6339A6; color: #fff; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; cursor: pointer;">Entrar</button>
+    <div id="student-panel" style="display:none;">
+        <div class="header-bar">
+            <h1 class="student-name" id="txtNombreAlumno">Alumno</h1>
+            <div class="action-btns">
+                <button class="btn-sofia" onclick="alert('Pregúntale a Sofía activado')">
+                    <i class="fa-solid fa-robot"></i> Pregúntale a Sofía
+                </button>
+                <button class="btn-salir" onclick="window.location.href='index.html'">Salir</button>
             </div>
         </div>
 
-        <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            authDomain: "neuroclarity-dcf0e.firebaseapp.com",
-            projectId: "neuroclarity-dcf0e",
-            storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
-        };
-        const app = initializeApp(firebaseConfig, "validarApp");
-        const db = getFirestore(app);
-
-        async function procesarValidacion(cod) {
-            try {
-                const q = query(collection(db, "padres"), where("codigoVinculacion", "==", cod.toUpperCase()));
-                const querySnapshot = await getDocs(q);
-
-                    let datosPadre = querySnapshot.docs[0].data();
-                    let nombreAlumno = datosPadre.nombreHijo || 'Alumno';
-                    
-                    document.getElementById('login-box').style.display = 'none';
-                    document.getElementById('welcome-student-box').style.display = 'block';
-                    
-                    const tituloWelcome = document.querySelector('#welcome-student-box h2');
-                    if(tituloWelcome) {
-                        tituloWelcome.innerText = '¡Hola ' + nombreAlumno + '! Qué alegría verte hoy';
-                    }
-                } else {
-                    alert('Código no encontrado: ' + cod + '. Por favor verifica el código de tu familia.');
-                }
-            } catch(e) {
-                console.error('Error al consultar código:', e);
-                alert('Error al consultar el código en la base de datos.');
-            }
-        }
-
-        window.validarCodigo = function() {
-            const inputVal = document.getElementById('codigoAlumnoInput').value.trim();
-            procesarValidacion(inputVal);
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const codeParam = urlParams.get('code');
-            if (codeParam) {
-                const input = document.getElementById('codigoAlumnoInput');
-                if (input) input.value = codeParam;
-                procesarValidacion(codeParam);
-            }
-        });
-        </script>
-
-        <div class="student-welcome-box" id="welcome-student-box" style="display:none;">
-            <h2>¡Hola! Qué alegría verte hoy</h2>
-            <p style="color: var(--texto-muted); margin-top: 5px;">Tu lección está lista. Elige una materia para empezar.</p>
-            
-            <h4 class="subjects-headline"><i class="fa-solid fa-calendar-day"></i> Materias programadas para hoy:</h4>
-            <div class="subjects-grid">
-                <button class="btn-subject" onclick="iniciarMateria('Historia')">
-                    <i class="fa-solid fa-book-open-reader" style="color: var(--morado-claro); font-size: 24px;"></i>
-                    <h4>Historia</h4>
-                </button>
-                <button class="btn-subject" onclick="iniciarMateria('Ciencias')">
-                    <i class="fa-solid fa-flask" style="color: var(--verde-exito); font-size: 24px;"></i>
-                    <h4>Ciencias</h4>
-                </button>
-            </div>
-        </div>
-
-        <div id="session-card" class="immersive-session-card">
-            <div class="bloom-timeline" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; text-align: center; margin-bottom: 25px;">
-                <span class="bloom-step current" style="font-size: 11px;">1. Recordar</span>
-                <span class="bloom-step" style="font-size: 11px;">2. Comprender</span>
-                <span class="bloom-step" style="font-size: 11px;">3. Aplicar</span>
-                <span class="bloom-step" style="font-size: 11px;">4. Analizar</span>
-                <span class="bloom-step" style="font-size: 11px;">5. Evaluar</span>
-                <span class="bloom-step" style="font-size: 11px;">6. Crear</span>
-            </div>
-
-            <div class="timer-banner">
-                <div><i class="fa-solid fa-graduation-cap"></i> Materia: <span id="active-subject-title">--</span></div>
-                <div id="session-timer-text" style="color: var(--morado-claro);"><i class="fa-solid fa-clock"></i> Tiempo: 02:00</div>
-            </div>
-
-            <div id="dynamic-content-area" class="content-display-area"></div>
-
-            <div style="text-align: right;">
-                <button class="btn-navigation" onclick="alert('Avanzando al siguiente bloque');">
-                    Continuar <i class="fa-solid fa-arrow-right"></i>
-                </button>
+        <div class="subjects-section">
+            <h3>Materias Asignadas por tu Profesor</h3>
+            <div id="contenedor-materias">
+                <p style="color: var(--text-muted);">Cargando materias asignadas...</p>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- BOTÓN DE ASISTENCIA O BLOCKED BOTÓN -->
-    <button class="btn-ayuda-flotante" onclick="solicitarAyudaIA()">
-        <i class="fa-solid fa-hand"></i> Pedir Ayuda
-    </button>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    const firebaseConfig = {
+        authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+        projectId: "neuroclarity-dcf0e",
+        storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
+    };
+    const app = initializeApp(firebaseConfig, "alumnoApp");
+    const db = getFirestore(app);
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q",
-            authDomain: "neuroclarity-dcf0e.firebaseapp.com",
-            projectId: "neuroclarity-dcf0e",
-            storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
-            messagingSenderId: "34116345239",
-            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2"
-        };
+    async function procesarValidacion(cod) {
+        try {
+            const q = query(collection(db, "padres"), where("codigoVinculacion", "==", cod.toUpperCase()));
+            const querySnapshot = await getDocs(q);
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+                let datosPadre = querySnapshot.docs[0].data();
+                
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('student-panel').style.display = 'block';
+                
+                // Mostrar solo el nombre del alumno
+                document.getElementById('txtNombreAlumno').innerText = datosPadre.nombreHijo || 'Alumno';
 
-        let materiaActiva = "";
-
-        window.iniciarMateria = function(materia) {
-            materiaActiva = materia;
-            document.getElementById('active-subject-title').innerText = materia;
-            document.getElementById('session-card').classList.add('active');
-            
-            document.getElementById('dynamic-content-area').innerHTML = `
-                <h3>Lectura Guiada: ${materia}</h3>
-                <p style="background:var(--bg-crema); padding:20px; border-radius:10px; border-left:4px solid var(--morado-claro); margin-top:15px;">
-                    Las plantas convierten la energía del sol en alimento mediante la fotosíntesis. Este proceso utiliza luz, agua y dióxido de carbono.
-                </p>
-            `;
-        };
-
-        window.solicitarAyudaIA = async function() {
-            const container = document.getElementById('dynamic-content-area');
-            container.innerHTML += `
-                <div style="background: var(--morado-suave); border: 1px solid var(--morado-claro); padding: 15px; border-radius: 10px; margin-top: 15px;">
-                    <h4 style="color: var(--morado-oscuro); font-size: 15px;"><i class="fa-solid fa-robot"></i> Sophia (Asistente IA):</h4>
-                    <p style="font-size: 14px; color: var(--texto-principal); margin-top: 5px;">
-                        ¡No te preocupes! He desglosado esta idea: Piensa en la luz del sol como la receta secreta para que la planta prepare su comida.
-                    </p>
-                </div>
-            `;
-            alert("Sophia te ha enviado una pista sencilla en pantalla.");
-        };
-
-        // Entrada automatica cuando viene codigo desde el index
-        setTimeout(() => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const codeParam = urlParams.get('code');
-            if (codeParam) {
-                const input = document.getElementById('codigoAlumnoInput');
-                if (input) input.value = codeParam;
-                if (typeof window.validarCodigo === 'function') {
-                    window.validarCodigo();
-                }
+                // Mostrar materias asignadas
+                cargarMateriasProfesor(cod);
+            } else {
+                alert('Código no encontrado: ' + cod);
             }
-        }, 300);
+        } catch(e) {
+            console.error('Error:', e);
+            alert('Error al consultar el código.');
+        }
+    }
 
-    </script>
+    async function cargarMateriasProfesor(codigo) {
+        const contenedor = document.getElementById('contenedor-materias');
+        try {
+            const qV = query(collection(db, "vinculaciones"), where("codigo_vinculo", "==", codigo.toUpperCase()));
+            const snapV = await getDocs(qV);
+
+                contenedor.innerHTML = '<div class="subject-card"><span>Lecciones de la clase</span><button style="padding: 8px 12px; background: #6339A6; color: white; border: none; border-radius: 6px;">Iniciar</button></div>';
+            } else {
+                contenedor.innerHTML = '<p style="color: var(--text-muted);">Tu profesor aún no ha publicado materias para este código.</p>';
+            }
+        } catch(e) {
+            contenedor.innerHTML = '<p style="color: var(--text-muted);">No hay materias disponibles por el momento.</p>';
+        }
+    }
+
+    window.validarCodigo = function() {
+        const val = document.getElementById('codigoAlumnoInput').value.trim();
+        procesarValidacion(val);
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const codeParam = urlParams.get('code');
+        if (codeParam) {
+            document.getElementById('codigoAlumnoInput').value = codeParam;
+            procesarValidacion(codeParam);
+        }
+    });
+</script>
 </body>
 </html>
