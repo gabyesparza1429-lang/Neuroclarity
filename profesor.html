@@ -88,6 +88,89 @@
         .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-muted); }
         .form-control { width: 100%; padding: 10px 14px; border: 1px solid var(--border-suave); border-radius: 8px; font-size: 14px; outline: none; }
     </style>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+        projectId: "neuroclarity-dcf0e",
+        storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
+    };
+    const app = initializeApp(firebaseConfig, "profesorApp");
+    const db = getFirestore(app);
+
+    window.actualizarModalBloom = function(tema) {
+        const t = tema || 'Historia: Revolución Mexicana';
+        
+        // 1. Cambiar Titulo
+        const elMateria = document.getElementById('txtMateriaModal');
+        if(elMateria) elMateria.innerText = t;
+
+        // 2. Generar 6 puntos dinamicos segun el tema
+        const listaBloom = document.getElementById('contenedorPuntosBloom');
+        if(listaBloom) {
+            listaBloom.innerHTML = `
+                <div style="padding:10px; background:#F8F6FA; margin-top:6px; border-left:4px solid #6339A6;"><strong>1. Recordar:</strong> Identificar fechas y personajes clave de ${t}.</div>
+                <div style="padding:10px; background:#F8F6FA; margin-top:6px; border-left:4px solid #6339A6;"><strong>2. Comprender:</strong> Explicar las causas principales de ${t}.</div>
+                <div style="padding:10px; background:#F8F6FA; margin-top:6px; border-left:4px solid #6339A6;"><strong>3. Aplicar:</strong> Relacionar los eventos de ${t} con un ejemplo actual (micro-desafío 5 min).</div>
+                <div style="padding:10px; background:#F8F6FA; margin-top:6px; border-left:4px solid #6339A6;"><strong>4. Analizar:</strong> Comparar dos posturas o acontecimientos clave de ${t}.</div>
+                <div style="padding:10px; background:#F8F6FA; margin-top:6px; border-left:4px solid #6339A6;"><strong>5. Evaluar:</strong> Encontrar 3 errores o desaciertos en un resumen sobre ${t}.</div>
+                <div style="padding:10px; background:#F8F6FA; margin-top:6px; border-left:4px solid #6339A6;"><strong>6. Crear:</strong> Escribir una breve conclusión o reflexión sobre ${t}.</div>
+            `;
+        }
+    };
+
+    window.autorizarYGuardarLeccion = async function() {
+        const codigo = 'NC-4105';
+        const materiaTema = document.getElementById('txtMateriaModal')?.innerText || 'Historia: Revolución Mexicana';
+        
+        try {
+            await addDoc(collection(db, "vinculaciones"), {
+                codigo_vinculo: codigo,
+                materia: materiaTema,
+                fecha_creacion: serverTimestamp(),
+                estado: "Asignada"
+            });
+            alert('¡Lección enviada al alumno y guardada en el historial!');
+            cargarHistorialProfesor(codigo);
+            document.getElementById('modalPlanSofia').style.display = 'none';
+        } catch(e) {
+            console.error('Error al guardar:', e);
+            alert('Error al publicar la lección.');
+        }
+    };
+
+    async function cargarHistorialProfesor(codigo) {
+        const contenedor = document.getElementById('historialLeccionesProfesor');
+
+        try {
+            const q = query(collection(db, "vinculaciones"), where("codigo_vinculo", "==", codigo));
+            const snap = await getDocs(q);
+
+                let html = '<ul style="list-style:none; padding:0;">';
+                snap.forEach(doc => {
+                    let d = doc.data();
+                    html += `<li style="padding:10px; background:#FFF; border:1px solid #DDD; border-radius:8px; margin-top:8px;">
+                        <strong>Materia/Tema:</strong> ${d.materia || 'General'} <span style="color:green; font-weight:bold;">(${d.estado || 'Asignada'})</span>
+                    </li>`;
+                });
+                html += '</ul>';
+                contenedor.innerHTML = html;
+            } else {
+                contenedor.innerHTML = '<p style="color:#666;">No hay lecciones anteriores enviadas para este código.</p>';
+            }
+        } catch(e) {
+            console.error('Error al cargar historial:', e);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        cargarHistorialProfesor('NC-4105');
+    });
+</script>
+
 </head>
 <body>
 
