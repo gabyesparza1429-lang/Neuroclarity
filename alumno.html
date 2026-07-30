@@ -350,6 +350,20 @@
             `;
             alert("Sophia te ha enviado una pista sencilla en pantalla.");
         };
+
+        // Entrada automatica cuando viene codigo desde el index
+        setTimeout(() => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeParam = urlParams.get('code');
+            if (codeParam) {
+                const input = document.getElementById('codigoAlumnoInput');
+                if (input) input.value = codeParam;
+                if (typeof window.validarCodigo === 'function') {
+                    window.validarCodigo();
+                }
+            }
+        }, 300);
+
     </script>
 </body>
 </html>
