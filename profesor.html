@@ -41,7 +41,7 @@
             padding: 0 20px;
         }
         .sidebar {
-            width: 220px;
+            width: 230px;
             background: var(--card-bg);
             padding: 20px;
             border-radius: 16px;
@@ -52,15 +52,17 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 10px;
+            padding: 12px 14px;
             color: var(--text-dark);
             font-weight: 600;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 8px;
+            transition: all 0.2s ease;
         }
-        .sidebar-item:hover {
-            background: #F4EFEA;
+        .sidebar-item:hover, .sidebar-item.active {
+            background: #6339A6;
+            color: white;
         }
         .content-area {
             flex: 1;
@@ -72,39 +74,79 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.04);
             margin-bottom: 20px;
         }
-        .student-title {
-            font-size: 22px;
+        .badge-tdah {
+            display: inline-block;
+            background: #EFE8F8;
+            color: #2D223B;
+            font-size: 13px;
             font-weight: bold;
-            color: var(--primary);
-            margin: 0 0 5px 0;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+        .student-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #2D223B;
+            margin: 0 0 4px 0;
         }
         .student-sub {
             color: var(--primary);
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .info-box {
             background: #FAF9FC;
             border: 1px solid #EAE5ED;
-            padding: 15px;
+            padding: 16px;
             border-radius: 12px;
             font-size: 13px;
             line-height: 1.5;
-            color: var(--text-dark);
+            color: #2D223B;
             margin-bottom: 20px;
+        }
+        .ritmo-box {
+            margin-bottom: 20px;
+            background: #FAF9FC;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px dashed var(--primary);
         }
         .bloom-section {
             border: 1px solid #EAE5ED;
             border-radius: 12px;
-            padding: 15px;
-            background: #FAFAFC;
+            padding: 18px;
+            background: #FAF9FC;
             margin-bottom: 20px;
         }
-        .bloom-title {
+        .bloom-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
             font-weight: bold;
             color: var(--primary);
-            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .bloom-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .bloom-step {
+            background: #E5E0EA;
+            border-radius: 8px;
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 11px;
+            color: #555;
+            font-weight: bold;
+        }
+        .bloom-step.active {
+            background: #D9D2E3;
+            color: #2D223B;
         }
         .btn-green {
             width: 100%;
@@ -117,17 +159,25 @@
             font-size: 15px;
             cursor: pointer;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .btn-purple {
             width: 100%;
-            background-color: #F3EFEA;
+            background-color: #EFE8F8;
             color: #6339A6;
-            border: 1px solid #6339A6;
+            border: 1px solid #D6C7EC;
             padding: 12px;
             border-radius: 10px;
             font-weight: bold;
             font-size: 14px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .modal {
             display: none;
@@ -139,20 +189,21 @@
         .modal-content {
             background: white;
             width: 90%;
-            max-width: 650px;
-            margin: 50px auto;
-            padding: 30px;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 25px;
             border-radius: 16px;
             max-height: 85vh;
             overflow-y: auto;
         }
         .modal-item {
-            padding: 10px 14px;
+            padding: 12px 14px;
             background: #F8F6FA;
             margin-top: 8px;
             border-left: 4px solid #6339A6;
             border-radius: 6px;
             font-size: 14px;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -164,43 +215,92 @@
 
 <div class="main-layout">
     <div class="sidebar">
-        <div class="sidebar-item"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación</div>
-        <div class="sidebar-item"><i class="fa-solid fa-comments"></i> Mensajería Directa</div>
-        <div class="sidebar-item"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</div>
+        <div class="sidebar-item active" onclick="mostrarSeccion('panelAlumno')"><i class="fa-solid fa-user-graduate"></i> Panel Alumno</div>
+        <div class="sidebar-item" onclick="mostrarSeccion('subirPlaneacion')"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación</div>
+        <div class="sidebar-item" onclick="mostrarSeccion('mensajeriaDirecta')"><i class="fa-solid fa-comments"></i> Mensajería Directa</div>
+        <div class="sidebar-item" onclick="mostrarSeccion('observacionesDireccion')"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</div>
     </div>
 
     <div class="content-area">
-        <div class="student-card">
+        <div id="sec-panelAlumno" class="student-card">
+            <div class="badge-tdah"><i class="fa-solid fa-brain"></i> Soporte TDAH y Lectura / Microaprendizaje Ludificado</div>
+            
             <div class="student-title">Gaby prueba</div>
             <div class="student-sub">Grado: 1ro secundaria | Código: NC-4105</div>
 
             <div class="info-box">
-                <strong>Orientación Sophia IA:</strong> Sophia aplicará la fragmentación de actividades en micro-módulos de máximo 10 minutos, combinados con elementos visuales y dinámicas de gamificación para sostener el interés.
+                <strong>Orientación Sophia IA:</strong> Sophia aplicará la fragmentación de actividades en micro-módulos de máximo 10 minutos, combinados con elementos visuales y dinámicas de gamificación para sostener el interés. Se empleará una tipografía accesible con alto contraste y guías de lectura para evitar la confusión de palabras en bloques de texto reducidos. Además, la interfaz incorporará barómetros de progreso visual y pausas activas interactivas para canalizar su necesidad de juego de manera pedagógica.
             </div>
 
-            <div style="margin-bottom: 15px; background: #FAF9FC; padding: 12px; border-radius: 10px; border: 1px dashed #6339A6;">
-                <label style="font-size: 13px; font-weight: bold; color: #6339A6;"><i class="fa-regular fa-calendar-check"></i> Ritmo Recomendado (Ventana Flexible):</label>
-                <input type="date" id="fechaSugerida" style="width: 100%; padding: 8px; margin-top: 6px; border: 1px solid #CCC; border-radius: 6px;">
+            <div class="ritmo-box">
+                <label style="font-size: 13px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-regular fa-calendar-check"></i> Ritmo Recomendado (Ventana Flexible):
+                </label>
+                <input type="date" id="fechaSugerida" style="width: 100%; padding: 8px; margin-top: 6px; border: 1px solid #CCC; border-radius: 6px; font-family: inherit;">
                 <small style="color: #6E6578; display: block; margin-top: 5px; font-size: 12px;">✨ Si el alumno requiere más tiempo, Sofía recalibrará los micro-módulos automáticamente sin bloquear el contenido.</small>
             </div>
 
             <div class="bloom-section">
-                <div class="bloom-title">Progreso por Nivel de Bloom <span style="float:right; font-size:12px; background:#E0E0E0; padding:2px 8px; border-radius:10px; color:#555;">Sin iniciar (0%)</span></div>
-                <div style="font-size: 14px; font-weight: bold; margin-top: 10px;">Tema activo: Historia: Revolución Mexicana</div>
+                <div class="bloom-header">
+                    <span>Progreso por Nivel de Bloom</span>
+                    <span style="font-size:12px; background:#E0E0E0; padding:3px 10px; border-radius:12px; color:#555; font-weight: normal;">Sin iniciar (0%)</span>
+                </div>
+                
+                <div class="bloom-grid">
+                    <div class="bloom-step active">1.<br>Recordar</div>
+                    <div class="bloom-step">2.<br>Comprender</div>
+                    <div class="bloom-step">3.<br>Aplicar</div>
+                    <div class="bloom-step">4.<br>Analizar</div>
+                    <div class="bloom-step">5.<br>Evaluar</div>
+                    <div class="bloom-step">6.<br>Crear</div>
+                </div>
+
+                <div style="font-size: 14px; font-weight: bold; color: #2D223B;">Tema activo: Historia: Revolución Mexicana</div>
             </div>
 
-            <button class="btn-green" onclick="abrirModal()">👁️ Revisar y Autorizar Propuesta Sophia</button>
-            <button class="btn-purple">📝 Agregar Notas / Reevaluar con IA</button>
+            <button class="btn-green" onclick="abrirModal()">
+                <i class="fa-solid fa-eye"></i> Revisar y Autorizar Propuesta Sophia
+            </button>
+            <button class="btn-purple">
+                <i class="fa-solid fa-pen-to-square"></i> Agregar Notas / Reevaluar con IA
+            </button>
+        </div>
+
+        <div id="sec-subirPlaneacion" class="student-card" style="display:none;">
+            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación Didáctica</h2>
+            <p style="color: var(--text-muted); font-size: 14px;">Carga tus archivos de temas (PDF, Word o Texto) para que Sofía los analice y prepare actividades adaptadas.</p>
+            <div style="border: 2px dashed #6339A6; padding: 30px; text-align: center; border-radius: 12px; background: #FAF9FC;">
+                <i class="fa-solid fa-file-pdf" style="font-size: 40px; color: #6339A6; margin-bottom: 10px;"></i>
+                <p style="margin: 5px 0;">Arrastra tu archivo aquí o presiona para seleccionar</p>
+                <input type="file" style="margin-top: 10px;">
+            </div>
+        </div>
+
+        <div id="sec-mensajeriaDirecta" class="student-card" style="display:none;">
+            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-comments"></i> Mensajería Directa con el Alumno / Tutor</h2>
+            <div style="border: 1px solid #EAE5ED; border-radius: 12px; height: 250px; padding: 15px; background: #FAF9FC; overflow-y: auto; margin-bottom: 15px;" id="boxMensajes">
+                <p style="color: var(--text-muted); font-size: 13px;">💬 Inicio del chat con Gaby prueba (NC-4105)...</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="inputMsg" placeholder="Escribe un mensaje para el alumno..." style="flex:1; padding:10px; border:1px solid #CCC; border-radius:8px;">
+                <button onclick="enviarMensajeChat()" style="background:#6339A6; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Enviar</button>
+            </div>
+        </div>
+
+        <div id="sec-observacionesDireccion" class="student-card" style="display:none;">
+            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-clipboard-list"></i> Observaciones e Informes para Dirección</h2>
+            <p style="color: var(--text-muted); font-size: 14px;">Notas pedagógicas y reportes consolidados por Sofía para la dirección escolar.</p>
+            <textarea placeholder="Añadir observaciones sobre el grupo o alumno..." style="width: 100%; height: 120px; padding: 10px; border: 1px solid #CCC; border-radius: 8px; font-family: inherit;"></textarea>
         </div>
     </div>
 </div>
 
 <div id="modalPlanSofia" class="modal">
     <div class="modal-content">
-        <h2 style="color: #6339A6; margin-top:0;">Plan de Lección - Sophia IA</h2>
-        <p><strong>Alumno:</strong> Gaby prueba | <strong>Materia:</strong> Historia: Revolución Mexicana</p>
+        <h2 style="color: #6339A6; margin-top:0; font-size:22px;">Plan de Lección - Sophia IA</h2>
+        <p style="margin-bottom:15px; font-size:14px;"><strong>Alumno:</strong> Gaby prueba | <strong>Materia:</strong> Historia: Revolución Mexicana</p>
         <hr style="border:0; border-top:1px solid #EEE; margin:15px 0;">
-        <p><strong>Propuesta de actividades por Nivel de Bloom:</strong></p>
+        <p style="font-weight:bold; font-size:15px; margin-bottom:10px;">Propuesta de actividades por Nivel de Bloom:</p>
         
         <div class="modal-item"><strong>1. Recordar:</strong> Identificar fechas y personajes clave de Historia: Revolución Mexicana.</div>
         <div class="modal-item"><strong>2. Comprender:</strong> Explicar las causas principales y contexto de Historia: Revolución Mexicana.</div>
@@ -209,9 +309,9 @@
         <div class="modal-item"><strong>5. Evaluar:</strong> Encontrar 3 errores o desaciertos en un resumen sobre Historia: Revolución Mexicana.</div>
         <div class="modal-item"><strong>6. Crear:</strong> Escribir una breve conclusión o reflexión sobre Historia: Revolución Mexicana.</div>
 
-        <div style="display:flex; gap:10px; margin-top:20px;">
-            <button onclick="autorizarYPublicar()" style="flex:1; background:#2E7D32; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;">✅ Autorizar y Publicar</button>
-            <button onclick="cerrarModal()" style="background:#CCC; color:#333; border:none; padding:12px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Cerrar</button>
+        <div style="display:flex; gap:12px; margin-top:25px;">
+            <button onclick="autorizarYPublicar()" style="flex:1; background:#2E7D32; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">✅ Autorizar y Publicar</button>
+            <button onclick="cerrarModal()" style="background:#E0E0E0; color:#333; border:none; padding:12px 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">Cerrar</button>
         </div>
     </div>
 </div>
@@ -227,6 +327,22 @@
     };
     const app = initializeApp(firebaseConfig, "profesorAppRestored");
     const db = getFirestore(app);
+
+    window.mostrarSeccion = function(idSeccion) {
+        document.querySelectorAll('.student-card').forEach(el => el.style.display = 'none');
+        document.getElementById('sec-' + idSeccion).style.display = 'block';
+        
+        document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+    };
+
+    window.enviarMensajeChat = function() {
+        let txt = document.getElementById('inputMsg').value.trim();
+        let box = document.getElementById('boxMensajes');
+        box.innerHTML += '<div style="margin-top:8px; text-align:right;"><span style="background:#6339A6; color:white; padding:8px 12px; border-radius:12px; font-size:13px; display:inline-block;">' + txt + '</span></div>';
+        document.getElementById('inputMsg').value = '';
+        box.scrollTop = box.scrollHeight;
+    };
 
     window.abrirModal = function() {
         document.getElementById('modalPlanSofia').style.display = 'block';
@@ -250,7 +366,7 @@
             alert('¡Lección enviada exitosamente al alumno!');
             window.cerrarModal();
         } catch(e) {
-            console.error('Error:', e);
+            console.error('Error al publicar:', e);
             alert('Error al publicar la lección: ' + e.message);
         }
     };
