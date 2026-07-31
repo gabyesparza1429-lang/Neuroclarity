@@ -3,92 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <title>NeuroClarity | Portal del Profesor</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <title>NeuroClarity - Portal del Profesor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-cream: #FAF8F5;
-            --sidebar-bg: #EFECE6;
-            --purple-dark: #2A1654;
-            --purple-light: #6339A6;
-            --purple-pale: #F2EDFA;
-            --text-color: #2A1654;
-            --text-muted: #4E4266;
+            --bg-brand: #F4EFEA;
             --card-bg: #FFFFFF;
-            --border-radius: 12px;
-            --border-suave: #E6E1ED;
+            --primary: #6339A6;
+            --text-dark: #2D223B;
+            --text-muted: #6E6578;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
-        body { background-color: var(--bg-cream); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; }
-
-        .hero-banner-header { width: 100%; height: 180px; background-color: #F1EBE1; border-bottom: 1px solid var(--border-suave); overflow: hidden; }
-        .hero-banner-header img { width: 100%; height: 100%; object-fit: contain; display: block; }
-
-        .app-body { display: flex; flex: 1; }
-        .sidebar { width: 260px; background-color: var(--sidebar-bg); padding: 30px 20px; display: flex; flex-direction: column; gap: 10px; border-right: 1px solid var(--border-suave); }
-
-        .sidebar-btn {
-            display: flex; align-items: center; gap: 12px; padding: 14px 20px; border: none; background: none;
-            border-radius: var(--border-radius); cursor: pointer; text-align: left; font-size: 15px; color: var(--text-color); font-weight: 500;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-brand);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0 0 50px 0;
         }
-        .sidebar-btn.active, .sidebar-btn:hover { background-color: var(--purple-pale); color: var(--purple-dark); font-weight: 700; }
-
-        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
-        .header-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .header-title h1 { font-size: 26px; font-weight: 700; color: var(--purple-dark); }
-        .header-title p { font-size: 14px; color: var(--text-muted); }
-
-        .btn-primary { background-color: var(--purple-dark); color: white; border: none; padding: 12px 24px; border-radius: var(--border-radius); font-weight: 600; cursor: pointer; }
-        .btn-primary:hover { background-color: var(--purple-light); }
-
-        .panel-section { display: none; }
-        .panel-section.active { display: block; }
-
-        .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; }
-        .student-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 24px; border: 1px solid var(--border-suave); display: flex; flex-direction: column; justify-content: space-between; }
-        
-        .badge-profile { display: inline-block; padding: 6px 12px; font-size: 12px; border-radius: 20px; font-weight: 700; background: var(--purple-pale); color: var(--purple-dark); margin-bottom: 12px; }
-
-        .empty-state {
-            background: white;
-            border: 2px dashed var(--border-suave);
+        .top-header {
+            width: 100%;
+            background-color: #F4EFEA;
+            margin: 0;
+            padding: 0;
+            border-bottom: 1px solid #E8E2D9;
+            margin-bottom: 30px;
+        }
+        .top-header img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .main-layout {
+            display: flex;
+            max-width: 1100px;
+            margin: 0 auto;
+            gap: 20px;
+            padding: 0 20px;
+        }
+        .sidebar {
+            width: 220px;
+            background: var(--card-bg);
+            padding: 20px;
             border-radius: 16px;
-            padding: 48px 24px;
-            text-align: center;
-            color: var(--text-muted);
-            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            height: fit-content;
         }
-
-        .card-panel { background: white; border: 1px solid var(--border-suave); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
-
-        /* ESTILOS DEL CHAT EN TIEMPO REAL */
-        .msg-bubble { max-width: 80%; padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.4; word-break: break-word; }
-        .msg-bubble.sent { align-self: flex-end; background-color: var(--purple-dark); color: white; }
-        .msg-bubble.received { align-self: flex-start; background-color: var(--bg-cream); border: 1px solid var(--border-suave); color: var(--purple-dark); }
-
-        .item-chat-familia {
-            padding: 10px 12px; border-radius: 8px; background: white; border: 1px solid var(--border-suave);
-            cursor: pointer; transition: all 0.2s ease; text-align: left;
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 10px;
+            color: var(--text-dark);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-bottom: 8px;
         }
-        .item-chat-familia:hover, .item-chat-familia.active { background: var(--purple-pale); border-color: var(--purple-light); }
-
-        /* MODALES */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 22, 84, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 32px; border-radius: var(--border-radius); width: 100%; max-width: 480px; position: relative; }
-        .close-modal { position: absolute; top: 16px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; }
-
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-muted); }
-        .form-control { width: 100%; padding: 10px 14px; border: 1px solid var(--border-suave); border-radius: 8px; font-size: 14px; outline: none; }
+        .sidebar-item:hover {
+            background: #F4EFEA;
+        }
+        .content-area {
+            flex: 1;
+        }
+        .student-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+        }
+        .student-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0 0 5px 0;
+        }
+        .student-sub {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .info-box {
+            background: #FAF9FC;
+            border: 1px solid #EAE5ED;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+        .bloom-section {
+            border: 1px solid #EAE5ED;
+            border-radius: 12px;
+            padding: 15px;
+            background: #FAFAFC;
+            margin-bottom: 20px;
+        }
+        .bloom-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .btn-green {
+            width: 100%;
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .btn-purple {
+            width: 100%;
+            background-color: #F3EFEA;
+            color: #6339A6;
+            border: 1px solid #6339A6;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 16px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .modal-item {
+            padding: 10px 14px;
+            background: #F8F6FA;
+            margin-top: 8px;
+            border-left: 4px solid #6339A6;
+            border-radius: 6px;
+            font-size: 14px;
+        }
     </style>
+</head>
+<body>
 
+<header class="top-header">
+    <img src="assets/Encabezado-Web.png" alt="NeuroClarity Header">
+</header>
+
+<div class="main-layout">
+    <div class="sidebar">
+        <div class="sidebar-item"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación</div>
+        <div class="sidebar-item"><i class="fa-solid fa-comments"></i> Mensajería Directa</div>
+        <div class="sidebar-item"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</div>
+    </div>
+
+    <div class="content-area">
+        <div class="student-card">
+            <div class="student-title">Gaby prueba</div>
+            <div class="student-sub">Grado: 1ro secundaria | Código: NC-4105</div>
+
+            <div class="info-box">
+                <strong>Orientación Sophia IA:</strong> Sophia aplicará la fragmentación de actividades en micro-módulos de máximo 10 minutos, combinados con elementos visuales y dinámicas de gamificación para sostener el interés.
+            </div>
+
+            <div style="margin-bottom: 15px; background: #FAF9FC; padding: 12px; border-radius: 10px; border: 1px dashed #6339A6;">
+                <label style="font-size: 13px; font-weight: bold; color: #6339A6;"><i class="fa-regular fa-calendar-check"></i> Ritmo Recomendado (Ventana Flexible):</label>
+                <input type="date" id="fechaSugerida" style="width: 100%; padding: 8px; margin-top: 6px; border: 1px solid #CCC; border-radius: 6px;">
+                <small style="color: #6E6578; display: block; margin-top: 5px; font-size: 12px;">✨ Si el alumno requiere más tiempo, Sofía recalibrará los micro-módulos automáticamente sin bloquear el contenido.</small>
+            </div>
+
+            <div class="bloom-section">
+                <div class="bloom-title">Progreso por Nivel de Bloom <span style="float:right; font-size:12px; background:#E0E0E0; padding:2px 8px; border-radius:10px; color:#555;">Sin iniciar (0%)</span></div>
+                <div style="font-size: 14px; font-weight: bold; margin-top: 10px;">Tema activo: Historia: Revolución Mexicana</div>
+            </div>
+
+            <button class="btn-green" onclick="abrirModal()">👁️ Revisar y Autorizar Propuesta Sophia</button>
+            <button class="btn-purple">📝 Agregar Notas / Reevaluar con IA</button>
+        </div>
+    </div>
+</div>
+
+<div id="modalPlanSofia" class="modal">
+    <div class="modal-content">
+        <h2 style="color: #6339A6; margin-top:0;">Plan de Lección - Sophia IA</h2>
+        <p><strong>Alumno:</strong> Gaby prueba | <strong>Materia:</strong> Historia: Revolución Mexicana</p>
+        <hr style="border:0; border-top:1px solid #EEE; margin:15px 0;">
+        <p><strong>Propuesta de actividades por Nivel de Bloom:</strong></p>
+        
+        <div class="modal-item"><strong>1. Recordar:</strong> Identificar fechas y personajes clave de Historia: Revolución Mexicana.</div>
+        <div class="modal-item"><strong>2. Comprender:</strong> Explicar las causas principales y contexto de Historia: Revolución Mexicana.</div>
+        <div class="modal-item"><strong>3. Aplicar:</strong> Relacionar los eventos de Historia: Revolución Mexicana con un ejemplo actual (micro-desafío 5 min).</div>
+        <div class="modal-item"><strong>4. Analizar:</strong> Comparar dos posturas o acontecimientos clave de Historia: Revolución Mexicana.</div>
+        <div class="modal-item"><strong>5. Evaluar:</strong> Encontrar 3 errores o desaciertos en un resumen sobre Historia: Revolución Mexicana.</div>
+        <div class="modal-item"><strong>6. Crear:</strong> Escribir una breve conclusión o reflexión sobre Historia: Revolución Mexicana.</div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="autorizarYPublicar()" style="flex:1; background:#2E7D32; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;">✅ Autorizar y Publicar</button>
+            <button onclick="cerrarModal()" style="background:#CCC; color:#333; border:none; padding:12px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Cerrar</button>
+        </div>
+    </div>
+</div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
@@ -99,17 +225,15 @@
         projectId: "neuroclarity-dcf0e",
         storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
     };
-    const app = initializeApp(firebaseConfig, "profesorLimpioApp");
+    const app = initializeApp(firebaseConfig, "profesorAppRestored");
     const db = getFirestore(app);
 
-    window.revisarYAutorizar = function() {
-        const modal = document.getElementById('modalPlanSofia') || document.getElementById('modalPreview');
-        if (modal) modal.style.display = 'block';
+    window.abrirModal = function() {
+        document.getElementById('modalPlanSofia').style.display = 'block';
     };
 
     window.cerrarModal = function() {
-        const modal = document.getElementById('modalPlanSofia') || document.getElementById('modalPreview');
-        if (modal) modal.style.display = 'none';
+        document.getElementById('modalPlanSofia').style.display = 'none';
     };
 
     window.autorizarYPublicar = async function() {
@@ -123,27 +247,13 @@
                 fecha_creacion: serverTimestamp(),
                 estado: "Asignada"
             });
-            alert('¡Lección de Historia autorizada y enviada al alumno!');
+            alert('¡Lección enviada exitosamente al alumno!');
             window.cerrarModal();
         } catch(e) {
-            console.error('Error al guardar en Firebase:', e);
+            console.error('Error:', e);
             alert('Error al publicar la lección: ' + e.message);
         }
     };
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const btns = document.querySelectorAll('button');
-        btns.forEach(btn => {
-            const txt = btn.innerText.trim();
-            if (txt.includes('Revisar y Autorizar')) {
-                btn.onclick = window.revisarYAutorizar;
-            } else if (txt.includes('Autorizar y Publicar')) {
-                btn.onclick = window.autorizarYPublicar;
-            } else if (txt.includes('Cerrar')) {
-                btn.onclick = window.cerrarModal;
-            }
-        });
-    });
 </script>
 </body>
 </html>
