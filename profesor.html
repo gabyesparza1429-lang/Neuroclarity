@@ -171,6 +171,64 @@
     });
 </script>
 
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+        projectId: "neuroclarity-dcf0e",
+        storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
+    };
+    const app = initializeApp(firebaseConfig, "profesorFixApp");
+    const db = getFirestore(app);
+
+    // Funcion global para abrir y llenar el modal con el tema dinamico
+    window.abrirModalConTemaActivo = function() {
+        // Buscar el tema activo en la pantalla
+        let textoTema = 'Historia: Revolución Mexicana';
+        let elemTema = document.querySelector('.tema-activo') || document.body;
+        
+        if (elemTema.innerText.includes('Tema activo:')) {
+            let partes = elemTema.innerText.split('Tema activo:');
+            if (partes[1]) textoTema = partes[1].trim().split('
+')[0];
+        }
+
+        // Actualizar encabezado del modal
+        let elemMateriaModal = document.getElementById('txtMateriaModal') || document.querySelector('.materia-header');
+        if (elemMateriaModal) elemMateriaModal.innerText = textoTema;
+
+        // Reemplazar los 6 puntos de Bloom con el tema real
+        let contenedorBloom = document.getElementById('contenedorPuntosBloom') || document.querySelector('.propuesta-bloom');
+        if (contenedorBloom) {
+            contenedorBloom.innerHTML = `
+                <div style="padding:12px; background:#F8F6FA; margin-top:8px; border-left:4px solid #6339A6; border-radius:6px;"><strong>1. Recordar:</strong> Identificar fechas y personajes clave de ${textoTema}.</div>
+                <div style="padding:12px; background:#F8F6FA; margin-top:8px; border-left:4px solid #6339A6; border-radius:6px;"><strong>2. Comprender:</strong> Explicar las causas principales de ${textoTema}.</div>
+                <div style="padding:12px; background:#F8F6FA; margin-top:8px; border-left:4px solid #6339A6; border-radius:6px;"><strong>3. Aplicar:</strong> Relacionar los eventos de ${textoTema} con un ejemplo actual (micro-desafío 5 min).</div>
+                <div style="padding:12px; background:#F8F6FA; margin-top:8px; border-left:4px solid #6339A6; border-radius:6px;"><strong>4. Analizar:</strong> Comparar dos posturas o acontecimientos clave de ${textoTema}.</div>
+                <div style="padding:12px; background:#F8F6FA; margin-top:8px; border-left:4px solid #6339A6; border-radius:6px;"><strong>5. Evaluar:</strong> Encontrar 3 errores o desaciertos en un resumen sobre ${textoTema}.</div>
+                <div style="padding:12px; background:#F8F6FA; margin-top:8px; border-left:4px solid #6339A6; border-radius:6px;"><strong>6. Crear:</strong> Escribir una breve conclusión o reflexión sobre ${textoTema}.</div>
+            `;
+        }
+
+        // Mostrar el modal
+        let modal = document.getElementById('modalPlanSofia') || document.getElementById('modalPreview');
+        if (modal) modal.style.display = 'block';
+    };
+
+    // Vincular click al boton de 'Revisar y Autorizar'
+    document.addEventListener('DOMContentLoaded', () => {
+        let botones = document.querySelectorAll('button');
+        botones.forEach(btn => {
+            if (btn.innerText.includes('Revisar y Autorizar')) {
+                btn.setAttribute('onclick', 'abrirModalConTemaActivo()');
+            }
+        });
+    });
+</script>
+
 </head>
 <body>
 
