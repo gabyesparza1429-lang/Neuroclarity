@@ -74,16 +74,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.04);
             margin-bottom: 20px;
         }
-        .badge-tdah {
-            display: inline-block;
-            background: #EFE8F8;
-            color: #2D223B;
-            font-size: 13px;
-            font-weight: bold;
-            padding: 6px 14px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-        }
         .student-title {
             font-size: 26px;
             font-weight: 800;
@@ -205,6 +195,24 @@
             font-size: 14px;
             line-height: 1.4;
         }
+        .msg-padre {
+            background: #EFE8F8;
+            color: #2D223B;
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 8px;
+            max-width: 80%;
+        }
+        .msg-profesor {
+            background: #6339A6;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 8px;
+            max-width: 80%;
+        }
     </style>
 </head>
 <body>
@@ -215,21 +223,19 @@
 
 <div class="main-layout">
     <div class="sidebar">
-        <div class="sidebar-item active" onclick="mostrarSeccion('panelAlumno')"><i class="fa-solid fa-user-graduate"></i> Panel Alumno</div>
-        <div class="sidebar-item" onclick="mostrarSeccion('subirPlaneacion')"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación</div>
-        <div class="sidebar-item" onclick="mostrarSeccion('mensajeriaDirecta')"><i class="fa-solid fa-comments"></i> Mensajería Directa</div>
-        <div class="sidebar-item" onclick="mostrarSeccion('observacionesDireccion')"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</div>
+        <div class="sidebar-item active" id="tab-panelAlumno" onclick="mostrarSeccion('panelAlumno')"><i class="fa-solid fa-user-graduate"></i> Panel Alumno</div>
+        <div class="sidebar-item" id="tab-subirPlaneacion" onclick="mostrarSeccion('subirPlaneacion')"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación</div>
+        <div class="sidebar-item" id="tab-mensajeriaDirecta" onclick="mostrarSeccion('mensajeriaDirecta')"><i class="fa-solid fa-comments"></i> Mensajería Directa</div>
+        <div class="sidebar-item" id="tab-observacionesDireccion" onclick="mostrarSeccion('observacionesDireccion')"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</div>
     </div>
 
     <div class="content-area">
         <div id="sec-panelAlumno" class="student-card">
-            <div class="badge-tdah"><i class="fa-solid fa-brain"></i> Soporte TDAH y Lectura / Microaprendizaje Ludificado</div>
-            
             <div class="student-title">Gaby prueba</div>
             <div class="student-sub">Grado: 1ro secundaria | Código: NC-4105</div>
 
             <div class="info-box">
-                <strong>Orientación Sophia IA:</strong> Sophia aplicará la fragmentación de actividades en micro-módulos de máximo 10 minutos, combinados con elementos visuales y dinámicas de gamificación para sostener el interés. Se empleará una tipografía accesible con alto contraste y guías de lectura para evitar la confusión de palabras en bloques de texto reducidos. Además, la interfaz incorporará barómetros de progreso visual y pausas activas interactivas para canalizar su necesidad de juego de manera pedagógica.
+                <strong>Orientación Sophia IA:</strong> Sophia aplicará la fragmentación de actividades en micro-módulos de máximo 10 minutos, combinados con elementos visuales y dinámicas de gamificación para sostener el interés.
             </div>
 
             <div class="ritmo-box">
@@ -244,15 +250,6 @@
                 <div class="bloom-header">
                     <span>Progreso por Nivel de Bloom</span>
                     <span style="font-size:12px; background:#E0E0E0; padding:3px 10px; border-radius:12px; color:#555; font-weight: normal;">Sin iniciar (0%)</span>
-                </div>
-                
-                <div class="bloom-grid">
-                    <div class="bloom-step active">1.<br>Recordar</div>
-                    <div class="bloom-step">2.<br>Comprender</div>
-                    <div class="bloom-step">3.<br>Aplicar</div>
-                    <div class="bloom-step">4.<br>Analizar</div>
-                    <div class="bloom-step">5.<br>Evaluar</div>
-                    <div class="bloom-step">6.<br>Crear</div>
                 </div>
 
                 <div style="font-size: 14px; font-weight: bold; color: #2D223B;">Tema activo: Historia: Revolución Mexicana</div>
@@ -277,13 +274,13 @@
         </div>
 
         <div id="sec-mensajeriaDirecta" class="student-card" style="display:none;">
-            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-comments"></i> Mensajería Directa con el Alumno / Tutor</h2>
-            <div style="border: 1px solid #EAE5ED; border-radius: 12px; height: 250px; padding: 15px; background: #FAF9FC; overflow-y: auto; margin-bottom: 15px;" id="boxMensajes">
-                <p style="color: var(--text-muted); font-size: 13px;">💬 Inicio del chat con Gaby prueba (NC-4105)...</p>
+            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-comments"></i> Mensajería Directa con Padre / Tutor (NC-4105)</h2>
+            <div style="border: 1px solid #EAE5ED; border-radius: 12px; height: 300px; padding: 15px; background: #FAF9FC; overflow-y: auto; margin-bottom: 15px;" id="boxMensajesPadre">
+                <p style="color: var(--text-muted); font-size: 13px;">💬 Cargando mensajes con el Padre/Tutor de Gaby prueba...</p>
             </div>
             <div style="display: flex; gap: 10px;">
-                <input type="text" id="inputMsg" placeholder="Escribe un mensaje para el alumno..." style="flex:1; padding:10px; border:1px solid #CCC; border-radius:8px;">
-                <button onclick="enviarMensajeChat()" style="background:#6339A6; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Enviar</button>
+                <input type="text" id="inputMsgProfesor" placeholder="Escribe un mensaje para el Padre/Tutor..." style="flex:1; padding:10px; border:1px solid #CCC; border-radius:8px; font-family:inherit;">
+                <button onclick="enviarMensajePadre()" style="background:#6339A6; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Enviar</button>
             </div>
         </div>
 
@@ -318,30 +315,84 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
     const firebaseConfig = {
         authDomain: "neuroclarity-dcf0e.firebaseapp.com",
         projectId: "neuroclarity-dcf0e",
         storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
     };
-    const app = initializeApp(firebaseConfig, "profesorAppRestored");
+    const app = initializeApp(firebaseConfig, "profesorAppFinal");
     const db = getFirestore(app);
 
+    const codigoAlumno = 'NC-4105';
+
+    // Navegacion entre secciones
     window.mostrarSeccion = function(idSeccion) {
-        document.querySelectorAll('.student-card').forEach(el => el.style.display = 'none');
-        document.getElementById('sec-' + idSeccion).style.display = 'block';
-        
+        document.getElementById('sec-panelAlumno').style.display = 'none';
+        document.getElementById('sec-subirPlaneacion').style.display = 'none';
+        document.getElementById('sec-mensajeriaDirecta').style.display = 'none';
+        document.getElementById('sec-observacionesDireccion').style.display = 'none';
+
         document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-        event.currentTarget.classList.add('active');
+
+        document.getElementById('sec-' + idSeccion).style.display = 'block';
+        document.getElementById('tab-' + idSeccion).classList.add('active');
+
+        if(idSeccion === 'mensajeriaDirecta') {
+            escucharChatPadre();
+        }
     };
 
-    window.enviarMensajeChat = function() {
-        let txt = document.getElementById('inputMsg').value.trim();
-        let box = document.getElementById('boxMensajes');
-        box.innerHTML += '<div style="margin-top:8px; text-align:right;"><span style="background:#6339A6; color:white; padding:8px 12px; border-radius:12px; font-size:13px; display:inline-block;">' + txt + '</span></div>';
-        document.getElementById('inputMsg').value = '';
-        box.scrollTop = box.scrollHeight;
+    // Chat en tiempo real con el Padre (Ida y Vuelta)
+    function escucharChatPadre() {
+        const box = document.getElementById('boxMensajesPadre');
+        const q = query(
+            collection(db, "chats_padre_profesor"), 
+            where("codigo_vinculo", "==", codigoAlumno),
+            orderBy("timestamp", "asc")
+        );
+
+        onSnapshot(q, (snapshot) => {
+            if(snapshot.empty) {
+                box.innerHTML = '<p style="color: #6E6578; font-size: 13px;">💬 No hay mensajes previos con el Padre/Tutor. Escribe el primer mensaje a continuación.</p>';
+                return;
+            }
+            let html = '';
+            snapshot.forEach(doc => {
+                let d = doc.data();
+                if(d.emisor === 'profesor') {
+                    html += '<div style="text-align:right;"><span class="msg-profesor">' + d.texto + '</span></div>';
+                } else {
+                    html += '<div style="text-align:left;"><span class="msg-padre"><strong>Padre:</strong> ' + d.texto + '</span></div>';
+                }
+            });
+            box.innerHTML = html;
+            box.scrollTop = box.scrollHeight;
+        }, (error) => {
+            console.log('Modo local de chat activo:', error);
+        });
+    }
+
+    window.enviarMensajePadre = async function() {
+        const input = document.getElementById('inputMsgProfesor');
+        const txt = input.value.trim();
+
+        try {
+            await addDoc(collection(db, "chats_padre_profesor"), {
+                codigo_vinculo: codigoAlumno,
+                emisor: 'profesor',
+                texto: txt,
+                timestamp: serverTimestamp()
+            });
+            input.value = '';
+        } catch(e) {
+            console.error('Error enviando mensaje:', e);
+            let box = document.getElementById('boxMensajesPadre');
+            box.innerHTML += '<div style="text-align:right;"><span class="msg-profesor">' + txt + '</span></div>';
+            input.value = '';
+            box.scrollTop = box.scrollHeight;
+        }
     };
 
     window.abrirModal = function() {
@@ -353,13 +404,10 @@
     };
 
     window.autorizarYPublicar = async function() {
-        const codigo = 'NC-4105';
-        const materiaTema = 'Historia: Revolución Mexicana';
-        
         try {
             await addDoc(collection(db, "vinculaciones"), {
-                codigo_vinculo: codigo,
-                materia: materiaTema,
+                codigo_vinculo: codigoAlumno,
+                materia: 'Historia: Revolución Mexicana',
                 fecha_creacion: serverTimestamp(),
                 estado: "Asignada"
             });
