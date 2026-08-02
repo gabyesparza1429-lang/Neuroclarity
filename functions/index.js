@@ -1,48 +1,27 @@
-const { onCall, HttpsError } = require("firebase-functions/v2/https");
+const functions = require("firebase-functions");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-exports.analizarConSophia = onCall({ 
-    cors: true, 
-    secrets: ["GEMINI_API_KEY"] 
-}, async (request) => {
-    if (!request.auth) {
-        throw new HttpsError('unauthenticated', 'Debes iniciar sesión para usar Sophia IA.');
+const apiKey = process.env.GEMINI_API_KEY || (functions.config().gemini ? functions.config().gemini.key : "");
+const genAI = new GoogleGenerativeAI(apiKey);
+
+exports.sofia = functions.https.onRequest(async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+    if (req.method === "OPTIONS") {
+        res.status(204).send("");
+        return;
     }
-
-    const textoObservaciones = request.data.texto;
-    if (!textoObservaciones || textoObservaciones.trim() === "") {
-        return {
-            perfil: "Línea de Enfoque Básica",
-            detalle: "Sin observaciones registradas. Interfaz adaptativa estándar activa."
-        };
-    }
-
-    const prompt = `
-Eres Sophia, un especialista en Ingeniería Pedagógica y Adaptación Neurodivergente para educación básica y secundaria.
-Analiza la siguiente descripción de un estudiante proporcionada por padres o docentes.
-
-Debes responder ÚNICAMENTE en formato JSON estrictamente válido, con esta estructura:
-{
-  "perfil": "Título corto del perfil adaptativo (Ej: Soporte TDAH / Enfoque Fragmentado, Soporte Dislexia / Regleta Visual, Soporte TEA / Procesamiento Literal, etc.)",
-  "detalle": "Explicación de 2 o 3 oraciones sobre las estrategias concretas que Sophia aplicará en la interfaz para adaptar las actividades de este alumno."
-}
-
-Observaciones del alumno:
-"${textoObservaciones}"
-`;
 
     try {
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({
-            model: "gemini-flash-latest",
-            generationConfig: { responseMimeType: "application/json" }
-        });
-
+        const prompt = req.body.prompt || "Hola Sofía";
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
         const result = await model.generateContent(prompt);
-        return JSON.parse(result.response.text());
+        const response = await result.response;
+        const text = response.text();
 
+        res.json({ respuesta: text });
     } catch (error) {
-        console.error("Error en Sophia IA:", error);
-        throw new HttpsError('internal', 'Error procesando la IA: ' + error.message);
+        console.error("Error en Sofía:", error);
+        res.status(500).json({ respuesta: "Sofía está recalibrando sus servicios. Intenta nuevamente en un momento." });
     }
 });
