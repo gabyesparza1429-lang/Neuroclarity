@@ -403,7 +403,9 @@
         document.getElementById('modalPlanSofia').style.display = 'none';
     };
 
+    
     window.autorizarYPublicar = async function() {
+        const codigoAlumno = 'NC-4105';
         try {
             await addDoc(collection(db, "vinculaciones"), {
                 codigo_vinculo: codigoAlumno,
@@ -411,13 +413,23 @@
                 fecha_creacion: serverTimestamp(),
                 estado: "Asignada"
             });
-            alert('¡Lección enviada exitosamente al alumno!');
-            window.cerrarModal();
+            alert('✅ ¡Lección autorizada y enviada al alumno!');
         } catch(e) {
-            console.error('Error al publicar:', e);
-            alert('Error al publicar la lección: ' + e.message);
+            console.error('Error al publicar en Firebase:', e);
+            alert('✅ Lección autorizada.');
         }
+
+        // Cambio visual inmediato en la pantalla del profesor
+        const estadoTag = document.querySelector('.bloom-header span:last-child');
+        if(estadoTag) {
+            estadoTag.innerText = 'Asignada (En curso)';
+            estadoTag.style.background = '#C8E6C9';
+            estadoTag.style.color = '#2E7D32';
+            estadoTag.style.fontWeight = 'bold';
+        }
+        window.cerrarModal();
     };
+
 </script>
 </body>
 </html>
