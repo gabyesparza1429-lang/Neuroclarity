@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NeuroClarity - Autenticación Canva</title>
+</head>
+<body style="font-family:sans-serif; text-align:center; padding-top:50px; background:#F4EFEA;">
+    <h2 style="color:#6339A6;">Conectando Sofía con Canva...</h2>
+    <p>Por favor espera un momento.</p>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if(code) {
+            localStorage.setItem('canva_code', code);
+            document.body.innerHTML = '<h2 style="color:#2E7D32;">✅ Conexión Exitosa</h2><p>Puedes cerrar esta ventana.</p>';
+        }
+    </script>
+</body>
+</html>
