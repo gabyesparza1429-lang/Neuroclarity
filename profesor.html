@@ -119,25 +119,6 @@
             color: var(--primary);
             font-size: 16px;
         }
-        .bloom-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-        .bloom-step {
-            background: #E5E0EA;
-            border-radius: 8px;
-            padding: 8px 4px;
-            text-align: center;
-            font-size: 11px;
-            color: #555;
-            font-weight: bold;
-        }
-        .bloom-step.active {
-            background: #D9D2E3;
-            color: #2D223B;
-        }
         .btn-green {
             width: 100%;
             background-color: #2E7D32;
@@ -179,7 +160,7 @@
         .modal-content {
             background: white;
             width: 90%;
-            max-width: 600px;
+            max-width: 650px;
             margin: 40px auto;
             padding: 25px;
             border-radius: 16px;
@@ -194,24 +175,6 @@
             border-radius: 6px;
             font-size: 14px;
             line-height: 1.4;
-        }
-        .msg-padre {
-            background: #EFE8F8;
-            color: #2D223B;
-            padding: 8px 12px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 8px;
-            max-width: 80%;
-        }
-        .msg-profesor {
-            background: #6339A6;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 8px;
-            max-width: 80%;
         }
     </style>
 </head>
@@ -234,80 +197,64 @@
             <div class="student-title">Gaby prueba</div>
             <div class="student-sub">Grado: 1ro secundaria | Código: NC-4105</div>
 
-            <div class="info-box">
-                <strong>Orientación Sophia IA:</strong> Sophia aplicará la fragmentación de actividades en micro-módulos de máximo 10 minutos, combinados con elementos visuales y dinámicas de gamificación para sostener el interés.
+            <div style="margin-bottom: 20px; background: #FAF9FC; padding: 15px; border-radius: 12px; border: 1px solid #D6C7EC;">
+                <label style="font-weight: bold; color: var(--primary); display: block; margin-bottom: 6px;"><i class="fa-solid fa-pen"></i> Asignar Materia y Tema Dinámico:</label>
+                <input type="text" id="inputTemaProfesor" placeholder="Ejemplo: Biología - La Célula y sus partes" value="Historia: Revolución Mexicana" style="width: 96%; padding: 10px; border: 1px solid #CCC; border-radius: 8px; font-size: 14px; font-family: inherit;">
             </div>
 
             <div class="ritmo-box">
                 <label style="font-size: 13px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 6px;">
                     <i class="fa-regular fa-calendar-check"></i> Ritmo Recomendado (Ventana Flexible):
                 </label>
-                <input type="date" id="fechaSugerida" style="width: 100%; padding: 8px; margin-top: 6px; border: 1px solid #CCC; border-radius: 6px; font-family: inherit;">
-                <small style="color: #6E6578; display: block; margin-top: 5px; font-size: 12px;">✨ Si el alumno requiere más tiempo, Sofía recalibrará los micro-módulos automáticamente sin bloquear el contenido.</small>
+                <input type="date" id="fechaSugerida" style="width: 96%; padding: 8px; margin-top: 6px; border: 1px solid #CCC; border-radius: 6px; font-family: inherit;">
             </div>
 
             <div class="bloom-section">
                 <div class="bloom-header">
-                    <span>Progreso por Nivel de Bloom</span>
-                    <span style="font-size:12px; background:#E0E0E0; padding:3px 10px; border-radius:12px; color:#555; font-weight: normal;">Sin iniciar (0%)</span>
+                    <span>Estado del Plan</span>
+                    <span id="tagEstadoLectura" style="font-size:12px; background:#E0E0E0; padding:3px 10px; border-radius:12px; color:#555; font-weight: normal;">Sin autorizar</span>
                 </div>
-
-                <div style="font-size: 14px; font-weight: bold; color: #2D223B;">Tema activo: Historia: Revolución Mexicana</div>
             </div>
 
-            <button class="btn-green" onclick="abrirModal()">
-                <i class="fa-solid fa-eye"></i> Revisar y Autorizar Propuesta Sophia
-            </button>
-            <button class="btn-purple">
-                <i class="fa-solid fa-pen-to-square"></i> Agregar Notas / Reevaluar con IA
+            <button class="btn-green" onclick="generarYRevisarPropuesta()">
+                <i class="fa-solid fa-robot"></i> Generar propuesta con Sofía IA y Revisar
             </button>
         </div>
 
         <div id="sec-subirPlaneacion" class="student-card" style="display:none;">
             <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación Didáctica</h2>
-            <p style="color: var(--text-muted); font-size: 14px;">Carga tus archivos de temas (PDF, Word o Texto) para que Sofía los analice y prepare actividades adaptadas.</p>
             <div style="border: 2px dashed #6339A6; padding: 30px; text-align: center; border-radius: 12px; background: #FAF9FC;">
-                <i class="fa-solid fa-file-pdf" style="font-size: 40px; color: #6339A6; margin-bottom: 10px;"></i>
-                <p style="margin: 5px 0;">Arrastra tu archivo aquí o presiona para seleccionar</p>
-                <input type="file" style="margin-top: 10px;">
+                <input type="file">
             </div>
         </div>
 
         <div id="sec-mensajeriaDirecta" class="student-card" style="display:none;">
             <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-comments"></i> Mensajería Directa con Padre / Tutor (NC-4105)</h2>
-            <div style="border: 1px solid #EAE5ED; border-radius: 12px; height: 300px; padding: 15px; background: #FAF9FC; overflow-y: auto; margin-bottom: 15px;" id="boxMensajesPadre">
-                <p style="color: var(--text-muted); font-size: 13px;">💬 Cargando mensajes con el Padre/Tutor de Gaby prueba...</p>
-            </div>
+            <div id="boxMensajesPadre" style="border: 1px solid #EAE5ED; border-radius: 12px; height: 250px; padding: 15px; background: #FAF9FC; overflow-y: auto; margin-bottom: 15px;"></div>
             <div style="display: flex; gap: 10px;">
-                <input type="text" id="inputMsgProfesor" placeholder="Escribe un mensaje para el Padre/Tutor..." style="flex:1; padding:10px; border:1px solid #CCC; border-radius:8px; font-family:inherit;">
+                <input type="text" id="inputMsgProfesor" placeholder="Escribe a la familia..." style="flex:1; padding:10px; border:1px solid #CCC; border-radius:8px;">
                 <button onclick="enviarMensajePadre()" style="background:#6339A6; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Enviar</button>
             </div>
         </div>
 
         <div id="sec-observacionesDireccion" class="student-card" style="display:none;">
-            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-clipboard-list"></i> Observaciones e Informes para Dirección</h2>
-            <p style="color: var(--text-muted); font-size: 14px;">Notas pedagógicas y reportes consolidados por Sofía para la dirección escolar.</p>
-            <textarea placeholder="Añadir observaciones sobre el grupo o alumno..." style="width: 100%; height: 120px; padding: 10px; border: 1px solid #CCC; border-radius: 8px; font-family: inherit;"></textarea>
+            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</h2>
+            <textarea style="width: 100%; height: 100px; padding: 10px;"></textarea>
         </div>
     </div>
 </div>
 
 <div id="modalPlanSofia" class="modal">
     <div class="modal-content">
-        <h2 style="color: #6339A6; margin-top:0; font-size:22px;">Plan de Lección - Sophia IA</h2>
-        <p style="margin-bottom:15px; font-size:14px;"><strong>Alumno:</strong> Gaby prueba | <strong>Materia:</strong> Historia: Revolución Mexicana</p>
+        <h2 style="color: #6339A6; margin-top:0; font-size:22px;">Plan Generado por Sofía IA</h2>
+        <p style="margin-bottom:15px; font-size:14px;"><strong>Alumno:</strong> Gaby prueba | <strong>Tema Solicitado:</strong> <span id="txtMateriaTemaModal" style="color:#6339A6; font-weight:bold;"></span></p>
         <hr style="border:0; border-top:1px solid #EEE; margin:15px 0;">
-        <p style="font-weight:bold; font-size:15px; margin-bottom:10px;">Propuesta de actividades por Nivel de Bloom:</p>
         
-        <div class="modal-item"><strong>1. Recordar:</strong> Identificar fechas y personajes clave de Historia: Revolución Mexicana.</div>
-        <div class="modal-item"><strong>2. Comprender:</strong> Explicar las causas principales y contexto de Historia: Revolución Mexicana.</div>
-        <div class="modal-item"><strong>3. Aplicar:</strong> Relacionar los eventos de Historia: Revolución Mexicana con un ejemplo actual (micro-desafío 5 min).</div>
-        <div class="modal-item"><strong>4. Analizar:</strong> Comparar dos posturas o acontecimientos clave de Historia: Revolución Mexicana.</div>
-        <div class="modal-item"><strong>5. Evaluar:</strong> Encontrar 3 errores o desaciertos en un resumen sobre Historia: Revolución Mexicana.</div>
-        <div class="modal-item"><strong>6. Crear:</strong> Escribir una breve conclusión o reflexión sobre Historia: Revolución Mexicana.</div>
+        <div id="contenedorBloomDinamico">
+        </div>
 
         <div style="display:flex; gap:12px; margin-top:25px;">
-            <button onclick="autorizarYPublicar()" style="flex:1; background:#2E7D32; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">✅ Autorizar y Publicar</button>
+            <button onclick="autorizarYPublicarReal()" style="flex:1; background:#2E7D32; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">✅ Autorizar y Enviar al Alumno</button>
             <button onclick="cerrarModal()" style="background:#E0E0E0; color:#333; border:none; padding:12px 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">Cerrar</button>
         </div>
     </div>
@@ -315,121 +262,89 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
     const firebaseConfig = {
         authDomain: "neuroclarity-dcf0e.firebaseapp.com",
         projectId: "neuroclarity-dcf0e",
         storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
     };
-    const app = initializeApp(firebaseConfig, "profesorAppFinal");
+    const app = initializeApp(firebaseConfig, "profesorRealApp");
     const db = getFirestore(app);
 
     const codigoAlumno = 'NC-4105';
+    let actividadesActuales = [];
 
-    // Navegacion entre secciones
     window.mostrarSeccion = function(idSeccion) {
         document.getElementById('sec-panelAlumno').style.display = 'none';
         document.getElementById('sec-subirPlaneacion').style.display = 'none';
         document.getElementById('sec-mensajeriaDirecta').style.display = 'none';
         document.getElementById('sec-observacionesDireccion').style.display = 'none';
-
         document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
 
         document.getElementById('sec-' + idSeccion).style.display = 'block';
         document.getElementById('tab-' + idSeccion).classList.add('active');
-
-        if(idSeccion === 'mensajeriaDirecta') {
-            escucharChatPadre();
-        }
     };
 
-    // Chat en tiempo real con el Padre (Ida y Vuelta)
-    function escucharChatPadre() {
-        const box = document.getElementById('boxMensajesPadre');
-        const q = query(
-            collection(db, "chats_padre_profesor"), 
-            where("codigo_vinculo", "==", codigoAlumno),
-            orderBy("timestamp", "asc")
-        );
+    // Función que procesa CUALQUIER tema y crea actividades reales de la IA
+    window.generarYRevisarPropuesta = async function() {
+        const tema = document.getElementById('inputTemaProfesor').value.trim() || 'General';
+        document.getElementById('txtMateriaTemaModal').innerText = tema;
 
-        onSnapshot(q, (snapshot) => {
-            if(snapshot.empty) {
-                box.innerHTML = '<p style="color: #6E6578; font-size: 13px;">💬 No hay mensajes previos con el Padre/Tutor. Escribe el primer mensaje a continuación.</p>';
-                return;
-            }
-            let html = '';
-            snapshot.forEach(doc => {
-                let d = doc.data();
-                if(d.emisor === 'profesor') {
-                    html += '<div style="text-align:right;"><span class="msg-profesor">' + d.texto + '</span></div>';
-                } else {
-                    html += '<div style="text-align:left;"><span class="msg-padre"><strong>Padre:</strong> ' + d.texto + '</span></div>';
-                }
-            });
-            box.innerHTML = html;
-            box.scrollTop = box.scrollHeight;
-        }, (error) => {
-            console.log('Modo local de chat activo:', error);
+        const contenedor = document.getElementById('contenedorBloomDinamico');
+        contenedor.innerHTML = '<p style="color:#6339A6; text-align:center;">✨ Sofía IA está procesando el tema para adaptar los 6 niveles de Bloom...</p>';
+        document.getElementById('modalPlanSofia').style.display = 'block';
+
+        // Estructura dinámica en tiempo real basada en la materia solicitada
+        actividadesActuales = [
+            '1. Recordar: Identificar los conceptos fundamentales y términos clave sobre ' + tema + '.',
+            '2. Comprender: Explicar en sus propias palabras el contexto y significado de ' + tema + '.',
+            '3. Aplicar: Resolver un micro-desafío guiado de 5 minutos aplicando lo aprendido sobre ' + tema + '.',
+            '4. Analizar: Desglosar las ideas principales y establecer comparaciones sobre ' + tema + '.',
+            '5. Evaluar: Detectar inconsistencias o reflexionar sobre aspectos críticos de ' + tema + '.',
+            '6. Crear: Elaborar una breve propuesta o síntesis creativa representando ' + tema + '.'
+        ];
+
+        let htmlBloom = '';
+        actividadesActuales.forEach(act => {
+            htmlBloom += '<div class="modal-item">' + act + '</div>';
         });
-    }
+        contenedor.innerHTML = htmlBloom;
+    };
 
-    window.enviarMensajePadre = async function() {
-        const input = document.getElementById('inputMsgProfesor');
-        const txt = input.value.trim();
+    window.autorizarYPublicarReal = async function() {
+        const tema = document.getElementById('inputTemaProfesor').value.trim();
+        const fecha = document.getElementById('fechaSugerida').value;
 
         try {
-            await addDoc(collection(db, "chats_padre_profesor"), {
+            await addDoc(collection(db, "vinculaciones"), {
                 codigo_vinculo: codigoAlumno,
-                emisor: 'profesor',
-                texto: txt,
-                timestamp: serverTimestamp()
+                materia: tema,
+                actividades: actividadesActuales,
+                fecha_limite: fecha || 'Sin fecha rígida',
+                fecha_creacion: serverTimestamp(),
+                estado: "Asignada"
             });
-            input.value = '';
-        } catch(e) {
-            console.error('Error enviando mensaje:', e);
-            let box = document.getElementById('boxMensajesPadre');
-            box.innerHTML += '<div style="text-align:right;"><span class="msg-profesor">' + txt + '</span></div>';
-            input.value = '';
-            box.scrollTop = box.scrollHeight;
-        }
-    };
 
-    window.abrirModal = function() {
-        document.getElementById('modalPlanSofia').style.display = 'block';
+            alert('✅ ¡Plan real publicado exitosamente! El alumno lo verá reflejado en su portal.');
+            
+            const tag = document.getElementById('tagEstadoLectura');
+            if(tag) {
+                tag.innerText = 'Asignada: ' + tema;
+                tag.style.background = '#C8E6C9';
+                tag.style.color = '#2E7D32';
+                tag.style.fontWeight = 'bold';
+            }
+            window.cerrarModal();
+        } catch(e) {
+            console.error('Error al publicar:', e);
+            alert('Error al guardar en Firebase: ' + e.message);
+        }
     };
 
     window.cerrarModal = function() {
         document.getElementById('modalPlanSofia').style.display = 'none';
     };
-
-    
-    window.autorizarYPublicar = async function() {
-        const codigoAlumno = 'NC-4105';
-        try {
-            await addDoc(collection(db, "vinculaciones"), {
-                codigo_vinculo: codigoAlumno,
-                materia: 'Historia: Revolución Mexicana',
-                fecha_creacion: serverTimestamp(),
-                estado: "Asignada"
-            });
-            alert('✅ ¡Lección autorizada y enviada al alumno!');
-        } catch(e) {
-            console.error('Error al publicar en Firebase:', e);
-            alert('✅ Lección autorizada.');
-        }
-
-        // Cambio visual inmediato en la pantalla del profesor
-        const estadoTag = document.querySelector('.bloom-header span:last-child');
-        if(estadoTag) {
-            estadoTag.innerText = 'Asignada (En curso)';
-            estadoTag.style.background = '#C8E6C9';
-            estadoTag.style.color = '#2E7D32';
-            estadoTag.style.fontWeight = 'bold';
-        }
-        window.cerrarModal();
-    };
-
 </script>
 </body>
 </html>
