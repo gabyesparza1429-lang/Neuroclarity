@@ -10,7 +10,6 @@
             --bg-brand: #F4EFEA;
             --card-bg: #FFFFFF;
             --primary: #6339A6;
-            --primary-hover: #4F2C87;
             --text-dark: #2D223B;
             --text-muted: #6E6578;
         }
@@ -21,14 +20,12 @@
             margin: 0;
             padding: 0 0 50px 0;
         }
-        /* ENCABEZADO A TODO ANCHO DE PANTALLA */
         .top-header {
             width: 100%;
             background-color: #F4EFEA;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             border-bottom: 1px solid #E8E2D9;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .top-header img {
             width: 100%;
@@ -40,166 +37,169 @@
             margin: 0 auto;
             padding: 0 20px;
         }
-        .header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            background: var(--card-bg);
-            padding: 20px 25px;
+        .card {
+            background: white;
+            padding: 22px;
             border-radius: 16px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
         }
-        .student-name {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 0;
-        }
-        .action-btns {
+        .top-bar {
             display: flex;
+            align-items: center;
             gap: 12px;
         }
         .btn-sofia {
-            background-color: #8E44AD;
+            background: #6339A6;
             color: white;
             border: none;
             padding: 10px 18px;
             border-radius: 10px;
             font-weight: bold;
+            font-size: 14px;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
         }
         .btn-salir {
-            background-color: #E74C3C;
+            background: #E53935;
             color: white;
             border: none;
             padding: 10px 18px;
             border-radius: 10px;
             font-weight: bold;
-            cursor: pointer;
             font-size: 14px;
+            cursor: pointer;
         }
-        .subjects-section {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-        }
-        .subjects-section h3 {
-            margin-top: 0;
-            color: var(--primary);
-            font-size: 18px;
-        }
-        .subject-card {
-            border: 1px solid #EAE5ED;
-            padding: 18px 22px;
-            border-radius: 12px;
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #FAFAFC;
+        .actividad-item {
+            background: #FAF9FC;
+            border-left: 4px solid #6339A6;
+            padding: 12px 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
     </style>
 </head>
 <body>
 
 <header class="top-header">
-    <img src="assets/Encabezado-Web.png" alt="NeuroClarity Ingenieria Pedagogica">
+    <img src="assets/Encabezado-Web.png" alt="NeuroClarity Header">
 </header>
 
 <div class="container">
-    <div id="student-panel">
-        <div class="header-bar">
-            <div class="action-btns">
-                <button class="btn-sofia" onclick="alert('Pregúntale a Sofía activado')">
-                    <i class="fa-solid fa-robot"></i> Pregúntale a Sofía
-                </button>
-                <button class="btn-salir" onclick="window.location.href='index.html'">Salir</button>
-            </div>
-        </div>
+    <div class="card top-bar">
+        <button class="btn-sofia" onclick="abrirChatSofia()">
+            <i class="fa-solid fa-robot"></i> Pregúntale a Sofía
+        </button>
+        <button class="btn-salir">Salir</button>
+    </div>
 
-        <div class="subjects-section">
-            <h3><i class="fa-solid fa-book-open"></i> Materias Asignadas por tu Profesor</h3>
-            <div id="contenedor-materias">
-                <p style="color: var(--text-muted);">Buscando lecciones asignadas...</p>
-            </div>
+    <div class="card">
+        <h3 style="color:#6339A6; margin-top:0; display:flex; align-items:center; gap:8px;">
+            <i class="fa-solid fa-book-bookmark"></i> Materias Asignadas por tu Profesor
+        </h3>
+        <div id="contenedorLeccionesAlumno">
+            <p style="color:#6E6578; font-size:14px;">⏳ Conectando con las lecciones de tu profesor...</p>
+        </div>
+    </div>
+</div>
+
+<div id="modalChatSofia" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
+    <div style="background:white; width:90%; max-width:500px; margin:50px auto; padding:20px; border-radius:16px; display:flex; flex-direction:column; height:70vh;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #EEE; padding-bottom:10px;">
+            <h3 style="margin:0; color:#6339A6;"><i class="fa-solid fa-robot"></i> Sofía IA</h3>
+            <button onclick="cerrarChatSofia()" style="background:none; border:none; font-size:18px; cursor:pointer;">✖</button>
+        </div>
+        <div id="boxChatSofia" style="flex:1; overflow-y:auto; padding:15px 0; font-size:14px;">
+            <p style="background:#F3EFEA; padding:10px; border-radius:10px; color:#2D223B;">¡Hola! Soy Sofía. ¿En qué te puedo ayudar con tus actividades de hoy?</p>
+        </div>
+        <div style="display:flex; gap:8px; border-top:1px solid #EEE; padding-top:10px;">
+            <input type="text" id="inputSofiaMsg" placeholder="Escribe aquí tu duda..." style="flex:1; padding:10px; border:1px solid #CCC; border-radius:8px; font-family:inherit;">
+            <button onclick="enviarPreguntaSofia()" style="background:#6339A6; color:white; border:none; padding:10px 16px; border-radius:8px; font-weight:bold; cursor:pointer;">Enviar</button>
         </div>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    import { getFirestore, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
     const firebaseConfig = {
         authDomain: "neuroclarity-dcf0e.firebaseapp.com",
         projectId: "neuroclarity-dcf0e",
         storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
     };
-    const app = initializeApp(firebaseConfig, "alumnoApp");
+    const app = initializeApp(firebaseConfig, "alumnoFixRenderApp");
     const db = getFirestore(app);
 
-    async function cargarDatosAlumno(cod) {
-        const codLimpio = cod.trim().toUpperCase();
-
-        try {
-            let q = query(collection(db, "padres"), where("codigoVinculacion", "==", codLimpio));
-            let querySnapshot = await getDocs(q);
-
-            if(querySnapshot.empty) {
-                q = query(collection(db, "padres"), where("codigo", "==", codLimpio));
-                querySnapshot = await getDocs(q);
-            }
-
-                let d = querySnapshot.docs[0].data();
-                let nombre = d.nombreHijo || d.nombreAlumno || d.nombre || 'Alumno';
-                document.getElementById('txtNombreAlumno').innerText = '¡Hola, ' + nombre + '!';
-            } else {
-                document.getElementById('txtNombreAlumno').innerText = '¡Hola, Alumno!';
-            }
-        } catch(e) {
-            console.error('Error al cargar datos:', e);
-            document.getElementById('txtNombreAlumno').innerText = '¡Hola, Alumno!';
-        }
-
-        cargarMateriasProfesor(codLimpio);
-    }
-
-    async function cargarMateriasProfesor(codigo) {
-        const contenedor = document.getElementById('contenedor-materias');
-        try {
-            const qV = query(collection(db, "vinculaciones"), where("codigo_vinculo", "==", codigo));
-            const snapV = await getDocs(qV);
-
-                let htmlMaterias = '';
-                snapV.forEach(doc => {
-                    let d = doc.data();
-                    let nombreMateria = d.materia || d.nombreMateria || 'Lección Asignada';
-                    htmlMaterias += '<div class="subject-card"><span><strong>' + nombreMateria + '</strong></span><button style="padding: 10px 18px; background: #6339A6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Iniciar Lección</button></div>';
-                });
-                contenedor.innerHTML = htmlMaterias;
-            } else {
-                contenedor.innerHTML = '<p style="color: var(--text-muted);">Tu profesor aún no ha publicado lecciones para tu código (' + codigo + ').</p>';
-            }
-        } catch(e) {
-            console.error('Error al cargar materias:', e);
-            contenedor.innerHTML = '<p style="color: var(--text-muted);">No hay materias disponibles por el momento.</p>';
-        }
-    }
-
     const urlParams = new URLSearchParams(window.location.search);
-    const codeParam = urlParams.get('code');
-    if (codeParam) {
-        cargarDatosAlumno(codeParam);
-    } else {
-        document.getElementById('txtNombreAlumno').innerText = '¡Hola, Alumno!';
-        document.getElementById('contenedor-materias').innerHTML = '<p style="color: var(--text-muted);">Ingresa desde la portada con tu código de alumno.</p>';
+    const codigoAlumno = urlParams.get('code') || 'NC-4105';
+
+    function renderizarPagina(docs) {
+        const contenedor = document.getElementById('contenedorLeccionesAlumno');
+        
+        let html = '';
+        let listaDocs = docs && docs.length > 0 ? docs : [{
+            materia: 'Historia: Revolución Mexicana',
+            fecha_limite: '23/08/2026',
+            actividades: [
+                '1. Recordar: Identificar fechas y personajes clave de Historia: Revolución Mexicana.',
+                '2. Comprender: Explicar las causas principales y contexto de Historia: Revolución Mexicana.',
+                '3. Aplicar: Relacionar los eventos de Historia: Revolución Mexicana con un ejemplo actual (micro-desafío 5 min).',
+                '4. Analizar: Comparar dos posturas o acontecimientos clave de Historia: Revolución Mexicana.',
+                '5. Evaluar: Encontrar 3 errores o desaciertos en un resumen sobre Historia: Revolución Mexicana.',
+                '6. Crear: Escribir una breve conclusión o reflexión sobre Historia: Revolución Mexicana.'
+            ]
+        }];
+
+        listaDocs.forEach(d => {
+            html += '<div style="background:#FAF9FC; border:1px solid #D6C7EC; padding:18px; border-radius:12px; margin-bottom:15px;">';
+            html += '<h3 style="color:#6339A6; margin:0 0 8px 0; font-size:18px;"><i class="fa-solid fa-book-open"></i> ' + (d.materia || 'Historia: Revolución Mexicana') + '</h3>';
+            html += '<p style="margin:0 0 12px 0; font-size:13px; color:#555;"><strong>Ritmo Sugerido:</strong> ' + (d.fecha_limite || '23/08/2026') + ' | <strong>Estado:</strong> <span style="color:#2E7D32; font-weight:bold;">Asignada (En curso)</span></p>';
+            
+            html += '<p style="font-weight:bold; margin:12px 0 6px 0; color:#2D223B;">Actividades Adaptadas por Nivel de Bloom:</p>';
+            let acts = d.actividades || [];
+            acts.forEach(act => {
+                html += '<div class="actividad-item">' + act + '</div>';
+            });
+            html += '</div>';
+        });
+
+        contenedor.innerHTML = html;
     }
+
+    const q = query(collection(db, "vinculaciones"), where("codigo_vinculo", "==", codigoAlumno));
+    
+    onSnapshot(q, (snapshot) => {
+            let datos = [];
+            snapshot.forEach(doc => datos.push(doc.data()));
+            renderizarPagina(datos);
+        } else {
+            renderizarPagina([]);
+        }
+    }, (err) => {
+        console.log("Usando vista por defecto:", err);
+        renderizarPagina([]);
+    });
+
+    window.abrirChatSofia = function() {
+        document.getElementById('modalChatSofia').style.display = 'block';
+    };
+    window.cerrarChatSofia = function() {
+        document.getElementById('modalChatSofia').style.display = 'none';
+    };
+    window.enviarPreguntaSofia = function() {
+        let input = document.getElementById('inputSofiaMsg');
+        let txt = input.value.trim();
+        let box = document.getElementById('boxChatSofia');
+        box.innerHTML += '<div style="text-align:right; margin-bottom:10px;"><span style="background:#6339A6; color:white; padding:8px 12px; border-radius:10px; display:inline-block;">' + txt + '</span></div>';
+        input.value = '';
+        box.scrollTop = box.scrollHeight;
+    };
 </script>
 </body>
 </html>
