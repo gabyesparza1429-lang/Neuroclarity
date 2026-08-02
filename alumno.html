@@ -11,7 +11,6 @@
             --card-bg: #FFFFFF;
             --primary: #6339A6;
             --text-dark: #2D223B;
-            --text-muted: #6E6578;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -80,7 +79,6 @@
             border-radius: 8px;
             font-size: 14px;
             line-height: 1.4;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
     </style>
 </head>
@@ -103,7 +101,17 @@
             <i class="fa-solid fa-book-bookmark"></i> Materias Asignadas por tu Profesor
         </h3>
         <div id="contenedorLeccionesAlumno">
-            <p style="color:#6E6578; font-size:14px;">⏳ Conectando con las lecciones de tu profesor...</p>
+            <div style="background:#FAF9FC; border:1px solid #D6C7EC; padding:18px; border-radius:12px; margin-bottom:15px;">
+                <h3 style="color:#6339A6; margin:0 0 8px 0; font-size:18px;"><i class="fa-solid fa-book-open"></i> Historia: Revolución Mexicana</h3>
+                <p style="margin:0 0 12px 0; font-size:13px; color:#555;"><strong>Ritmo Sugerido:</strong> 23/08/2026 | <strong>Estado:</strong> <span style="color:#2E7D32; font-weight:bold;">Asignada (En curso)</span></p>
+                <p style="font-weight:bold; margin:12px 0 6px 0; color:#2D223B;">Actividades Adaptadas por Nivel de Bloom:</p>
+                <div class="actividad-item">1. Recordar: Identificar fechas y personajes clave de Historia: Revolución Mexicana.</div>
+                <div class="actividad-item">2. Comprender: Explicar las causas principales y contexto de Historia: Revolución Mexicana.</div>
+                <div class="actividad-item">3. Aplicar: Relacionar los eventos de Historia: Revolución Mexicana con un ejemplo actual (micro-desafío 5 min).</div>
+                <div class="actividad-item">4. Analizar: Comparar dos posturas o acontecimientos clave de Historia: Revolución Mexicana.</div>
+                <div class="actividad-item">5. Evaluar: Encontrar 3 errores o desaciertos en un resumen sobre Historia: Revolución Mexicana.</div>
+                <div class="actividad-item">6. Crear: Escribir una breve conclusión o reflexión sobre Historia: Revolución Mexicana.</div>
+            </div>
         </div>
     </div>
 </div>
@@ -133,57 +141,30 @@
         projectId: "neuroclarity-dcf0e",
         storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
     };
-    const app = initializeApp(firebaseConfig, "alumnoFixRenderApp");
+    const app = initializeApp(firebaseConfig, "alumnoInstantApp");
     const db = getFirestore(app);
 
     const urlParams = new URLSearchParams(window.location.search);
     const codigoAlumno = urlParams.get('code') || 'NC-4105';
 
-    function renderizarPagina(docs) {
-        const contenedor = document.getElementById('contenedorLeccionesAlumno');
-        
-        let html = '';
-        let listaDocs = docs && docs.length > 0 ? docs : [{
-            materia: 'Historia: Revolución Mexicana',
-            fecha_limite: '23/08/2026',
-            actividades: [
-                '1. Recordar: Identificar fechas y personajes clave de Historia: Revolución Mexicana.',
-                '2. Comprender: Explicar las causas principales y contexto de Historia: Revolución Mexicana.',
-                '3. Aplicar: Relacionar los eventos de Historia: Revolución Mexicana con un ejemplo actual (micro-desafío 5 min).',
-                '4. Analizar: Comparar dos posturas o acontecimientos clave de Historia: Revolución Mexicana.',
-                '5. Evaluar: Encontrar 3 errores o desaciertos en un resumen sobre Historia: Revolución Mexicana.',
-                '6. Crear: Escribir una breve conclusión o reflexión sobre Historia: Revolución Mexicana.'
-            ]
-        }];
-
-        listaDocs.forEach(d => {
-            html += '<div style="background:#FAF9FC; border:1px solid #D6C7EC; padding:18px; border-radius:12px; margin-bottom:15px;">';
-            html += '<h3 style="color:#6339A6; margin:0 0 8px 0; font-size:18px;"><i class="fa-solid fa-book-open"></i> ' + (d.materia || 'Historia: Revolución Mexicana') + '</h3>';
-            html += '<p style="margin:0 0 12px 0; font-size:13px; color:#555;"><strong>Ritmo Sugerido:</strong> ' + (d.fecha_limite || '23/08/2026') + ' | <strong>Estado:</strong> <span style="color:#2E7D32; font-weight:bold;">Asignada (En curso)</span></p>';
-            
-            html += '<p style="font-weight:bold; margin:12px 0 6px 0; color:#2D223B;">Actividades Adaptadas por Nivel de Bloom:</p>';
-            let acts = d.actividades || [];
-            acts.forEach(act => {
-                html += '<div class="actividad-item">' + act + '</div>';
-            });
-            html += '</div>';
-        });
-
-        contenedor.innerHTML = html;
-    }
-
     const q = query(collection(db, "vinculaciones"), where("codigo_vinculo", "==", codigoAlumno));
     
     onSnapshot(q, (snapshot) => {
-            let datos = [];
-            snapshot.forEach(doc => datos.push(doc.data()));
-            renderizarPagina(datos);
-        } else {
-            renderizarPagina([]);
+            let html = '';
+            snapshot.forEach(doc => {
+                let d = doc.data();
+                html += '<div style="background:#FAF9FC; border:1px solid #D6C7EC; padding:18px; border-radius:12px; margin-bottom:15px;">';
+                html += '<h3 style="color:#6339A6; margin:0 0 8px 0; font-size:18px;"><i class="fa-solid fa-book-open"></i> ' + (d.materia || 'Historia: Revolución Mexicana') + '</h3>';
+                html += '<p style="margin:0 0 12px 0; font-size:13px; color:#555;"><strong>Ritmo Sugerido:</strong> ' + (d.fecha_limite || '23/08/2026') + ' | <strong>Estado:</strong> <span style="color:#2E7D32; font-weight:bold;">Asignada (En curso)</span></p>';
+                html += '<p style="font-weight:bold; margin:12px 0 6px 0; color:#2D223B;">Actividades Adaptadas por Nivel de Bloom:</p>';
+                let acts = d.actividades || [];
+                acts.forEach(act => {
+                    html += '<div class="actividad-item">' + act + '</div>';
+                });
+                html += '</div>';
+            });
+            document.getElementById('contenedorLeccionesAlumno').innerHTML = html;
         }
-    }, (err) => {
-        console.log("Usando vista por defecto:", err);
-        renderizarPagina([]);
     });
 
     window.abrirChatSofia = function() {
