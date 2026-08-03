@@ -28,7 +28,7 @@ exports.sofia = functions.https.onRequest(async (req, res) => {
 
 
 // Función para generar Kit de Canva adaptado a Neurodiversidad
-exports.generarKitAdaptado = onRequest(async (req, res) => {
+exports.generarKitAdaptado = functions.https.onRequest(async (req, res) => {
     const { alumnoId, tema, neurodivergencia } = req.body;
     
     // Asignación de formato según perfil cognitivo
