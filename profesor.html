@@ -179,7 +179,8 @@
     </style>
 </head>
 <body>
-<div style="width:100%; text-align:center; background-color:#eae6df; padding:10px 0; margin-bottom:20px; border-bottom:1px solid #d6c7ec;"><img src="assets/Encabezado-Web.png" alt="NeuroClarity" style="width:100%; max-width:900px; height:auto; display:block; margin:0 auto;"></div>
+<div style="width:100%; text-align:center; background:#eae6df; margin:0 0 20px 0; padding:0; overflow:hidden;"><img src="assets/Encabezado-Web.png" alt="NeuroClarity" style="width:100%; height:auto; display:block;"></div>
+
 
 <header class="top-header">
     <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" style="width:100%; max-width:900px; height:auto; display:block; margin:0 auto;">
@@ -364,21 +365,33 @@
     </div>
 </div>
 
+
+
+
+<div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
+    <div style="background:white; width:90%; max-width:400px; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
+            <h3 style="margin:0; color:#6339a6;">🔗 Vincular Alumno por Código</h3>
+            <button onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:18px; cursor:pointer;">✖</button>
+        </div>
+        <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos.</p>
+        <div style="margin-bottom:15px;">
+            <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333;">Código del Alumno:</label>
+            <input type="text" id="inputCodigoVincular" placeholder="Ej. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; text-transform:uppercase;">
+        </div>
+        <button onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer;">Cargar Datos</button>
+    </div>
+</div>
+
 <script>
 function abrirModalAlumno() {
-    var modal = document.getElementById('modalAgregarAlumno');
-    if (modal) {
-        modal.style.display = 'flex';
-    } else {
-        alert('Error al abrir la ventana.');
-    }
+    var m = document.getElementById('modalAgregarAlumno');
+    if (m) m.style.display = 'flex';
 }
 
 function cerrarModalAlumno() {
-    var modal = document.getElementById('modalAgregarAlumno');
-    if (modal) {
-        modal.style.display = 'none';
-    }
+    var m = document.getElementById('modalAgregarAlumno');
+    if (m) m.style.display = 'none';
 }
 
 function vincularAlumnoPorCodigo() {
@@ -389,6 +402,16 @@ function vincularAlumnoPorCodigo() {
     }
     alert('✅ Alumno ' + cod + ' vinculado con éxito.');
     cerrarModalAlumno();
+}
+
+function autorizarYEnviar() {
+    var kitData = {
+        materia: 'Historia',
+        tema: 'Historia: Revolución Mexicana',
+        fecha: new Date().toLocaleDateString()
+    };
+    localStorage.setItem('neuroKitAutorizado', JSON.stringify(kitData));
+    alert('✅ Kit Pedagógico autorizado y enviado al alumno.');
 }
 </script>
 
