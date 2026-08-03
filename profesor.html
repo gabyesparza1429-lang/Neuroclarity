@@ -374,111 +374,15 @@
     };
 </script>
 
-<script>
-function validarYGenerar() {
-    const materia = document.getElementById('selectMateria').value;
-    const tema = document.getElementById('inputTema').value.trim();
-
-        alert('Por favor selecciona una Materia (Campo obligatorio).');
-        return;
-    }
-        alert('Por favor escribe el Tema de la clase (Campo obligatorio).');
-        return;
-    }
-
-    alert('Generando Kit Adaptado de ' + materia + ' - ' + tema + ' para el alumno...');
-}
-</script>
-
-<script>
-function generarYIrAMateriales() {
-    // 1. Obtener la materia y tema
-    const inputMateriaTema = document.querySelector('input[value*="Historia"]') || document.querySelectorAll('#sec-panelAlumno input')[0];
-    const temaValor = inputMateriaTema ? inputMateriaTema.value : 'Historia: Revolución Mexicana';
-
-    // 2. Renderizar el Kit en la pestaña Materiales Sofía
-    const contenedor = document.getElementById('contenedorCanva');
-    if (contenedor) {
-        contenedor.innerHTML = `
-            <div style="width:100%; text-align:left; padding:10px;">
-                <h3 style="color:#6339a6; margin-top:0;">📦 Kit Pedagógico Generado: ${temaValor}</h3>
-                <p style="color:#555; font-size:14px; margin-bottom:15px;">Adaptado al perfil del alumno (Formato Cornell + Alto Contraste).</p>
-                
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:15px;">
-                    <div style="background:#fff; border:1px solid #D6C7EC; padding:12px; border-radius:8px;">📊 <b>Presentación Canva</b></div>
-                    <div style="background:#fff; border:1px solid #D6C7EC; padding:12px; border-radius:8px;">🎴 <b>Flashcards Repaso</b></div>
-                    <div style="background:#fff; border:1px solid #D6C7EC; padding:12px; border-radius:8px;">🎯 <b>Quiz Interactivo</b></div>
-                    <div style="background:#fff; border:1px solid #D6C7EC; padding:12px; border-radius:8px;">📝 <b>Apuntes Cornell</b></div>
-                </div>
-            </div>
-        `;
-    }
-
-    // 3. Cambiar de pestaña a Materiales Sofía
-    mostrarSeccion('materialesSofia');
-}
-</script>
 
 
-<script>
-// 1. Bloquear la alerta de 'Plan publicado'
-const alertOriginal = window.alert;
-window.alert = function(mensaje) {
-    if (mensaje && mensaje.includes('Plan real publicado')) {
-        return; // Anular esta alerta
-    }
-    alertOriginal(mensaje);
-};
-
-// 2. Redirigir todos los botones de generacion y autorizacion a Materiales Sofia
-document.addEventListener('DOMContentLoaded', function() {
-    document.body.addEventListener('click', function(e) {
-        const target = e.target.closest('button');
-        if (target) {
-            const texto = target.innerText || '';
-            if (texto.includes('Generar propuesta') || texto.includes('Autorizar y Enviar')) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                // Ocultar modales si existen
-                document.querySelectorAll('.modal, [class*="modal"], [id*="modal"]').forEach(m => m.style.display = 'none');
-                
-                // Ejecutar redireccion a Materiales Sofia
-                if (typeof generarYIrAMateriales === 'function') {
-                    generarYIrAMateriales();
-                } else {
-                    mostrarSeccion('materialesSofia');
-                }
-            }
-        }
-    }, true);
-});
-</script>
 
 
-<script>
-function autorizarYEnviar() {
-    if (typeof db === 'undefined') {
-        localStorage.setItem('neuroKitAutorizado', JSON.stringify({
-            materia: 'Historia',
-            tema: 'Historia: Revolución Mexicana',
-            fecha: new Date().toLocaleDateString()
-        }));
-        alert('✅ Kit autorizado y guardado localmente.');
-        return;
-    }
 
-    db.collection('kits_estudio').add({
-        materia: 'Historia',
-        tema: 'Historia: Revolución Mexicana',
-        fecha: new Date().toLocaleDateString(),
-        estado: 'autorizado',
-        creadoEn: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(() => {
-        alert('✅ Kit sincronizado en tiempo real en la base de datos.');
-    }).catch(e => console.error(e));
-}
-</script>
+
+
+
+
 
 
 <div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
@@ -501,23 +405,54 @@ function autorizarYEnviar() {
     </div>
 </div>
 
+
+
+
+<div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
+    <div style="background:white; width:90%; max-width:420px; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
+            <h3 style="margin:0; color:#6339a6;">🔗 Vincular Alumno por Código</h3>
+            <button onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:18px; cursor:pointer;">✖</button>
+        </div>
+        <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos.</p>
+        <div style="margin-bottom:15px;">
+            <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333;">Código del Alumno:</label>
+            <input type="text" id="inputCodigoVincular" placeholder="Ej. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; text-transform:uppercase;">
+        </div>
+        <button onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer;">Cargar Datos</button>
+    </div>
+</div>
+
 <script>
-function abrirModalAlumno() { document.getElementById('modalAgregarAlumno').style.display = 'flex'; }
-function cerrarModalAlumno() { document.getElementById('modalAgregarAlumno').style.display = 'none'; }
+function abrirModalAlumno() {
+    var modal = document.getElementById('modalAgregarAlumno');
+    if (modal) modal.style.display = 'flex';
+}
+
+function cerrarModalAlumno() {
+    var modal = document.getElementById('modalAgregarAlumno');
+    if (modal) modal.style.display = 'none';
+}
 
 function vincularAlumnoPorCodigo() {
-    const cod = document.getElementById('inputCodigoVincular').value.trim().toUpperCase();
+    var codInput = document.getElementById('inputCodigoVincular');
+    var cod = codInput ? codInput.value.trim().toUpperCase() : '';
         alert('Por favor ingresa el código del alumno.');
         return;
     }
-    
-    // Cargar datos vinculados al código y perfil de Sofía
-    alert('✅ Alumno vinculado con éxito.
-Código: ' + cod + '
-Nombre: Gaby prueba
-Perfil Sofía: Adaptación TDAH / Dislexia cargada.');
-    
+    alert('✅ Alumno ' + cod + ' vinculado correctamente.');
     cerrarModalAlumno();
+}
+
+function autorizarYEnviar() {
+    var temaActual = 'Historia: Revolución Mexicana';
+    var kitData = {
+        materia: 'Historia',
+        tema: temaActual,
+        fecha: new Date().toLocaleDateString()
+    };
+    localStorage.setItem('neuroKitAutorizado', JSON.stringify(kitData));
+    alert('✅ Kit Pedagógico de ' + temaActual + ' autorizado y enviado al alumno.');
 }
 </script>
 
