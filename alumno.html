@@ -182,5 +182,33 @@
         box.scrollTop = box.scrollHeight;
     };
 </script>
+
+    <div id="sec-misKits" style="margin: 20px; padding: 20px; background: #ffffff; border-radius: 12px; border: 1px solid #D6C7EC;">
+        <h2 style="color:#6339a6; margin-top:0;">📚 Mis Kits de Estudio</h2>
+        <p style="color:#555; margin-bottom:15px;">Selecciona una materia para explorar tus lecciones y materiales adaptados.</p>
+
+        <div style="margin-bottom: 20px;">
+            <label style="font-weight:bold; color:#333; display:block; margin-bottom:8px;">Materias:</label>
+            <div id="contenedorMaterias" style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button style="background:#6339a6; color:white; border:none; padding:8px 16px; border-radius:20px; font-weight:bold; cursor:pointer;">Todas</button>
+            </div>
+        </div>
+
+        <div id="contenedorTemas" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:15px;">
+            <div style="border:1px solid #E0E0E0; border-radius:10px; padding:15px; background:#FAF9FC;">
+                <span style="background:#E8DFF5; color:#6339a6; font-size:12px; font-weight:bold; padding:4px 8px; border-radius:4px;">Ciencias / Biología</span>
+                <h3 style="margin:10px 0 5px 0; color:#222;">La Fotosíntesis</h3>
+                <p style="font-size:13px; color:#666;">Kit Pedagógico Adaptado</p>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:15px;">
+                    <button onclick="alert('Abriendo Flashcards de La Fotosíntesis')" style="background:#fff; border:1px solid #6339a6; color:#6339a6; padding:8px; border-radius:6px; font-size:12px; font-weight:bold; cursor:pointer;">🎴 Flashcards</button>
+                    <button onclick="alert('Abriendo Quiz de La Fotosíntesis')" style="background:#fff; border:1px solid #6339a6; color:#6339a6; padding:8px; border-radius:6px; font-size:12px; font-weight:bold; cursor:pointer;">🎯 Quiz</button>
+                    <button onclick="alert('Abriendo Apuntes Cornell de La Fotosíntesis')" style="background:#fff; border:1px solid #6339a6; color:#6339a6; padding:8px; border-radius:6px; font-size:12px; font-weight:bold; cursor:pointer;">📝 Apuntes Cornell</button>
+                    <button onclick="alert('Abriendo Presentación Canva de La Fotosíntesis')" style="background:#fff; border:1px solid #6339a6; color:#6339a6; padding:8px; border-radius:6px; font-size:12px; font-weight:bold; cursor:pointer;">📊 Presentación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>
