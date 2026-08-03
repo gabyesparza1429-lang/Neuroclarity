@@ -340,6 +340,8 @@
 
 
 
+
+
 <script>
 function abrirModalAlumno() {
     var m = document.getElementById('modalAgregarAlumno');
@@ -368,8 +370,9 @@ function autorizarYEnviar() {
         fecha: new Date().toLocaleDateString()
     };
     localStorage.setItem('neuroKitAutorizado', JSON.stringify(kitData));
-    alert('✅ Kit Pedagógico de Historia: Revolución Mexicana autorizado y enviado al alumno.');
+    alert('✅ Kit Pedagógico autorizado y enviado al alumno.');
 }
 </script>
+
 </body>
 </html>
