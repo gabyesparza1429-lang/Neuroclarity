@@ -52,3 +52,53 @@ exports.generarKitAdaptado = functions.https.onRequest(async (req, res) => {
 
     res.json({ status: 'success', kit: kit });
 });
+
+
+// Motor de Generación de Materiales Pedagógicos Sofía IA
+exports.generarMaterialesSofia = functions.https.onRequest(async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    
+    const { materia, tema, neurodivergencia } = req.body || {};
+    const temaActivo = tema || 'Historia: Revolución Mexicana';
+    const perfil = neurodivergencia || 'TDAH / Dislexia';
+
+    const kitGenerado = {
+        materia: materia || 'Historia',
+        tema: temaActivo,
+        perfilAdaptacion: perfil,
+        fecha: new Date().toLocaleDateString(),
+        materiales: {
+            flashcards: [
+                { concepto: '1910', definicion: 'Inicio de la Revolución Mexicana liderada por Madero.' },
+                { concepto: 'Porfirio Díaz', definicion: 'Presidente que estuvo en el poder por más de 30 años.' },
+                { concepto: 'Emiliano Zapata', definicion: 'Líder del movimiento agrario: Tierra y Libertad.' }
+            ],
+            quiz: [
+                {
+                    pregunta: '¿En qué año inició la Revolución Mexicana?',
+                    opciones: ['1910', '1810', '1920'],
+                    correcta: 0,
+                    explicacion: 'Inició el 20 de noviembre de 1910.'
+                },
+                {
+                    pregunta: '¿Cuál era el lema de Emiliano Zapata?',
+                    opciones: ['Sufragio efectivo', 'Tierra y Libertad', 'Patria o Muerte'],
+                    correcta: 1,
+                    explicacion: 'Zapata defendía la devolución de tierras a los campesinos.'
+                }
+            ],
+            cornell: {
+                ideasClave: ['Causas socioeconómicas', 'Personajes clave', 'Consecuencias'],
+                notasPrincipales: 'Descontento social por la dictadura de Porfirio Díaz. Surgimiento de líderes regionales.',
+                resumen: 'Movimiento armado de 1910 que buscaba la justicia social, reforma agraria y democracia.'
+            },
+            presentacion: [
+                { titulo: 'Portada', contenido: temaActivo },
+                { titulo: 'Antecedentes', contenido: 'El Porfiriato y la desigualdad social.' },
+                { titulo: 'El Conflicto', contenido: 'Levantamiento armado de 1910.' }
+            ]
+        }
+    };
+
+    res.json({ status: 'success', kit: kitGenerado });
+});
