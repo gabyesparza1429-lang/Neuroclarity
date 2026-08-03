@@ -25,3 +25,30 @@ exports.sofia = functions.https.onRequest(async (req, res) => {
         res.status(500).json({ respuesta: "Sofía está recalibrando sus servicios. Intenta nuevamente en un momento." });
     }
 });
+
+
+// Función para generar Kit de Canva adaptado a Neurodiversidad
+exports.generarKitAdaptado = onRequest(async (req, res) => {
+    const { alumnoId, tema, neurodivergencia } = req.body;
+    
+    // Asignación de formato según perfil cognitivo
+    let estiloInfografia = 'cornell_estándar';
+    if (neurodivergencia === 'Dislexia') {
+        estiloInfografia = 'cornell_fuente_lectura_facil';
+    } else if (neurodivergencia === 'TDAH') {
+        estiloInfografia = 'mapa_visual_alto_contraste';
+    }
+
+    const kit = {
+        tema: tema,
+        perfil: neurodivergencia || 'General',
+        materiales: [
+            { tipo: 'presentacion', nombre: 'Presentación Interactiva: ' + tema },
+            { tipo: 'flashcards', nombre: 'Tarjetas de Memoria: ' + tema },
+            { tipo: 'quiz', nombre: 'Cuestionario Interactivo: ' + tema },
+            { tipo: 'infografia', nombre: 'Apuntes ' + estiloInfografia + ': ' + tema }
+        ]
+    };
+
+    res.json({ status: 'success', kit: kit });
+});
