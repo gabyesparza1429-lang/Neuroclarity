@@ -405,5 +405,41 @@ function generarYIrAMateriales() {
 }
 </script>
 
+
+<script>
+// 1. Bloquear la alerta de 'Plan publicado'
+const alertOriginal = window.alert;
+window.alert = function(mensaje) {
+    if (mensaje && mensaje.includes('Plan real publicado')) {
+        return; // Anular esta alerta
+    }
+    alertOriginal(mensaje);
+};
+
+// 2. Redirigir todos los botones de generacion y autorizacion a Materiales Sofia
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.addEventListener('click', function(e) {
+        const target = e.target.closest('button');
+        if (target) {
+            const texto = target.innerText || '';
+            if (texto.includes('Generar propuesta') || texto.includes('Autorizar y Enviar')) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Ocultar modales si existen
+                document.querySelectorAll('.modal, [class*="modal"], [id*="modal"]').forEach(m => m.style.display = 'none');
+                
+                // Ejecutar redireccion a Materiales Sofia
+                if (typeof generarYIrAMateriales === 'function') {
+                    generarYIrAMateriales();
+                } else {
+                    mostrarSeccion('materialesSofia');
+                }
+            }
+        }
+    }, true);
+});
+</script>
+
 </body>
 </html>
