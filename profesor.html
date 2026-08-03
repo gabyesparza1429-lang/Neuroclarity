@@ -191,9 +191,11 @@
 
 <div style="margin-bottom:15px; padding:0 10px;">
     <div style="margin-bottom:15px;">
+    <div style="margin-bottom:15px;">
     <button type="button" onclick="abrirModalAlumno()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px 10px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px; display:block;">
         ➕ Vincular / Agregar Alumno
     </button>
+</div>
 </div>
 </div>
 >
@@ -383,15 +385,41 @@
     </div>
 </div>
 
+
+
+
+<div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99999; justify-content:center; align-items:center;">
+    <div style="background:white; width:90%; max-width:400px; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.3); font-family:sans-serif;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
+            <h3 style="margin:0; color:#6339a6; font-size:18px;">🔗 Vincular Alumno por Código</h3>
+            <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#666;">✖</button>
+        </div>
+        <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos y Perfil de Sofía.</p>
+        <div style="margin-bottom:15px;">
+            <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333; font-size:13px;">Código del Alumno:</label>
+            <input type="text" id="inputCodigoVincular" placeholder="Ej. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:15px; text-transform:uppercase; box-sizing:border-box;">
+        </div>
+        <button type="button" onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px;">
+            Cargar Datos
+        </button>
+    </div>
+</div>
+
 <script>
 function abrirModalAlumno() {
-    var m = document.getElementById('modalAgregarAlumno');
-    if (m) m.style.display = 'flex';
+    var modal = document.getElementById('modalAgregarAlumno');
+    if (modal) {
+        modal.style.display = 'flex';
+    } else {
+        alert('Error al abrir la ventana.');
+    }
 }
 
 function cerrarModalAlumno() {
-    var m = document.getElementById('modalAgregarAlumno');
-    if (m) m.style.display = 'none';
+    var modal = document.getElementById('modalAgregarAlumno');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
 function vincularAlumnoPorCodigo() {
@@ -402,16 +430,6 @@ function vincularAlumnoPorCodigo() {
     }
     alert('✅ Alumno ' + cod + ' vinculado con éxito.');
     cerrarModalAlumno();
-}
-
-function autorizarYEnviar() {
-    var kitData = {
-        materia: 'Historia',
-        tema: 'Historia: Revolución Mexicana',
-        fecha: new Date().toLocaleDateString()
-    };
-    localStorage.setItem('neuroKitAutorizado', JSON.stringify(kitData));
-    alert('✅ Kit Pedagógico autorizado y enviado al alumno.');
 }
 </script>
 
