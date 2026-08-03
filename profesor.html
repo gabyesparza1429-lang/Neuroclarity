@@ -217,9 +217,7 @@
                 </div>
             </div>
 
-            <button class="btn-green" onclick="generarYRevisarPropuesta()">
-                <i class="fa-solid fa-robot"></i> Generar propuesta con Sofía IA y Revisar
-            </button>
+            <button onclick="generarYIrAMateriales()" style="width:100%; padding:15px; background:#2e7d32; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:16px;"><i class="fa-solid fa-robot"></i> Generar propuesta con Sofía IA y Revisar</button>
         </div>
 
         <div id="sec-materialesSofia" class="student-card" style="display:none;">
@@ -377,5 +375,35 @@ function validarYGenerar() {
     alert('Generando Kit Adaptado de ' + materia + ' - ' + tema + ' para el alumno...');
 }
 </script>
+
+<script>
+function generarYIrAMateriales() {
+    // 1. Obtener la materia y tema
+    const inputMateriaTema = document.querySelector('input[value*="Historia"]') || document.querySelectorAll('#sec-panelAlumno input')[0];
+    const temaValor = inputMateriaTema ? inputMateriaTema.value : 'Historia: Revolución Mexicana';
+
+    // 2. Renderizar el Kit en la pestaña Materiales Sofía
+    const contenedor = document.getElementById('contenedorCanva');
+    if (contenedor) {
+        contenedor.innerHTML = `
+            <div style="width:100%; text-align:left; padding:10px;">
+                <h3 style="color:#6339a6; margin-top:0;">📦 Kit Pedagógico Generado: ${temaValor}</h3>
+                <p style="color:#555; font-size:14px; margin-bottom:15px;">Adaptado al perfil del alumno (Formato Cornell + Alto Contraste).</p>
+                
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:15px;">
+                    <div style="background:#fff; border:1px solid #D6C7EC; padding:12px; border-radius:8px;">📊 <b>Presentación Canva</b></div>
+                    <div style="background:#fff; border:1px solid #D6C7EC; padding:12px; border-radius:8px;">🎴 <b>Flashcards Repaso</b></div>
+                    <div style="background:#fff; border:1px solid #D6C7EC; padding:12px; border-radius:8px;">🎯 <b>Quiz Interactivo</b></div>
+                    <div style="background:#fff; border:1px solid #D6C7EC; padding:12px; border-radius:8px;">📝 <b>Apuntes Cornell</b></div>
+                </div>
+            </div>
+        `;
+    }
+
+    // 3. Cambiar de pestaña a Materiales Sofía
+    mostrarSeccion('materialesSofia');
+}
+</script>
+
 </body>
 </html>
