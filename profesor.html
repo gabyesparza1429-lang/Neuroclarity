@@ -441,5 +441,30 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+
+<script>
+function autorizarYEnviar() {
+    if (typeof db === 'undefined') {
+        localStorage.setItem('neuroKitAutorizado', JSON.stringify({
+            materia: 'Historia',
+            tema: 'Historia: Revolución Mexicana',
+            fecha: new Date().toLocaleDateString()
+        }));
+        alert('✅ Kit autorizado y guardado localmente.');
+        return;
+    }
+
+    db.collection('kits_estudio').add({
+        materia: 'Historia',
+        tema: 'Historia: Revolución Mexicana',
+        fecha: new Date().toLocaleDateString(),
+        estado: 'autorizado',
+        creadoEn: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        alert('✅ Kit sincronizado en tiempo real en la base de datos.');
+    }).catch(e => console.error(e));
+}
+</script>
+
 </body>
 </html>
