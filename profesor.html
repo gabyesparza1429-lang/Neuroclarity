@@ -361,5 +361,21 @@
         document.getElementById('modalPlanSofia').style.display = 'none';
     };
 </script>
+
+<script>
+function validarYGenerar() {
+    const materia = document.getElementById('selectMateria').value;
+    const tema = document.getElementById('inputTema').value.trim();
+
+        alert('Por favor selecciona una Materia (Campo obligatorio).');
+        return;
+    }
+        alert('Por favor escribe el Tema de la clase (Campo obligatorio).');
+        return;
+    }
+
+    alert('Generando Kit Adaptado de ' + materia + ' - ' + tema + ' para el alumno...');
+}
+</script>
 </body>
 </html>
