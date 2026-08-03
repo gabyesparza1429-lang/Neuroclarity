@@ -287,93 +287,7 @@
     </div>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        authDomain: "neuroclarity-dcf0e.firebaseapp.com",
-        projectId: "neuroclarity-dcf0e",
-        storageBucket: "neuroclarity-dcf0e.firebasestorage.app"
-    };
-    const app = initializeApp(firebaseConfig, "profesorRealApp");
-    const db = getFirestore(app);
-
-    const codigoAlumno = 'NC-4105';
-    let actividadesActuales = [];
-
-    window.mostrarSeccion = function(idSeccion) {
-        document.getElementById('sec-panelAlumno').style.display = 'none';
-    document.getElementById('sec-materialesSofia').style.display = 'none';
-        document.getElementById('sec-subirPlaneacion').style.display = 'none';
-        document.getElementById('sec-mensajeriaDirecta').style.display = 'none';
-        document.getElementById('sec-observacionesDireccion').style.display = 'none';
-        document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-
-        document.getElementById('sec-' + idSeccion).style.display = 'block';
-        document.getElementById('tab-' + idSeccion).classList.add('active');
-    };
-
-    // Función que procesa CUALQUIER tema y crea actividades reales de la IA
-    window.generarYRevisarPropuesta = async function() {
-        const tema = document.getElementById('inputTemaProfesor').value.trim() || 'General';
-        document.getElementById('txtMateriaTemaModal').innerText = tema;
-
-        const contenedor = document.getElementById('contenedorBloomDinamico');
-        contenedor.innerHTML = '<p style="color:#6339A6; text-align:center;">✨ Sofía IA está procesando el tema para adaptar los 6 niveles de Bloom...</p>';
-        document.getElementById('modalPlanSofia').style.display = 'block';
-
-        // Estructura dinámica en tiempo real basada en la materia solicitada
-        actividadesActuales = [
-            '1. Recordar: Identificar los conceptos fundamentales y términos clave sobre ' + tema + '.',
-            '2. Comprender: Explicar en sus propias palabras el contexto y significado de ' + tema + '.',
-            '3. Aplicar: Resolver un micro-desafío guiado de 5 minutos aplicando lo aprendido sobre ' + tema + '.',
-            '4. Analizar: Desglosar las ideas principales y establecer comparaciones sobre ' + tema + '.',
-            '5. Evaluar: Detectar inconsistencias o reflexionar sobre aspectos críticos de ' + tema + '.',
-            '6. Crear: Elaborar una breve propuesta o síntesis creativa representando ' + tema + '.'
-        ];
-
-        let htmlBloom = '';
-        actividadesActuales.forEach(act => {
-            htmlBloom += '<div class="modal-item">' + act + '</div>';
-        });
-        contenedor.innerHTML = htmlBloom;
-    };
-
-    window.autorizarYPublicarReal = async function() {
-        const tema = document.getElementById('inputTemaProfesor').value.trim();
-        const fecha = document.getElementById('fechaSugerida').value;
-
-        try {
-            await addDoc(collection(db, "vinculaciones"), {
-                codigo_vinculo: codigoAlumno,
-                materia: tema,
-                actividades: actividadesActuales,
-                fecha_limite: fecha || 'Sin fecha rígida',
-                fecha_creacion: serverTimestamp(),
-                estado: "Asignada"
-            });
-
-            alert('✅ ¡Plan real publicado exitosamente! El alumno lo verá reflejado en su portal.');
-            
-            const tag = document.getElementById('tagEstadoLectura');
-            if(tag) {
-                tag.innerText = 'Asignada: ' + tema;
-                tag.style.background = '#C8E6C9';
-                tag.style.color = '#2E7D32';
-                tag.style.fontWeight = 'bold';
-            }
-            window.cerrarModal();
-        } catch(e) {
-            console.error('Error al publicar:', e);
-            alert('Error al guardar en Firebase: ' + e.message);
-        }
-    };
-
-    window.cerrarModal = function() {
-        document.getElementById('modalPlanSofia').style.display = 'none';
-    };
-</script>
 
 
 
@@ -424,38 +338,38 @@
     </div>
 </div>
 
+
+
 <script>
 function abrirModalAlumno() {
-    var modal = document.getElementById('modalAgregarAlumno');
-    if (modal) modal.style.display = 'flex';
+    var m = document.getElementById('modalAgregarAlumno');
+    if (m) m.style.display = 'flex';
 }
 
 function cerrarModalAlumno() {
-    var modal = document.getElementById('modalAgregarAlumno');
-    if (modal) modal.style.display = 'none';
+    var m = document.getElementById('modalAgregarAlumno');
+    if (m) m.style.display = 'none';
 }
 
 function vincularAlumnoPorCodigo() {
-    var codInput = document.getElementById('inputCodigoVincular');
-    var cod = codInput ? codInput.value.trim().toUpperCase() : '';
+    var input = document.getElementById('inputCodigoVincular');
+    var cod = input ? input.value.trim().toUpperCase() : '';
         alert('Por favor ingresa el código del alumno.');
         return;
     }
-    alert('✅ Alumno ' + cod + ' vinculado correctamente.');
+    alert('✅ Alumno ' + cod + ' vinculado con éxito.');
     cerrarModalAlumno();
 }
 
 function autorizarYEnviar() {
-    var temaActual = 'Historia: Revolución Mexicana';
     var kitData = {
         materia: 'Historia',
-        tema: temaActual,
+        tema: 'Historia: Revolución Mexicana',
         fecha: new Date().toLocaleDateString()
     };
     localStorage.setItem('neuroKitAutorizado', JSON.stringify(kitData));
-    alert('✅ Kit Pedagógico de ' + temaActual + ' autorizado y enviado al alumno.');
+    alert('✅ Kit Pedagógico de Historia: Revolución Mexicana autorizado y enviado al alumno.');
 }
 </script>
-
 </body>
 </html>
