@@ -5,10 +5,8 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
-  },
-  "functions": {
-    "source": "functions",
-    "runtime": "nodejs20"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
   }
 }
