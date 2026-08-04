@@ -198,7 +198,6 @@
 </div>
 </div>
 </div>
->
         <div class="sidebar-item active" id="tab-panelAlumno" onclick="mostrarSeccion('panelAlumno')"><i class="fa-solid fa-user-graduate"></i> Panel Alumno</div>
         <div class="sidebar-item" id="tab-subirPlaneacion" onclick="mostrarSeccion('subirPlaneacion')"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación</div>
         <div class="sidebar-item" id="tab-mensajeriaDirecta" onclick="mostrarSeccion('mensajeriaDirecta')"><i class="fa-solid fa-comments"></i> Mensajería Directa</div>
@@ -305,89 +304,6 @@
 
 
 
-<div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
-    <div style="background:white; width:90%; max-width:420px; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
-            <h3 style="margin:0; color:#6339a6;">🔗 Vincular Alumno por Código</h3>
-            <button onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:18px; cursor:pointer;">✖</button>
-        </div>
-        
-        <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único generado al registrar al alumno para cargar sus datos y Perfil de Sofía.</p>
-
-        <div style="margin-bottom:15px;">
-            <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333;">Código del Alumno:</label>
-            <input type="text" id="inputCodigoVincular" placeholder="Ej. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:15px; text-transform:uppercase;">
-        </div>
-
-        <button onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:15px;">
-            Cargar Datos y Perfil de Sofía
-        </button>
-    </div>
-</div>
-
-
-
-
-<div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
-    <div style="background:white; width:90%; max-width:420px; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
-            <h3 style="margin:0; color:#6339a6;">🔗 Vincular Alumno por Código</h3>
-            <button onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:18px; cursor:pointer;">✖</button>
-        </div>
-        <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos.</p>
-        <div style="margin-bottom:15px;">
-            <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333;">Código del Alumno:</label>
-            <input type="text" id="inputCodigoVincular" placeholder="Ej. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; text-transform:uppercase;">
-        </div>
-        <button onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer;">Cargar Datos</button>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-<div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99999; justify-content:center; align-items:center;">
-    <div style="background:white; width:90%; max-width:400px; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.3); font-family:sans-serif;">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
-            <h3 style="margin:0; color:#6339a6; font-size:18px;">🔗 Vincular Alumno por Código</h3>
-            <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#666;">✖</button>
-        </div>
-        <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos y Perfil de Sofía.</p>
-        <div style="margin-bottom:15px;">
-            <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333; font-size:13px;">Código del Alumno:</label>
-            <input type="text" id="inputCodigoVincular" placeholder="Ej. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:15px; text-transform:uppercase; box-sizing:border-box;">
-        </div>
-        <button type="button" onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px;">
-            Cargar Datos
-        </button>
-    </div>
-</div>
-
-
-
-
-<div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
-    <div style="background:white; width:90%; max-width:400px; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
-            <h3 style="margin:0; color:#6339a6;">🔗 Vincular Alumno por Código</h3>
-            <button onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:18px; cursor:pointer;">✖</button>
-        </div>
-        <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos.</p>
-        <div style="margin-bottom:15px;">
-            <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333;">Código del Alumno:</label>
-            <input type="text" id="inputCodigoVincular" placeholder="Ej. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; text-transform:uppercase;">
-        </div>
-        <button onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer;">Cargar Datos</button>
-    </div>
-</div>
-
-
-
-
 <div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99999; justify-content:center; align-items:center;">
     <div style="background:white; width:90%; max-width:400px; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.3); font-family:sans-serif;">
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
@@ -406,20 +322,27 @@
 </div>
 
 <script>
+function mostrarSeccion(idSeccion) {
+    var secciones = ['panelAlumno', 'subirPlaneacion', 'mensajeriaDirecta', 'observacionesDireccion', 'materialesSofia'];
+    secciones.forEach(function(sec) {
+        var el = document.getElementById('sec-' + sec);
+        var tab = document.getElementById('tab-' + sec);
+        if (el) el.style.display = (sec === idSeccion) ? 'block' : 'none';
+        if (tab) {
+            if (sec === idSeccion) tab.classList.add('active');
+            else tab.classList.remove('active');
+        }
+    });
+}
+
 function abrirModalAlumno() {
     var modal = document.getElementById('modalAgregarAlumno');
-    if (modal) {
-        modal.style.display = 'flex';
-    } else {
-        alert('Error al abrir la ventana.');
-    }
+    if (modal) modal.style.display = 'flex';
 }
 
 function cerrarModalAlumno() {
     var modal = document.getElementById('modalAgregarAlumno');
-    if (modal) {
-        modal.style.display = 'none';
-    }
+    if (modal) modal.style.display = 'none';
 }
 
 function vincularAlumnoPorCodigo() {
@@ -431,7 +354,29 @@ function vincularAlumnoPorCodigo() {
     alert('✅ Alumno ' + cod + ' vinculado con éxito.');
     cerrarModalAlumno();
 }
-</script>
 
+function generarYIrAMateriales() {
+    mostrarSeccion('materialesSofia');
+}
+
+function cerrarModal() {
+    var modal = document.getElementById('modalPlanSofia');
+    if (modal) modal.style.display = 'none';
+}
+
+function autorizarYPublicarReal() {
+    alert('✅ Materiales autorizados y enviados al alumno.');
+    cerrarModal();
+}
+
+function enviarMensajePadre() {
+    var input = document.getElementById('inputMsgProfesor');
+    var box = document.getElementById('boxMensajesPadre');
+    if (box) {
+        box.innerHTML += '<div style="margin-bottom:8px;"><strong>Profesor:</strong> ' + input.value + '</div>';
+    }
+    input.value = '';
+}
+</script>
 </body>
 </html>
