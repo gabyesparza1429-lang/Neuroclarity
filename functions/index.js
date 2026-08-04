@@ -5,6 +5,13 @@ const apiKey = process.env.GEMINI_API_KEY || (functions.config().gemini ? functi
 const genAI = new GoogleGenerativeAI(apiKey);
 
 exports.sofia = functions.https.onRequest(async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+    if (req.method === 'OPTIONS') {
+        res.status(204).send('');
+        return;
+    }
     res.set("Access-Control-Allow-Origin", "*");
     res.set("Access-Control-Allow-Headers", "Content-Type");
     if (req.method === "OPTIONS") {
@@ -29,6 +36,13 @@ exports.sofia = functions.https.onRequest(async (req, res) => {
 
 // Función para generar Kit de Canva adaptado a Neurodiversidad
 exports.generarKitAdaptado = functions.https.onRequest(async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+    if (req.method === 'OPTIONS') {
+        res.status(204).send('');
+        return;
+    }
     const { alumnoId, tema, neurodivergencia } = req.body;
     
     // Asignación de formato según perfil cognitivo
@@ -57,6 +71,13 @@ exports.generarKitAdaptado = functions.https.onRequest(async (req, res) => {
 // Motor de Generación de Materiales Pedagógicos Sofía IA
 exports.generarMaterialesSofia = functions.https.onRequest(async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+    if (req.method === 'OPTIONS') {
+        res.status(204).send('');
+        return;
+    }
+    
     
     const { materia, tema, neurodivergencia } = req.body || {};
     const temaActivo = tema || 'Historia: Revolución Mexicana';
