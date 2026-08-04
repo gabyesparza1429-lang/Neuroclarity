@@ -11,7 +11,6 @@
             --card-bg: #FFFFFF;
             --primary: #6339A6;
             --text-dark: #2D223B;
-            --text-muted: #6E6578;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -23,15 +22,16 @@
         .top-header {
             width: 100%;
             background-color: #F4EFEA;
-            margin: 0;
+            margin: 0 0 30px 0;
             padding: 0;
             border-bottom: 1px solid #E8E2D9;
-            margin-bottom: 30px;
         }
         .top-header img {
             width: 100%;
+            max-width: 900px;
             height: auto;
             display: block;
+            margin: 0 auto;
         }
         .main-layout {
             display: flex;
@@ -64,9 +64,7 @@
             background: #6339A6;
             color: white;
         }
-        .content-area {
-            flex: 1;
-        }
+        .content-area { flex: 1; }
         .student-card {
             background: var(--card-bg);
             padding: 25px;
@@ -74,28 +72,8 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.04);
             margin-bottom: 20px;
         }
-        .student-title {
-            font-size: 26px;
-            font-weight: 800;
-            color: #2D223B;
-            margin: 0 0 4px 0;
-        }
-        .student-sub {
-            color: var(--primary);
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .info-box {
-            background: #FAF9FC;
-            border: 1px solid #EAE5ED;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 13px;
-            line-height: 1.5;
-            color: #2D223B;
-            margin-bottom: 20px;
-        }
+        .student-title { font-size: 26px; font-weight: 800; color: #2D223B; margin: 0 0 4px 0; }
+        .student-sub { color: var(--primary); font-size: 14px; font-weight: bold; margin-bottom: 20px; }
         .ritmo-box {
             margin-bottom: 20px;
             background: #FAF9FC;
@@ -114,90 +92,40 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
             font-weight: bold;
             color: var(--primary);
             font-size: 16px;
-        }
-        .btn-green {
-            width: 100%;
-            background-color: #2E7D32;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .btn-purple {
-            width: 100%;
-            background-color: #EFE8F8;
-            color: #6339A6;
-            border: 1px solid #D6C7EC;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
+            background: rgba(0,0,0,0.6);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
         }
         .modal-content {
             background: white;
             width: 90%;
-            max-width: 650px;
-            margin: 40px auto;
-            padding: 25px;
-            border-radius: 16px;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-        .modal-item {
-            padding: 12px 14px;
-            background: #F8F6FA;
-            margin-top: 8px;
-            border-left: 4px solid #6339A6;
-            border-radius: 6px;
-            font-size: 14px;
-            line-height: 1.4;
+            max-width: 420px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
-<div style="width:100%; text-align:center; background:#eae6df; margin:0 0 20px 0; padding:0; overflow:hidden;"><img src="assets/Encabezado-Web.png" alt="NeuroClarity" style="width:100%; height:auto; display:block;"></div>
-
 
 <header class="top-header">
-    <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" style="width:100%; max-width:900px; height:auto; display:block; margin:0 auto;">
+    <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner">
 </header>
 
 <div class="main-layout">
     <div class="sidebar">
-
-<div style="margin-bottom:15px; padding:0 10px;">
-    <div style="margin-bottom:15px;">
-    <div style="margin-bottom:15px;">
-    <button type="button" onclick="abrirModalAlumno()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px 10px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px; display:block;">
-        ➕ Vincular / Agregar Alumno
-    </button>
-</div>
-</div>
-</div>
+        <button type="button" onclick="abrirModalAlumno()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px 10px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px; margin-bottom:15px;">
+            ➕ Vincular / Agregar Alumno
+        </button>
         <div class="sidebar-item active" id="tab-panelAlumno" onclick="mostrarSeccion('panelAlumno')"><i class="fa-solid fa-user-graduate"></i> Panel Alumno</div>
         <div class="sidebar-item" id="tab-subirPlaneacion" onclick="mostrarSeccion('subirPlaneacion')"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación</div>
         <div class="sidebar-item" id="tab-mensajeriaDirecta" onclick="mostrarSeccion('mensajeriaDirecta')"><i class="fa-solid fa-comments"></i> Mensajería Directa</div>
@@ -206,27 +134,20 @@
     </div>
 
     <div class="content-area">
-        
-<div style="margin-bottom: 15px;">
-    <button onclick="alert('Abriendo formulario para registrar nuevo alumno...')" style="width:100%; padding:10px; background:#6339a6; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">
-        <i class="fa-solid fa-user-plus"></i> 🔗 Vincular Alumno por Código
-    </button>
-</div>
-
-<div id="sec-panelAlumno" class="student-card">
+        <div id="sec-panelAlumno" class="student-card">
             <div class="student-title">Gaby prueba</div>
             <div class="student-sub">Grado: 1ro secundaria | Código: NC-4105</div>
 
             <div style="margin-bottom: 20px; background: #FAF9FC; padding: 15px; border-radius: 12px; border: 1px solid #D6C7EC;">
                 <label style="font-weight: bold; color: var(--primary); display: block; margin-bottom: 6px;"><i class="fa-solid fa-pen"></i> Asignar Materia y Tema Dinámico:</label>
-                <input type="text" id="inputTemaProfesor" placeholder="Ejemplo: Biología - La Célula y sus partes" value="Historia: Revolución Mexicana" style="width: 96%; padding: 10px; border: 1px solid #CCC; border-radius: 8px; font-size: 14px; font-family: inherit;">
+                <input type="text" id="inputTemaProfesor" placeholder="Ejemplo: Biología - La Célula" value="Historia: Revolución Mexicana" style="width: 96%; padding: 10px; border: 1px solid #CCC; border-radius: 8px; font-size: 14px;">
             </div>
 
             <div class="ritmo-box">
                 <label style="font-size: 13px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 6px;">
                     <i class="fa-regular fa-calendar-check"></i> Ritmo Recomendado (Ventana Flexible):
                 </label>
-                <input type="date" id="fechaSugerida" style="width: 96%; padding: 8px; margin-top: 6px; border: 1px solid #CCC; border-radius: 6px; font-family: inherit;">
+                <input type="date" id="fechaSugerida" style="width: 96%; padding: 8px; margin-top: 6px; border: 1px solid #CCC; border-radius: 6px;">
             </div>
 
             <div class="bloom-section">
@@ -240,19 +161,17 @@
         </div>
 
         <div id="sec-materialesSofia" class="student-card" style="display:none;">
-    <h2 style="color:#6339a6; margin-top:0;">Materiales Generados por Sofía</h2>
-    <p>Revisa la presentación de Canva antes de autorizar su envío al alumno.</p>
-    
-    <div id="contenedorCanva" style="width:100%; height:400px; border:1px solid #D6C7EC; border-radius:8px; background:#FAF9FC; display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
-        <p style="color:#666;"><em>No hay materiales pendientes de revisión.</em></p>
-    </div>
+            <h2 style="color:#6339a6; margin-top:0;">Materiales Generados por Sofía</h2>
+            <p>Revisa la presentación de Canva antes de autorizar su envío al alumno.</p>
+            <div id="contenedorCanva" style="width:100%; height:400px; border:1px solid #D6C7EC; border-radius:8px; background:#FAF9FC; display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
+                <p style="color:#666;"><em>No hay materiales pendientes de revisión.</em></p>
+            </div>
+            <button onclick="autorizarYPublicarReal()" style="background:#2e7d32; color:white; border:none; padding:12px 24px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:16px;">
+                Autorizar y Enviar al Alumno
+            </button>
+        </div>
 
-    <button id="btnAutorizar" style="background:#2e7d32; color:white; border:none; padding:12px 24px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:16px;">
-        Autorizar y Enviar al Alumno
-    </button>
-</div>
-
-<div id="sec-subirPlaneacion" class="student-card" style="display:none;">
+        <div id="sec-subirPlaneacion" class="student-card" style="display:none;">
             <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación Didáctica</h2>
             <div style="border: 2px dashed #6339A6; padding: 30px; text-align: center; border-radius: 12px; background: #FAF9FC;">
                 <input type="file">
@@ -270,42 +189,13 @@
 
         <div id="sec-observacionesDireccion" class="student-card" style="display:none;">
             <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</h2>
-            <textarea style="width: 100%; height: 100px; padding: 10px;"></textarea>
+            <textarea style="width: 100%; height: 100px; padding: 10px; border-radius:8px; border:1px solid #ccc;"></textarea>
         </div>
     </div>
 </div>
 
-<div id="modalPlanSofia" class="modal">
+<div id="modalAgregarAlumno" class="modal">
     <div class="modal-content">
-        <h2 style="color: #6339A6; margin-top:0; font-size:22px;">Plan Generado por Sofía IA</h2>
-        <p style="margin-bottom:15px; font-size:14px;"><strong>Alumno:</strong> Gaby prueba | <strong>Tema Solicitado:</strong> <span id="txtMateriaTemaModal" style="color:#6339A6; font-weight:bold;"></span></p>
-        <hr style="border:0; border-top:1px solid #EEE; margin:15px 0;">
-        
-        <div id="contenedorBloomDinamico">
-        </div>
-
-        <div style="display:flex; gap:12px; margin-top:25px;">
-            <button onclick="autorizarYPublicarReal()" style="flex:1; background:#2E7D32; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">✅ Autorizar y Enviar al Alumno</button>
-            <button onclick="cerrarModal()" style="background:#E0E0E0; color:#333; border:none; padding:12px 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px;">Cerrar</button>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div id="modalAgregarAlumno" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99999; justify-content:center; align-items:center;">
-    <div style="background:white; width:90%; max-width:400px; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.3); font-family:sans-serif;">
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
             <h3 style="margin:0; color:#6339a6; font-size:18px;">🔗 Vincular Alumno por Código</h3>
             <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#666;">✖</button>
@@ -348,6 +238,7 @@ function cerrarModalAlumno() {
 function vincularAlumnoPorCodigo() {
     var input = document.getElementById('inputCodigoVincular');
     var cod = input ? input.value.trim().toUpperCase() : '';
+    if (!cod) {
         alert('Por favor ingresa el código del alumno.');
         return;
     }
@@ -359,18 +250,13 @@ function generarYIrAMateriales() {
     mostrarSeccion('materialesSofia');
 }
 
-function cerrarModal() {
-    var modal = document.getElementById('modalPlanSofia');
-    if (modal) modal.style.display = 'none';
-}
-
 function autorizarYPublicarReal() {
     alert('✅ Materiales autorizados y enviados al alumno.');
-    cerrarModal();
 }
 
 function enviarMensajePadre() {
     var input = document.getElementById('inputMsgProfesor');
+    if (!input || !input.value.trim()) return;
     var box = document.getElementById('boxMensajesPadre');
     if (box) {
         box.innerHTML += '<div style="margin-bottom:8px;"><strong>Profesor:</strong> ' + input.value + '</div>';
