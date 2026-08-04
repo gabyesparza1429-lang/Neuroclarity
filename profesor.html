@@ -265,12 +265,17 @@ async function generarYIrAMateriales() {
         
         var data = await response.json();
         
+        var contenidoGenerado = data.materiales || data.resultado || data.respuesta || data.contenido || data.plan || data;
+        
         if (data && data.urlCanva) {
             contenedor.innerHTML = '<iframe src="' + data.urlCanva + '" width="100%" height="100%" style="border:none; border-radius:8px;"></iframe>';
-        } else if (data && data.materiales) {
-            contenedor.innerHTML = '<div style="padding:20px; text-align:left; width:100%; overflow-y:auto;"><h3 style="color:#6339a6;">Material Generado</h3><pre style="white-space:pre-wrap; font-family:inherit;">' + JSON.stringify(data.materiales, null, 2) + '</pre></div>';
         } else {
-            contenedor.innerHTML = '<div style="padding:20px; text-align:center;"><h3 style="color:#2e7d32;">✅ Material Generado por Sofía</h3><p>Tema: ' + tema + '</p></div>';
+            var textoMostrar = (typeof contenidoGenerado === 'object') ? JSON.stringify(contenidoGenerado, null, 2) : contenidoGenerado;
+            contenedor.innerHTML = '<div style="padding:20px; text-align:left; width:100%; max-height:450px; overflow-y:auto;">' +
+                '<h3 style="color:#6339a6; margin-top:0;">📚 Propuesta Pedagógica de Sofía IA</h3>' +
+                '<div style="background:#ffffff; padding:15px; border-radius:8px; border:1px solid #d6c7ec; white-space:pre-wrap; font-family:inherit; line-height:1.6;">' + 
+                textoMostrar + 
+                '</div></div>';
         }
     } catch (err) {
         console.error(err);
