@@ -12,12 +12,6 @@ exports.sofia = functions.https.onRequest(async (req, res) => {
         res.status(204).send('');
         return;
     }
-    res.set("Access-Control-Allow-Origin", "*");
-    res.set("Access-Control-Allow-Headers", "Content-Type");
-    if (req.method === "OPTIONS") {
-        res.status(204).send("");
-        return;
-    }
 
     try {
         const prompt = req.body.prompt || "Hola Sofía";
@@ -78,7 +72,6 @@ exports.generarMaterialesSofia = functions.https.onRequest(async (req, res) => {
         return;
     }
     
-    
     const { materia, tema, neurodivergencia } = req.body || {};
     const temaActivo = tema || 'Historia: Revolución Mexicana';
     const perfil = neurodivergencia || 'TDAH / Dislexia';
@@ -121,5 +114,12 @@ exports.generarMaterialesSofia = functions.https.onRequest(async (req, res) => {
         }
     };
 
-    res.json({ status: 'success', kit: kitGenerado });
+    // URL de Canva para renderizar en el contenedor/iframe
+    const urlCanvaPresentacion = "https://www.canva.com/design/DAGzQxv3af8/view?embed";
+
+    res.json({ 
+        status: 'success', 
+        urlCanva: urlCanvaPresentacion,
+        kit: kitGenerado 
+    });
 });
