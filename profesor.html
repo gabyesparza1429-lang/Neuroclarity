@@ -364,7 +364,7 @@ function renderizarKitSofia(data) {
         html += '</div>';
     }
 
-    // 4. Diapositivas Canva
+    // 4. Diapositivas
     var presData = mat.presentacion;
     if (typeof presData === 'string') { try { presData = JSON.parse(presData); } catch(e){} }
     if (presData && (Array.isArray(presData) || typeof presData === 'object')) {
@@ -381,13 +381,9 @@ function renderizarKitSofia(data) {
         html += '</div>';
     }
 
-    html += '</div>';
-    return html;
-}
-
-    // Renderizar otros materiales si existen
+    // Renderizar otros materiales
     Object.keys(mat).forEach(function(key) {
-        if (key !== 'flashcards') {
+        if (!['flashcards', 'quiz', 'cornell', 'presentacion'].includes(key)) {
             html += '<div style="margin-top:15px; background:#fff; padding:12px; border-radius:8px; border:1px solid #d6c7ec;">';
             html += '<strong style="color:#6339a6; text-transform:capitalize;">' + key + ':</strong>';
             html += '<p style="margin-top:5px; font-size:13px;">' + JSON.stringify(mat[key]) + '</p>';
