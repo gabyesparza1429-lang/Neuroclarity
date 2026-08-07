@@ -274,7 +274,7 @@ async function generarYIrAMateriales() {
         console.log("Respuesta de Sofia:", data);
         
         if (data && data.urlCanva) {
-            contenedor.innerHTML = '<iframe src="' + data.urlCanva + '" width="100%" height="100%" style="border:none; border-radius:8px;"></iframe>';
+            contenedor.innerHTML = '<iframe src="' + data.urlCanva + '" width="100%" height="100%" style="border:none; border-radius:8px;" allowfullscreen="true" allow="fullscreen"></iframe>';
         } else {
             contenedor.innerHTML = renderizarKitSofia(data);
         }
