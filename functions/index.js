@@ -115,8 +115,8 @@ exports.generarMaterialesSofia = functions.https.onRequest(async (req, res) => {
     };
 
     // Configuración API Canva (Opción B: Crear diseño dinámico sin plantilla)
-    const clientId = process.env.CANVA_CLIENT_ID || 'OC-AZ_EfP1_ymzW';
-    const clientSecret = process.env.CANVA_CLIENT_SECRET;
+    const clientId = 'OC-AZ_EfP1_ymzW';
+    const clientSecret = 'cnvcaXCriRfYbY79aTTIH4Tv9Q4CNwmkAup5bxAC3eME6nUkc9344140';
 
     let urlCanvaPresentacion = "https://www.canva.com/design/DAGzQxv3af8/view?embed";
 
