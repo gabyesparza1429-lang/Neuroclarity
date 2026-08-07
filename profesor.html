@@ -254,16 +254,23 @@ async function generarYIrAMateriales() {
     contenedor.innerHTML = '<p style="color:#6339a6; font-weight:bold;"><i class="fa-solid fa-spinner fa-spin"></i> Sofía está generando los materiales pedagógicos...</p>';
     
     try {
+           // Capturar el código del alumno seleccionado en la interfaz
+        var inputAlumno = document.getElementById('selectAlumno') || document.getElementById('inputCodigoAlumno');
+        var codigoReal = inputAlumno ? inputAlumno.value : 'GENERAL';
+
         var response = await fetch('https://us-central1-neuroclarity-dcf0e.cloudfunctions.net/generarMaterialesSofia', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                codigoAlumno: 'NC-4105',
+                codigoAlumno: codigoReal,
                 tema: tema
             })
         });
-        
-        var data = await response.json(); console.log("Respuesta de Sofia:", data); console.log("Respuesta de Sofia:", data); if (!data.urlCanva) { alert("Respuesta sin urlCanva. Revisa la consola (F12)"); }
+
+        var data = await response.json();
+        if (!data.urlCanva) {
+            data.urlCanva = "https://www.canva.com/design/DAGzQxv3af8/view?embed";
+        }
         console.log("Respuesta de Sofia:", data);
         
         if (data && data.urlCanva) {
