@@ -114,7 +114,7 @@ exports.generarMaterialesSofia = functions.https.onRequest(async (req, res) => {
         }
     };
 
-    // URL de Canva para renderizar en el contenedor/iframe
+    // Estructura de enlace incrustado de acceso público
     const urlCanvaPresentacion = "https://www.canva.com/design/DAGzQxv3af8/view?embed";
 
     res.json({ 
