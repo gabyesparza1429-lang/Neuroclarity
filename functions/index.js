@@ -114,8 +114,54 @@ exports.generarMaterialesSofia = functions.https.onRequest(async (req, res) => {
         }
     };
 
-    // Estructura de enlace incrustado de acceso público
-    const urlCanvaPresentacion = "https://www.canva.com/design/DAGzQxv3af8/view?embed";
+    // Configuración API Canva (Opción B: Crear diseño dinámico sin plantilla)
+    const clientId = process.env.CANVA_CLIENT_ID || 'OC-AZ_EfP1_ymzW';
+    const clientSecret = process.env.CANVA_CLIENT_SECRET;
+
+    let urlCanvaPresentacion = "https://www.canva.com/design/DAGzQxv3af8/view?embed";
+
+    try {
+        // 1. Obtener Token de acceso de la API de Canva
+        const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+        const tokenResponse = await fetch('https://api.canva.com/v1/oauth/token', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Basic ${authHeader}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                grant_type: 'client_credentials',
+                scope: 'design:content:read design:meta:read'
+            })
+        });
+
+        const tokenData = await tokenResponse.json();
+
+        if (tokenData.access_token) {
+            // 2. Crear diseño de presentación en blanco vía API
+            const designResponse = await fetch('https://api.canva.com/v1/designs', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${tokenData.access_token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    design_type: "presentation",
+                    title: `Material: ${temaActivo}`
+                })
+            });
+
+            const designData = await designResponse.json();
+
+            if (designData.design && designData.design.urls && designData.design.urls.edit_url) {
+                // Convertir la URL devuelta por Canva a formato embed público
+                const designId = designData.design.id;
+                urlCanvaPresentacion = `https://www.canva.com/design/${designId}/view?embed`;
+            }
+        }
+    } catch (errApi) {
+        console.error("Error al conectar con la API de Canva:", errApi);
+    }
 
     res.json({ 
         status: 'success', 
