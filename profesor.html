@@ -123,82 +123,7 @@
 
 <div class="main-layout">
     <div class="sidebar">
-        <button type="button" onclick="abrirModalAlumno()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px 10px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px; margin-bottom:15px;">
-            ➕ Vincular / Agregar Alumno
-        </button>
-        <div class="sidebar-item active" id="tab-panelAlumno" onclick="mostrarSeccion('panelAlumno')"><i class="fa-solid fa-user-graduate"></i> Panel Alumno</div>
-        <div class="sidebar-item" id="tab-subirPlaneacion" onclick="mostrarSeccion('subirPlaneacion')"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación</div>
-        <div class="sidebar-item" id="tab-mensajeriaDirecta" onclick="mostrarSeccion('mensajeriaDirecta')"><i class="fa-solid fa-comments"></i> Mensajería Directa</div>
-        <div class="sidebar-item" id="tab-observacionesDireccion" onclick="mostrarSeccion('observacionesDireccion')"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</div>
-        <div class="sidebar-item" id="tab-materialesSofia" onclick="mostrarSeccion('materialesSofia')"><i class="fa-solid fa-wand-magic-sparkles"></i> Materiales Sofía</div>
-    </div>
-
-    <div class="content-area">
-        <div id="sec-panelAlumno" class="student-card">
-            <div class="student-title">Monse</div>
-            <div class="student-sub">Grado: Francés adultos | Código: NC-4105</div>
-
-            <div style="margin-bottom: 20px; background: #FAF9FC; padding: 15px; border-radius: 12px; border: 1px solid #D6C7EC;">
-                <label style="font-weight: bold; color: var(--primary); display: block; margin-bottom: 6px;"><i class="fa-solid fa-pen"></i> Asignar Materia y Tema Dinámico:</label>
-                <input type="text" id="inputTemaProfesor" placeholder="Ejemplo: Biología - La Célula" value="Historia: Revolución Mexicana" style="width: 96%; padding: 10px; border: 1px solid #CCC; border-radius: 8px; font-size: 14px;">
-            </div>
-
-            <div class="ritmo-box">
-                <label style="font-size: 13px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 6px;">
-                    <i class="fa-regular fa-calendar-check"></i> Ritmo Recomendado (Ventana Flexible):
-                </label>
-                <input type="date" id="fechaSugerida" style="width: 96%; padding: 8px; margin-top: 6px; border: 1px solid #CCC; border-radius: 6px;">
-            </div>
-
-            <div class="bloom-section">
-                <div class="bloom-header">
-                    <span>Estado del Plan</span>
-                    <span id="tagEstadoLectura" style="font-size:12px; background:#E0E0E0; padding:3px 10px; border-radius:12px; color:#555; font-weight: normal;">Sin autorizar</span>
-                </div>
-            </div>
-
-            <button onclick="generarYIrAMateriales()" style="width:100%; padding:15px; background:#2e7d32; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:16px;"><i class="fa-solid fa-robot"></i> Generar propuesta con Sofía IA y Revisar</button>
-        </div>
-
-        <div id="sec-materialesSofia" class="student-card" style="display:none;">
-            <h2 style="color:#6339a6; margin-top:0;">Materiales Generados por Sofía</h2>
-            <p>Revisa la presentación de Canva antes de autorizar su envío al alumno.</p>
-            <div id="contenedorCanva" style="width:100%; min-height:400px; height:auto; border:1px solid #D6C7EC; border-radius:8px; background:#FAF9FC; display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
-                <p style="color:#666;"><em>No hay materiales pendientes de revisión.</em></p>
-            </div>
-            <button onclick="autorizarYPublicarReal()" style="background:#2e7d32; color:white; border:none; padding:12px 24px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:16px;">
-                Autorizar y Enviar al Alumno
-            </button>
-        </div>
-
-        <div id="sec-subirPlaneacion" class="student-card" style="display:none;">
-            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-cloud-arrow-up"></i> Subir Planeación Didáctica</h2>
-            <div style="border: 2px dashed #6339A6; padding: 30px; text-align: center; border-radius: 12px; background: #FAF9FC;">
-                <input type="file">
-            </div>
-        </div>
-
-        <div id="sec-mensajeriaDirecta" class="student-card" style="display:none;">
-            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-comments"></i> Mensajería Directa con Padre / Tutor (NC-4105)</h2>
-            <div id="boxMensajesPadre" style="border: 1px solid #EAE5ED; border-radius: 12px; height: 250px; padding: 15px; background: #FAF9FC; overflow-y: auto; margin-bottom: 15px;"></div>
-            <div style="display: flex; gap: 10px;">
-                <input type="text" id="inputMsgProfesor" placeholder="Escribe a la familia..." style="flex:1; padding:10px; border:1px solid #CCC; border-radius:8px;">
-                <button onclick="enviarMensajePadre()" style="background:#6339A6; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Enviar</button>
-            </div>
-        </div>
-
-        <div id="sec-observacionesDireccion" class="student-card" style="display:none;">
-            <h2 style="color: var(--primary); margin-top:0;"><i class="fa-solid fa-clipboard-list"></i> Observaciones Dirección</h2>
-            <textarea style="width: 100%; height: 100px; padding: 10px; border-radius:8px; border:1px solid #ccc;"></textarea>
-        </div>
-    </div>
-</div>
-
-<div id="modalAgregarAlumno" class="modal">
-    <div class="modal-content">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
-            <h3 style="margin:0; color:#6339a6; font-size:18px;">🔗 Vincular Alumno por Código</h3>
-            <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#666;">✖</button>
+        <button type="button" onclick="alert('No hay observaciones pendientes')" style="width:100%; background:white; color:#333; border:1px solid #ccc; padding:12px 10px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px; margin-bottom:10px;">📋 Observaciones Dirección</button>
         </div>
         <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos y Perfil de Sofía.</p>
         <div style="margin-bottom:15px;">
@@ -213,29 +138,30 @@
 
 
 
+
+
+
 <script>
-// Función para cargar datos reales desde Firestore según el código del alumno
-async function cargarDatosAlumnoFirestore(codigo) {
-    try {
-        const querySnapshot = await db.collection('alumnos').where('codigo', '==', codigo).get();
-            const alumno = querySnapshot.docs[0].data();
-            document.getElementById('nombreAlumnoDocente').innerText = alumno.nombre || 'Alumno Sin Nombre';
-            document.getElementById('gradoAlumnoDocente').innerText = alumno.grado || 'Sin Grado Especificado';
-            document.getElementById('codigoAlumnoDocente').innerText = codigo;
-        } else {
-            // Si es la prueba NC-4105 y no está en base de datos aún, usar datos del portal padre
-            document.getElementById('nombreAlumnoDocente').innerText = 'Monse';
-            document.getElementById('gradoAlumnoDocente').innerText = 'Francés adultos';
-        }
-    } catch (e) {
-        console.error('Error leyendo Firestore:', e);
-    }
+function abrirModalAlumno() {
+    var m = document.getElementById('modalAgregarAlumno');
+    if (m) m.style.display = 'flex';
 }
 
-// Ejecutar al cargar la página
-window.addEventListener('DOMContentLoaded', () => {
-    cargarDatosAlumnoFirestore('NC-4105');
-});
+function cerrarModalAlumno() {
+    var m = document.getElementById('modalAgregarAlumno');
+    if (m) m.style.display = 'none';
+}
+
+function vincularAlumnoPorCodigo() {
+    var input = document.getElementById('inputCodigoVincular');
+    var cod = input ? input.value.trim().toUpperCase() : '';
+    if (code = code.replace(site-delf, )) {
+        alert('Por favor ingresa el código del alumno.');
+        return;
+    }
+    alert('✅ Alumno ' + cod + ' vinculado con éxito.');
+    cerrarModalAlumno();
+}
 
 function eliminarAlumno() {
     if (confirm('¿Deseas desvincular a este alumno del panel?')) {
@@ -244,6 +170,26 @@ function eliminarAlumno() {
         alert('✅ Alumno desvinculado del panel.');
     }
 }
+
+function mostrarSeccion(seccion) {
+    alert('Navegando a ' + seccion);
+}
+
+async function cargarDatosAlumnoFirestore(codigo) {
+    try {
+        const querySnapshot = await db.collection('alumnos').where('codigo', '==', codigo).get();
+            const alumno = querySnapshot.docs[0].data();
+            document.getElementById('nombreAlumnoDocente').innerText = alumno.nombre || 'Monse';
+            document.getElementById('gradoAlumnoDocente').innerText = alumno.grado || 'Francés adultos';
+        }
+    } catch (e) {
+        console.error('Error:', e);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    cargarDatosAlumnoFirestore('NC-4105');
+});
 </script>
 
 </body>
