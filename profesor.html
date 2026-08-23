@@ -13,7 +13,10 @@
         .sidebar { width: 260px; background: white; border-radius: 12px; padding: 15px; border: 1px solid #d6c7ec; flex-shrink: 0; height: fit-content; }
         .sidebar-btn { width: 100%; padding: 12px 10px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: left; border: 1px solid #ccc; background: white; color: #333; }
         .sidebar-btn.primary { background: #6339a6; color: white; border: none; }
+        .sidebar-btn.active { background: #4a2372; color: white; border: none; }
         .content { flex-grow: 1; background: white; border-radius: 12px; padding: 25px; border: 1px solid #d6c7ec; }
+        .seccion { display: none; }
+        .seccion.activa { display: block; }
         .student-card { background: #f9f7fc; padding: 18px; border-radius: 10px; border: 1px solid #d6c7ec; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .student-card h2 { color: #4a2372; font-size: 22px; font-weight: bold; }
         .btn-danger { background: #dc3545; color: white; border: none; padding: 10px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
@@ -21,6 +24,10 @@
         .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #6339a6; }
         .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
         .btn-action { width: 100%; background: #2e7d32; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; }
+        .chat-box { border: 1px solid #d6c7ec; border-radius: 8px; padding: 15px; height: 300px; overflow-y: auto; background: #fafafa; margin-bottom: 15px; }
+        .chat-msg { margin-bottom: 10px; padding: 8px 12px; border-radius: 8px; max-width: 70%; font-size: 14px; }
+        .chat-msg.padre { background: #e9ecef; color: #333; align-self: flex-start; }
+        .chat-msg.profesor { background: #6339a6; color: white; margin-left: auto; text-align: right; }
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: white; width: 90%; max-width: 420px; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
     </style>
@@ -32,38 +39,75 @@
     </div>
 
     <div class="main-container">
+        <!-- MENÚ LATERAL -->
         <div class="sidebar">
             <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()">➕ Vincular / Agregar Alumno</button>
-            <button type="button" class="sidebar-btn primary" onclick="mostrarSeccion('panel')">🎓 Panel Alumno</button>
-            <button type="button" class="sidebar-btn" onclick="alert('Módulo de subir planeación en desarrollo')">☁️ Subir Planeación</button>
-            <button type="button" class="sidebar-btn" onclick="alert('Abriendo chat directo con el tutor')">💬 Mensajería Directa</button>
-            <button type="button" class="sidebar-btn" onclick="alert('No hay observaciones pendientes')">📋 Observaciones Dirección</button>
-            <button type="button" class="sidebar-btn" onclick="alert('Genera primero la propuesta con Sofía IA')">🪄 Materiales Sofía</button>
+            <button type="button" id="btn-panel" class="sidebar-btn active" onclick="cambiarVista('panel')">🎓 Panel Alumno</button>
+            <button type="button" id="btn-chat" class="sidebar-btn" onclick="cambiarVista('chat')">💬 Mensajería Directa</button>
+            <button type="button" id="btn-planeacion" class="sidebar-btn" onclick="cambiarVista('planeacion')">☁️ Subir Planeación</button>
+            <button type="button" id="btn-observaciones" class="sidebar-btn" onclick="cambiarVista('observaciones')">📋 Observaciones Dirección</button>
+            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')">🪄 Materiales Sofía</button>
         </div>
 
+        <!-- CONTENIDO PRINCIPAL -->
         <div class="content">
-            <div id="contenedorAlumno" class="student-card">
-                <div>
-                    <h2 id="nombreAlumnoDocente">Monse</h2>
-                    <p style="margin-top:5px; color:#555; font-size:14px;">Grado: <span id="gradoAlumnoDocente" style="font-weight:bold; color:#333;">Francés adultos</span> | Código: <b id="codigoAlumnoDocente" style="color:#6339a6;">NC-4105</b></p>
+            
+            <!-- VISTA 1: PANEL ALUMNO -->
+            <div id="sec-panel" class="seccion activa">
+                <div id="contenedorAlumno" class="student-card">
+                    <div>
+                        <h2 id="nombreAlumnoDocente">Monse</h2>
+                        <p style="margin-top:5px; color:#555; font-size:14px;">Grado: <span id="gradoAlumnoDocente" style="font-weight:bold; color:#333;">Francés adultos</span> | Código: <b id="codigoAlumnoDocente" style="color:#6339a6;">NC-4105</b></p>
+                    </div>
+                    <button type="button" class="btn-danger" onclick="eliminarAlumno()">🗑️ Eliminar Alumno</button>
                 </div>
-                <button type="button" class="btn-danger" onclick="eliminarAlumno()">🗑️ Eliminar Alumno</button>
+
+                <div class="form-group">
+                    <label>✏️ Asignar Materia y Tema Dinámico:</label>
+                    <input type="text" class="form-control" id="temaDinamico" value="Je me présente">
+                </div>
+
+                <div class="form-group">
+                    <label>📅 Ritmo Recomendado (Ventana Flexible):</label>
+                    <input type="date" class="form-control" id="fechaRitmo" value="2026-08-30">
+                </div>
+
+                <button type="button" class="btn-action" onclick="generarPropuestaSofia()">🤖 Generar propuesta con Sofía IA y Revisar</button>
             </div>
 
-            <div class="form-group">
-                <label>✏️ Asignar Materia y Tema Dinámico:</label>
-                <input type="text" class="form-control" id="temaDinamico" value="Je me présente">
+            <!-- VISTA 2: MENSAJERÍA DIRECTA CON EL PADRE -->
+            <div id="sec-chat" class="seccion">
+                <h3 style="color:#4a2372; margin-bottom:15px;">💬 Chat con Tutor / Familia de Monse</h3>
+                <div class="chat-box" id="chatProfesorPadre">
+                    <div class="chat-msg padre"><b>Padre:</b> Hola profesor, quedo al pendiente del plan de Francés.</div>
+                    <div class="chat-msg profesor"><b>Tú:</b> Hola, en un momento te comparto la propuesta ajustada por Sofía IA.</div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="inputMsgProfesor" class="form-control" placeholder="Escribe un mensaje a la familia...">
+                    <button type="button" onclick="enviarMensajePadre()" style="background:#6339a6; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Enviar</button>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>📅 Ritmo Recomendado (Ventana Flexible):</label>
-                <input type="date" class="form-control" id="fechaRitmo" value="2026-08-30">
+            <!-- VISTAS SECUNDARIAS -->
+            <div id="sec-planeacion" class="seccion">
+                <h3 style="color:#4a2372;">☁️ Subir Planeación</h3>
+                <p style="margin-top:10px; color:#666;">Módulo para cargar archivos PDF o Word de la planeación institucional.</p>
             </div>
 
-            <button type="button" class="btn-action" onclick="generarPropuestaSofia()">🤖 Generar propuesta con Sofía IA y Revisar</button>
+            <div id="sec-observaciones" class="seccion">
+                <h3 style="color:#4a2372;">📋 Observaciones de Dirección</h3>
+                <p style="margin-top:10px; color:#666;">Sin observaciones registradas por dirección técnica.</p>
+            </div>
+
+            <div id="sec-materiales" class="seccion">
+                <h3 style="color:#4a2372;">🪄 Materiales Sofía</h3>
+                <p style="margin-top:10px; color:#666;">Genera primero una propuesta en el Panel del Alumno.</p>
+            </div>
+
         </div>
     </div>
 
+    <!-- MODAL VINCULAR ALUMNO -->
     <div id="modalAgregarAlumno" class="modal-overlay">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
@@ -80,6 +124,23 @@
     </div>
 
     <script>
+    function cambiarVista(nombreSeccion) {
+        // Ocultar todas las secciones
+        var secciones = document.querySelectorAll('.seccion');
+        secciones.forEach(function(s) { s.classList.remove('activa'); });
+
+        # Desmarcar botones
+        var botones = document.querySelectorAll('.sidebar-btn');
+        botones.forEach(function(b) { b.classList.remove('active'); });
+
+        # Mostrar seccion seleccionada
+        var secActiva = document.getElementById('sec-' + nombreSeccion);
+        if (secActiva) secActiva.classList.add('activa');
+
+        var btnActivo = document.getElementById('btn-' + nombreSeccion);
+        if (btnActivo) btnActivo.classList.add('active');
+    }
+
     function abrirModalAlumno() {
         var m = document.getElementById('modalAgregarAlumno');
         if (m) m.style.display = 'flex';
@@ -109,8 +170,18 @@
         }
     }
 
-    function mostrarSeccion(seccion) {
-        alert('Vista actual: ' + seccion);
+    function enviarMensajePadre() {
+        var input = document.getElementById('inputMsgProfesor');
+        var txt = input ? input.value.trim() : '';
+        if (!txt) return;
+
+        var box = document.getElementById('chatProfesorPadre');
+        var msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-msg profesor';
+        msgDiv.innerHTML = '<b>Tú:</b> ' + txt;
+        box.appendChild(msgDiv);
+        box.scrollTop = box.scrollHeight;
+        input.value = '';
     }
 
     function generarPropuestaSofia() {
