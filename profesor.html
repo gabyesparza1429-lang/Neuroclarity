@@ -28,7 +28,7 @@
 <body>
 
     <div class="banner">
-        <img src="assets/Encabezado-Web.png?v=1787528592" alt="NeuroClarity">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity">
     </div>
 
     <div class="main-container">
@@ -70,7 +70,7 @@
                 <h3 style="margin:0; color:#6339a6; font-size:18px;">🔗 Vincular Alumno por Código</h3>
                 <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#666;">✖</button>
             </div>
-            <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos y Perfil de Sofía.</p>
+            <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos.</p>
             <div style="margin-bottom:15px;">
                 <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333; font-size:13px;">Código del Alumno:</label>
                 <input type="text" id="inputCodigoVincular" placeholder="EJ. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:15px; text-transform:uppercase;">
@@ -93,7 +93,7 @@
     function vincularAlumnoPorCodigo() {
         var input = document.getElementById('inputCodigoVincular');
         var cod = input ? input.value.trim().toUpperCase() : '';
-        if (code = code.replace(site-delf, )) {
+        if (!cod) {
             alert('Por favor ingresa el código del alumno.');
             return;
         }
