@@ -211,205 +211,40 @@
     </div>
 </div>
 
+
+
 <script>
-function mostrarSeccion(idSeccion) {
-    var secciones = ['panelAlumno', 'subirPlaneacion', 'mensajeriaDirecta', 'observacionesDireccion', 'materialesSofia'];
-    secciones.forEach(function(sec) {
-        var el = document.getElementById('sec-' + sec);
-        var tab = document.getElementById('tab-' + sec);
-        if (el) el.style.display = (sec === idSeccion) ? 'block' : 'none';
-        if (tab) {
-            if (sec === idSeccion) tab.classList.add('active');
-            else tab.classList.remove('active');
-        }
-    });
-}
-
-function abrirModalAlumno() {
-    var modal = document.getElementById('modalAgregarAlumno');
-    if (modal) modal.style.display = 'flex';
-}
-
-function cerrarModalAlumno() {
-    var modal = document.getElementById('modalAgregarAlumno');
-    if (modal) modal.style.display = 'none';
-}
-
-function vincularAlumnoPorCodigo() {
-    var input = document.getElementById('inputCodigoVincular');
-    var cod = input ? input.value.trim().toUpperCase() : '';
-    if (!cod) {
-        alert('Por favor ingresa el código del alumno.');
-        return;
-    }
-    alert('✅ Alumno ' + cod + ' vinculado con éxito.');
-    cerrarModalAlumno();
-}
-
-async function generarYIrAMateriales() {
-    var tema = document.getElementById('inputTemaProfesor').value;
-    var contenedor = document.getElementById('contenedorCanva');
-    
-    mostrarSeccion('materialesSofia');
-    contenedor.innerHTML = '<p style="color:#6339a6; font-weight:bold;"><i class="fa-solid fa-spinner fa-spin"></i> Sofía está generando los materiales pedagógicos...</p>';
-    
+// Función para cargar datos reales desde Firestore según el código del alumno
+async function cargarDatosAlumnoFirestore(codigo) {
     try {
-           // Capturar el código del alumno seleccionado en la interfaz
-        var inputAlumno = document.getElementById('selectAlumno') || document.getElementById('inputCodigoAlumno');
-        var codigoReal = inputAlumno ? inputAlumno.value : 'GENERAL';
-
-        var response = await fetch('https://us-central1-neuroclarity-dcf0e.cloudfunctions.net/generarMaterialesSofia', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                codigoAlumno: codigoReal,
-                tema: tema
-            })
-        });
-
-        var data = await response.json();
-        if (!data.urlCanva) {
-            data.urlCanva = "https://www.canva.com/design/DAGzQxv3af8/view?embed";
-        }
-        console.log("Respuesta de Sofia:", data);
-        
-        if (data && data.urlCanva) {
-            contenedor.innerHTML = '<iframe src="' + data.urlCanva + '" width="100%" height="100%" style="border:none; border-radius:8px;" allowfullscreen="true" allow="fullscreen"></iframe>';
+        const querySnapshot = await db.collection('alumnos').where('codigo', '==', codigo).get();
+            const alumno = querySnapshot.docs[0].data();
+            document.getElementById('nombreAlumnoDocente').innerText = alumno.nombre || 'Alumno Sin Nombre';
+            document.getElementById('gradoAlumnoDocente').innerText = alumno.grado || 'Sin Grado Especificado';
+            document.getElementById('codigoAlumnoDocente').innerText = codigo;
         } else {
-            contenedor.innerHTML = renderizarKitSofia(data);
+            // Si es la prueba NC-4105 y no está en base de datos aún, usar datos del portal padre
+            document.getElementById('nombreAlumnoDocente').innerText = 'Monse';
+            document.getElementById('gradoAlumnoDocente').innerText = 'Francés adultos';
         }
-    } catch (err) {
-        console.error(err);
-        contenedor.innerHTML = '<p style="color:#d32f2f;">⚠️ Error de conexión con el servidor backend de Sofía.</p>';
+    } catch (e) {
+        console.error('Error leyendo Firestore:', e);
     }
 }
 
-function autorizarYPublicarReal() {
-    alert('✅ Materiales autorizados y enviados al alumno.');
-}
-
-function enviarMensajePadre() {
-    var input = document.getElementById('inputMsgProfesor');
-    if (!input || !input.value.trim()) return;
-    var box = document.getElementById('boxMensajesPadre');
-    if (box) {
-        box.innerHTML += '<div style="margin-bottom:8px;"><strong>Profesor:</strong> ' + input.value + '</div>';
-    }
-    input.value = '';
-}
-
-
-function renderizarKitSofia(data) {
-    var kit = data.kit || data;
-    var mat = kit.materiales || {};
-    
-    var html = '<div style="padding:10px; font-family:sans-serif; text-align:left;">';
-    
-    // Encabezados
-    html += '<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px; align-items:center;">';
-    if (kit.materia) html += '<span style="background:#6339a6; color:white; padding:5px 12px; border-radius:16px; font-size:12px; font-weight:bold;">' + kit.materia + '</span>';
-    if (kit.perfilAdaptacion) html += '<span style="background:#e91e63; color:white; padding:5px 12px; border-radius:16px; font-size:12px; font-weight:bold;">⚡ Adaptación: ' + kit.perfilAdaptacion + '</span>';
-    if (kit.fecha) html += '<span style="background:#f0f0f0; color:#555; padding:5px 12px; border-radius:16px; font-size:12px;">📅 ' + kit.fecha + '</span>';
-    html += '</div>';
-
-    if (kit.tema) html += '<h3 style="color:#2d223b; margin:0 0 20px 0; font-size:18px;">🎯 Tema: ' + kit.tema + '</h3>';
-
-    // 1. Flashcards
-    if (mat.flashcards && Array.isArray(mat.flashcards)) {
-        html += '<h4 style="color:#6339a6; margin:20px 0 10px 0; font-size:15px;">🎴 Flashcards Pedagógicas</h4>';
-        html += '<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:20px;">';
-        mat.flashcards.forEach(function(card) {
-            html += '<div style="background:#faf9fc; border:1px solid #d6c7ec; border-left:4px solid #6339a6; border-radius:8px; padding:12px;">';
-            html += '<strong style="color:#6339a6; display:block; margin-bottom:4px; font-size:14px;">' + (card.concepto || '') + '</strong>';
-            html += '<p style="margin:0; font-size:13px; color:#444;">' + (card.definicion || '') + '</p>';
-            html += '</div>';
-        });
-        html += '</div>';
-    }
-
-    // 2. Quiz
-    var quizData = mat.quiz;
-    if (typeof quizData === 'string') { try { quizData = JSON.parse(quizData); } catch(e){} }
-    if (quizData && Array.isArray(quizData)) {
-        html += '<h4 style="color:#6339a6; margin:20px 0 10px 0; font-size:15px;">📝 Cuestionario / Quiz</h4>';
-        html += '<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">';
-        quizData.forEach(function(q, i) {
-            html += '<div style="background:#faf9fc; border:1px solid #e0e0e0; border-radius:8px; padding:12px;">';
-            html += '<strong style="color:#2d223b; font-size:13px;">' + (i+1) + '. ' + (q.pregunta || '') + '</strong>';
-            if (q.opciones && Array.isArray(q.opciones)) {
-                html += '<ul style="margin:8px 0 4px 20px; padding:0; font-size:13px; color:#555;">';
-                q.opciones.forEach(function(opc, idx) {
-                    var isCorrect = (idx === q.correcta);
-                    html += '<li style="' + (isCorrect ? 'color:#2e7d32; font-weight:bold;' : '') + '">' + opc + (isCorrect ? ' (Correcta)' : '') + '</li>';
-                });
-                html += '</ul>';
-            }
-            if (q.explicacion) html += '<p style="margin:4px 0 0 0; font-size:12px; color:#666; font-style:italic;">💡 ' + q.explicacion + '</p>';
-            html += '</div>';
-        });
-        html += '</div>';
-    }
-
-    // 3. Notas Cornell
-    var cornellData = mat.cornell;
-    if (typeof cornellData === 'string') { try { cornellData = JSON.parse(cornellData); } catch(e){} }
-    if (cornellData && typeof cornellData === 'object') {
-        html += '<h4 style="color:#6339a6; margin:20px 0 10px 0; font-size:15px;">📖 Notas Estructuradas (Método Cornell)</h4>';
-        html += '<div style="background:#faf9fc; border:1px solid #d6c7ec; border-radius:8px; padding:14px; margin-bottom:20px;">';
-        if (cornellData.ideasClave) {
-            html += '<strong style="color:#6339a6; font-size:13px;">Ideas Clave:</strong>';
-            html += '<p style="margin:4px 0 12px 0; font-size:13px; color:#333;">' + (Array.isArray(cornellData.ideasClave) ? cornellData.ideasClave.join(', ') : cornellData.ideasClave) + '</p>';
-        }
-        if (cornellData.notasPrincipales) {
-            html += '<strong style="color:#6339a6; font-size:13px;">Notas Principales:</strong>';
-            html += '<p style="margin:4px 0 12px 0; font-size:13px; color:#333;">' + cornellData.notasPrincipales + '</p>';
-        }
-        if (cornellData.resumen) {
-            html += '<strong style="color:#6339a6; font-size:13px;">Resumen:</strong>';
-            html += '<p style="margin:4px 0 0 0; font-size:13px; color:#333; background:#fff; padding:8px; border-radius:6px; border:1px solid #eee;">' + cornellData.resumen + '</p>';
-        }
-        html += '</div>';
-    }
-
-    // 4. Diapositivas
-    var presData = mat.presentacion;
-    if (typeof presData === 'string') { try { presData = JSON.parse(presData); } catch(e){} }
-    if (presData && (Array.isArray(presData) || typeof presData === 'object')) {
-        var slides = Array.isArray(presData) ? presData : (presData.slides || [presData]);
-        html += '<h4 style="color:#6339a6; margin:20px 0 10px 0; font-size:15px;">🎨 Diapositivas de Presentación Canva</h4>';
-        html += '<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">';
-        slides.forEach(function(slide, sIdx) {
-            html += '<div style="background:#ffffff; border:2px solid #6339a6; border-radius:10px; padding:14px; box-shadow:0 3px 8px rgba(99,57,166,0.1); text-align:center;">';
-            html += '<span style="background:#6339a6; color:white; font-size:10px; padding:2px 8px; border-radius:10px; font-weight:bold;">Diapositiva ' + (sIdx+1) + '</span>';
-            html += '<h5 style="margin:8px 0 6px 0; color:#2d223b; font-size:14px;">' + (slide.titulo || slide.title || 'Diapositiva') + '</h5>';
-            html += '<p style="margin:0; font-size:12px; color:#555; text-align:left;">' + (slide.contenido || slide.content || JSON.stringify(slide)) + '</p>';
-            html += '</div>';
-        });
-        html += '</div>';
-    }
-
-    // Renderizar otros materiales
-    Object.keys(mat).forEach(function(key) {
-        if (!['flashcards', 'quiz', 'cornell', 'presentacion'].includes(key)) {
-            html += '<div style="margin-top:15px; background:#fff; padding:12px; border-radius:8px; border:1px solid #d6c7ec;">';
-            html += '<strong style="color:#6339a6; text-transform:capitalize;">' + key + ':</strong>';
-            html += '<p style="margin-top:5px; font-size:13px;">' + JSON.stringify(mat[key]) + '</p>';
-            html += '</div>';
-        }
-    });
-
-    html += '</div>';
-    return html;
-}
+// Ejecutar al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    cargarDatosAlumnoFirestore('NC-4105');
+});
 
 function eliminarAlumno() {
-    if (confirm('¿Estás segura de que deseas eliminar a este alumno del panel?')) {
+    if (confirm('¿Deseas desvincular a este alumno del panel?')) {
         var elem = document.getElementById('contenedorAlumno');
         if (elem) elem.style.display = 'none';
-        alert('✅ Alumno eliminado del panel del profesor.');
+        alert('✅ Alumno desvinculado del panel.');
     }
 }
-
 </script>
+
 </body>
 </html>
