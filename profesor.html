@@ -135,7 +135,7 @@
 
     <div class="content-area">
         <div id="sec-panelAlumno" class="student-card">
-            <div class="student-title">Gaby prueba</div>
+            <div class="student-title">Monse (Francés adultos)</div>
             <div class="student-sub">Grado: 1ro secundaria | Código: NC-4105</div>
 
             <div style="margin-bottom: 20px; background: #FAF9FC; padding: 15px; border-radius: 12px; border: 1px solid #D6C7EC;">
@@ -401,6 +401,15 @@ function renderizarKitSofia(data) {
     html += '</div>';
     return html;
 }
+
+function eliminarAlumno() {
+    if (confirm('¿Estás segura de que deseas eliminar a este alumno del panel?')) {
+        var elem = document.getElementById('contenedorAlumno');
+        if (elem) elem.style.display = 'none';
+        alert('✅ Alumno eliminado del panel del profesor.');
+    }
+}
+
 </script>
 </body>
 </html>
