@@ -31,6 +31,7 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: white; width: 90%; max-width: 420px; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .propuesta-result { margin-top: 20px; padding: 15px; background: #f0ebf8; border: 1px solid #6339a6; border-radius: 8px; display: none; }
+        .notif-inline { padding: 12px; border-radius: 6px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 15px; display: none; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -52,6 +53,9 @@
 
         <!-- CONTENIDO PRINCIPAL -->
         <div class="content">
+
+            <!-- NOTIFICACIÓN EN PANTALLA -->
+            <div id="notifPantalla" class="notif-inline"></div>
             
             <!-- VISTA 1: PANEL ALUMNO -->
             <div id="sec-panel" class="seccion activa">
@@ -81,7 +85,7 @@
                 </div>
             </div>
 
-            <!-- VISTA 2: MENSAJERÍA DIRECTA -->
+            <!-- VISTA 2: MENSAJERÍA DIRECTA CON EL PADRE -->
             <div id="sec-chat" class="seccion">
                 <h3 style="color:#4a2372; margin-bottom:15px;">💬 Chat con Tutor / Familia de Monse</h3>
                 <div class="chat-box" id="chatProfesorPadre">
@@ -101,7 +105,7 @@
                     <p style="margin-bottom: 15px; color: #555;">Selecciona tu archivo de planeación (PDF, Word o TXT)</p>
                     <input type="file" id="archivoPlaneacion" style="margin-bottom: 15px;">
                     <br>
-                    <button type="button" onclick="alert('Planeación cargada correctamente al sistema.')" style="background:#6339a6; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Cargar Documento</button>
+                    <button type="button" onclick="confirmarSubidaPlaneacion()" style="background:#6339a6; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Cargar Documento</button>
                 </div>
             </div>
 
@@ -142,20 +146,25 @@
     </div>
 
     <script>
+    function mostrarNotificacion(texto) {
+        var n = document.getElementById('notifPantalla');
+        if (n) {
+            n.innerText = texto;
+            n.style.display = 'block';
+            setTimeout(function() { n.style.display = 'none'; }, 4000);
+        }
+    }
+
     function cambiarVista(nombreSeccion) {
-        // Ocultar todas las secciones
         var secciones = document.querySelectorAll('.seccion');
         secciones.forEach(function(s) { s.classList.remove('activa'); });
 
-        // Desmarcar todos los botones
         var botones = document.querySelectorAll('.sidebar-btn');
         botones.forEach(function(b) { b.classList.remove('active'); });
 
-        // Mostrar la sección seleccionada
         var secActiva = document.getElementById('sec-' + nombreSeccion);
         if (secActiva) secActiva.classList.add('activa');
 
-        // Marcar botón activo
         var btnActivo = document.getElementById('btn-' + nombreSeccion);
         if (btnActivo) btnActivo.classList.add('active');
     }
@@ -173,21 +182,17 @@
     function vincularAlumnoPorCodigo() {
         var input = document.getElementById('inputCodigoVincular');
         var cod = input ? input.value.trim().toUpperCase() : '';
-        if (!cod) {
-            alert('Por favor ingresa el código del alumno.');
-            return;
-        }
+        if (!cod) return;
+        
         document.getElementById('codigoAlumnoDocente').innerText = cod;
-        alert('✅ Alumno ' + cod + ' vinculado con éxito.');
         cerrarModalAlumno();
+        mostrarNotificacion('✅ Alumno ' + cod + ' vinculado con éxito al panel.');
     }
 
     function eliminarAlumno() {
-        if (confirm('¿Deseas desvincular a este alumno del panel?')) {
-            var elem = document.getElementById('contenedorAlumno');
-            if (elem) elem.style.display = 'none';
-            alert('✅ Alumno desvinculado del panel.');
-        }
+        var elem = document.getElementById('contenedorAlumno');
+        if (elem) elem.style.display = 'none';
+        mostrarNotificacion('✅ Alumno desvinculado del panel del profesor.');
     }
 
     function enviarMensajePadre() {
@@ -204,6 +209,10 @@
         input.value = '';
     }
 
+    function confirmarSubidaPlaneacion() {
+        mostrarNotificacion('☁️ Planeación pedagógica cargada exitosamente.');
+    }
+
     function generarPropuestaSofia() {
         var tema = document.getElementById('temaDinamico').value;
         var resBox = document.getElementById('resultadoPropuesta');
@@ -213,7 +222,7 @@
         resBox.style.display = 'block';
 
         setTimeout(function() {
-            resText.innerHTML = '<b>Propuesta Generada:</b><br>• 1. Flashcards interactivas de expresiones clave para "' + tema + '".<br>• 2. Guía visual con micro-metas de 5 minutos.<br>• 3. Ejercicios breves de práctica auditiva.';
+            resText.innerHTML = '<b>Propuesta Generada por Sofía IA:</b><br>• 1. Flashcards interactivas de expresiones clave para "' + tema + '".<br>• 2. Guía visual con micro-metas de 5 minutos.<br>• 3. Ejercicios breves de práctica auditiva.';
         }, 800);
     }
     </script>
