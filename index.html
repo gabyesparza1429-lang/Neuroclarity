@@ -767,7 +767,7 @@
                 redirigirPorRol(rol);
             } catch (error) {
                 console.error(error);
-                alert("Error al ingresar: Revisa tu correo o contraseña.");
+                alert("Detalle de error Firebase: " + (error.code ? error.code : error.message));
             }
         });
 
