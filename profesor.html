@@ -3,194 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Portal del Profesor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>NeuroClarity - Portal Profesor</title>
     <style>
-        :root {
-            --bg-brand: #F4EFEA;
-            --card-bg: #FFFFFF;
-            --primary: #6339A6;
-            --text-dark: #2D223B;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-brand);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0 0 50px 0;
-        }
-        .top-header {
-            width: 100%;
-            background-color: #F4EFEA;
-            margin: 0 0 30px 0;
-            padding: 0;
-            border-bottom: 1px solid #E8E2D9;
-        }
-        .top-header img {
-            width: 100%;
-            max-width: 900px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-        .main-layout {
-            display: flex;
-            max-width: 1100px;
-            margin: 0 auto;
-            gap: 20px;
-            padding: 0 20px;
-        }
-        .sidebar {
-            width: 230px;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-            height: fit-content;
-        }
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 14px;
-            color: var(--text-dark);
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            transition: all 0.2s ease;
-        }
-        .sidebar-item:hover, .sidebar-item.active {
-            background: #6339A6;
-            color: white;
-        }
-        .content-area { flex: 1; }
-        .student-card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-            margin-bottom: 20px;
-        }
-        .student-title { font-size: 26px; font-weight: 800; color: #2D223B; margin: 0 0 4px 0; }
-        .student-sub { color: var(--primary); font-size: 14px; font-weight: bold; margin-bottom: 20px; }
-        .ritmo-box {
-            margin-bottom: 20px;
-            background: #FAF9FC;
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px dashed var(--primary);
-        }
-        .bloom-section {
-            border: 1px solid #EAE5ED;
-            border-radius: 12px;
-            padding: 18px;
-            background: #FAF9FC;
-            margin-bottom: 20px;
-        }
-        .bloom-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            color: var(--primary);
-            font-size: 16px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 99999;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 420px;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: #f4f1ea; color: #333; }
+        .banner { width: 100%; text-align: center; background: #eae6df; border-bottom: 1px solid #d6c7ec; }
+        .banner img { width: 100%; height: auto; display: block; }
+        .main-container { display: flex; max-width: 1200px; margin: 20px auto; gap: 20px; padding: 0 15px; }
+        .sidebar { width: 260px; background: white; border-radius: 12px; padding: 15px; border: 1px solid #d6c7ec; flex-shrink: 0; height: fit-content; }
+        .sidebar-btn { width: 100%; padding: 12px 10px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: left; border: 1px solid #ccc; background: white; color: #333; }
+        .sidebar-btn.primary { background: #6339a6; color: white; border: none; }
+        .content { flex-grow: 1; background: white; border-radius: 12px; padding: 25px; border: 1px solid #d6c7ec; }
+        .student-card { background: #f9f7fc; padding: 18px; border-radius: 10px; border: 1px solid #d6c7ec; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .student-card h2 { color: #4a2372; font-size: 22px; font-weight: bold; }
+        .btn-danger { background: #dc3545; color: white; border: none; padding: 10px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #6339a6; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .btn-action { width: 100%; background: #2e7d32; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-box { background: white; width: 90%; max-width: 420px; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
-<header class="top-header">
-    <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner">
-</header>
-
-<div class="main-layout">
-    <div class="sidebar">
-        <button type="button" onclick="alert('No hay observaciones pendientes')" style="width:100%; background:white; color:#333; border:1px solid #ccc; padding:12px 10px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px; margin-bottom:10px;">📋 Observaciones Dirección</button>
-        </div>
-        <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos y Perfil de Sofía.</p>
-        <div style="margin-bottom:15px;">
-            <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333; font-size:13px;">Código del Alumno:</label>
-            <input type="text" id="inputCodigoVincular" placeholder="Ej. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:15px; text-transform:uppercase; box-sizing:border-box;">
-        </div>
-        <button type="button" onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px;">
-            Cargar Datos
-        </button>
+    <div class="banner">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity">
     </div>
-</div>
 
+    <div class="main-container">
+        <div class="sidebar">
+            <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()">➕ Vincular / Agregar Alumno</button>
+            <button type="button" class="sidebar-btn primary" onclick="mostrarSeccion('panel')">🎓 Panel Alumno</button>
+            <button type="button" class="sidebar-btn" onclick="alert('Módulo de subir planeación en desarrollo')">☁️ Subir Planeación</button>
+            <button type="button" class="sidebar-btn" onclick="alert('Abriendo chat directo con el tutor')">💬 Mensajería Directa</button>
+            <button type="button" class="sidebar-btn" onclick="alert('No hay observaciones pendientes')">📋 Observaciones Dirección</button>
+            <button type="button" class="sidebar-btn" onclick="alert('Genera primero la propuesta con Sofía IA')">🪄 Materiales Sofía</button>
+        </div>
 
+        <div class="content">
+            <div id="contenedorAlumno" class="student-card">
+                <div>
+                    <h2 id="nombreAlumnoDocente">Monse</h2>
+                    <p style="margin-top:5px; color:#555; font-size:14px;">Grado: <span id="gradoAlumnoDocente" style="font-weight:bold; color:#333;">Francés adultos</span> | Código: <b id="codigoAlumnoDocente" style="color:#6339a6;">NC-4105</b></p>
+                </div>
+                <button type="button" class="btn-danger" onclick="eliminarAlumno()">🗑️ Eliminar Alumno</button>
+            </div>
 
+            <div class="form-group">
+                <label>✏️ Asignar Materia y Tema Dinámico:</label>
+                <input type="text" class="form-control" id="temaDinamico" value="Je me présente">
+            </div>
 
+            <div class="form-group">
+                <label>📅 Ritmo Recomendado (Ventana Flexible):</label>
+                <input type="date" class="form-control" id="fechaRitmo" value="2026-08-30">
+            </div>
 
+            <button type="button" class="btn-action" onclick="generarPropuestaSofia()">🤖 Generar propuesta con Sofía IA y Revisar</button>
+        </div>
+    </div>
 
-<script>
-function abrirModalAlumno() {
-    var m = document.getElementById('modalAgregarAlumno');
-    if (m) m.style.display = 'flex';
-}
+    <div id="modalAgregarAlumno" class="modal-overlay">
+        <div class="modal-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
+                <h3 style="margin:0; color:#6339a6; font-size:18px;">🔗 Vincular Alumno por Código</h3>
+                <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#666;">✖</button>
+            </div>
+            <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos y Perfil de Sofía.</p>
+            <div style="margin-bottom:15px;">
+                <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333; font-size:13px;">Código del Alumno:</label>
+                <input type="text" id="inputCodigoVincular" placeholder="EJ. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:15px; text-transform:uppercase;">
+            </div>
+            <button type="button" onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px;">Cargar Datos</button>
+        </div>
+    </div>
 
-function cerrarModalAlumno() {
-    var m = document.getElementById('modalAgregarAlumno');
-    if (m) m.style.display = 'none';
-}
-
-function vincularAlumnoPorCodigo() {
-    var input = document.getElementById('inputCodigoVincular');
-    var cod = input ? input.value.trim().toUpperCase() : '';
-    if (code = code.replace(site-delf, )) {
-        alert('Por favor ingresa el código del alumno.');
-        return;
+    <script>
+    function abrirModalAlumno() {
+        var m = document.getElementById('modalAgregarAlumno');
+        if (m) m.style.display = 'flex';
     }
-    alert('✅ Alumno ' + cod + ' vinculado con éxito.');
-    cerrarModalAlumno();
-}
 
-function eliminarAlumno() {
-    if (confirm('¿Deseas desvincular a este alumno del panel?')) {
-        var elem = document.getElementById('contenedorAlumno');
-        if (elem) elem.style.display = 'none';
-        alert('✅ Alumno desvinculado del panel.');
+    function cerrarModalAlumno() {
+        var m = document.getElementById('modalAgregarAlumno');
+        if (m) m.style.display = 'none';
     }
-}
 
-function mostrarSeccion(seccion) {
-    alert('Navegando a ' + seccion);
-}
-
-async function cargarDatosAlumnoFirestore(codigo) {
-    try {
-        const querySnapshot = await db.collection('alumnos').where('codigo', '==', codigo).get();
-            const alumno = querySnapshot.docs[0].data();
-            document.getElementById('nombreAlumnoDocente').innerText = alumno.nombre || 'Monse';
-            document.getElementById('gradoAlumnoDocente').innerText = alumno.grado || 'Francés adultos';
+    function vincularAlumnoPorCodigo() {
+        var input = document.getElementById('inputCodigoVincular');
+        var cod = input ? input.value.trim().toUpperCase() : '';
+        if (code = code.replace(site-delf, )) {
+            alert('Por favor ingresa el código del alumno.');
+            return;
         }
-    } catch (e) {
-        console.error('Error:', e);
+        alert('✅ Alumno ' + cod + ' vinculado con éxito.');
+        cerrarModalAlumno();
     }
-}
 
-window.addEventListener('DOMContentLoaded', () => {
-    cargarDatosAlumnoFirestore('NC-4105');
-});
-</script>
+    function eliminarAlumno() {
+        if (confirm('¿Deseas desvincular a este alumno del panel?')) {
+            var elem = document.getElementById('contenedorAlumno');
+            if (elem) elem.style.display = 'none';
+            alert('✅ Alumno desvinculado del panel.');
+        }
+    }
 
+    function mostrarSeccion(seccion) {
+        alert('Vista actual: ' + seccion);
+    }
+
+    function generarPropuestaSofia() {
+        alert('🤖 Sofía IA está procesando la propuesta pedagógica...');
+    }
+    </script>
 </body>
 </html>
