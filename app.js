@@ -78,7 +78,8 @@ export async function generarAgendaConSophia(idAlumno, textoOriginal, materia) {
         };
 
         // 4. Guardar en Firestore
-        const agendaRef = doc(db, "agendas_diarias", `${idAlumno}_${materia}`);
+        const docId = `${idAlumno}_${materia}`.replace(/\//g, "_");
+        const agendaRef = doc(db, "agendas_diarias", docId);
         await setDoc(agendaRef, agendaAdaptada);
 
         console.log("[Sophia] Agenda diaria guardada con éxito.");

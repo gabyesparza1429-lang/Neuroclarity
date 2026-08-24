@@ -293,7 +293,7 @@
 
             try {
                 // Ejecutar motor pedagógico IA de app.js
-                await generarAgendaConSophia(codigoAlumnoActual, tema, "Francés / General");
+                await generarAgendaConSophia(codigoAlumnoActual, tema, "Francés - General");
 
                 const propuestaDetalle = `
                     <b>Propuesta Adaptada por Sofía IA (Taxonomía de Bloom):</b><br>
@@ -308,7 +308,7 @@
                 // Guardar Kit Generado en Firestore y localStorage
                 const kitSofia = {
                     alumnoId: codigoAlumnoActual,
-                    materia: "Francés / General",
+                    materia: "Francés - General",
                     tema: tema,
                     fecha: new Date().toLocaleDateString('es-ES'),
                     timestamp: new Date().toISOString(),
@@ -340,7 +340,7 @@
                 const tema = document.getElementById('temaDinamico') ? document.getElementById('temaDinamico').value.trim() : 'Je me présente';
                 kit = {
                     alumnoId: codigoAlumnoActual,
-                    materia: "Francés / General",
+                    materia: "Francés - General",
                     tema: tema,
                     fecha: new Date().toLocaleDateString('es-ES'),
                     timestamp: new Date().toISOString(),
