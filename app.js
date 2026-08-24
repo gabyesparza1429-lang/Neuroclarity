@@ -70,10 +70,10 @@ export async function generarAgendaConSophia(idAlumno, textoOriginal, materia) {
             materia: materia,
             fecha_creacion: new Date().toISOString().split('T')[0],
             bloques_bloom: {
-                activacion: "Contenido inicial adaptado.",
-                diagnostico: { pregunta: "Pregunta previa", opciones: [], correcta: 0 },
-                sistematizacion: "Texto del profesor estructurado para sus necesidades.",
-                evaluacion_final: { pregunta: "Pregunta de cierre", opciones: [], correcta: 0 }
+                activacion: `Activación para ${textoOriginal}: Flashcards interactivas y retención visual.`,
+                diagnostico: { pregunta: `Pregunta sobre ${textoOriginal}`, opciones: ["Opción A", "Opción B", "Opción C"], correcta: 0 },
+                sistematizacion: `Texto estructurado con micro-metas pedagógicas sobre ${textoOriginal}.`,
+                evaluacion_final: { pregunta: `Evaluación de afianzamiento sobre ${textoOriginal}`, opciones: ["Respuesta 1", "Respuesta 2"], correcta: 0 }
             }
         };
 

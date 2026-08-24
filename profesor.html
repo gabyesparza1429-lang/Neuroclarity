@@ -279,6 +279,126 @@
             activarChatTiempoReal();
         };
 
+        // --- FUNCIÓN GENERADORA INTELIGENTE DE CONTENIDOS EDUCATIVOS SOFÍA IA ---
+        function generarKitCompletoIA(tema, materia) {
+            const tLower = tema.toLowerCase();
+            let flashcards = [];
+            let quiz = [];
+            let cornell = {};
+            let presentacion = [];
+
+            if (tLower.includes('celula') || tLower.includes('célula') || tLower.includes('biologia') || tLower.includes('biología')) {
+                flashcards = [
+                    { concepto: "Membrana Plasmática", definicion: "Capa protectora semipermeable que regula la entrada y salida de sustancias en la célula.", reverso: "🛡️ 'Filtro de seguridad celular'" },
+                    { concepto: "Núcleo Celular", definicion: "Centro de control que alberga el ADN y las instrucciones genéticas de la célula.", reverso: "🧠 'El cerebro celular'" },
+                    { concepto: "Mitocondria", definicion: "Organelo encargado de producir energía (ATP) a través de la respiración celular.", reverso: "⚡ 'Central eléctrica de la célula'" },
+                    { concepto: "Citoplasma", definicion: "Fluido gelatinoso donde flotan los organelos y ocurren reacciones químicas vitales.", reverso: "🌊 'El medio interno celular'" }
+                ];
+                quiz = [
+                    { pregunta: "¿Cuál es el organelo responsable de generar energía (ATP) en la célula?", opciones: ["Mitocondria", "Ribosoma", "Aparato de Golgi"], correcta: 0, explicacion: "La mitocondria sintetiza ATP mediante la respiración celular." },
+                    { pregunta: "¿Qué estructura rodea la célula y controla el paso de sustancias?", opciones: ["Pared celular", "Membrana plasmática", "Retículo endoplásmico"], correcta: 1, explicacion: "La membrana plasmática es la barrera selectiva celular." },
+                    { pregunta: "¿Dónde se encuentra almacenado el ADN en las células eucariotas?", opciones: ["En el citoplasma", "En los lisosomas", "En el núcleo"], correcta: 2, explicacion: "El núcleo resguarda el material genético heredable." }
+                ];
+                cornell = {
+                    ideasClave: ["Estructura Básica", "Organelos Fundamentales", "Diferencia Eucariota vs Procariota"],
+                    notasPrincipales: "La célula es la unidad morfológica y funcional de todo ser vivo. Contiene organelos especializados (mitocondrias, núcleo, ribosomas) sumergidos en el citoplasma y rodeados por la membrana.",
+                    resumen: "Las células constituyen la base de la vida; realizan funciones de nutrición, relación y reproducción."
+                };
+                presentacion = [
+                    { titulo: "La Célula: Unidad de la Vida", contenido: "Estructura fundamental, funciones biológicas y componentes principales." },
+                    { titulo: "1. El Núcleo y la Membrana", contenido: "El núcleo almacena el ADN. La membrana controla el transporte de moléculas." },
+                    { titulo: "2. Las Mitocondrias y Organelos", contenido: "Producción de energía ATP y síntesis de proteínas en ribosomas." },
+                    { titulo: "3. Síntesis y Conclusión", contenido: "Sin la cooperación de sus organelos, la célula no podría mantener la homeostasis." }
+                ];
+            } else if (tLower.includes('présente') || tLower.includes('presente') || tLower.includes('francés') || tLower.includes('frances')) {
+                flashcards = [
+                    { concepto: "Je m'appelle...", definicion: "Expresión estándar para decir 'Me llamo...'", reverso: "🗣️ Ej: Je m'appelle Monse." },
+                    { concepto: "J'ai ... ans", definicion: "Estructura para expresar la edad utilizando el verbo Avoir (tener).", reverso: "🎂 Ej: J'ai 25 ans." },
+                    { concepto: "J'habite à...", definicion: "Expresión para indicar el lugar de residencia.", reverso: "🏠 Ej: J'habite à Mexico." },
+                    { concepto: "Enchanté(e)", definicion: "Fórmula de cortesía al conocer a alguien ('Encantado/a').", reverso: "🤝 Saludo cordial inicial." }
+                ];
+                quiz = [
+                    { pregunta: "¿Cómo te presentas formalmente diciendo tu nombre en francés?", opciones: ["Je m'appelle...", "Au revoir...", "Merci mucho..."], correcta: 0, explicacion: "'Je m'appelle' traduce directamente 'Me llamo'." },
+                    { pregunta: "¿Qué verbo usas en francés para decir tu edad (J'ai 20 ans)?", opciones: ["Être (Ser/Estar)", "Avoir (Tener)", "Faire (Hacer)"], correcta: 1, explicacion: "En francés la edad se posee con el verbo Avoir." },
+                    { pregunta: "¿Qué dices para expresar 'Encantado de conocerte'?", opciones: ["Bonjour", "Enchanté", "S'il vous plaît"], correcta: 1, explicacion: "'Enchanté' es el adjetivo de cortesía." }
+                ];
+                cornell = {
+                    ideasClave: ["Identidad (Je m'appelle)", "Edad (J'ai ... ans)", "Origen/Residencia (J'habite à)"],
+                    notasPrincipales: "Para presentarte en francés usas tres verbos fundamentales: S'appeler (llamarse), Avoir (tener edad) y Habiter (residir).",
+                    resumen: "Dominar la presentación personal permite iniciar conversaciones sociales y profesionales con confianza."
+                };
+                presentacion = [
+                    { titulo: "Je me présente: Presentación Personal", contenido: "Estructuras clave en francés para dar a conocer tu nombre, edad y residencia." },
+                    { titulo: "1. Nom et Prénom", contenido: "Je m'appelle [Nombre] / Mon prénom est [Nombre]." },
+                    { titulo: "2. Âge et Domicile", contenido: "J'ai [Edad] ans. J'habite a [Ciudad]." },
+                    { titulo: "3. Salutations et Cortesía", contenido: "Enchanté de vous conocer. À bientôt!" }
+                ];
+            } else if (tLower.includes('revolucion') || tLower.includes('revolución') || tLower.includes('historia')) {
+                flashcards = [
+                    { concepto: "20 de Noviembre de 1910", definicion: "Fecha de inicio del levantamiento armado convocado por Francisco I. Madero.", reverso: "📜 Plan de San Luis" },
+                    { concepto: "Porfirio Díaz", definicion: "Militar y político que ejerció la presidencia por más de 30 años (El Porfiriato).", reverso: "👑 Dictadura militar" },
+                    { concepto: "Emiliano Zapata", definicion: "Líder revolucionario del sur defensora de los derechos agrarios de los campesinos.", reverso: "🌾 'Tierra y Libertad'" },
+                    { concepto: "Francisco Villa", definicion: "Comandante de la División del Norte, combatiente del movimiento popular.", reverso: "🐎 'El Centauro del Norte'" }
+                ];
+                quiz = [
+                    { pregunta: "¿En qué año dio inicio la Revolución Mexicana?", opciones: ["1910", "1810", "1920"], correcta: 0, explicacion: "Inició el 20 de noviembre de 1910 bajo el Plan de San Luis." },
+                    { pregunta: "¿Cuál era el lema emblemático de Emiliano Zapata?", opciones: ["Sufragio efectivo, no reelección", "Tierra y Libertad", "La patria es primero"], correcta: 1, explicacion: "Zapata proclamó 'Tierra y Libertad' en el Plan de Ayala." },
+                    { pregunta: "¿Quién convocó al pueblo a levantarse en armas con el Plan de San Luis?", opciones: ["Venustiano Carranza", "Victoriano Huerta", "Francisco I. Madero"], correcta: 2, explicacion: "Madero redactó el Plan de San Luis llamando a la rebelión." }
+                ];
+                cornell = {
+                    ideasClave: ["Causas Socioeconómicas", "Personajes Principales", "Consecuencias y Constitución de 1917"],
+                    notasPrincipales: "La Revolución Mexicana fue la primera gran revolución social del siglo XX. Surgió debido a la desigualdad social del Porfiriato, la falta de democracia y la concentración de tierras.",
+                    resumen: "El movimiento culminó con la redacción de la Constitución de 1917, estableciendo derechos laborales y agrarios."
+                };
+                presentacion = [
+                    { titulo: "La Revolución Mexicana (1910-1917)", contenido: "Causas, desarrollo armado y transformación sociopolítica de México." },
+                    { titulo: "1. El Porfiriato y el Descontento", contenido: "30 años de dictadura, progreso económico desigual y represión obrera." },
+                    { titulo: "2. Madero, Zapata y Villa", contenido: "Levantamiento democrático y luchas regionales por la tierra." },
+                    { titulo: "3. La Constitución de 1917", contenido: "Consolidación de las demandas sociales en la Ley Suprema." }
+                ];
+            } else {
+                flashcards = [
+                    { concepto: `Concepto Clave 1: ${tema}`, definicion: `Definición principal y fundamentos esenciales del tema ${tema}.`, reverso: "📌 Idea Central" },
+                    { concepto: `Concepto Clave 2: ${tema}`, definicion: `Estructura operativa y aplicación práctica de ${tema}.`, reverso: "⚡ Aplicación Práctica" },
+                    { concepto: `Estrategia de Análisis`, definicion: `Método de estudio para retener información sobre ${tema}.`, reverso: "🧠 Retención Cognitiva" }
+                ];
+                quiz = [
+                    { pregunta: `¿Cuál es el objetivo principal al estudiar ${tema}?`, opciones: [`Comprender los fundamentos de ${tema}`, "Memorizar datos sin contexto", "Ignorar las aplicaciones prácticas"], correcta: 0, explicacion: "Comprender los principios garantiza una retención duradera." },
+                    { pregunta: `¿Qué elemento es indispensable en el análisis de ${tema}?`, opciones: ["La estructura conceptual", "El desorden informativo", "Evitar hacer preguntas"], correcta: 0, explicacion: "La estructura lógica ayuda al aprendizaje neurodivergente." }
+                ];
+                cornell = {
+                    ideasClave: ["Definición y Contexto", "Componentes Principales", "Conclusiones"],
+                    notasPrincipales: `El tema '${tema}' involucra el análisis de sus componentes fundamentales, organizados de forma secuencial y estructurada para facilitar el procesamiento de la información.`,
+                    resumen: `Estudiar ${tema} permite adquirir competencias clave mediante micro-pasos de aprendizaje.`
+                };
+                presentacion = [
+                    { titulo: `Guía Visual Adaptada: ${tema}`, contenido: `Estructura pedagógica preparada por Sofía IA para el tema ${tema}.` },
+                    { titulo: "1. Conceptos Fundamentales", contenido: `Ideas centrales y definiciones del tema ${tema}.` },
+                    { titulo: "2. Aplicaciones y Ejemplos", contenido: "Demostraciones prácticas paso a paso." },
+                    { titulo: "3. Conclusión y Sintesis", contenido: "Resumen ejecutivo y evaluación de retención." }
+                ];
+            }
+
+            return {
+                alumnoId: codigoAlumnoActual,
+                materia: materia || "General",
+                tema: tema,
+                fecha: new Date().toLocaleDateString('es-ES'),
+                timestamp: new Date().toISOString(),
+                materialesDetalle: {
+                    flashcards: flashcards,
+                    quiz: quiz,
+                    cornell: cornell,
+                    presentacion: presentacion
+                },
+                materiales: [
+                    { tipo: "Flashcards", titulo: `Flashcards: ${tema}`, estado: "Listo" },
+                    { tipo: "Guía Visual", titulo: `Esquema Bloom: ${tema}`, estado: "Listo" },
+                    { tipo: "Quiz", titulo: `Quiz Adaptativo: ${tema}`, estado: "Listo" }
+                ]
+            };
+        }
+
         // --- 2. IA DE SOFÍA Y GENERACIÓN DE MATERIALES ---
         window.generarPropuestaSofia = async function() {
             const inputTema = document.getElementById('temaDinamico');
@@ -295,40 +415,32 @@
                 // Ejecutar motor pedagógico IA de app.js
                 await generarAgendaConSophia(codigoAlumnoActual, tema, "Francés - General");
 
+                // Generar Kit Dinámico Completo
+                const kitSofia = generarKitCompletoIA(tema, "Francés - General");
+
                 const propuestaDetalle = `
                     <b>Propuesta Adaptada por Sofía IA (Taxonomía de Bloom):</b><br>
-                    • <b>1. Activación (2 min):</b> Flashcards de vocabulario visual clave sobre "${tema}".<br>
-                    • <b>2. Diagnóstico:</b> Mini Quiz de 3 preguntas de opción múltiple contextualizadas.<br>
-                    • <b>3. Sistematización:</b> Guía visual paso a paso con micro-metas.<br>
-                    • <b>4. Evaluación:</b> Ejercicio práctico adaptado al ritmo de aprendizaje.
+                    • <b>1. Activación (${kitSofia.materialesDetalle.flashcards.length} Flashcards):</b> Tarjetas visuales interactivas adaptadas para "${tema}".<br>
+                    • <b>2. Diagnóstico (${kitSofia.materialesDetalle.quiz.length} Preguntas):</b> Mini Quiz adaptativo con retroalimentación inmediata.<br>
+                    • <b>3. Sistematización:</b> Apuntes Cornell con ideas clave y resumen.<br>
+                    • <b>4. Evaluación & Presentación:</b> Guía visual paso a paso de ${kitSofia.materialesDetalle.presentacion.length} diapositivas.
                 `;
 
                 resText.innerHTML = propuestaDetalle;
 
                 // Guardar Kit Generado en Firestore y localStorage
-                const kitSofia = {
-                    alumnoId: codigoAlumnoActual,
-                    materia: "Francés - General",
-                    tema: tema,
-                    fecha: new Date().toLocaleDateString('es-ES'),
-                    timestamp: new Date().toISOString(),
-                    materiales: [
-                        { tipo: "Flashcards", titulo: `Flashcards de Repaso: ${tema}`, estado: "Listo" },
-                        { tipo: "Guía Visual", titulo: `Esquema Bloom: ${tema}`, estado: "Listo" },
-                        { tipo: "Quiz", titulo: `Mini-evaluación adaptada de ${tema}`, estado: "Listo" }
-                    ]
-                };
-
                 localStorage.setItem('neuroKitAutorizado', JSON.stringify(kitSofia));
 
                 await setDoc(doc(db, "materiales_sofia", `${codigoAlumnoActual}_${Date.now()}`), kitSofia);
 
                 renderizarMaterialesSofia(kitSofia);
-                mostrarNotificacion('✨ Propuesta generada e integradas a la pestaña Materiales Sofía.');
+                mostrarNotificacion('✨ ¡Propuesta y materiales dinámicos generados con éxito por Sofía IA!');
 
             } catch (err) {
                 console.error("Error al generar propuesta con Sofía IA:", err);
-                resText.innerHTML = '<b>Propuesta Generada por Sofía IA:</b><br>• 1. Flashcards interactivas de expresiones clave para "' + tema + '".<br>• 2. Guía visual con micro-metas de 5 minutos.<br>• 3. Ejercicios breves de práctica auditiva.';
+                const kitSofia = generarKitCompletoIA(tema, "Francés - General");
+                localStorage.setItem('neuroKitAutorizado', JSON.stringify(kitSofia));
+                renderizarMaterialesSofia(kitSofia);
             }
         };
 
