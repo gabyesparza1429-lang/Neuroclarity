@@ -41,7 +41,6 @@
     </div>
 
     <div class="main-container">
-        <!-- MENÚ LATERAL -->
         <div class="sidebar">
             <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()">➕ Vincular / Agregar Alumno</button>
             <button type="button" id="btn-panel" class="sidebar-btn active" onclick="cambiarVista('panel')">🎓 Panel Alumno</button>
@@ -51,13 +50,9 @@
             <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')">🪄 Materiales Sofía</button>
         </div>
 
-        <!-- CONTENIDO PRINCIPAL -->
         <div class="content">
-
-            <!-- NOTIFICACIÓN EN PANTALLA -->
             <div id="notifPantalla" class="notif-inline"></div>
             
-            <!-- VISTA 1: PANEL ALUMNO -->
             <div id="sec-panel" class="seccion activa">
                 <div id="contenedorAlumno" class="student-card">
                     <div>
@@ -85,7 +80,6 @@
                 </div>
             </div>
 
-            <!-- VISTA 2: MENSAJERÍA DIRECTA CON EL PADRE -->
             <div id="sec-chat" class="seccion">
                 <h3 style="color:#4a2372; margin-bottom:15px;">💬 Chat con Tutor / Familia de Monse</h3>
                 <div class="chat-box" id="chatProfesorPadre">
@@ -98,7 +92,6 @@
                 </div>
             </div>
 
-            <!-- VISTA 3: SUBIR PLANEACIÓN -->
             <div id="sec-planeacion" class="seccion">
                 <h3 style="color:#4a2372; margin-bottom:15px;">☁️ Subir Planeación Pedagógica</h3>
                 <div style="border: 2px dashed #6339a6; padding: 30px; text-align: center; border-radius: 8px; background: #fdfbfd;">
@@ -109,7 +102,6 @@
                 </div>
             </div>
 
-            <!-- VISTA 4: OBSERVACIONES DIRECCIÓN -->
             <div id="sec-observaciones" class="seccion">
                 <h3 style="color:#4a2372; margin-bottom:15px;">📋 Observaciones de Dirección</h3>
                 <div style="padding:15px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec;">
@@ -117,7 +109,6 @@
                 </div>
             </div>
 
-            <!-- VISTA 5: MATERIALES SOFÍA -->
             <div id="sec-materiales" class="seccion">
                 <h3 style="color:#4a2372; margin-bottom:15px;">🪄 Materiales Adaptados por Sofía IA</h3>
                 <div style="padding:15px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec;">
@@ -125,11 +116,9 @@
                     <span style="background:#2e7d32; color:white; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:bold;">Listo para enviar al alumno</span>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- MODAL VINCULAR ALUMNO -->
     <div id="modalAgregarAlumno" class="modal-overlay">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
@@ -157,10 +146,14 @@
 
     function cambiarVista(nombreSeccion) {
         var secciones = document.querySelectorAll('.seccion');
-        secciones.forEach(function(s) { s.classList.remove('activa'); });
+        for (var i = 0; i < secciones.length; i++) {
+            secciones[i].classList.remove('activa');
+        }
 
         var botones = document.querySelectorAll('.sidebar-btn');
-        botones.forEach(function(b) { b.classList.remove('active'); });
+        for (var j = 0; j < botones.length; j++) {
+            botones[j].classList.remove('active');
+        }
 
         var secActiva = document.getElementById('sec-' + nombreSeccion);
         if (secActiva) secActiva.classList.add('activa');
@@ -184,7 +177,8 @@
         var cod = input ? input.value.trim().toUpperCase() : '';
         if (!cod) return;
         
-        document.getElementById('codigoAlumnoDocente').innerText = cod;
+        var el = document.getElementById('codigoAlumnoDocente');
+        if (el) el.innerText = cod;
         cerrarModalAlumno();
         mostrarNotificacion('✅ Alumno ' + cod + ' vinculado con éxito al panel.');
     }
@@ -214,16 +208,19 @@
     }
 
     function generarPropuestaSofia() {
-        var tema = document.getElementById('temaDinamico').value;
+        var inputTema = document.getElementById('temaDinamico');
+        var tema = inputTema ? inputTema.value : 'Tema general';
         var resBox = document.getElementById('resultadoPropuesta');
         var resText = document.getElementById('textoPropuesta');
         
-        resText.innerHTML = 'Generando materiales adaptados para el tema <b>' + tema + '</b>...';
-        resBox.style.display = 'block';
+        if (resText && resBox) {
+            resText.innerHTML = 'Generando materiales adaptados para el tema <b>' + tema + '</b>...';
+            resBox.style.display = 'block';
 
-        setTimeout(function() {
-            resText.innerHTML = '<b>Propuesta Generada por Sofía IA:</b><br>• 1. Flashcards interactivas de expresiones clave para "' + tema + '".<br>• 2. Guía visual con micro-metas de 5 minutos.<br>• 3. Ejercicios breves de práctica auditiva.';
-        }, 800);
+            setTimeout(function() {
+                resText.innerHTML = '<b>Propuesta Generada por Sofía IA:</b><br>• 1. Flashcards interactivas de expresiones clave para "' + tema + '".<br>• 2. Guía visual con micro-metas de 5 minutos.<br>• 3. Ejercicios breves de práctica auditiva.';
+            }, 800);
+        }
     }
     </script>
 </body>
