@@ -222,5 +222,52 @@
         }
     }
     </script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script>
+// Inicialización de Firestore si no existe
+    firebase.initializeApp(window.firebaseConfig || {
+        apiKey: "AIzaSyFakeKeyForTesting",
+        projectId: "neuroclarity-app"
+    });
+}
+var db = firebase.firestore();
+var codigoAlumnoActual = 'NC-4105';
+
+// Escuchar mensajes en tiempo real desde Firestore
+function activarChatTiempoReal() {
+    db.collection('chats').doc(codigoAlumnoActual).collection('mensajes')
+      .orderBy('timestamp', 'asc')
+      .onSnapshot(function(snapshot) {
+          var box = document.getElementById('chatProfesorPadre');
+          box.innerHTML = '';
+          snapshot.forEach(function(doc) {
+              var m = doc.data();
+              var div = document.createElement('div');
+              div.className = m.emisor === 'profesor' ? 'chat-msg profesor' : 'chat-msg padre';
+              div.innerHTML = '<b>' + (m.emisor === 'profesor' ? 'Tú: ' : 'Padre: ') + '</b>' + m.texto;
+              box.appendChild(div);
+          });
+          box.scrollTop = box.scrollHeight;
+      });
+}
+
+function enviarMensajePadre() {
+    var input = document.getElementById('inputMsgProfesor');
+    var txt = input ? input.value.trim() : '';
+
+    db.collection('chats').doc(codigoAlumnoActual).collection('mensajes').add({
+        emisor: 'profesor',
+        texto: txt,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function() {
+        input.value = '';
+    });
+}
+
+window.addEventListener('DOMContentLoaded', activarChatTiempoReal);
+</script>
+
 </body>
 </html>
