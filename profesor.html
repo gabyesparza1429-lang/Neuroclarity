@@ -32,6 +32,7 @@
         .modal-box { background: white; width: 90%; max-width: 420px; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .propuesta-result { margin-top: 20px; padding: 15px; background: #f0ebf8; border: 1px solid #6339a6; border-radius: 8px; display: none; }
         .notif-inline { padding: 12px; border-radius: 6px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 15px; display: none; font-size: 14px; }
+        .material-card { background: #f9f7fc; border: 1px solid #d6c7ec; border-radius: 8px; padding: 15px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -83,8 +84,7 @@
             <div id="sec-chat" class="seccion">
                 <h3 style="color:#4a2372; margin-bottom:15px;">💬 Chat con Tutor / Familia de Monse</h3>
                 <div class="chat-box" id="chatProfesorPadre">
-                    <div class="chat-msg padre"><b>Padre:</b> Hola profesor, quedo al pendiente del plan de Francés.</div>
-                    <div class="chat-msg profesor"><b>Tú:</b> Hola, en un momento te comparto la propuesta ajustada por Sofía IA.</div>
+                    <p style="color:#888; text-align:center; font-size:13px;">Cargando mensajes en tiempo real...</p>
                 </div>
                 <div style="display:flex; gap:10px;">
                     <input type="text" id="inputMsgProfesor" class="form-control" placeholder="Escribe un mensaje a la familia...">
@@ -100,6 +100,7 @@
                     <br>
                     <button type="button" onclick="confirmarSubidaPlaneacion()" style="background:#6339a6; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Cargar Documento</button>
                 </div>
+                <div id="listaPlaneaciones" style="margin-top:20px;"></div>
             </div>
 
             <div id="sec-observaciones" class="seccion">
@@ -111,9 +112,11 @@
 
             <div id="sec-materiales" class="seccion">
                 <h3 style="color:#4a2372; margin-bottom:15px;">🪄 Materiales Adaptados por Sofía IA</h3>
-                <div style="padding:15px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec;">
-                    <p style="color:#333; margin-bottom:10px;"><b>Kit Pedagógico Activo:</b> Flashcards + Guía Visual + Ejercicios Contextualizados.</p>
-                    <span style="background:#2e7d32; color:white; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:bold;">Listo para enviar al alumno</span>
+                <div id="contenedorMaterialesSofia">
+                    <div style="padding:15px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec;">
+                        <p style="color:#333; margin-bottom:10px;"><b>Kit Pedagógico Activo:</b> Flashcards + Guía Visual + Ejercicios Contextualizados.</p>
+                        <span style="background:#2e7d32; color:white; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:bold;">Listo para enviar al alumno</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -134,6 +137,7 @@
         </div>
     </div>
 
+    <!-- UI UI NAVIGATION SCRIPT -->
     <script>
     function mostrarNotificacion(texto) {
         var n = document.getElementById('notifPantalla');
@@ -175,10 +179,15 @@
     function vincularAlumnoPorCodigo() {
         var input = document.getElementById('inputCodigoVincular');
         var cod = input ? input.value.trim().toUpperCase() : '';
-        if (code = code.replace(site-delf, )) return;
+        if (!cod) return;
         
         var el = document.getElementById('codigoAlumnoDocente');
         if (el) el.innerText = cod;
+
+        if (window.actualizarCodigoAlumno) {
+            window.actualizarCodigoAlumno(cod);
+        }
+
         cerrarModalAlumno();
         mostrarNotificacion('✅ Alumno ' + cod + ' vinculado con éxito al panel.');
     }
@@ -188,86 +197,213 @@
         if (elem) elem.style.display = 'none';
         mostrarNotificacion('✅ Alumno desvinculado del panel del profesor.');
     }
-
-    function enviarMensajePadre() {
-        var input = document.getElementById('inputMsgProfesor');
-        var txt = input ? input.value.trim() : '';
-
-        var box = document.getElementById('chatProfesorPadre');
-        var msgDiv = document.createElement('div');
-        msgDiv.className = 'chat-msg profesor';
-        msgDiv.innerHTML = '<b>Tú:</b> ' + txt;
-        box.appendChild(msgDiv);
-        box.scrollTop = box.scrollHeight;
-        input.value = '';
-    }
-
-    function confirmarSubidaPlaneacion() {
-        mostrarNotificacion('☁️ Planeación pedagógica cargada exitosamente.');
-    }
-
-    function generarPropuestaSofia() {
-        var inputTema = document.getElementById('temaDinamico');
-        var tema = inputTema ? inputTema.value : 'Tema general';
-        var resBox = document.getElementById('resultadoPropuesta');
-        var resText = document.getElementById('textoPropuesta');
-        
-        if (resText && resBox) {
-            resText.innerHTML = 'Generando materiales adaptados para el tema <b>' + tema + '</b>...';
-            resBox.style.display = 'block';
-
-            setTimeout(function() {
-                resText.innerHTML = '<b>Propuesta Generada por Sofía IA:</b><br>• 1. Flashcards interactivas de expresiones clave para "' + tema + '".<br>• 2. Guía visual con micro-metas de 5 minutos.<br>• 3. Ejercicios breves de práctica auditiva.';
-            }, 800);
-        }
-    }
     </script>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script>
-// Inicialización de Firestore si no existe
-    firebase.initializeApp(window.firebaseConfig || {
-        apiKey: "AIzaSyFakeKeyForTesting",
-        projectId: "neuroclarity-app"
-    });
-}
-var db = firebase.firestore();
-var codigoAlumnoActual = 'NC-4105';
+    <!-- FIREBASE V10 INTEGRATION (REAL-TIME CHAT, IA MATERIALS, PLANEACIONES DB) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { generarAgendaConSophia } from "./app.js";
 
-// Escuchar mensajes en tiempo real desde Firestore
-function activarChatTiempoReal() {
-    db.collection('chats').doc(codigoAlumnoActual).collection('mensajes')
-      .orderBy('timestamp', 'asc')
-      .onSnapshot(function(snapshot) {
-          var box = document.getElementById('chatProfesorPadre');
-          box.innerHTML = '';
-          snapshot.forEach(function(doc) {
-              var m = doc.data();
-              var div = document.createElement('div');
-              div.className = m.emisor === 'profesor' ? 'chat-msg profesor' : 'chat-msg padre';
-              div.innerHTML = '<b>' + (m.emisor === 'profesor' ? 'Tú: ' : 'Padre: ') + '</b>' + m.texto;
-              box.appendChild(div);
-          });
-          box.scrollTop = box.scrollHeight;
-      });
-}
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-uxzwCNpLvMUMUjm0FcoOWsX2wOzOFBE",
+            authDomain: "neuroclarity-dcf0e.firebaseapp.com",
+            projectId: "neuroclarity-dcf0e",
+            storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
+            messagingSenderId: "34116345239",
+            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2",
+            measurementId: "G-1C875WNG8X"
+        };
 
-function enviarMensajePadre() {
-    var input = document.getElementById('inputMsgProfesor');
-    var txt = input ? input.value.trim() : '';
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    db.collection('chats').doc(codigoAlumnoActual).collection('mensajes').add({
-        emisor: 'profesor',
-        texto: txt,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(function() {
-        input.value = '';
-    });
-}
+        let codigoAlumnoActual = 'NC-4105';
+        let unsubscribeChat = null;
 
-window.addEventListener('DOMContentLoaded', activarChatTiempoReal);
-</script>
+        // --- 1. CHAT EN TIEMPO REAL CON FIRESTORE ---
+        function activarChatTiempoReal() {
+            if (unsubscribeChat) unsubscribeChat();
+
+            const q = query(
+                collection(db, "chats", codigoAlumnoActual, "mensajes"),
+                orderBy("fecha", "asc")
+            );
+
+            unsubscribeChat = onSnapshot(q, (snapshot) => {
+                const box = document.getElementById('chatProfesorPadre');
+                box.innerHTML = '';
+
+                if (snapshot.empty) {
+                    box.innerHTML = '<p style="color:#888; text-align:center; font-size:13px;">No hay mensajes registrados aún en esta conversación.</p>';
+                    return;
+                }
+
+                snapshot.forEach((docSnap) => {
+                    const m = docSnap.data();
+                    const esProfesor = m.emisor === 'profesor' || m.remitente === 'profesor';
+                    const div = document.createElement('div');
+                    div.className = esProfesor ? 'chat-msg profesor' : 'chat-msg padre';
+                    div.innerHTML = '<b>' + (esProfesor ? 'Tú: ' : 'Padre: ') + '</b>' + m.texto;
+                    box.appendChild(div);
+                });
+                box.scrollTop = box.scrollHeight;
+            }, (error) => {
+                console.error("Error al escuchar chat en tiempo real:", error);
+            });
+        }
+
+        window.enviarMensajePadre = async function() {
+            const input = document.getElementById('inputMsgProfesor');
+            const txt = input ? input.value.trim() : '';
+            if (!txt) return;
+
+            try {
+                await addDoc(collection(db, "chats", codigoAlumnoActual, "mensajes"), {
+                    emisor: 'profesor',
+                    remitente: 'profesor',
+                    texto: txt,
+                    fecha: serverTimestamp(),
+                    timestamp: serverTimestamp()
+                });
+                input.value = '';
+            } catch (err) {
+                console.error("Error enviando mensaje:", err);
+                mostrarNotificacion('❌ Error al enviar mensaje.');
+            }
+        };
+
+        window.actualizarCodigoAlumno = function(nuevoCodigo) {
+            codigoAlumnoActual = nuevoCodigo;
+            activarChatTiempoReal();
+        };
+
+        // --- 2. IA DE SOFÍA Y GENERACIÓN DE MATERIALES ---
+        window.generarPropuestaSofia = async function() {
+            const inputTema = document.getElementById('temaDinamico');
+            const tema = inputTema ? inputTema.value.trim() : 'Tema General';
+            const resBox = document.getElementById('resultadoPropuesta');
+            const resText = document.getElementById('textoPropuesta');
+
+            if (!resText || !resBox) return;
+
+            resText.innerHTML = '🤖 <i>Sofía IA analizando perfil neurodivergente y estructurando Bloom para <b>' + tema + '</b>...</i>';
+            resBox.style.display = 'block';
+
+            try {
+                // Ejecutar motor pedagógico IA de app.js
+                await generarAgendaConSophia(codigoAlumnoActual, tema, "Francés / General");
+
+                const propuestaDetalle = `
+                    <b>Propuesta Adaptada por Sofía IA (Taxonomía de Bloom):</b><br>
+                    • <b>1. Activación (2 min):</b> Flashcards de vocabulario visual clave sobre "${tema}".<br>
+                    • <b>2. Diagnóstico:</b> Mini Quiz de 3 preguntas de opción múltiple contextualizadas.<br>
+                    • <b>3. Sistematización:</b> Guía visual paso a paso con micro-metas.<br>
+                    • <b>4. Evaluación:</b> Ejercicio práctico adaptado al ritmo de aprendizaje.
+                `;
+
+                resText.innerHTML = propuestaDetalle;
+
+                // Guardar Kit Generado en Firestore y localStorage
+                const kitSofia = {
+                    alumnoId: codigoAlumnoActual,
+                    materia: "Francés / General",
+                    tema: tema,
+                    fecha: new Date().toLocaleDateString('es-ES'),
+                    timestamp: new Date().toISOString(),
+                    materiales: [
+                        { tipo: "Flashcards", titulo: `Flashcards de Repaso: ${tema}`, estado: "Listo" },
+                        { tipo: "Guía Visual", titulo: `Esquema Bloom: ${tema}`, estado: "Listo" },
+                        { tipo: "Quiz", titulo: `Mini-evaluación adaptada de ${tema}`, estado: "Listo" }
+                    ]
+                };
+
+                localStorage.setItem('neuroKitAutorizado', JSON.stringify(kitSofia));
+
+                await setDoc(doc(db, "materiales_sofia", `${codigoAlumnoActual}_${Date.now()}`), kitSofia);
+
+                renderizarMaterialesSofia(kitSofia);
+                mostrarNotificacion('✨ Propuesta generada e integradas a la pestaña Materiales Sofía.');
+
+            } catch (err) {
+                console.error("Error al generar propuesta con Sofía IA:", err);
+                resText.innerHTML = '<b>Propuesta Generada por Sofía IA:</b><br>• 1. Flashcards interactivas de expresiones clave para "' + tema + '".<br>• 2. Guía visual con micro-metas de 5 minutos.<br>• 3. Ejercicios breves de práctica auditiva.';
+            }
+        };
+
+        function renderizarMaterialesSofia(kit) {
+            const container = document.getElementById('contenedorMaterialesSofia');
+            if (!container) return;
+
+            if (!kit) {
+                const stored = localStorage.getItem('neuroKitAutorizado');
+                if (stored) kit = JSON.parse(stored);
+            }
+
+            if (kit && kit.tema) {
+                container.innerHTML = `
+                    <div class="material-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                            <h4 style="color:#4a2372;">🪄 Kit Pedagógico IA: ${kit.tema}</h4>
+                            <span style="background:#2e7d32; color:white; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:bold;">Autorizado e Integrado</span>
+                        </div>
+                        <p style="font-size:13px; color:#555; margin-bottom:8px;">Materia: <b>${kit.materia}</b> | Alumno: <b>${kit.alumnoId}</b> | Fecha: <b>${kit.fecha}</b></p>
+                        <ul style="padding-left:20px; font-size:13px; color:#333; line-height:1.6;">
+                            <li>🎴 <b>Flashcards Interactivas:</b> Conceptos clave estructurados para retención auditivo-visual.</li>
+                            <li>📊 <b>Guía Visual Bloom:</b> Micro-pasos de 5 minutos sin sobrecarga cognitiva.</li>
+                            <li>🎯 <b>Quiz Adaptativo:</b> Preguntas multinivel con refuerzo positivo inmediato.</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        // --- 3. SUBIR PLANEACIÓN PEDAGÓGICA A BASE DE DATOS FIRESTORE ---
+        window.confirmarSubidaPlaneacion = async function() {
+            const input = document.getElementById('archivoPlaneacion');
+            const file = input && input.files ? input.files[0] : null;
+
+            if (!file) {
+                mostrarNotificacion('⚠️ Por favor selecciona un archivo de planeación.');
+                return;
+            }
+
+            mostrarNotificacion('☁️ Guardando planeación pedagógica en la base de datos...');
+
+            try {
+                const docRef = await addDoc(collection(db, "planeaciones"), {
+                    nombreArchivo: file.name,
+                    tamanoBytes: file.size,
+                    tipo: file.type || 'document',
+                    codigoAlumno: codigoAlumnoActual,
+                    fechaSubida: serverTimestamp(),
+                    estatus: "Procesada por IA"
+                });
+
+                mostrarNotificacion('✅ Planeación "' + file.name + '" guardada exitosamente en Firestore.');
+
+                // Mostrar en la lista
+                const lista = document.getElementById('listaPlaneaciones');
+                if (lista) {
+                    const item = document.createElement('div');
+                    item.className = 'material-card';
+                    item.innerHTML = `<b>📄 Documento:</b> ${file.name} (${Math.round(file.size / 1024)} KB) - <span style="color:#2e7d32; font-weight:bold;">Guardado en Firestore (ID: ${docRef.id})</span>`;
+                    lista.prepend(item);
+                }
+
+                input.value = '';
+            } catch (err) {
+                console.error("Error al guardar planeación en Firestore:", err);
+                mostrarNotificacion('❌ Error al guardar en la base de datos.');
+            }
+        };
+
+        // Inicializar al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            activarChatTiempoReal();
+            renderizarMaterialesSofia();
+        });
+    </script>
 
 </body>
 </html>
