@@ -30,18 +30,26 @@ const db = getFirestore(app);
  */
 export async function generarAgendaConSophia(idAlumno, textoOriginal, materia) {
     try {
-        // 1. Extraer el diagnóstico clínico del alumno que se guardó una sola vez en Firestore
+        // 1. Extraer o crear el expediente del alumno en Firestore si aún no existe
         const alumnoRef = doc(db, "alumnos", idAlumno);
-        const alumnoSnap = await getDoc(alumnoRef);
+        let alumnoSnap = await getDoc(alumnoRef);
 
         if (!alumnoSnap.exists()) {
-            console.error("No se encontró el expediente del alumno.");
-            return false;
+            console.log(`[Sophia] Expediente no encontrado para ${idAlumno}. Creando expediente por defecto...`);
+            await setDoc(alumnoRef, {
+                id: idAlumno,
+                nombre: idAlumno,
+                linea_enfoque: "Adaptativo",
+                grupo: "General",
+                matriz_dsm5: { atencion: "alta", procesamiento_visual: "grafico", tiempo_flexible: true },
+                fecha_registro: new Date().toISOString().split('T')[0]
+            }, { merge: true });
+            alumnoSnap = await getDoc(alumnoRef);
         }
 
         const datosAlumno = alumnoSnap.data();
-        const matrizClinica = datosAlumno.matriz_dsm5;
-        const lineaPrincipal = datosAlumno.linea_enfoque;
+        const matrizClinica = datosAlumno.matriz_dsm5 || {};
+        const lineaPrincipal = datosAlumno.linea_enfoque || "Adaptativo";
 
         console.log(`[Sophia] Cargando radiografía clínica. Perfil dominancia: ${lineaPrincipal}`);
 
