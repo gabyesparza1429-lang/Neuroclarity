@@ -540,14 +540,22 @@
             document.getElementById("lblCodigoVinculacion").innerText = data.codigoVinculacion;
             document.getElementById("lblLiveNombreAlumno").innerText = data.nombreHijo;
 
+            if (data.codigoVinculacion) {
+                codigoVinculacionPadre = data.codigoVinculacion;
+                escucharChatPadre(codigoVinculacionPadre, userActual.uid);
+            }
+
             if (data.perfilPedagogico) {
                 document.getElementById("lblPerfilSugerido").innerText = data.perfilPedagogico;
                 document.getElementById("lblDetalleAnalisis").innerText = data.detallePedagogico;
             }
         }
 
-        function escucharChatPadre(padreUid) {
-            const qMsgs = query(collection(db, "chats", padreUid, "mensajes"), orderBy("fecha", "asc"));
+        let codigoVinculacionPadre = null;
+
+        function escucharChatPadre(codigoVinculacion, padreUid) {
+            const chatId = codigoVinculacion || padreUid;
+            const qMsgs = query(collection(db, "chats", chatId, "mensajes"), orderBy("fecha", "asc"));
             const chatBox = document.getElementById('chatPadreBox');
 
             onSnapshot(qMsgs, (snapshot) => {
@@ -564,7 +572,7 @@
 
                 snapshot.forEach((mDoc) => {
                     const m = mDoc.data();
-                    const esPadre = m.remitente === "padre";
+                    const esPadre = m.remitente === "padre" || m.emisor === "padre";
                     chatBox.innerHTML += `
                         <div class="msg ${esPadre ? 'sent' : 'received'}">
                             <strong style="display: block; font-size: 11px; opacity: 0.8; margin-bottom: 2px;">
@@ -585,11 +593,15 @@
             const texto = input.value.trim();
             if (!texto || !userActual) return;
 
+            const chatId = codigoVinculacionPadre || userActual.uid;
+
             try {
-                await addDoc(collection(db, "chats", userActual.uid, "mensajes"), {
+                await addDoc(collection(db, "chats", chatId, "mensajes"), {
                     remitente: "padre",
+                    emisor: "padre",
                     texto: texto,
-                    fecha: new Date()
+                    fecha: serverTimestamp(),
+                    timestamp: serverTimestamp()
                 });
                 input.value = "";
             } catch (err) {

@@ -78,6 +78,7 @@
                 <div id="resultadoPropuesta" class="propuesta-result">
                     <h4 style="color:#4a2372; margin-bottom:10px;">✨ Propuesta Pedagógica de Sofía IA</h4>
                     <p id="textoPropuesta" style="font-size:14px; color:#333; line-height:1.5;"></p>
+                    <button type="button" id="btnEnviarAlumno" onclick="enviarActividadesAlumno()" style="margin-top:15px; background:#6339a6; color:white; border:none; padding:12px 20px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">🚀 Enviar Actividades al Alumno</button>
                 </div>
             </div>
 
@@ -331,6 +332,39 @@
             }
         };
 
+        window.enviarActividadesAlumno = async function() {
+            const stored = localStorage.getItem('neuroKitAutorizado');
+            let kit = stored ? JSON.parse(stored) : null;
+
+            if (!kit) {
+                const tema = document.getElementById('temaDinamico') ? document.getElementById('temaDinamico').value.trim() : 'Je me présente';
+                kit = {
+                    alumnoId: codigoAlumnoActual,
+                    materia: "Francés / General",
+                    tema: tema,
+                    fecha: new Date().toLocaleDateString('es-ES'),
+                    timestamp: new Date().toISOString(),
+                    materiales: [
+                        { tipo: "Flashcards", titulo: `Flashcards de Repaso: ${tema}`, estado: "Listo" },
+                        { tipo: "Guía Visual", titulo: `Esquema Bloom: ${tema}`, estado: "Listo" },
+                        { tipo: "Quiz", titulo: `Mini-evaluación adaptada de ${tema}`, estado: "Listo" }
+                    ]
+                };
+            }
+
+            try {
+                // Publicar kit para el alumno en Firestore y localStorage
+                await setDoc(doc(db, "kits_estudiante", codigoAlumnoActual), kit, { merge: true });
+                localStorage.setItem('neuroKitAutorizado', JSON.stringify(kit));
+
+                mostrarNotificacion('🚀 ¡Actividades y Kit Pedagógico enviados con éxito al portal del alumno!');
+                renderizarMaterialesSofia(kit);
+            } catch (err) {
+                console.error("Error al enviar actividades al alumno:", err);
+                mostrarNotificacion('❌ Error al enviar actividades al alumno.');
+            }
+        };
+
         function renderizarMaterialesSofia(kit) {
             const container = document.getElementById('contenedorMaterialesSofia');
             if (!container) return;
@@ -348,11 +382,12 @@
                             <span style="background:#2e7d32; color:white; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:bold;">Autorizado e Integrado</span>
                         </div>
                         <p style="font-size:13px; color:#555; margin-bottom:8px;">Materia: <b>${kit.materia}</b> | Alumno: <b>${kit.alumnoId}</b> | Fecha: <b>${kit.fecha}</b></p>
-                        <ul style="padding-left:20px; font-size:13px; color:#333; line-height:1.6;">
+                        <ul style="padding-left:20px; font-size:13px; color:#333; line-height:1.6; margin-bottom:15px;">
                             <li>🎴 <b>Flashcards Interactivas:</b> Conceptos clave estructurados para retención auditivo-visual.</li>
                             <li>📊 <b>Guía Visual Bloom:</b> Micro-pasos de 5 minutos sin sobrecarga cognitiva.</li>
                             <li>🎯 <b>Quiz Adaptativo:</b> Preguntas multinivel con refuerzo positivo inmediato.</li>
                         </ul>
+                        <button type="button" onclick="enviarActividadesAlumno()" style="background:#2e7d32; color:white; border:none; padding:10px 16px; border-radius:6px; font-weight:bold; cursor:pointer; width:100%;">🚀 Re-enviar/Publicar Actividades al Alumno</button>
                     </div>
                 `;
             }
