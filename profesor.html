@@ -213,7 +213,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <script>
-    // CONFIGURACIÓN OFICIAL FIREBASE NEUROCLARITY
     const firebaseConfig = { 
         apiKey: "AIzaSyD4xh8Ggj0CQIlL37Rt958u2gKqTSGCOpE", 
         authDomain: "neuroreussit-29a3e.firebaseapp.com", 
@@ -245,29 +244,41 @@
         }
     });
 
-    // 1. Validar Código del Profesor
-    function validarCodigoProfesor() {
-        var cod = document.getElementById('inputCodigoProfesor').value.trim().toLowerCase();
-        if (!cod) return alert('Ingresa tu código de clase.');
+    // 1. Validar Código del Profesor (Probar original, minúsculas y mayúsculas)
+    async function validarCodigoProfesor() {
+        var rawCod = document.getElementById('inputCodigoProfesor').value.trim();
+        if (!rawCod) return alert('Ingresa tu código de clase.');
 
-        db.collection('Clarity_Profesores').doc(cod).get().then(function(docSnap) {
-            if (docSnap.exists) {
-                profesorActual = docSnap.data();
-                document.getElementById('paso-codigo').style.display = 'none';
+        var posiblesCodigos = [rawCod, rawCod.toLowerCase(), rawCod.toUpperCase()];
+        var docSnap = null;
 
-                if (!profesorActual.perfil_completo) {
-                    document.getElementById('paso-activacion').style.display = 'block';
-                    document.getElementById('actNombreProfesor').value = profesorActual.nombre || '';
-                } else {
-                    document.getElementById('paso-password').style.display = 'block';
-                    document.getElementById('txtBienvenidaProfesor').innerText = 'Hola Prof. ' + profesorActual.nombre + ', ingresa tu contraseña para acceder.';
+        for (var c of posiblesCodigos) {
+            try {
+                var snap = await db.collection('Clarity_Profesores').doc(c).get();
+                if (snap.exists) {
+                    docSnap = snap;
+                    break;
                 }
-            } else {
-                alert('El código ingresado no existe en el sistema.');
+            } catch(e) {
+                console.error("Error intentando " + c, e);
             }
-        }).catch(function(err) {
-            alert('Error al consultar código: ' + err.message);
-        });
+        }
+
+        if (docSnap && docSnap.exists) {
+            profesorActual = docSnap.data();
+            profesorActual.docId = docSnap.id;
+            document.getElementById('paso-codigo').style.display = 'none';
+
+            if (!profesorActual.perfil_completo) {
+                document.getElementById('paso-activacion').style.display = 'block';
+                document.getElementById('actNombreProfesor').value = profesorActual.nombre || '';
+            } else {
+                document.getElementById('paso-password').style.display = 'block';
+                document.getElementById('txtBienvenidaProfesor').innerText = 'Hola Prof. ' + profesorActual.nombre + ', ingresa tu contraseña para acceder.';
+            }
+        } else {
+            alert('El código "' + rawCod + '" no existe o la conexión falló. Verifica en tu panel admin.');
+        }
     }
 
     // 2. Completar Activación primer ingreso
@@ -279,14 +290,14 @@
         if (!pass || pass.length < 6) return alert('La contraseña debe tener al menos 6 caracteres.');
 
         auth.createUserWithEmailAndPassword(profesorActual.correo, pass).then(function() {
-            return db.collection('Clarity_Profesores').doc(profesorActual.id).update({
+            return db.collection('Clarity_Profesores').doc(profesorActual.docId || profesorActual.id).update({
                 materia: materia,
                 perfil_completo: true
             });
         }).catch(function(authErr) {
             if (authErr.code === 'auth/email-already-in-use') {
                 return auth.signInWithEmailAndPassword(profesorActual.correo, pass).then(function() {
-                    return db.collection('Clarity_Profesores').doc(profesorActual.id).update({
+                    return db.collection('Clarity_Profesores').doc(profesorActual.docId || profesorActual.id).update({
                         materia: materia,
                         perfil_completo: true
                     });
@@ -322,15 +333,16 @@
         document.getElementById('profesorBar').style.display = 'flex';
         document.getElementById('barNombreProfesor').innerText = 'Prof. ' + profesorActual.nombre;
         document.getElementById('barMateriaProfesor').innerText = 'Materia: ' + (profesorActual.materia || 'General');
-        document.getElementById('barCodigoProfesor').innerText = 'Código: ' + profesorActual.codigo_clase;
+        document.getElementById('barCodigoProfesor').innerText = 'Código: ' + (profesorActual.codigo_clase || profesorActual.docId);
 
         cargarAlumnosDeClase();
     }
 
     // 5. Cargar Alumnos vinculados
     function cargarAlumnosDeClase() {
+        var codSearch = profesorActual.codigo_clase || profesorActual.docId;
         db.collection('Clarity_Alumnos')
-          .where('codigo_clase', '==', profesorActual.codigo_clase)
+          .where('codigo_clase', '==', codSearch)
           .onSnapshot(function(snap) {
               listaAlumnosClase = [];
               var select = document.getElementById('selectAlumnoClase');
@@ -448,7 +460,7 @@
             id: almId,
             nombre: nombre,
             grado: grado,
-            codigo_clase: profesorActual ? profesorActual.codigo_clase : 'GENERAL',
+            codigo_clase: profesorActual ? (profesorActual.codigo_clase || profesorActual.docId) : 'GENERAL',
             fecha_alta: new Date().toISOString().split('T')[0]
         }, { merge: true }).then(function() {
             cerrarModalAlumno();
