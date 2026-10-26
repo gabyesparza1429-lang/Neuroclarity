@@ -141,10 +141,11 @@
                     <p style="font-size:13px; color:#666; margin-top:5px;">Haz clic en el botón <b>"➕ Vincular / Agregar Alumno"</b> para dar de alta a tu primer estudiante.</p>
                 </div>
 
+                <!-- TARJETA DINÁMICA SIN DATOS ESTÁTICOS -->
                 <div id="contenedorAlumnoCard" class="student-card" style="display:none;">
                     <div class="student-info">
-                        <h2 id="nombreAlumnoDocente">-</h2>
-                        <p>Grado / Nivel: <b id="gradoAlumnoDocente" style="color:#333;">-</b> | Código: <b id="codigoAlumnoDocente" style="color:var(--purple);">-</b></p>
+                        <h2 id="nombreAlumnoDocente"></h2>
+                        <p>Grado / Nivel: <b id="gradoAlumnoDocente" style="color:#333;"></b> | Código: <b id="codigoAlumnoDocente" style="color:var(--purple);"></b></p>
                         <span id="badgeDiagPerfil" class="tag-diag">Diagnóstico: Sin cargar</span>
                     </div>
                     <button type="button" class="btn-danger" onclick="eliminarAlumnoActual()"><i class="fas fa-trash"></i> Eliminar Alumno</button>
@@ -264,7 +265,6 @@
         </div>
     </div>
 
-    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -503,6 +503,10 @@
                     dbDelf.collection('Clarity_Alumnos').doc(idDel).delete()
                 ]);
                 alumnoActivo = null;
+                document.getElementById('contenedorAlumnoCard').style.display = 'none';
+                document.getElementById('contenedorFormDinamico').style.display = 'none';
+                document.getElementById('boxSelectorAlumnos').style.display = 'none';
+                document.getElementById('contenedorSinAlumnos').style.display = 'block';
                 mostrarNotificacion('✅ Alumno eliminado.');
             } catch (e) { alert('Error al eliminar alumno: ' + e.message); }
         }
