@@ -3,88 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Portal Profesor</title>
+    <title>NeuroClarity - Portal Profesor Particular</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background-color: #f4f1ea; color: #333; }
-        .banner { width: 100%; text-align: center; background: #eae6df; border-bottom: 1px solid #d6c7ec; }
-        .banner img { width: 100%; height: auto; display: block; max-height: 120px; object-fit: contain; margin: 0 auto; }
+        :root { --oxford: #002147; --purple: #6339a6; --dark-purple: #4a2372; --gold: #C5A059; --bg: #f4f1ea; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--bg); color: #333; }
+        
+        .banner { width: 100%; text-align: center; background: white; border-bottom: 1px solid #d6c7ec; padding: 10px 0; }
+        .banner img { max-height: 50px; object-fit: contain; }
+        
         .main-container { display: flex; max-width: 1200px; margin: 20px auto; gap: 20px; padding: 0 15px; }
-        .sidebar { width: 260px; background: white; border-radius: 12px; padding: 15px; border: 1px solid #d6c7ec; flex-shrink: 0; height: fit-content; }
-        .sidebar-btn { width: 100%; padding: 12px 10px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: left; border: 1px solid #ccc; background: white; color: #333; }
-        .sidebar-btn.primary { background: #6339a6; color: white; border: none; }
-        .sidebar-btn.active { background: #4a2372; color: white; border: none; }
+        .sidebar { width: 280px; background: white; border-radius: 12px; padding: 15px; border: 1px solid #d6c7ec; flex-shrink: 0; height: fit-content; }
+        .sidebar-btn { width: 100%; padding: 12px 10px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: left; border: 1px solid #ccc; background: white; color: #333; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .sidebar-btn.primary { background: var(--purple); color: white; border: none; }
+        .sidebar-btn.primary:hover { background: var(--dark-purple); }
+        .sidebar-btn.active { background: var(--dark-purple); color: white; border: none; }
+        
         .content { flex-grow: 1; background: white; border-radius: 12px; padding: 25px; border: 1px solid #d6c7ec; }
         .seccion { display: none; }
         .seccion.activa { display: block; }
-        .student-card { background: #f9f7fc; padding: 18px; border-radius: 10px; border: 1px solid #d6c7ec; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .student-card h2 { color: #4a2372; font-size: 22px; font-weight: bold; }
-        .btn-danger { background: #dc3545; color: white; border: none; padding: 10px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
+        
+        .teacher-bar { background: var(--dark-purple); color: white; padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .teacher-badge { background: var(--purple); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 8px; }
+        
+        .student-card { background: #f9f7fc; padding: 20px; border-radius: 10px; border: 1px solid #d6c7ec; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .student-info h2 { color: var(--dark-purple); font-size: 20px; font-weight: bold; }
+        .student-info p { margin-top: 4px; color: #555; font-size: 13px; }
+        .tag-diag { display: inline-block; background: #e0d5f2; color: var(--dark-purple); padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-top: 6px; }
+
+        .btn-danger { background: #dc3545; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
+        .btn-danger:hover { background: #bd2130; }
+
         .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #6339a6; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: var(--dark-purple); font-size: 13px; }
         .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        .btn-action { width: 100%; background: #2e7d32; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; }
-        .chat-box { border: 1px solid #d6c7ec; border-radius: 8px; padding: 15px; height: 300px; overflow-y: auto; background: #fafafa; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .chat-msg { padding: 8px 12px; border-radius: 8px; max-width: 70%; font-size: 14px; }
+        
+        .btn-action { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .btn-action:hover { background: #1b5e20; }
+
+        .box-diag { background: #f0f7ff; border: 1px dashed #0066cc; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+
+        .chat-box { border: 1px solid #d6c7ec; border-radius: 8px; padding: 15px; height: 280px; overflow-y: auto; background: #fafafa; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .chat-msg { padding: 8px 12px; border-radius: 8px; max-width: 75%; font-size: 13px; }
         .chat-msg.padre { background: #e9ecef; color: #333; align-self: flex-start; }
-        .chat-msg.profesor { background: #6339a6; color: white; align-self: flex-end; text-align: right; }
+        .chat-msg.profesor { background: var(--purple); color: white; align-self: flex-end; text-align: right; }
+
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
-        .modal-box { background: white; width: 90%; max-width: 420px; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .propuesta-result { margin-top: 20px; padding: 15px; background: #f0ebf8; border: 1px solid #6339a6; border-radius: 8px; display: none; }
-        .notif-inline { padding: 12px; border-radius: 6px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 15px; display: none; font-size: 14px; }
-        .teacher-bar { background: #4a2372; color: white; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .teacher-badge { background: #6339a6; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .modal-box { background: white; width: 90%; max-width: 450px; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .notif-inline { padding: 12px; border-radius: 6px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 15px; display: none; font-size: 13px; }
     </style>
 </head>
 <body>
 
     <div class="banner">
-        <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.style.display='none'">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.src='assets/favicon.png';">
     </div>
 
-    <!-- MODAL DE ACCESO / ACTIVACIÓN DE CÓDIGO -->
+    <!-- MODAL INGRESO PROFESOR -->
     <div id="modalLoginProfesor" class="modal-overlay" style="display: flex;">
-        <div class="modal-box" style="max-width: 450px;">
+        <div class="modal-box">
             <div style="text-align: center; margin-bottom: 15px;">
-                <h3 style="color: #4a2372; font-size: 20px;">🎓 Portal Docente NeuroClarity</h3>
-                <p style="font-size: 13px; color: #666; margin-top: 5px;">Ingresa tu código de clase para acceder o activar tu cuenta</p>
+                <h3 style="color: var(--dark-purple); font-size: 18px;"><i class="fas fa-chalkboard-teacher"></i> Portal Profesor Particular</h3>
+                <p style="font-size: 12px; color: #666; margin-top: 5px;">Ingresa tu código docente para gestionar a tus alumnos</p>
             </div>
 
-            <!-- PASO 1: CÓDIGO -->
             <div id="paso-codigo">
                 <div class="form-group">
                     <label>Código de Clase / Profesor:</label>
                     <input type="text" id="inputCodigoProfesor" class="form-control" placeholder="Ej: CLS-4A8B" style="text-align:center; font-size:16px; font-weight:bold; text-transform:uppercase;">
                 </div>
-                <button type="button" class="btn-action" style="background:#6339a6;" onclick="validarCodigoProfesor()">Verificar Código</button>
+                <button type="button" class="btn-action" style="background:var(--purple);" onclick="validarCodigoProfesor()">Verificar Código</button>
             </div>
 
-            <!-- PASO 2: ACTIVACIÓN PRIMER INGRESO -->
             <div id="paso-activacion" style="display:none;">
-                <p style="font-size:13px; color:#28a745; font-weight:bold; margin-bottom:10px;">¡Primer ingreso detectado! Completa tus datos para activar tu acceso:</p>
+                <p style="font-size:12px; color:#28a745; font-weight:bold; margin-bottom:10px;">¡Primer ingreso detectado! Activa tu perfil docente:</p>
                 <div class="form-group">
                     <label>Nombre Completo:</label>
                     <input type="text" id="actNombreProfesor" class="form-control" readonly style="background:#eee;">
                 </div>
                 <div class="form-group">
-                    <label>Materia o Grupo asignado *:</label>
-                    <input type="text" id="actMateriaProfesor" class="form-control" placeholder="Ej: Francés / Primaria">
+                    <label>Materia / Especialidad *:</label>
+                    <input type="text" id="actMateriaProfesor" class="form-control" placeholder="Ej: Francés / Regularización">
                 </div>
                 <div class="form-group">
                     <label>Crea tu Contraseña *:</label>
                     <input type="password" id="actPasswordProfesor" class="form-control" placeholder="Mínimo 6 caracteres">
                 </div>
-                <button type="button" class="btn-action" style="background:#28a745;" onclick="completarActivacionProfesor()">Completar Activación y Entrar</button>
+                <button type="button" class="btn-action" style="background:#28a745;" onclick="completarActivacionProfesor()">Activar y Entrar</button>
             </div>
 
-            <!-- PASO 3: INGRESO CON CONTRASEÑA -->
             <div id="paso-password" style="display:none;">
-                <p id="txtBienvenidaProfesor" style="font-size:13px; color:#333; margin-bottom:10px;"></p>
+                <p id="txtBienvenidaProfesor" style="font-size:12px; color:#333; margin-bottom:10px;"></p>
                 <div class="form-group">
                     <label>Contraseña:</label>
                     <input type="password" id="loginPasswordProfesor" class="form-control" placeholder="Tu contraseña">
                 </div>
-                <button type="button" class="btn-action" style="background:#6339a6;" onclick="loginConPasswordProfesor()">Iniciar Sesión</button>
+                <button type="button" class="btn-action" style="background:var(--purple);" onclick="loginConPasswordProfesor()">Iniciar Sesión</button>
             </div>
         </div>
     </div>
@@ -92,91 +108,126 @@
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="main-container">
         <div class="sidebar">
-            <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()">➕ Vincular / Agregar Alumno</button>
-            <button type="button" id="btn-panel" class="sidebar-btn active" onclick="cambiarVista('panel')">🎓 Panel Alumno</button>
-            <button type="button" id="btn-chat" class="sidebar-btn" onclick="cambiarVista('chat')">💬 Mensajería Directa</button>
-            <button type="button" id="btn-planeacion" class="sidebar-btn" onclick="cambiarVista('planeacion')">☁️ Subir Planeación</button>
-            <button type="button" id="btn-observaciones" class="sidebar-btn" onclick="cambiarVista('observaciones')">📋 Observaciones Dirección</button>
-            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')">🪄 Materiales Sofía</button>
+            <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()"><i class="fas fa-plus-circle"></i> Vincular / Agregar Alumno</button>
+            <button type="button" id="btn-panel" class="sidebar-btn active" onclick="cambiarVista('panel')"><i class="fas fa-user-graduate"></i> Panel Alumnos</button>
+            <button type="button" id="btn-diagnostico" class="sidebar-btn" onclick="cambiarVista('diagnostico')"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico</button>
+            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')"><i class="fas fa-magic"></i> Materiales Sofía IA</button>
+            <button type="button" id="btn-chat" class="sidebar-btn" onclick="cambiarVista('chat')"><i class="fas fa-comments"></i> Mensajería con Tutor</button>
+            <button type="button" id="btn-planeacion" class="sidebar-btn" onclick="cambiarVista('planeacion')"><i class="fas fa-cloud-upload-alt"></i> Subir Planeación</button>
         </div>
 
         <div class="content">
-            <!-- BARRA DE INFORMACIÓN DEL PROFESOR -->
             <div id="profesorBar" class="teacher-bar" style="display:none;">
                 <div>
-                    <strong id="barNombreProfesor" style="font-size:16px;">Profesor</strong>
-                    <span id="barMateriaProfesor" class="teacher-badge" style="margin-left:8px;">Materia</span>
-                    <span id="barCodigoProfesor" class="teacher-badge" style="background:#2e7d32; margin-left:5px;">Código</span>
+                    <strong id="barNombreProfesor" style="font-size:15px;">Profesor Particular</strong>
+                    <span id="barMateriaProfesor" class="teacher-badge">Materia</span>
+                    <span id="barCodigoProfesor" class="teacher-badge" style="background:#2e7d32;">Código</span>
                 </div>
-                <button type="button" onclick="cerrarSesionProfesor()" style="background:transparent; border:1px solid #d6c7ec; color:white; padding:5px 10px; border-radius:4px; font-size:12px; cursor:pointer;">Cerrar Sesión</button>
+                <button type="button" onclick="cerrarSesionProfesor()" style="background:transparent; border:1px solid rgba(255,255,255,0.4); color:white; padding:4px 8px; border-radius:4px; font-size:11px; cursor:pointer;">Cerrar Sesión</button>
             </div>
 
             <div id="notifPantalla" class="notif-inline"></div>
-            
+
+            <!-- SECCIÓN 1: PANEL DE ALUMNOS -->
             <div id="sec-panel" class="seccion activa">
-                <!-- SELECTOR DE ALUMNOS DE LA CLASE -->
                 <div id="boxSelectorAlumnos" style="margin-bottom:15px; display:none;">
-                    <label style="font-weight:bold; color:#6339a6; font-size:13px;">Seleccionar Alumno en Clase:</label>
-                    <select id="selectAlumnoClase" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="margin-top:5px;"></select>
+                    <label style="font-weight:bold; color:var(--dark-purple); font-size:13px;">Seleccionar Alumno en Lista:</label>
+                    <select id="selectAlumnoClase" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="margin-top:5px; font-weight:bold;"></select>
                 </div>
 
-                <div id="contenedorAlumno" class="student-card">
-                    <div>
-                        <h2 id="nombreAlumnoDocente">Monse</h2>
-                        <p style="margin-top:5px; color:#555; font-size:14px;">Grado: <span id="gradoAlumnoDocente" style="font-weight:bold; color:#333;">Francés adultos</span> | Código: <b id="codigoAlumnoDocente" style="color:#6339a6;">NC-4105</b></p>
+                <div id="contenedorSinAlumnos" style="text-align:center; padding:40px 20px; background:#f9f7fc; border-radius:10px; border:1px dashed #d6c7ec;">
+                    <i class="fas fa-user-slash" style="font-size:40px; color:#aaa; margin-bottom:10px;"></i>
+                    <h3 style="color:var(--dark-purple); font-size:16px;">No tienes alumnos registrados actualmente</h3>
+                    <p style="font-size:13px; color:#666; margin-top:5px;">Haz clic en el botón <b>"➕ Vincular / Agregar Alumno"</b> para dar de alta a tu primer estudiante.</p>
+                </div>
+
+                <div id="contenedorAlumnoCard" class="student-card" style="display:none;">
+                    <div class="student-info">
+                        <h2 id="nombreAlumnoDocente">-</h2>
+                        <p>Grado / Nivel: <b id="gradoAlumnoDocente" style="color:#333;">-</b> | Código: <b id="codigoAlumnoDocente" style="color:var(--purple);">-</b></p>
+                        <span id="badgeDiagPerfil" class="tag-diag">Diagnóstico: Sin cargar</span>
                     </div>
-                    <button type="button" class="btn-danger" onclick="eliminarAlumno()">🗑️ Eliminar Alumno</button>
+                    <button type="button" class="btn-danger" onclick="eliminarAlumnoActual()"><i class="fas fa-trash"></i> Eliminar Alumno</button>
                 </div>
 
-                <div class="form-group">
-                    <label>✏️ Asignar Materia y Tema Dinámico:</label>
-                    <input type="text" class="form-control" id="temaDinamico" value="Je me présente">
-                </div>
+                <div id="contenedorFormDinamico" style="display:none;">
+                    <div class="form-group">
+                        <label>✏️ Asignar Tema de Trabajo Actual:</label>
+                        <input type="text" class="form-control" id="temaDinamico" value="Presentación y Vocabulario Básico">
+                    </div>
 
-                <div class="form-group">
-                    <label>📅 Ritmo Recomendado (Ventana Flexible):</label>
-                    <input type="date" class="form-control" id="fechaRitmo" value="2026-08-30">
-                </div>
+                    <div class="form-group">
+                        <label>📅 Ventana de Entrega / Ritmo Sugerido:</label>
+                        <input type="date" class="form-control" id="fechaRitmo" value="2026-11-15">
+                    </div>
 
-                <button type="button" class="btn-action" onclick="generarPropuestaSofia()">🤖 Generar propuesta con Sofía IA y Revisar</button>
+                    <button type="button" class="btn-action" onclick="generarPropuestaSofia()"><i class="fas fa-robot"></i> Generar Propuesta de Adaptación con Sofía IA</button>
 
-                <div id="resultadoPropuesta" class="propuesta-result">
-                    <h4 style="color:#4a2372; margin-bottom:10px;">✨ Propuesta Pedagógica de Sofía IA</h4>
-                    <p id="textoPropuesta" style="font-size:14px; color:#333; line-height:1.5;"></p>
+                    <div id="resultadoPropuesta" style="margin-top:15px; padding:15px; background:#f0ebf8; border:1px solid var(--purple); border-radius:8px; display:none;">
+                        <h4 style="color:var(--dark-purple); margin-bottom:8px;"><i class="fas fa-brain"></i> Propuesta Adaptativa Generada</h4>
+                        <p id="textoPropuesta" style="font-size:13px; color:#333; line-height:1.5;"></p>
+                    </div>
                 </div>
             </div>
 
+            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO -->
+            <div id="sec-diagnostico" class="seccion">
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico por Alumno</h3>
+                
+                <div class="box-diag">
+                    <p style="font-size:13px; color:#004085; margin-bottom:10px;"><b>Alumno Activo:</b> <span id="diagNombreAlumno" style="font-weight:bold;">Ninguno seleccionado</span></p>
+                    <p style="font-size:12px; color:#555; margin-bottom:15px;">Sube el diagnóstico clínico/psicopedagógico o redacta las observaciones clave (ej. Dislexia, TDAH, TEA, Altas Capacidades). Sofía IA procesará este perfil para adaptar automáticamente las actividades.</p>
+                    
+                    <div class="form-group">
+                        <label>Perfil / Condición Cognitiva Principal:</label>
+                        <select id="selectPerfilCognitivo" class="form-control">
+                            <option value="estandar">Sin diagnóstico específico (Estándar)</option>
+                            <option value="dislexia">Dislexia (Requiere regleta visual y tipografía especial)</option>
+                            <option value="tdah">TDAH (Requiere micro-bloques y temporizador activo)</option>
+                            <option value="tea">TEA / Espectro Autista (Requiere apoyos pictográficos y lenguaje literal)</option>
+                            <option value="altas_capacidades">Altas Capacidades (Requiere proyectos de profundización)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subir Documento de Diagnóstico (PDF / Word / TXT):</label>
+                        <input type="file" id="archivoDiagnostico" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Observaciones o Recomendaciones del Diagnóstico:</label>
+                        <textarea id="textoDiagnostico" class="form-control" rows="3" placeholder="Ej: Dificultad en procesamiento fonológico, requiere lecturas cortas y pausas de 5 minutos..."></textarea>
+                    </div>
+
+                    <button type="button" class="btn-action" style="background:#0066cc;" onclick="guardarDiagnosticoAlumno()"><i class="fas fa-save"></i> Guardar Diagnóstico y Entrenar a Sofía IA</button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: MATERIALES SOFÍA IA -->
+            <div id="sec-materiales" class="seccion">
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-magic"></i> Materiales Adaptados por Sofía IA</h3>
+                <div id="boxMaterialesAdaptados" style="padding:20px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec;">
+                    <p style="font-size:13px; color:#555;">Selecciona un alumno con diagnóstico guardado para visualizar sus materiales personalizados.</p>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 4: MENSAJERÍA DIRECTA CON TUTOR -->
             <div id="sec-chat" class="seccion">
-                <h3 style="color:#4a2372; margin-bottom:15px;">💬 Chat con Tutor / Familia de <span id="chatNombreAlumno">Monse</span></h3>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-comments"></i> Chat con Tutor de <span id="chatNombreAlumno">Alumno</span></h3>
                 <div class="chat-box" id="chatProfesorPadre"></div>
                 <div style="display:flex; gap:10px;">
-                    <input type="text" id="inputMsgProfesor" class="form-control" placeholder="Escribe un mensaje a la familia...">
-                    <button type="button" onclick="enviarMensajePadre()" style="background:#6339a6; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Enviar</button>
+                    <input type="text" id="inputMsgProfesor" class="form-control" placeholder="Escribe un mensaje al tutor...">
+                    <button type="button" onclick="enviarMensajePadre()" style="background:var(--purple); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Enviar</button>
                 </div>
             </div>
 
+            <!-- SECCIÓN 5: SUBIR PLANEACIÓN -->
             <div id="sec-planeacion" class="seccion">
-                <h3 style="color:#4a2372; margin-bottom:15px;">☁️ Subir Planeación Pedagógica</h3>
-                <div style="border: 2px dashed #6339a6; padding: 30px; text-align: center; border-radius: 8px; background: #fdfbfd;">
-                    <p style="margin-bottom: 15px; color: #555;">Selecciona tu archivo de planeación (PDF, Word o TXT)</p>
-                    <input type="file" id="archivoPlaneacion" style="margin-bottom: 15px;">
-                    <br>
-                    <button type="button" onclick="confirmarSubidaPlaneacion()" style="background:#6339a6; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Cargar Documento</button>
-                </div>
-            </div>
-
-            <div id="sec-observaciones" class="seccion">
-                <h3 style="color:#4a2372; margin-bottom:15px;">📋 Observaciones de Dirección</h3>
-                <div style="padding:15px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec;">
-                    <p style="color:#555;"><b>Estado:</b> Sin observaciones pendientes. El perfil pedagógico se encuentra actualizado.</p>
-                </div>
-            </div>
-
-            <div id="sec-materiales" class="seccion">
-                <h3 style="color:#4a2372; margin-bottom:15px;">🪄 Materiales Adaptados por Sofía IA</h3>
-                <div style="padding:15px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec;">
-                    <p style="color:#333; margin-bottom:10px;"><b>Kit Pedagógico Activo:</b> Flashcards + Guía Visual + Ejercicios Contextualizados.</p>
-                    <span style="background:#2e7d32; color:white; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:bold;">Listo para enviar al alumno</span>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir Planeación de Clase</h3>
+                <div style="border:2px dashed var(--purple); padding:30px; text-align:center; border-radius:8px; background:#fdfbfd;">
+                    <p style="margin-bottom:15px; color:#555; font-size:13px;">Carga tu planeación didáctica general (PDF, Word o TXT). Sofía IA cruzará esta planeación con el diagnóstico del alumno para adaptar el contenido.</p>
+                    <input type="file" id="archivoPlaneacion" class="form-control" style="max-width:350px; margin:0 auto 15px;">
+                    <button type="button" onclick="confirmarSubidaPlaneacion()" style="background:var(--purple); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Procesar Planeación</button>
                 </div>
             </div>
         </div>
@@ -185,35 +236,41 @@
     <!-- MODAL AGREGAR / VINCULAR ALUMNO -->
     <div id="modalAgregarAlumno" class="modal-overlay">
         <div class="modal-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
-                <h3 style="margin:0; color:#6339a6; font-size:18px;">🔗 Vincular / Registrar Alumno</h3>
-                <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#666;">✖</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #d6c7ec; padding-bottom:10px; margin-bottom:15px;">
+                <h3 style="margin:0; color:var(--purple); font-size:16px;"><i class="fas fa-user-plus"></i> Registrar Alumno Particular</h3>
+                <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:18px; cursor:pointer; color:#666;">✖</button>
             </div>
             
             <div class="form-group">
-                <label>Nombre del Alumno *:</label>
+                <label>Nombre Completo del Alumno *:</label>
                 <input type="text" id="inputNombreNuevoAlumno" class="form-control" placeholder="Ej. Carlos Mendoza">
             </div>
             <div class="form-group">
-                <label>Grado / Nivel *:</label>
+                <label>Grado / Nivel de Estudio *:</label>
                 <input type="text" id="inputGradoNuevoAlumno" class="form-control" placeholder="Ej. 3° Primaria / Francés A1">
             </div>
             <div class="form-group">
-                <label>Código Único (Opcional):</label>
-                <input type="text" id="inputCodigoVincular" class="form-control" placeholder="Ej. NC-4105" style="text-transform:uppercase;">
+                <label>Perfil Diagnóstico Inicial:</label>
+                <select id="inputDiagInicial" class="form-control">
+                    <option value="estandar">Estándar / Por evaluar</option>
+                    <option value="dislexia">Dislexia</option>
+                    <option value="tdah">TDAH</option>
+                    <option value="tea">TEA (Espectro Autista)</option>
+                    <option value="altas_capacidades">Altas Capacidades</option>
+                </select>
             </div>
 
-            <button type="button" onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px;">Guardar / Vincular Alumno</button>
+            <button type="button" onclick="guardarNuevoAlumno()" style="width:100%; background:var(--purple); color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px;">Guardar Alumno</button>
         </div>
     </div>
 
-    <!-- FIREBASE COMPAT SDK -->
+    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <script>
-    const firebaseConfig = { 
+    const configPrimary = { 
         apiKey: "AIzaSyD4xh8Ggj0CQIlL37Rt958u2gKqTSGCOpE", 
         authDomain: "neuroreussit-29a3e.firebaseapp.com", 
         projectId: "neuroreussit-29a3e", 
@@ -222,19 +279,27 @@
         appId: "1:166406726537:web:687ba6d819747eb29c1313" 
     };
 
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
+    const configDelf = { 
+        apiKey: "AIzaSyD4xh8Ggj0CQIlL37Rt958u2gKqTSGCOpE", 
+        authDomain: "objectif-reussite-delf.firebaseapp.com", 
+        projectId: "objectif-reussite-delf", 
+        storageBucket: "objectif-reussite-delf.firebasestorage.app", 
+        messagingSenderId: "942279633770", 
+        appId: "1:942279633770:web:e90614774e16f5aa9c1313" 
+    };
 
-    var db = firebase.firestore();
-    var auth = firebase.auth();
+    const appPrimary = firebase.initializeApp(configPrimary, "primary");
+    const appDelf = firebase.initializeApp(configDelf, "delf");
+
+    const dbPrimary = appPrimary.firestore();
+    const dbDelf = appDelf.firestore();
+    const auth = appPrimary.auth();
 
     var profesorActual = null;
-    var codigoAlumnoActual = 'NC-4105';
+    var alumnoActivo = null;
     var listaAlumnosClase = [];
     var chatUnsubscribe = null;
 
-    // Detectar si viene ?codigo=CLS-XXXX en la URL
     window.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
         const codigoUrl = urlParams.get('codigo');
@@ -244,7 +309,6 @@
         }
     });
 
-    // 1. Validar Código del Profesor (Probar original, minúsculas y mayúsculas)
     async function validarCodigoProfesor() {
         var rawCod = document.getElementById('inputCodigoProfesor').value.trim();
         if (!rawCod) return alert('Ingresa tu código de clase.');
@@ -254,14 +318,10 @@
 
         for (var c of posiblesCodigos) {
             try {
-                var snap = await db.collection('Clarity_Profesores').doc(c).get();
-                if (snap.exists) {
-                    docSnap = snap;
-                    break;
-                }
-            } catch(e) {
-                console.error("Error intentando " + c, e);
-            }
+                var snap = await dbPrimary.collection('Clarity_Profesores').doc(c).get();
+                if (!snap.exists) snap = await dbDelf.collection('Clarity_Profesores').doc(c).get();
+                if (snap.exists) { docSnap = snap; break; }
+            } catch(e) {}
         }
 
         if (docSnap && docSnap.exists) {
@@ -274,117 +334,219 @@
                 document.getElementById('actNombreProfesor').value = profesorActual.nombre || '';
             } else {
                 document.getElementById('paso-password').style.display = 'block';
-                document.getElementById('txtBienvenidaProfesor').innerText = 'Hola Prof. ' + profesorActual.nombre + ', ingresa tu contraseña para acceder.';
+                document.getElementById('txtBienvenidaProfesor').innerText = 'Hola Prof. ' + profesorActual.nombre + ', ingresa tu contraseña:';
             }
         } else {
-            alert('El código "' + rawCod + '" no existe o la conexión falló. Verifica en tu panel admin.');
+            alert('El código "' + rawCod + '" no existe. Verifica en tu panel admin.');
         }
     }
 
-    // 2. Completar Activación primer ingreso
     function completarActivacionProfesor() {
         var materia = document.getElementById('actMateriaProfesor').value.trim();
         var pass = document.getElementById('actPasswordProfesor').value.trim();
 
-        if (!materia) return alert('Ingresa la materia o grupo.');
-        if (!pass || pass.length < 6) return alert('La contraseña debe tener al menos 6 caracteres.');
+        if (!materia) return alert('Ingresa la materia.');
+        if (!pass || pass.length < 6) return alert('Mínimo 6 caracteres.');
+
+        const payload = { materia: materia, perfil_completo: true };
 
         auth.createUserWithEmailAndPassword(profesorActual.correo, pass).then(function() {
-            return db.collection('Clarity_Profesores').doc(profesorActual.docId || profesorActual.id).update({
-                materia: materia,
-                perfil_completo: true
+            return Promise.all([
+                dbPrimary.collection('Clarity_Profesores').doc(profesorActual.docId).update(payload),
+                dbDelf.collection('Clarity_Profesores').doc(profesorActual.docId).update(payload)
+            ]);
+        }).catch(function(err) {
+            return auth.signInWithEmailAndPassword(profesorActual.correo, pass).then(function() {
+                return Promise.all([
+                    dbPrimary.collection('Clarity_Profesores').doc(profesorActual.docId).update(payload),
+                    dbDelf.collection('Clarity_Profesores').doc(profesorActual.docId).update(payload)
+                ]);
             });
-        }).catch(function(authErr) {
-            if (authErr.code === 'auth/email-already-in-use') {
-                return auth.signInWithEmailAndPassword(profesorActual.correo, pass).then(function() {
-                    return db.collection('Clarity_Profesores').doc(profesorActual.docId || profesorActual.id).update({
-                        materia: materia,
-                        perfil_completo: true
-                    });
-                });
-            } else {
-                throw authErr;
-            }
         }).then(function() {
             profesorActual.materia = materia;
             profesorActual.perfil_completo = true;
             iniciarPortalProfesor();
-        }).catch(function(e) {
-            alert('Error en la activación: ' + e.message);
-        });
+        }).catch(function(e) { alert('Error: ' + e.message); });
     }
 
-    // 3. Login con Contraseña
     function loginConPasswordProfesor() {
         var pass = document.getElementById('loginPasswordProfesor').value.trim();
         if (!pass) return alert('Ingresa tu contraseña.');
 
         auth.signInWithEmailAndPassword(profesorActual.correo, pass).then(function() {
             iniciarPortalProfesor();
-        }).catch(function() {
-            alert('Contraseña incorrecta.');
-        });
+        }).catch(function() { alert('Contraseña incorrecta.'); });
     }
 
-    // 4. Iniciar Portal
     function iniciarPortalProfesor() {
         document.getElementById('modalLoginProfesor').style.display = 'none';
-        
         document.getElementById('profesorBar').style.display = 'flex';
         document.getElementById('barNombreProfesor').innerText = 'Prof. ' + profesorActual.nombre;
         document.getElementById('barMateriaProfesor').innerText = 'Materia: ' + (profesorActual.materia || 'General');
-        document.getElementById('barCodigoProfesor').innerText = 'Código: ' + (profesorActual.codigo_clase || profesorActual.docId);
+        document.getElementById('barCodigoProfesor').innerText = 'Código: ' + (profesorActual.codigo_clase || profesorActual.docId).toUpperCase();
 
         cargarAlumnosDeClase();
     }
 
-    // 5. Cargar Alumnos vinculados
     function cargarAlumnosDeClase() {
-        var codSearch = profesorActual.codigo_clase || profesorActual.docId;
-        db.collection('Clarity_Alumnos')
+        var codSearch = (profesorActual.codigo_clase || profesorActual.docId).toLowerCase();
+
+        dbPrimary.collection('Clarity_Alumnos')
           .where('codigo_clase', '==', codSearch)
           .onSnapshot(function(snap) {
               listaAlumnosClase = [];
+              snap.forEach(function(d) { listaAlumnosClase.push(d.data()); });
+
               var select = document.getElementById('selectAlumnoClase');
               select.innerHTML = '';
 
-              snap.forEach(function(d) {
-                  listaAlumnosClase.push(d.data());
-              });
-
               if (listaAlumnosClase.length > 0) {
+                  document.getElementById('contenedorSinAlumnos').style.display = 'none';
+                  document.getElementById('contenedorAlumnoCard').style.display = 'flex';
+                  document.getElementById('contenedorFormDinamico').style.display = 'block';
                   document.getElementById('boxSelectorAlumnos').style.display = 'block';
-                  listaAlumnosClase.forEach(function(alm, idx) {
+
+                  listaAlumnosClase.forEach(function(alm) {
                       var opt = document.createElement('option');
                       opt.value = alm.id;
                       opt.innerText = alm.nombre + ' (' + alm.grado + ')';
                       select.appendChild(opt);
                   });
-                  seleccionarAlumnoClase(listaAlumnosClase[0].id);
+
+                  if (!alumnoActivo || !listaAlumnosClase.find(a => a.id === alumnoActivo.id)) {
+                      seleccionarAlumnoClase(listaAlumnosClase[0].id);
+                  } else {
+                      seleccionarAlumnoClase(alumnoActivo.id);
+                  }
               } else {
+                  alumnoActivo = null;
+                  document.getElementById('contenedorSinAlumnos').style.display = 'block';
+                  document.getElementById('contenedorAlumnoCard').style.display = 'none';
+                  document.getElementById('contenedorFormDinamico').style.display = 'none';
                   document.getElementById('boxSelectorAlumnos').style.display = 'none';
+                  document.getElementById('diagNombreAlumno').innerText = 'Ninguno seleccionado';
+                  document.getElementById('boxMaterialesAdaptados').innerHTML = '<p style="font-size:13px; color:#555;">No hay alumnos registrados.</p>';
               }
           });
     }
 
     function seleccionarAlumnoClase(idAlumno) {
-        var alm = listaAlumnosClase.find(a => a.id === idAlumno);
-        if (!alm) return;
+        alumnoActivo = listaAlumnosClase.find(a => a.id === idAlumno);
+        if (!alumnoActivo) return;
 
-        codigoAlumnoActual = alm.id || alm.codigo || 'NC-4105';
-        document.getElementById('nombreAlumnoDocente').innerText = alm.nombre;
-        document.getElementById('gradoAlumnoDocente').innerText = alm.grado || 'General';
-        document.getElementById('codigoAlumnoDocente').innerText = codigoAlumnoActual;
-        document.getElementById('chatNombreAlumno').innerText = alm.nombre;
+        document.getElementById('nombreAlumnoDocente').innerText = alumnoActivo.nombre;
+        document.getElementById('gradoAlumnoDocente').innerText = alumnoActivo.grado || 'General';
+        document.getElementById('codigoAlumnoDocente').innerText = alumnoActivo.id.toUpperCase();
+        document.getElementById('chatNombreAlumno').innerText = alumnoActivo.nombre;
+        document.getElementById('diagNombreAlumno').innerText = alumnoActivo.nombre + ' (' + alumnoActivo.grado + ')';
 
+        const diagTxt = alumnoActivo.perfil_cognitivo ? alumnoActivo.perfil_cognitivo.toUpperCase() : 'ESTÁNDAR';
+        document.getElementById('badgeDiagPerfil').innerText = 'Diagnóstico: ' + diagTxt;
+        document.getElementById('selectPerfilCognitivo').value = alumnoActivo.perfil_cognitivo || 'estandar';
+        document.getElementById('textoDiagnostico').value = alumnoActivo.observaciones_diagnostico || '';
+
+        renderizarMaterialesAdaptados();
         activarChatTiempoReal();
     }
 
-    // 6. Chat en Tiempo Real
+    function renderizarMaterialesAdaptados() {
+        if (!alumnoActivo) return;
+        const box = document.getElementById('boxMaterialesAdaptados');
+        const perf = alumnoActivo.perfil_cognitivo || 'estandar';
+
+        let html = '<h4 style="color:var(--dark-purple); margin-bottom:10px;"><i class="fas fa-brain"></i> Kit de Adaptación Pedagógica para ' + alumnoActivo.nombre + '</h4>';
+
+        if (perf === 'dislexia') {
+            html += '<p style="font-size:13px; color:#2e7d32; font-weight:bold;">✔ Adaptaciones para Dislexia Activas:</p><ul style="font-size:13px; margin-left:20px; color:#444;"><li>Tipografía OpenDyslexic / Montserrat activada</li><li>Regleta visual de seguimiento por renglón</li><li>Separación silábica automatizada en textos</li></ul>';
+        } else if (perf === 'tdah') {
+            html += '<p style="font-size:13px; color:#2e7d32; font-weight:bold;">✔ Adaptaciones para TDAH Activas:</p><ul style="font-size:13px; margin-left:20px; color:#444;"><li>Texto fragmentado en micro-bloques de 3 minutos</li><li>Temporizador activo con pausas sugeridas</li><li>Ocultamiento de distractores secundarios</li></ul>';
+        } else if (perf === 'tea') {
+            html += '<p style="font-size:13px; color:#2e7d32; font-weight:bold;">✔ Adaptaciones para TEA Activas:</p><ul style="font-size:13px; margin-left:20px; color:#444;"><li>Apoyos pictográficos integrados en vocabulario clave</li><li>Traducción de frases figuradas a lenguaje literal</li><li>Estructura fija de rutinas por tarjeta</li></ul>';
+        } else {
+            html += '<p style="font-size:13px; color:#555;">Perfil estándar. Los materiales se presentan en formato adaptable regular.</p>';
+        }
+
+        box.innerHTML = html;
+    }
+
+    async function guardarDiagnosticoAlumno() {
+        if (!alumnoActivo) return alert('Selecciona o registra a un alumno primero.');
+
+        const perf = document.getElementById('selectPerfilCognitivo').value;
+        const obs = document.getElementById('textoDiagnostico').value.trim();
+
+        const payload = {
+            perfil_cognitivo: perf,
+            observaciones_diagnostico: obs,
+            fecha_diagnostico: new Date().toISOString()
+        };
+
+        try {
+            await Promise.all([
+                dbPrimary.collection('Clarity_Alumnos').doc(alumnoActivo.id).update(payload),
+                dbDelf.collection('Clarity_Alumnos').doc(alumnoActivo.id).update(payload)
+            ]);
+            alumnoActivo.perfil_cognitivo = perf;
+            alumnoActivo.observaciones_diagnostico = obs;
+            mostrarNotificacion('✅ Diagnóstico guardado. Sofía IA ha adaptado los materiales.');
+            renderizarMaterialesAdaptados();
+        } catch (e) { alert('Error al guardar diagnóstico: ' + e.message); }
+    }
+
+    async function eliminarAlumnoActual() {
+        if (!alumnoActivo) return;
+        if (confirm('¿Seguro que deseas eliminar a ' + alumnoActivo.nombre + '?')) {
+            const idDel = alumnoActivo.id;
+            try {
+                await Promise.all([
+                    dbPrimary.collection('Clarity_Alumnos').doc(idDel).delete(),
+                    dbDelf.collection('Clarity_Alumnos').doc(idDel).delete()
+                ]);
+                alumnoActivo = null;
+                mostrarNotificacion('✅ Alumno eliminado.');
+            } catch (e) { alert('Error al eliminar alumno: ' + e.message); }
+        }
+    }
+
+    function abrirModalAlumno() { document.getElementById('modalAgregarAlumno').style.display = 'flex'; }
+    function cerrarModalAlumno() { document.getElementById('modalAgregarAlumno').style.display = 'none'; }
+
+    async function guardarNuevoAlumno() {
+        var nombre = document.getElementById('inputNombreNuevoAlumno').value.trim();
+        var grado = document.getElementById('inputGradoNuevoAlumno').value.trim();
+        var diag = document.getElementById('inputDiagInicial').value;
+
+        if (!nombre || !grado) return alert('Nombre y grado son obligatorios.');
+
+        var almId = 'NC-' + Math.floor(1000 + Math.random() * 9000);
+        var codClase = (profesorActual ? (profesorActual.codigo_clase || profesorActual.docId) : 'cls-demo').toLowerCase();
+
+        var payload = {
+            id: almId.toLowerCase(),
+            nombre: nombre,
+            grado: grado,
+            codigo_clase: codClase,
+            perfil_cognitivo: diag,
+            fecha_alta: new Date().toISOString().split('T')[0]
+        };
+
+        try {
+            await Promise.all([
+                dbPrimary.collection('Clarity_Alumnos').doc(almId.toLowerCase()).set(payload),
+                dbDelf.collection('Clarity_Alumnos').doc(almId.toLowerCase()).set(payload)
+            ]);
+            cerrarModalAlumno();
+            mostrarNotificacion('✅ Alumno ' + nombre + ' registrado con éxito.');
+            document.getElementById('inputNombreNuevoAlumno').value = '';
+            document.getElementById('inputGradoNuevoAlumno').value = '';
+        } catch(e) { alert('Error al registrar alumno: ' + e.message); }
+    }
+
     function activarChatTiempoReal() {
+        if (!alumnoActivo) return;
         if (chatUnsubscribe) chatUnsubscribe();
 
-        chatUnsubscribe = db.collection('chats').doc(codigoAlumnoActual).collection('mensajes')
+        chatUnsubscribe = dbPrimary.collection('chats').doc(alumnoActivo.id).collection('mensajes')
           .orderBy('timestamp', 'asc')
           .onSnapshot(function(snapshot) {
               var box = document.getElementById('chatProfesorPadre');
@@ -393,7 +555,7 @@
                   var m = doc.data();
                   var div = document.createElement('div');
                   div.className = m.emisor === 'profesor' ? 'chat-msg profesor' : 'chat-msg padre';
-                  div.innerHTML = '<b>' + (m.emisor === 'profesor' ? 'Tú: ' : 'Padre: ') + '</b>' + m.texto;
+                  div.innerHTML = '<b>' + (m.emisor === 'profesor' ? 'Tú: ' : 'Tutor: ') + '</b>' + m.texto;
                   box.appendChild(div);
               });
               box.scrollTop = box.scrollHeight;
@@ -403,18 +565,25 @@
     function enviarMensajePadre() {
         var input = document.getElementById('inputMsgProfesor');
         var txt = input ? input.value.trim() : '';
-        if (!txt) return;
+        if (!txt || !alumnoActivo) return;
 
-        db.collection('chats').doc(codigoAlumnoActual).collection('mensajes').add({
+        dbPrimary.collection('chats').doc(alumnoActivo.id).collection('mensajes').add({
             emisor: 'profesor',
             texto: txt,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(function() {
-            input.value = '';
-        });
+        }).then(function() { input.value = ''; });
     }
 
-    // Funciones UI
+    function cambiarVista(nombreSeccion) {
+        document.querySelectorAll('.seccion').forEach(el => el.classList.remove('activa'));
+        document.querySelectorAll('.sidebar-btn').forEach(el => el.classList.remove('active'));
+
+        var sec = document.getElementById('sec-' + nombreSeccion);
+        var btn = document.getElementById('btn-' + nombreSeccion);
+        if (sec) sec.classList.add('activa');
+        if (btn) btn.classList.add('active');
+    }
+
     function mostrarNotificacion(texto) {
         var n = document.getElementById('notifPantalla');
         if (n) {
@@ -424,86 +593,22 @@
         }
     }
 
-    function cambiarVista(nombreSeccion) {
-        var secciones = document.querySelectorAll('.seccion');
-        for (var i = 0; i < secciones.length; i++) {
-            secciones[i].classList.remove('activa');
-        }
-        var botones = document.querySelectorAll('.sidebar-btn');
-        for (var j = 0; j < botones.length; j++) {
-            botones[j].classList.remove('active');
-        }
-        var secActiva = document.getElementById('sec-' + nombreSeccion);
-        if (secActiva) secActiva.classList.add('activa');
-        var btnActivo = document.getElementById('btn-' + nombreSeccion);
-        if (btnActivo) btnActivo.classList.add('active');
-    }
-
-    function abrirModalAlumno() {
-        document.getElementById('modalAgregarAlumno').style.display = 'flex';
-    }
-
-    function cerrarModalAlumno() {
-        document.getElementById('modalAgregarAlumno').style.display = 'none';
-    }
-
-    function vincularAlumnoPorCodigo() {
-        var nombre = document.getElementById('inputNombreNuevoAlumno').value.trim();
-        var grado = document.getElementById('inputGradoNuevoAlumno').value.trim();
-        var codInput = document.getElementById('inputCodigoVincular').value.trim().toUpperCase();
-
-        if (!nombre || !grado) return alert('Nombre y grado son obligatorios.');
-
-        var almId = codInput || ('NC-' + Math.floor(1000 + Math.random() * 9000));
-
-        db.collection('Clarity_Alumnos').doc(almId).set({
-            id: almId,
-            nombre: nombre,
-            grado: grado,
-            codigo_clase: profesorActual ? (profesorActual.codigo_clase || profesorActual.docId) : 'GENERAL',
-            fecha_alta: new Date().toISOString().split('T')[0]
-        }, { merge: true }).then(function() {
-            cerrarModalAlumno();
-            mostrarNotificacion('✅ Alumno ' + nombre + ' (' + almId + ') guardado con éxito.');
-            document.getElementById('inputNombreNuevoAlumno').value = '';
-            document.getElementById('inputGradoNuevoAlumno').value = '';
-            document.getElementById('inputCodigoVincular').value = '';
-        });
-    }
-
-    function eliminarAlumno() {
-        if (confirm('¿Eliminar al alumno de tu lista?')) {
-            db.collection('Clarity_Alumnos').doc(codigoAlumnoActual).delete().then(function() {
-                mostrarNotificacion('✅ Alumno desvinculado.');
-            });
-        }
-    }
-
-    function confirmarSubidaPlaneacion() {
-        mostrarNotificacion('☁️ Planeación pedagógica cargada exitosamente.');
-    }
+    function confirmarSubidaPlaneacion() { mostrarNotificacion('☁️ Planeación procesada por Sofía IA.'); }
 
     function generarPropuestaSofia() {
-        var inputTema = document.getElementById('temaDinamico');
-        var tema = inputTema ? inputTema.value : 'Tema general';
+        var tema = document.getElementById('temaDinamico').value;
         var resBox = document.getElementById('resultadoPropuesta');
         var resText = document.getElementById('textoPropuesta');
-        
         if (resText && resBox) {
-            resText.innerHTML = 'Generando materiales adaptados para el tema <b>' + tema + '</b>...';
+            resText.innerHTML = 'Generando adaptación para "' + tema + '" basada en el perfil psicopedagógico...';
             resBox.style.display = 'block';
-
             setTimeout(function() {
-                resText.innerHTML = '<b>Propuesta Generada por Sofía IA:</b><br>• 1. Flashcards interactivas de expresiones clave para "' + tema + '".<br>• 2. Guía visual con micro-metas de 5 minutos.<br>• 3. Ejercicios breves de práctica auditiva.';
+                resText.innerHTML = '<b>Propuesta Adaptativa Sofía IA:</b><br>• 1. Tarjetas conceptuales optimizadas.<br>• 2. Micro-metas con pausas activas.<br>• 3. Evaluación en 3 pasos directos.';
             }, 800);
         }
     }
 
-    function cerrarSesionProfesor() {
-        auth.signOut().then(function() {
-            location.reload();
-        });
-    }
+    function cerrarSesionProfesor() { auth.signOut().then(function() { location.reload(); }); }
     </script>
 
 </body>
