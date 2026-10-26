@@ -8,7 +8,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body { background-color: #f4f1ea; color: #333; }
         .banner { width: 100%; text-align: center; background: #eae6df; border-bottom: 1px solid #d6c7ec; }
-        .banner img { width: 100%; height: auto; display: block; }
+        .banner img { width: 100%; height: auto; display: block; max-height: 120px; object-fit: contain; margin: 0 auto; }
         .main-container { display: flex; max-width: 1200px; margin: 20px auto; gap: 20px; padding: 0 15px; }
         .sidebar { width: 260px; background: white; border-radius: 12px; padding: 15px; border: 1px solid #d6c7ec; flex-shrink: 0; height: fit-content; }
         .sidebar-btn { width: 100%; padding: 12px 10px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: left; border: 1px solid #ccc; background: white; color: #333; }
@@ -32,14 +32,64 @@
         .modal-box { background: white; width: 90%; max-width: 420px; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .propuesta-result { margin-top: 20px; padding: 15px; background: #f0ebf8; border: 1px solid #6339a6; border-radius: 8px; display: none; }
         .notif-inline { padding: 12px; border-radius: 6px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 15px; display: none; font-size: 14px; }
+        .teacher-bar { background: #4a2372; color: white; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .teacher-badge { background: #6339a6; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="banner">
-        <img src="assets/Encabezado-Web.png" alt="NeuroClarity">
+        <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.style.display='none'">
     </div>
 
+    <!-- MODAL DE ACCESO / ACTIVACIÓN DE CÓDIGO -->
+    <div id="modalLoginProfesor" class="modal-overlay" style="display: flex;">
+        <div class="modal-box" style="max-width: 450px;">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <h3 style="color: #4a2372; font-size: 20px;">🎓 Portal Docente NeuroClarity</h3>
+                <p style="font-size: 13px; color: #666; margin-top: 5px;">Ingresa tu código de clase para acceder o activar tu cuenta</p>
+            </div>
+
+            <!-- PASO 1: CÓDIGO -->
+            <div id="paso-codigo">
+                <div class="form-group">
+                    <label>Código de Clase / Profesor:</label>
+                    <input type="text" id="inputCodigoProfesor" class="form-control" placeholder="Ej: CLS-4A8B" style="text-align:center; font-size:16px; font-weight:bold; text-transform:uppercase;">
+                </div>
+                <button type="button" class="btn-action" style="background:#6339a6;" onclick="validarCodigoProfesor()">Verificar Código</button>
+            </div>
+
+            <!-- PASO 2: ACTIVACIÓN PRIMER INGRESO -->
+            <div id="paso-activacion" style="display:none;">
+                <p style="font-size:13px; color:#28a745; font-weight:bold; margin-bottom:10px;">¡Primer ingreso detectado! Completa tus datos para activar tu acceso:</p>
+                <div class="form-group">
+                    <label>Nombre Completo:</label>
+                    <input type="text" id="actNombreProfesor" class="form-control" readonly style="background:#eee;">
+                </div>
+                <div class="form-group">
+                    <label>Materia o Grupo asignado *:</label>
+                    <input type="text" id="actMateriaProfesor" class="form-control" placeholder="Ej: Francés / Primaria">
+                </div>
+                <div class="form-group">
+                    <label>Crea tu Contraseña *:</label>
+                    <input type="password" id="actPasswordProfesor" class="form-control" placeholder="Mínimo 6 caracteres">
+                </div>
+                <button type="button" class="btn-action" style="background:#28a745;" onclick="completarActivacionProfesor()">Completar Activación y Entrar</button>
+            </div>
+
+            <!-- PASO 3: INGRESO CON CONTRASEÑA -->
+            <div id="paso-password" style="display:none;">
+                <p id="txtBienvenidaProfesor" style="font-size:13px; color:#333; margin-bottom:10px;"></p>
+                <div class="form-group">
+                    <label>Contraseña:</label>
+                    <input type="password" id="loginPasswordProfesor" class="form-control" placeholder="Tu contraseña">
+                </div>
+                <button type="button" class="btn-action" style="background:#6339a6;" onclick="loginConPasswordProfesor()">Iniciar Sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL -->
     <div class="main-container">
         <div class="sidebar">
             <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()">➕ Vincular / Agregar Alumno</button>
@@ -51,9 +101,25 @@
         </div>
 
         <div class="content">
+            <!-- BARRA DE INFORMACIÓN DEL PROFESOR -->
+            <div id="profesorBar" class="teacher-bar" style="display:none;">
+                <div>
+                    <strong id="barNombreProfesor" style="font-size:16px;">Profesor</strong>
+                    <span id="barMateriaProfesor" class="teacher-badge" style="margin-left:8px;">Materia</span>
+                    <span id="barCodigoProfesor" class="teacher-badge" style="background:#2e7d32; margin-left:5px;">Código</span>
+                </div>
+                <button type="button" onclick="cerrarSesionProfesor()" style="background:transparent; border:1px solid #d6c7ec; color:white; padding:5px 10px; border-radius:4px; font-size:12px; cursor:pointer;">Cerrar Sesión</button>
+            </div>
+
             <div id="notifPantalla" class="notif-inline"></div>
             
             <div id="sec-panel" class="seccion activa">
+                <!-- SELECTOR DE ALUMNOS DE LA CLASE -->
+                <div id="boxSelectorAlumnos" style="margin-bottom:15px; display:none;">
+                    <label style="font-weight:bold; color:#6339a6; font-size:13px;">Seleccionar Alumno en Clase:</label>
+                    <select id="selectAlumnoClase" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="margin-top:5px;"></select>
+                </div>
+
                 <div id="contenedorAlumno" class="student-card">
                     <div>
                         <h2 id="nombreAlumnoDocente">Monse</h2>
@@ -81,11 +147,8 @@
             </div>
 
             <div id="sec-chat" class="seccion">
-                <h3 style="color:#4a2372; margin-bottom:15px;">💬 Chat con Tutor / Familia de Monse</h3>
-                <div class="chat-box" id="chatProfesorPadre">
-                    <div class="chat-msg padre"><b>Padre:</b> Hola profesor, quedo al pendiente del plan de Francés.</div>
-                    <div class="chat-msg profesor"><b>Tú:</b> Hola, en un momento te comparto la propuesta ajustada por Sofía IA.</div>
-                </div>
+                <h3 style="color:#4a2372; margin-bottom:15px;">💬 Chat con Tutor / Familia de <span id="chatNombreAlumno">Monse</span></h3>
+                <div class="chat-box" id="chatProfesorPadre"></div>
                 <div style="display:flex; gap:10px;">
                     <input type="text" id="inputMsgProfesor" class="form-control" placeholder="Escribe un mensaje a la familia...">
                     <button type="button" onclick="enviarMensajePadre()" style="background:#6339a6; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Enviar</button>
@@ -119,22 +182,227 @@
         </div>
     </div>
 
+    <!-- MODAL AGREGAR / VINCULAR ALUMNO -->
     <div id="modalAgregarAlumno" class="modal-overlay">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #D6C7EC; padding-bottom:10px; margin-bottom:15px;">
-                <h3 style="margin:0; color:#6339a6; font-size:18px;">🔗 Vincular Alumno por Código</h3>
+                <h3 style="margin:0; color:#6339a6; font-size:18px;">🔗 Vincular / Registrar Alumno</h3>
                 <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#666;">✖</button>
             </div>
-            <p style="font-size:13px; color:#555; margin-bottom:15px;">Ingresa el código único del alumno para cargar sus datos.</p>
-            <div style="margin-bottom:15px;">
-                <label style="display:block; font-weight:bold; margin-bottom:5px; color:#333; font-size:13px;">Código del Alumno:</label>
-                <input type="text" id="inputCodigoVincular" placeholder="EJ. NC-4105" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:15px; text-transform:uppercase;">
+            
+            <div class="form-group">
+                <label>Nombre del Alumno *:</label>
+                <input type="text" id="inputNombreNuevoAlumno" class="form-control" placeholder="Ej. Carlos Mendoza">
             </div>
-            <button type="button" onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px;">Cargar Datos</button>
+            <div class="form-group">
+                <label>Grado / Nivel *:</label>
+                <input type="text" id="inputGradoNuevoAlumno" class="form-control" placeholder="Ej. 3° Primaria / Francés A1">
+            </div>
+            <div class="form-group">
+                <label>Código Único (Opcional):</label>
+                <input type="text" id="inputCodigoVincular" class="form-control" placeholder="Ej. NC-4105" style="text-transform:uppercase;">
+            </div>
+
+            <button type="button" onclick="vincularAlumnoPorCodigo()" style="width:100%; background:#6339a6; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px;">Guardar / Vincular Alumno</button>
         </div>
     </div>
 
+    <!-- FIREBASE COMPAT SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
     <script>
+    // CONFIGURACIÓN OFICIAL FIREBASE NEUROCLARITY
+    const firebaseConfig = { 
+        apiKey: "AIzaSyD4xh8Ggj0CQIlL37Rt958u2gKqTSGCOpE", 
+        authDomain: "neuroreussit-29a3e.firebaseapp.com", 
+        projectId: "neuroreussit-29a3e", 
+        storageBucket: "neuroreussit-29a3e.firebasestorage.app", 
+        messagingSenderId: "166406726537", 
+        appId: "1:166406726537:web:687ba6d819747eb29c1313" 
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+
+    var db = firebase.firestore();
+    var auth = firebase.auth();
+
+    var profesorActual = null;
+    var codigoAlumnoActual = 'NC-4105';
+    var listaAlumnosClase = [];
+    var chatUnsubscribe = null;
+
+    // Detectar si viene ?codigo=CLS-XXXX en la URL
+    window.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const codigoUrl = urlParams.get('codigo');
+        if (codigoUrl) {
+            document.getElementById('inputCodigoProfesor').value = codigoUrl;
+            validarCodigoProfesor();
+        }
+    });
+
+    // 1. Validar Código del Profesor
+    function validarCodigoProfesor() {
+        var cod = document.getElementById('inputCodigoProfesor').value.trim().toLowerCase();
+        if (!cod) return alert('Ingresa tu código de clase.');
+
+        db.collection('Clarity_Profesores').doc(cod).get().then(function(docSnap) {
+            if (docSnap.exists) {
+                profesorActual = docSnap.data();
+                document.getElementById('paso-codigo').style.display = 'none';
+
+                if (!profesorActual.perfil_completo) {
+                    document.getElementById('paso-activacion').style.display = 'block';
+                    document.getElementById('actNombreProfesor').value = profesorActual.nombre || '';
+                } else {
+                    document.getElementById('paso-password').style.display = 'block';
+                    document.getElementById('txtBienvenidaProfesor').innerText = 'Hola Prof. ' + profesorActual.nombre + ', ingresa tu contraseña para acceder.';
+                }
+            } else {
+                alert('El código ingresado no existe en el sistema.');
+            }
+        }).catch(function(err) {
+            alert('Error al consultar código: ' + err.message);
+        });
+    }
+
+    // 2. Completar Activación primer ingreso
+    function completarActivacionProfesor() {
+        var materia = document.getElementById('actMateriaProfesor').value.trim();
+        var pass = document.getElementById('actPasswordProfesor').value.trim();
+
+        if (!materia) return alert('Ingresa la materia o grupo.');
+        if (!pass || pass.length < 6) return alert('La contraseña debe tener al menos 6 caracteres.');
+
+        auth.createUserWithEmailAndPassword(profesorActual.correo, pass).then(function() {
+            return db.collection('Clarity_Profesores').doc(profesorActual.id).update({
+                materia: materia,
+                perfil_completo: true
+            });
+        }).catch(function(authErr) {
+            if (authErr.code === 'auth/email-already-in-use') {
+                return auth.signInWithEmailAndPassword(profesorActual.correo, pass).then(function() {
+                    return db.collection('Clarity_Profesores').doc(profesorActual.id).update({
+                        materia: materia,
+                        perfil_completo: true
+                    });
+                });
+            } else {
+                throw authErr;
+            }
+        }).then(function() {
+            profesorActual.materia = materia;
+            profesorActual.perfil_completo = true;
+            iniciarPortalProfesor();
+        }).catch(function(e) {
+            alert('Error en la activación: ' + e.message);
+        });
+    }
+
+    // 3. Login con Contraseña
+    function loginConPasswordProfesor() {
+        var pass = document.getElementById('loginPasswordProfesor').value.trim();
+        if (!pass) return alert('Ingresa tu contraseña.');
+
+        auth.signInWithEmailAndPassword(profesorActual.correo, pass).then(function() {
+            iniciarPortalProfesor();
+        }).catch(function() {
+            alert('Contraseña incorrecta.');
+        });
+    }
+
+    // 4. Iniciar Portal
+    function iniciarPortalProfesor() {
+        document.getElementById('modalLoginProfesor').style.display = 'none';
+        
+        document.getElementById('profesorBar').style.display = 'flex';
+        document.getElementById('barNombreProfesor').innerText = 'Prof. ' + profesorActual.nombre;
+        document.getElementById('barMateriaProfesor').innerText = 'Materia: ' + (profesorActual.materia || 'General');
+        document.getElementById('barCodigoProfesor').innerText = 'Código: ' + profesorActual.codigo_clase;
+
+        cargarAlumnosDeClase();
+    }
+
+    // 5. Cargar Alumnos vinculados
+    function cargarAlumnosDeClase() {
+        db.collection('Clarity_Alumnos')
+          .where('codigo_clase', '==', profesorActual.codigo_clase)
+          .onSnapshot(function(snap) {
+              listaAlumnosClase = [];
+              var select = document.getElementById('selectAlumnoClase');
+              select.innerHTML = '';
+
+              snap.forEach(function(d) {
+                  listaAlumnosClase.push(d.data());
+              });
+
+              if (listaAlumnosClase.length > 0) {
+                  document.getElementById('boxSelectorAlumnos').style.display = 'block';
+                  listaAlumnosClase.forEach(function(alm, idx) {
+                      var opt = document.createElement('option');
+                      opt.value = alm.id;
+                      opt.innerText = alm.nombre + ' (' + alm.grado + ')';
+                      select.appendChild(opt);
+                  });
+                  seleccionarAlumnoClase(listaAlumnosClase[0].id);
+              } else {
+                  document.getElementById('boxSelectorAlumnos').style.display = 'none';
+              }
+          });
+    }
+
+    function seleccionarAlumnoClase(idAlumno) {
+        var alm = listaAlumnosClase.find(a => a.id === idAlumno);
+        if (!alm) return;
+
+        codigoAlumnoActual = alm.id || alm.codigo || 'NC-4105';
+        document.getElementById('nombreAlumnoDocente').innerText = alm.nombre;
+        document.getElementById('gradoAlumnoDocente').innerText = alm.grado || 'General';
+        document.getElementById('codigoAlumnoDocente').innerText = codigoAlumnoActual;
+        document.getElementById('chatNombreAlumno').innerText = alm.nombre;
+
+        activarChatTiempoReal();
+    }
+
+    // 6. Chat en Tiempo Real
+    function activarChatTiempoReal() {
+        if (chatUnsubscribe) chatUnsubscribe();
+
+        chatUnsubscribe = db.collection('chats').doc(codigoAlumnoActual).collection('mensajes')
+          .orderBy('timestamp', 'asc')
+          .onSnapshot(function(snapshot) {
+              var box = document.getElementById('chatProfesorPadre');
+              box.innerHTML = '';
+              snapshot.forEach(function(doc) {
+                  var m = doc.data();
+                  var div = document.createElement('div');
+                  div.className = m.emisor === 'profesor' ? 'chat-msg profesor' : 'chat-msg padre';
+                  div.innerHTML = '<b>' + (m.emisor === 'profesor' ? 'Tú: ' : 'Padre: ') + '</b>' + m.texto;
+                  box.appendChild(div);
+              });
+              box.scrollTop = box.scrollHeight;
+          });
+    }
+
+    function enviarMensajePadre() {
+        var input = document.getElementById('inputMsgProfesor');
+        var txt = input ? input.value.trim() : '';
+        if (!txt) return;
+
+        db.collection('chats').doc(codigoAlumnoActual).collection('mensajes').add({
+            emisor: 'profesor',
+            texto: txt,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(function() {
+            input.value = '';
+        });
+    }
+
+    // Funciones UI
     function mostrarNotificacion(texto) {
         var n = document.getElementById('notifPantalla');
         if (n) {
@@ -149,57 +417,54 @@
         for (var i = 0; i < secciones.length; i++) {
             secciones[i].classList.remove('activa');
         }
-
         var botones = document.querySelectorAll('.sidebar-btn');
         for (var j = 0; j < botones.length; j++) {
             botones[j].classList.remove('active');
         }
-
         var secActiva = document.getElementById('sec-' + nombreSeccion);
         if (secActiva) secActiva.classList.add('activa');
-
         var btnActivo = document.getElementById('btn-' + nombreSeccion);
         if (btnActivo) btnActivo.classList.add('active');
     }
 
     function abrirModalAlumno() {
-        var m = document.getElementById('modalAgregarAlumno');
-        if (m) m.style.display = 'flex';
+        document.getElementById('modalAgregarAlumno').style.display = 'flex';
     }
 
     function cerrarModalAlumno() {
-        var m = document.getElementById('modalAgregarAlumno');
-        if (m) m.style.display = 'none';
+        document.getElementById('modalAgregarAlumno').style.display = 'none';
     }
 
     function vincularAlumnoPorCodigo() {
-        var input = document.getElementById('inputCodigoVincular');
-        var cod = input ? input.value.trim().toUpperCase() : '';
-        if (code = code.replace(site-delf, )) return;
-        
-        var el = document.getElementById('codigoAlumnoDocente');
-        if (el) el.innerText = cod;
-        cerrarModalAlumno();
-        mostrarNotificacion('✅ Alumno ' + cod + ' vinculado con éxito al panel.');
+        var nombre = document.getElementById('inputNombreNuevoAlumno').value.trim();
+        var grado = document.getElementById('inputGradoNuevoAlumno').value.trim();
+        var codInput = document.getElementById('inputCodigoVincular').value.trim().toUpperCase();
+
+        if (!nombre || !grado) return alert('Nombre y grado son obligatorios.');
+
+        var almId = codInput || ('NC-' + Math.floor(1000 + Math.random() * 9000));
+
+        db.collection('Clarity_Alumnos').doc(almId).set({
+            id: almId,
+            nombre: nombre,
+            grado: grado,
+            codigo_clase: profesorActual ? profesorActual.codigo_clase : 'GENERAL',
+            fecha_alta: new Date().toISOString().split('T')[0]
+        }, { merge: true }).then(function() {
+            cerrarModalAlumno();
+            mostrarNotificacion('✅ Alumno ' + nombre + ' (' + almId + ') guardado con éxito.');
+            document.getElementById('inputNombreNuevoAlumno').value = '';
+            document.getElementById('inputGradoNuevoAlumno').value = '';
+            document.getElementById('inputCodigoVincular').value = '';
+        });
     }
 
     function eliminarAlumno() {
-        var elem = document.getElementById('contenedorAlumno');
-        if (elem) elem.style.display = 'none';
-        mostrarNotificacion('✅ Alumno desvinculado del panel del profesor.');
-    }
-
-    function enviarMensajePadre() {
-        var input = document.getElementById('inputMsgProfesor');
-        var txt = input ? input.value.trim() : '';
-
-        var box = document.getElementById('chatProfesorPadre');
-        var msgDiv = document.createElement('div');
-        msgDiv.className = 'chat-msg profesor';
-        msgDiv.innerHTML = '<b>Tú:</b> ' + txt;
-        box.appendChild(msgDiv);
-        box.scrollTop = box.scrollHeight;
-        input.value = '';
+        if (confirm('¿Eliminar al alumno de tu lista?')) {
+            db.collection('Clarity_Alumnos').doc(codigoAlumnoActual).delete().then(function() {
+                mostrarNotificacion('✅ Alumno desvinculado.');
+            });
+        }
     }
 
     function confirmarSubidaPlaneacion() {
@@ -221,53 +486,13 @@
             }, 800);
         }
     }
+
+    function cerrarSesionProfesor() {
+        auth.signOut().then(function() {
+            location.reload();
+        });
+    }
     </script>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script>
-// Inicialización de Firestore si no existe
-    firebase.initializeApp(window.firebaseConfig || {
-        apiKey: "AIzaSyFakeKeyForTesting",
-        projectId: "neuroclarity-app"
-    });
-}
-var db = firebase.firestore();
-var codigoAlumnoActual = 'NC-4105';
-
-// Escuchar mensajes en tiempo real desde Firestore
-function activarChatTiempoReal() {
-    db.collection('chats').doc(codigoAlumnoActual).collection('mensajes')
-      .orderBy('timestamp', 'asc')
-      .onSnapshot(function(snapshot) {
-          var box = document.getElementById('chatProfesorPadre');
-          box.innerHTML = '';
-          snapshot.forEach(function(doc) {
-              var m = doc.data();
-              var div = document.createElement('div');
-              div.className = m.emisor === 'profesor' ? 'chat-msg profesor' : 'chat-msg padre';
-              div.innerHTML = '<b>' + (m.emisor === 'profesor' ? 'Tú: ' : 'Padre: ') + '</b>' + m.texto;
-              box.appendChild(div);
-          });
-          box.scrollTop = box.scrollHeight;
-      });
-}
-
-function enviarMensajePadre() {
-    var input = document.getElementById('inputMsgProfesor');
-    var txt = input ? input.value.trim() : '';
-
-    db.collection('chats').doc(codigoAlumnoActual).collection('mensajes').add({
-        emisor: 'profesor',
-        texto: txt,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(function() {
-        input.value = '';
-    });
-}
-
-window.addEventListener('DOMContentLoaded', activarChatTiempoReal);
-</script>
 
 </body>
 </html>

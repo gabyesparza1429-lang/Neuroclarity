@@ -1,12 +1,16 @@
 {
   "hosting": {
+    "site": "neuroclarity-app",
     "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
-    ],
-    "cleanUrls": true,
-    "trailingSlash": false
+      "**/node_modules/**",
+      "functions/**",
+      ".git/**",
+      "**/*.py",
+      "**/*.sh",
+      "**/*.zip"
+    ]
   }
 }

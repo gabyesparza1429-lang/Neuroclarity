@@ -3,801 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
     <title>NeuroClarity - Ingeniería Pedagógica</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-cream: #FAF8F5;
-            --purple-dark: #2A1654;
-            --purple-light: #6339A6;
-            --purple-pale: #F2EDFA;
-            --white: #FFFFFF;
-            --text-muted: #4E4266;
-            --font-main: 'Outfit', sans-serif;
-            --border-suave: #E6E1ED;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-main);
-            background-color: var(--bg-cream);
-            color: var(--purple-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .hero-banner-header {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            background-color: #F1EBE1;
-            border-bottom: 1px solid var(--border-suave);
-            overflow: hidden;
-        }
-
-        .hero-banner-header .banner-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        .nav-actions-overlay {
-            position: absolute;
-            top: 24px;
-            right: 40px;
-            display: flex;
-            gap: 16px;
-            z-index: 10;
-        }
-
-        .btn {
-            font-family: var(--font-main);
-            font-size: 15px;
-            font-weight: 500;
-            padding: 10px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-login {
-            background-color: rgba(255, 255, 255, 0.9);
-            color: var(--purple-dark);
-            border: 1px solid rgba(42, 22, 84, 0.2);
-            backdrop-filter: blur(4px);
-        }
-
-        .btn-login:hover {
-            background-color: var(--white);
-            transform: translateY(-1px);
-        }
-
-        .btn-primary {
-            background-color: var(--purple-dark);
-            color: var(--white);
-            border: none;
-            box-shadow: 0 4px 12px rgba(42, 22, 84, 0.15);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--purple-light);
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background-color: var(--purple-light);
-            color: var(--white);
-            border: none;
-            padding: 14px 32px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--purple-dark);
-            transform: translateY(-1px);
-        }
-
-        .hero-text-block {
-            padding: 50px 0 70px 0;
-            text-align: center;
-        }
-
-        .hero-text-block h1 {
-            font-size: 32px; 
-            font-weight: 700;
-            line-height: 1.3;
-            max-width: 800px;
-            margin: 0 auto 20px auto;
-            letter-spacing: -0.5px;
-        }
-
-        .hero-text-block p {
-            font-size: 17px;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 32px auto;
-        }
-
-        .science {
-            padding: 80px 0;
-            background-color: var(--white);
-            border-top: 1px solid rgba(42, 22, 84, 0.04);
-            border-bottom: 1px solid rgba(42, 22, 84, 0.04);
-        }
-
-        .section-header {
-            max-width: 900px;
-            margin-bottom: 48px;
-        }
-
-        .section-header h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-
-        .section-header p {
-            font-size: 16px;
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .feature-card {
-            background-color: var(--bg-cream);
-            padding: 32px;
-            border-radius: 12px;
-            border: 1px solid rgba(42, 22, 84, 0.04);
-        }
-
-        .feature-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--purple-light);
-        }
-
-        .feature-card p {
-            font-size: 15px;
-            color: var(--text-muted);
-        }
-
-        .pricing-section {
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .pricing-section h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .pricing-section .sub-title {
-            font-size: 17px;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-        }
-
-        .tab-container {
-            display: inline-flex;
-            background-color: var(--purple-pale);
-            padding: 6px;
-            border-radius: 12px;
-            margin-bottom: 50px;
-            border: 1px solid var(--border-suave);
-        }
-
-        .tab-btn {
-            padding: 12px 30px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            background: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .tab-btn.active {
-            background-color: var(--white);
-            color: var(--purple-dark);
-            box-shadow: 0 4px 10px rgba(42, 22, 84, 0.05);
-        }
-
-        .pricing-view {
-            display: none;
-            max-width: 1000px;
-            margin: 0 auto;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .pricing-view.active {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-            justify-content: center;
-        }
-
-        .pricing-card {
-            background-color: var(--white);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid var(--border-suave);
-            box-shadow: 0 10px 30px rgba(42, 22, 84, 0.02);
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .pricing-card.centered-card {
-            max-width: 500px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .pricing-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .pricing-card .price {
-            font-size: 38px;
-            font-weight: 700;
-            color: var(--purple-light);
-            margin-bottom: 25px;
-        }
-
-        .pricing-card .price span {
-            font-size: 16px;
-            font-weight: 400;
-            color: var(--text-muted);
-        }
-
-        .benefits-list {
-            list-style: none;
-            margin-bottom: 35px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .benefits-list li {
-            font-size: 15px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .benefits-list li::before {
-            content: "✓";
-            color: var(--purple-light);
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .license-counter-box {
-            background-color: var(--bg-cream);
-            padding: 15px 20px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            border: 1px solid var(--border-suave);
-        }
-
-        .license-counter-box label {
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .license-counter-box select {
-            padding: 8px 15px;
-            font-size: 15px;
-            border-radius: 6px;
-            border: 1px solid var(--border-suave);
-            background: var(--white);
-            color: var(--purple-dark);
-            font-weight: 600;
-            outline: none;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .footer {
-            background-color: var(--purple-dark);
-            color: rgba(255, 255, 255, 0.8);
-            padding: 40px 0;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            .nav-actions-overlay {
-                position: relative;
-                top: 0;
-                right: 0;
-                padding: 16px;
-                justify-content: center;
-                background-color: var(--bg-cream);
-            }
-            .hero-text-block h1 { font-size: 26px; }
-            .section-header h2, .pricing-section h2 { font-size: 24px; }
-            .pricing-view.active { grid-template-columns: 1fr; }
-        }
-
-        /* MODAL DE AUTENTICACIÓN (LOGIN Y REGISTRO AUTOMÁTICO) */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 22, 84, 0.5);
-            backdrop-filter: blur(6px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
+        :root { --oxford: #002147; --purple: #6339a6; --dark-purple: #4a2372; --gold: #C5A059; --bg: #f4f1ea; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--bg); color: #333; line-height: 1.6; }
         
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        .modal-card {
-            background: var(--white);
-            padding: 35px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 40px rgba(42, 22, 84, 0.2);
-            position: relative;
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
-        }
+        .header { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d6c7ec; position: sticky; top: 0; z-index: 1000; }
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-container img { height: 45px; }
+        .nav-btns { display: flex; gap: 15px; }
+        .btn-nav { padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 0.85rem; border: none; transition: 0.3s; }
+        .btn-login { background: white; color: var(--purple); border: 2px solid var(--purple); }
+        .btn-login:hover { background: #f0ebf8; }
+        .btn-primary { background: var(--purple); color: white; }
+        .btn-primary:hover { background: var(--dark-purple); }
 
-        .modal-overlay.active .modal-card {
-            transform: translateY(0);
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 16px; right: 20px;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-muted);
-            background: none;
-            border: none;
-            font-weight: bold;
-        }
+        .hero { text-align: center; padding: 60px 20px; max-width: 900px; margin: 0 auto; }
+        .hero h1 { color: var(--dark-purple); font-size: 2.2rem; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.1rem; color: #555; margin-bottom: 30px; }
 
-        .auth-tab-group {
-            display: flex;
-            border-bottom: 2px solid var(--border-suave);
-            margin-bottom: 20px;
-        }
-
-        .auth-tab-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: none;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-
-        .auth-tab-btn.active {
-            color: var(--purple-dark);
-            border-bottom: 3px solid var(--purple-dark);
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-            text-align: left;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-box { background: white; width: 90%; max-width: 440px; border-radius: 16px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; }
+        .close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 22px; cursor: pointer; color: #888; }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border-suave);
-            border-radius: 8px;
-            font-family: var(--font-main);
-            font-size: 14px;
-            outline: none;
-            color: var(--purple-dark);
-            background-color: var(--white);
-        }
-        
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--purple-light);
-        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--dark-purple); font-size: 0.9rem; }
+        .form-control { width: 100%; padding: 12px; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; transition: 0.3s; }
+        .form-control:focus { border-color: var(--purple); outline: none; }
+
+        .btn-action { width: 100%; background: var(--purple); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+        .btn-action:hover { background: var(--dark-purple); }
+
+        .divider { text-align: center; margin: 25px 0; position: relative; }
+        .divider::before { content: ""; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #ddd; z-index: 1; }
+        .divider span { background: white; padding: 0 10px; position: relative; z-index: 2; color: #888; font-size: 0.8rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <header class="hero-banner-header">
-        <img src="assets/Encabezado-Web.png" alt="NeuroClarity Banner" class="banner-img">
-        
-        <div class="nav-actions-overlay">
-            <a href="#" id="openLoginBtn" class="btn btn-login">Acceso / Registrarse</a>
-            <a href="#membresias" class="btn btn-primary">Adquirir Licencia</a>
+    <header class="header">
+        <div class="logo-container">
+            <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.onerror=null; this.src='assets/favicon.png';">
+        </div>
+        <div class="nav-btns">
+            <button class="btn-nav btn-login" onclick="abrirModalAcceso()"><i class="fas fa-key"></i> Acceso a Plataforma</button>
         </div>
     </header>
 
-    <section class="hero-text-block">
-        <div class="container">
-            <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
-            <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
-            <a href="#membresias" class="btn btn-secondary">Ver Planes Disponibles</a>
-        </div>
+    <section class="hero">
+        <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
+        <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
+        <button class="btn-nav btn-primary" style="padding: 15px 30px; font-size: 1rem;" onclick="abrirModalAcceso()">Ingresar con mi Código</button>
     </section>
 
-    <section class="science">
-        <div class="container">
-            <div class="section-header">
-                <h2>Diferentes formas de procesar, el mismo derecho a triunfar</h2>
-                <p>La neurodivergencia (TDAH, Dislexia, Autismo) no es una incapacidad para aprender; es simplemente una estructura cognitiva distinta. El sistema educativo tradicional impone un estándar rígido de entrega de información que genera una brecha injusta. NeuroClarity no altera el contenido académico: adapta el canal de comunicación. Nuestra tecnología transforma materiales ordinarios en interfaces personalizadas según la necesidad del estudiante.</p>
-            </div>
+    <!-- MODAL ÚNICO DE ACCESO POR CÓDIGO O CREDENCIALES -->
+    <div id="modalAcceso" class="modal-overlay">
+        <div class="modal-box">
+            <button class="close-btn" onclick="cerrarModalAcceso()">&times;</button>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>Línea de Enfoque</h3>
-                    <p>Fuentes optimizadas, espaciado activo y regletas de lectura visual para dislexia.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Bloques de Lectura</h3>
-                    <p>Fragmentación del texto en micro-bloques de enfoque y temporizadores integrados para TDAH.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Apoyos Pictográficos</h3>
-                    <p>Inyección automática de apoyos visuales y traducción de lenguaje figurado a literal para TEA.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- MÓDULO DE COMPRA Y TARIFAS -->
-    <section class="pricing-section" id="membresias">
-        <div class="container">
-            <h2>Adquiere tu Licencia NeuroClarity</h2>
-            <p class="sub-title">Selecciona la modalidad que mejor se adapte a tus necesidades.</p>
-
-            <div class="tab-container">
-                <button class="tab-btn active" onclick="togglePricingTab('padres', event)">Padres de Familia</button>
-                <button class="tab-btn" onclick="togglePricingTab('escuelas', event)">Escuelas y Docentes</button>
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h3 style="color: var(--dark-purple); font-size: 1.3rem;"><i class="fas fa-brain" style="color:var(--gold);"></i> Acceso a NeuroClarity</h3>
+                <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">Ingresa con tu código de clase otorgado por administración</p>
             </div>
 
-            <!-- PADRES -->
-            <div id="view-padres" class="pricing-view active">
-                <div class="pricing-card">
-                    <div>
-                        <h3>Plan Familiar Estándar</h3>
-                        <div class="price">$681.55 <span>MXN / mes</span></div>
-                        <ul class="benefits-list">
-                            <li>Acceso total al Portal del Alumno</li>
-                            <li>Panel de Monitoreo para la Familia</li>
-                            <li>1 Código de Vinculación para Profesor</li>
-                            <li>Adaptación de materiales con IA ilimitada</li>
-                        </ul>
-                    </div>
-                    <a href="https://buy.stripe.com/test_7sYeV540jeIEaxd03C5ZC00" class="btn btn-secondary" style="width: 100%; text-align: center;">Suscribirme</a>
-                </div>
+            <!-- SECCIÓN 1: ACCESO PRINCIPAL POR CÓDIGO -->
+            <div class="form-group">
+                <label><i class="fas fa-ticket-alt"></i> Código de Acceso / Vinculación:</label>
+                <input type="text" id="inputCodigoGeneral" class="form-control" placeholder="Ej: CLS-4A8B, ESC-XXXX o NC-XXXX" style="text-align:center; font-weight:bold; text-transform:uppercase; letter-spacing: 1px;">
+            </div>
+            <button class="btn-action" onclick="ingresarConCodigo()"><i class="fas fa-arrow-right"></i> Entrar a mi Portal</button>
 
-                <div class="pricing-card">
-                    <div>
-                        <h3>Plan Familiar Premium</h3>
-                        <div class="price">$1,214.18 <span>MXN / mes</span></div>
-                        <ul class="benefits-list">
-                            <li>Todo lo del Plan Estándar</li>
-                            <li>Evaluación psicopedagógica asistida por IA</li>
-                            <li>Reportes avanzados de avance cognitivo</li>
-                            <li>Soporte prioritario 24/7</li>
-                        </ul>
-                    </div>
-                    <a href="https://buy.stripe.com/test_5kQeV5gN5eIEeNt5nW5ZC01" class="btn btn-secondary" style="width: 100%; text-align: center;">Suscribirme</a>
-                </div>
+            <div class="divider">
+                <span>Ó INICIA SESIÓN CON CREDENCIALES</span>
             </div>
 
-            <!-- ESCUELAS -->
-            <div id="view-escuelas" class="pricing-view">
-                <div class="pricing-card centered-card">
-                    <div>
-                        <h3>Licencia Escolar por Volumen</h3>
-                        <div class="price" id="school-price-display">$12,278 <span>MXN / mes</span></div>
-                        
-                        <div class="license-counter-box">
-                            <label for="license-select">Cupos de Alumnos:</label>
-                            <select id="license-select" onchange="calculateSchoolPrice()">
-                                <option value="10">1 a 10 Alumnos</option>
-                                <option value="20">11 a 20 Alumnos</option>
-                                <option value="30" selected>21 a 30 Alumnos</option>
-                                <option value="50">31 a 50 Alumnos</option>
-                            </select>
-                        </div>
-
-                        <ul class="benefits-list">
-                            <li>Panel de Gestión Centralizada para la Institución</li>
-                            <li>Asignación inmediata de licencias docentes</li>
-                            <li>Códigos de vinculación familiar automáticos</li>
-                            <li>Asistente IA para Procesamiento de Planeaciones</li>
-                        </ul>
-                    </div>
-                    <a href="https://buy.stripe.com/test_14A4grbsL440gVB3fO5ZC02" class="btn btn-secondary" style="width: 100%; text-align: center;">Contratar Plan Escolar</a>
-                </div>
+            <!-- SECCIÓN 2: ACCESO SECUNDARIO POR CORREO -->
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Correo Electrónico:</label>
+                <input type="email" id="loginCorreo" class="form-control" placeholder="ejemplo@correo.com">
             </div>
-
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <p>© 2026 NeuroRéussit / NeuroClarity. Ingeniería Pedagógica para Mentes Diversas. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <!-- VENTANA FLOTANTE (LOGIN Y REGISTRO AUTOMÁTICO) -->
-    <div id="loginModal" class="modal-overlay">
-        <div class="modal-card">
-            <button class="modal-close" id="closeLoginBtn">&times;</button>
-            
-            <div class="auth-tab-group">
-                <button class="auth-tab-btn active" onclick="cambiarAuthTab('login')">Iniciar Sesión</button>
-                <button class="auth-tab-btn" onclick="cambiarAuthTab('registro')">Crear Cuenta</button>
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Contraseña:</label>
+                <input type="password" id="loginPass" class="form-control" placeholder="••••••••">
             </div>
-
-            <!-- ACCESO -->
-            <form id="formLogin">
-                <div class="form-group">
-                    <label for="loginEmail">Correo Electrónico</label>
-                    <input type="email" id="loginEmail" required placeholder="ejemplo@correo.com">
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Contraseña</label>
-                    <input type="password" id="loginPassword" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px; margin-top: 10px;">Ingresar</button>
-
-        <div style="margin-top: 18px; padding-top: 15px; border-top: 1px solid #E6E1ED; text-align: center;">
-            <p style="font-size: 13px; color: #4E4266; margin-bottom: 8px; font-weight: bold;">¿Eres alumno con código?</p>
-            <div style="display: flex; gap: 8px;">
-                <input type="text" id="inputCodigoAlumnoModal" placeholder="Ingresa tu código" style="flex: 1; padding: 10px; border: 1px solid #E6E1ED; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
-                <button onclick="var c = document.getElementById('inputCodigoAlumnoModal').value; if(c.trim() !== '') { window.location.href='alumno.html?code=' + encodeURIComponent(c); } else { alert('Por favor ingresa un código válido'); }" style="padding: 10px 16px; background-color: #6339A6; color: #ffffff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px;">Entrar</button>
-            </div>
-        </div>
-    
-            </form>
-
-            <!-- REGISTRO AUTOSERVICIO -->
-            <form id="formRegistro" style="display: none;">
-                <div class="form-group">
-                    <label for="regRol">Tipo de Cuenta / Rol</label>
-                    <select id="regRol" required>
-                        <option value="profesor">Profesor / Especialista</option>
-                        <option value="padre">Padre de Familia / Tutor</option>
-                        <option value="escuela">Dirección Escolar</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="regNombre">Nombre Completo</label>
-                    <input type="text" id="regNombre" required placeholder="Ej: Profr. Roberto Gómez">
-                </div>
-                <div class="form-group">
-                    <label for="regEmail">Correo Electrónico</label>
-                    <input type="email" id="regEmail" required placeholder="tu@correo.com">
-                </div>
-                <div class="form-group">
-                    <label for="regPassword">Contraseña</label>
-                    <input type="password" id="regPassword" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px; margin-top: 10px;">Crear Cuenta e Ingresar</button>
-
-        <div style="margin-top: 18px; padding-top: 15px; border-top: 1px solid #E6E1ED; text-align: center;">
-            <p style="font-size: 13px; color: #4E4266; margin-bottom: 8px; font-weight: bold;">¿Eres alumno con código?</p>
-            <div style="display: flex; gap: 8px;">
-                <input type="text" id="inputCodigoAlumnoModal" placeholder="Ingresa tu código" style="flex: 1; padding: 10px; border: 1px solid #E6E1ED; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
-                <button onclick="var c = document.getElementById('inputCodigoAlumnoModal').value; if(c.trim() !== '') { window.location.href='alumno.html?code=' + encodeURIComponent(c); } else { alert('Por favor ingresa un código válido'); }" style="padding: 10px 16px; background-color: #6339A6; color: #ffffff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px;">Entrar</button>
-            </div>
-        </div>
-    
-            </form>
+            <button class="btn-action" style="background: var(--oxford);" onclick="ingresarConCorreo()"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
         </div>
     </div>
 
-    <!-- SCRIPTS DE PESTAÑAS Y CALCULADORA -->
+    <!-- SCRIPTS FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
     <script>
-        function togglePricingTab(type, e) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.pricing-view').forEach(view => view.classList.remove('active'));
-
-            e.target.classList.add('active');
-            if (type === 'padres') {
-                document.getElementById('view-padres').classList.add('active');
-            } else {
-                document.getElementById('view-escuelas').classList.add('active');
-            }
-        }
-
-        function calculateSchoolPrice() {
-            const select = document.getElementById('license-select');
-            const display = document.getElementById('school-price-display');
-            const qty = parseInt(select.value);
-            let total = 12278;
-
-            if (qty === 10) total = 4679;
-            else if (qty === 20) total = 8770;
-            else if (qty === 30) total = 12278;
-            else if (qty === 50) total = 18997;
-
-            display.innerHTML = `$${total.toLocaleString('es-MX')} <span>MXN / mes</span>`;
-        }
-
-        function cambiarAuthTab(tab) {
-            const btns = document.querySelectorAll('.auth-tab-btn');
-            btns.forEach(b => b.classList.remove('active'));
-
-            if (tab === 'login') {
-                btns[0].classList.add('active');
-                document.getElementById('formLogin').style.display = 'block';
-                document.getElementById('formRegistro').style.display = 'none';
-            } else {
-                btns[1].classList.add('active');
-                document.getElementById('formLogin').style.display = 'none';
-                document.getElementById('formRegistro').style.display = 'block';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('loginModal');
-            const openBtn = document.getElementById('openLoginBtn');
-            const closeBtn = document.getElementById('closeLoginBtn');
-
-            if (openBtn && modal && closeBtn) {
-                openBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    modal.classList.add('active');
-                });
-
-                closeBtn.addEventListener('click', () => {
-                    modal.classList.remove('active');
-                });
-
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.remove('active');
-                    }
-                });
-            }
-        });
-    </script>
-
-    <!-- FIREBASE AUTH & FIRESTORE -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
-
-        const ncConfig = {
-            apiKey: "AIzaSyB_KGcAMdYLqKTFr0XQJkVnSVuX2LbKq4Q", 
-            authDomain: "neuroclarity-dcf0e.firebaseapp.com",
-            projectId: "neuroclarity-dcf0e",
-            storageBucket: "neuroclarity-dcf0e.firebasestorage.app",
-            messagingSenderId: "34116345239",
-            appId: "1:34116345239:web:0bd6a7484a7f2ff081f8d2"
+        const firebaseConfig = { 
+            apiKey: "AIzaSyD4xh8Ggj0CQIlL37Rt958u2gKqTSGCOpE", 
+            authDomain: "objectif-reussite-delf.firebaseapp.com", 
+            projectId: "objectif-reussite-delf", 
+            storageBucket: "objectif-reussite-delf.firebasestorage.app", 
+            messagingSenderId: "942279633770", 
+            appId: "1:942279633770:web:e90614774e16f5aa9c1313" 
         };
 
-        const app = initializeApp(ncConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        function redirigirPorRol(rol) {
-            if (rol === "profesor") window.location.href = "profesor.html";
-            else if (rol === "escuela") window.location.href = "panel-escuela.html";
-            else window.location.href = "panel-padre.html";
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
         }
 
-        // LOGIN
-        document.getElementById('formLogin').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        function abrirModalAcceso() {
+            document.getElementById('modalAcceso').style.display = 'flex';
+        }
+
+        function cerrarModalAcceso() {
+            document.getElementById('modalAcceso').style.display = 'none';
+        }
+
+        async function ingresarConCodigo() {
+            const cod = document.getElementById('inputCodigoGeneral').value.trim().toUpperCase();
+            if (!cod) return alert("Por favor ingresa un código de acceso.");
+
+            const codLower = cod.toLowerCase();
+
+            if (cod.startsWith('CLS') || cod.startsWith('CLS-')) {
+                window.location.href = 'profesor.html?codigo=' + codLower;
+                return;
+            }
+
+            if (cod.startsWith('ESC') || cod.startsWith('ESC-')) {
+                window.location.href = 'panel-escuela.html?codigo=' + codLower;
+                return;
+            }
 
             try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                let docSnap = await getDoc(doc(db, "usuarios", user.uid));
-                let rol = "padre";
-
-                if (docSnap.exists()) {
-                    rol = docSnap.data().rol || "padre";
-                } else {
-                    docSnap = await getDoc(doc(db, "NeuroClarity_Membresias", email));
-                    if (docSnap.exists()) {
-                        rol = (docSnap.data().tipo_licencia || "padre").toLowerCase();
-                    }
+                const profSnap = await db.collection('Clarity_Profesores').doc(codLower).get();
+                if (profSnap.exists) {
+                    window.location.href = 'profesor.html?codigo=' + codLower;
+                    return;
                 }
 
-                document.getElementById('loginModal').classList.remove('active');
-                redirigirPorRol(rol);
-            } catch (error) {
-                console.error(error);
-                alert("Detalle de error Firebase: " + (error.code ? error.code : error.message));
-            }
-        });
+                const escSnap = await db.collection('Clarity_Escuelas').doc(codLower).get();
+                if (escSnap.exists) {
+                    window.location.href = 'panel-escuela.html?codigo=' + codLower;
+                    return;
+                }
 
-        // REGISTRO
-        document.getElementById('formRegistro').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const rol = document.getElementById('regRol').value;
-            const nombre = document.getElementById('regNombre').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value;
+                window.location.href = 'alumno.html?codigo=' + cod;
+            } catch (e) {
+                window.location.href = 'profesor.html?codigo=' + codLower;
+            }
+        }
+
+        async function ingresarConCorreo() {
+            const correo = document.getElementById('loginCorreo').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if (!correo || !pass) return alert("Ingresa tu correo y contraseña.");
 
             try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                await setDoc(doc(db, "usuarios", user.uid), {
-                    nombre: nombre,
-                    email: email,
-                    rol: rol,
-                    fechaRegistro: new Date()
-                });
-
-                document.getElementById('loginModal').classList.remove('active');
-                alert("¡Cuenta creada exitosamente!");
-                redirigirPorRol(rol);
+                await auth.signInWithEmailAndPassword(correo, pass);
+                window.location.href = 'profesor.html';
             } catch (error) {
-                console.error(error);
-                alert("Error al registrar cuenta: " + error.message);
+                alert("Error de acceso: " + error.message);
             }
-        });
+        }
     </script>
 </body>
 </html>
