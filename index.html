@@ -11,20 +11,46 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--bg); color: #333; line-height: 1.6; }
         
+        /* HEADER */
         .header { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d6c7ec; position: sticky; top: 0; z-index: 1000; }
-        .logo-container { display: flex; align-items: center; gap: 12px; }
-        .logo-container img { height: 45px; }
+        .logo-container img { height: 45px; display: block; }
         .nav-btns { display: flex; gap: 15px; }
-        .btn-nav { padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 0.85rem; border: none; transition: 0.3s; }
+        .btn-nav { padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 0.85rem; border: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
         .btn-login { background: white; color: var(--purple); border: 2px solid var(--purple); }
         .btn-login:hover { background: #f0ebf8; }
         .btn-primary { background: var(--purple); color: white; }
         .btn-primary:hover { background: var(--dark-purple); }
 
+        /* HERO */
         .hero { text-align: center; padding: 60px 20px; max-width: 900px; margin: 0 auto; }
         .hero h1 { color: var(--dark-purple); font-size: 2.2rem; margin-bottom: 20px; font-weight: 700; }
         .hero p { font-size: 1.1rem; color: #555; margin-bottom: 30px; }
 
+        /* SECCIÓN VALOR / PEDAGOGÍA */
+        .section-pedagogia { background: white; padding: 60px 20px; border-top: 1px solid #d6c7ec; border-bottom: 1px solid #d6c7ec; }
+        .container-narrow { max-width: 1000px; margin: 0 auto; text-align: center; }
+        .section-title { color: var(--dark-purple); font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; }
+        .section-desc { font-size: 1rem; color: #555; margin-bottom: 40px; line-height: 1.8; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left; }
+        .feature-card { background: var(--bg); padding: 25px; border-radius: 12px; border: 1px solid #d6c7ec; }
+        .feature-card h4 { color: var(--purple); font-size: 1.1rem; margin-bottom: 10px; font-weight: 700; }
+        .feature-card p { font-size: 0.9rem; color: #444; }
+
+        /* PRECIOS / PLANES */
+        .section-pricing { padding: 60px 20px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1100px; margin: 30px auto 0; }
+        .price-card { background: white; border-radius: 16px; border: 1px solid #d6c7ec; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        .price-card.featured { border: 2px solid var(--purple); position: relative; }
+        .price-title { color: var(--dark-purple); font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+        .price-val { font-size: 1.8rem; font-weight: 700; color: var(--purple); margin-bottom: 20px; }
+        .price-features { list-style: none; margin-bottom: 25px; }
+        .price-features li { font-size: 0.9rem; margin-bottom: 10px; color: #555; display: flex; align-items: center; gap: 8px; }
+        .price-features li::before { content: "✓"; color: var(--purple); font-weight: bold; }
+
+        /* FOOTER */
+        .footer { background: var(--oxford); color: white; text-align: center; padding: 30px 20px; font-size: 0.85rem; margin-top: 40px; }
+
+        /* MODAL */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: white; width: 90%; max-width: 440px; border-radius: 16px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; }
         .close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 22px; cursor: pointer; color: #888; }
@@ -34,7 +60,7 @@
         .form-control { width: 100%; padding: 12px; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; transition: 0.3s; }
         .form-control:focus { border-color: var(--purple); outline: none; }
 
-        .btn-action { width: 100%; background: var(--purple); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+        .btn-action { width: 100%; background: var(--purple); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s; text-align: center; text-decoration: none; display: block; }
         .btn-action:hover { background: var(--dark-purple); }
 
         .divider { text-align: center; margin: 25px 0; position: relative; }
@@ -44,22 +70,109 @@
 </head>
 <body>
 
+    <!-- ENCABEZADO PRINCIPAL -->
     <header class="header">
         <div class="logo-container">
             <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.onerror=null; this.src='assets/favicon.png';">
         </div>
         <div class="nav-btns">
             <button class="btn-nav btn-login" onclick="abrirModalAcceso()"><i class="fas fa-key"></i> Acceso a Plataforma</button>
+            <a href="#membresias" class="btn-nav btn-primary"><i class="fas fa-shopping-cart"></i> Adquirir Licencia</a>
         </div>
     </header>
 
+    <!-- SECCIÓN HERO -->
     <section class="hero">
         <h1>La Ingeniería Pedagógica que transforma la diversidad en éxito escolar</h1>
         <p>Plataforma de aprendizaje adaptativa que elimina barreras cognitivas en tiempo real. Diseñada para unificar el esfuerzo de docentes, padres y alumnos.</p>
-        <button class="btn-nav btn-primary" style="padding: 15px 30px; font-size: 1rem;" onclick="abrirModalAcceso()">Ingresar con mi Código</button>
+        <a href="#membresias" class="btn-nav btn-primary" style="padding: 15px 30px; font-size: 1rem; margin: 0 auto; display: inline-flex;">Ver Planes Disponibles</a>
     </section>
 
-    <!-- MODAL ÚNICO DE ACCESO POR CÓDIGO O CREDENCIALES -->
+    <!-- SECCIÓN PROPRIEDADES PEDAGÓGICAS / NEURODIVERGENCIA -->
+    <section class="section-pedagogia">
+        <div class="container-narrow">
+            <h2 class="section-title">Diferentes formas de procesar, el mismo derecho a triunfar</h2>
+            <p class="section-desc">
+                La neurodivergencia (TDAH, Dislexia, Autismo) no es una incapacidad para aprender; es simplemente una estructura cognitiva distinta. El sistema educativo tradicional impone un estándar rígido de entrega de información que genera una brecha injusta. NeuroClarity no altera el contenido académico: adapta el canal de comunicación. Nuestra tecnología transforma materiales ordinarios en interfaces personalizadas según la necesidad del estudiante.
+            </p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Línea de Enfoque</h4>
+                    <p>Fuentes optimizadas, espaciado activo y regletas de lectura visual para dislexia.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Bloques de Lectura</h4>
+                    <p>Fragmentación del texto en micro-bloques de enfoque y temporizadores integrados para TDAH.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Apoyos Pictográficos</h4>
+                    <p>Inyección automática de apoyos visuales y traducción de lenguaje figurado a literal para TEA.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN MEMBRESÍAS / PLANES STRIPE -->
+    <section id="membresias" class="section-pricing">
+        <div class="container-narrow">
+            <h2 class="section-title">Adquiere tu Licencia NeuroClarity</h2>
+            <p style="color: #666; font-size: 0.95rem;">Selecciona la modalidad que mejor se adapte a tus necesidades.</p>
+            
+            <div class="pricing-grid">
+                <!-- PLAN FAMILIAR ESTÁNDAR -->
+                <div class="price-card">
+                    <div>
+                        <div class="price-title">Plan Familiar Estándar</div>
+                        <div class="price-val">$681.55 <span style="font-size:0.9rem; color:#777;">MXN / mes</span></div>
+                        <ul class="price-features">
+                            <li>Acceso total al Portal del Alumno</li>
+                            <li>Panel de Monitoreo para la Familia</li>
+                            <li>1 Código de Vinculación para Profesor</li>
+                            <li>Adaptación de materiales con IA ilimitada</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_7sYeV540jeIEaxd03C5ZC00" target="_blank" class="btn-action">Suscribirme</a>
+                </div>
+
+                <!-- PLAN FAMILIAR PREMIUM -->
+                <div class="price-card featured">
+                    <div>
+                        <div class="price-title">Plan Familiar Premium</div>
+                        <div class="price-val">$1,214.18 <span style="font-size:0.9rem; color:#777;">MXN / mes</span></div>
+                        <ul class="price-features">
+                            <li>Todo lo del Plan Estándar</li>
+                            <li>Evaluación psicopedagógica asistida por IA</li>
+                            <li>Reportes avanzados de avance cognitivo</li>
+                            <li>Soporte prioritario 24/7</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_5kQeV5gN5eIEeNt5nW5ZC01" target="_blank" class="btn-action">Suscribirme</a>
+                </div>
+
+                <!-- LICENCIA ESCOLAR -->
+                <div class="price-card">
+                    <div>
+                        <div class="price-title">Licencia Escolar por Volumen</div>
+                        <div class="price-val">$12,278 <span style="font-size:0.9rem; color:#777;">MXN / mes</span></div>
+                        <ul class="price-features">
+                            <li>Panel de Gestión Centralizada para la Institución</li>
+                            <li>Asignación inmediata de licencias docentes</li>
+                            <li>Códigos de vinculación familiar automáticos</li>
+                            <li>Asistente IA para Procesamiento de Planeaciones</li>
+                        </ul>
+                    </div>
+                    <a href="https://buy.stripe.com/test_14A4grbsL440gVB3fO5ZC02" target="_blank" class="btn-action" style="background:var(--oxford);">Contratar Plan Escolar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER OFICIAL -->
+    <footer class="footer">
+        © 2026 NeuroRéussit / NeuroClarity. Ingeniería Pedagógica para Mentes Diversas. Todos los derechos reservados.
+    </footer>
+
+    <!-- MODAL DE ACCESO POR CÓDIGO O CREDENCIALES (SIN PESTAÑA DE REGISTRO PÚBLICO) -->
     <div id="modalAcceso" class="modal-overlay">
         <div class="modal-box">
             <button class="close-btn" onclick="cerrarModalAcceso()">&times;</button>
@@ -69,7 +182,7 @@
                 <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">Ingresa con tu código de clase otorgado por administración</p>
             </div>
 
-            <!-- SECCIÓN 1: ACCESO PRINCIPAL POR CÓDIGO -->
+            <!-- CÓDIGO DE ACCESO -->
             <div class="form-group">
                 <label><i class="fas fa-ticket-alt"></i> Código de Acceso / Vinculación:</label>
                 <input type="text" id="inputCodigoGeneral" class="form-control" placeholder="Ej: CLS-4A8B, ESC-XXXX o NC-XXXX" style="text-align:center; font-weight:bold; text-transform:uppercase; letter-spacing: 1px;">
@@ -80,7 +193,7 @@
                 <span>Ó INICIA SESIÓN CON CREDENCIALES</span>
             </div>
 
-            <!-- SECCIÓN 2: ACCESO SECUNDARIO POR CORREO -->
+            <!-- LOGIN SECUNDARIO POR CORREO -->
             <div class="form-group">
                 <label><i class="fas fa-envelope"></i> Correo Electrónico:</label>
                 <input type="email" id="loginCorreo" class="form-control" placeholder="ejemplo@correo.com">
