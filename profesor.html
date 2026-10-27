@@ -24,7 +24,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--bg); color: #333; }
         
-        /* BANNER ENCABEZADO ANCHO COMPLETO */
         .banner-full { width: 100%; background: white; border-bottom: 2px solid #d6c7ec; overflow: hidden; }
         .banner-full img { width: 100%; height: auto; max-height: 140px; object-fit: cover; display: block; }
         
@@ -65,9 +64,9 @@
         .proposal-card { background: #f4effa; border-left: 5px solid var(--purple); padding: 18px; border-radius: 8px; margin-bottom: 20px; }
         .bloom-badge { display: inline-block; background: var(--dark-purple); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; margin-right: 6px; }
 
-        .slide-container { background: #1e1e2e; color: white; border-radius: 12px; padding: 25px; min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; position: relative; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+        .slide-container { background: #1e1e2e; color: white; border-radius: 12px; padding: 25px; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; position: relative; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
         .slide-header { display: flex; justify-content: space-between; font-size: 12px; color: #a6adc8; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
-        .slide-content { margin: 20px 0; font-size: 15px; line-height: 1.6; }
+        .slide-content { margin: 15px 0; font-size: 15px; line-height: 1.6; }
         .slide-nav { display: flex; justify-content: space-between; align-items: center; }
         .slide-btn { background: var(--purple); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; }
 
@@ -237,9 +236,9 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: CO-PILOT SOFÍA IA CON SELECCIÓN Y DESGLOSE DE TEMAS -->
+            <!-- SECCIÓN 3: CO-PILOT SOFÍA IA CON MATRIZ DE INSTRUCCIÓN PEDAGÓGICA (4 BLOQUES UDL) -->
             <div id="sec-materiales" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-robot"></i> Co-Pilot Pedagógico con Sofía IA</h3>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-robot"></i> Co-Pilot Pedagógico Sofía IA (Matriz Anáhuac B1.1)</h3>
                 
                 <div style="padding:20px; background:#f9f7fc; border-radius:10px; border:1px solid #d6c7ec; margin-bottom:20px;">
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
@@ -249,21 +248,21 @@
                         </div>
 
                         <div class="form-group">
-                            <label style="color:var(--dark-purple); font-size:13px;"><i class="fas fa-list-ul"></i> Tema / Módulo Desglosado del Temario:</label>
+                            <label style="color:var(--dark-purple); font-size:13px;"><i class="fas fa-book-open"></i> Tema Oficial de la Matriz / Plan B1.1:</label>
                             <select id="selectTemaTemario" class="form-control" style="font-weight:bold; color:var(--dark-purple);"></select>
                         </div>
                     </div>
 
-                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarPropuestaSofiaCompleta()"><i class="fas fa-brain"></i> Generar Propuesta y Materiales con Sofía IA</button>
+                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarPropuestaSofiaCompleta()"><i class="fas fa-brain"></i> Generar Materiales según Matriz Pedagogíca Anáhuac</button>
                 </div>
 
-                <!-- CONTENEDOR DE PROPUESTA Y REVISIÓN -->
+                <!-- CONTENEDOR DE PROPUESTA Y REVISIÓN CON LOS 4 BLOQUES MATRIZ -->
                 <div id="boxCoPilotCompleto" style="display:none;">
                     
                     <!-- 1. EXPLICACIÓN PEDAGÓGICA Y TAXONOMÍA DE BLOOM -->
                     <div class="proposal-card">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                            <h4 style="color:var(--dark-purple); margin:0;"><i class="fas fa-lightbulb"></i> Explicación Pedagógica de Sofía IA</h4>
+                            <h4 style="color:var(--dark-purple); margin:0;"><i class="fas fa-lightbulb"></i> Directiva Pedagógica DUA / UDL de Sofía IA</h4>
                             <div>
                                 <span class="bloom-badge">Bloom: Recordar</span>
                                 <span class="bloom-badge">Bloom: Aplicar</span>
@@ -273,19 +272,19 @@
                         <p id="explicacionSofiaTexto" style="font-size:13px; color:#333; line-height:1.6; margin-bottom:12px;"></p>
                     </div>
 
-                    <!-- 2. VISTA PREVIA DE MATERIALES INTERACTIVOS DE ALTO NIVEL -->
+                    <!-- 2. VISTA PREVIA DE LOS 4 BLOQUES INTERNOS (VOCABULAIRE, GRAMMAIRE, SYSTÉMATISATION, PRODUCTION) -->
                     <div style="margin-bottom:20px;">
-                        <div style="display:flex; gap:10px; margin-bottom:10px;">
-                            <button type="button" class="tab-btn active" id="tabBtnSlide" onclick="cambiarTabMaterial('slide')"><i class="fas fa-desktop"></i> Presentación Interactiva</button>
-                            <button type="button" class="tab-btn" id="tabBtnQuiz" onclick="cambiarTabMaterial('quiz')"><i class="fas fa-tasks"></i> Ejercicio / Quiz Interactivo</button>
+                        <div style="display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+                            <button type="button" class="tab-btn active" id="tabBtnSlide" onclick="cambiarTabMaterial('slide')"><i class="fas fa-desktop"></i> Material Interactivo (4 Bloques UDL)</button>
+                            <button type="button" class="tab-btn" id="tabBtnQuiz" onclick="cambiarTabMaterial('quiz')"><i class="fas fa-tasks"></i> Systématisation & Discriminación</button>
                         </div>
 
                         <!-- TAB PRESENTACIÓN SLIDES -->
                         <div id="tabContentSlide">
                             <div class="slide-container">
                                 <div class="slide-header">
-                                    <span id="slideCounter">Diapositiva 1 de 4</span>
-                                    <span id="slideTagPerfil" style="color:var(--gold); font-weight:bold;">Adaptación Activa</span>
+                                    <span id="slideCounter">Bloque 1 de 4</span>
+                                    <span id="slideTagPerfil" style="color:var(--gold); font-weight:bold;">Matriz Anáhuac</span>
                                 </div>
                                 <div class="slide-content" id="slideBody"></div>
                                 <div class="slide-nav">
@@ -297,7 +296,7 @@
 
                         <!-- TAB QUIZ INTERACTIVO -->
                         <div id="tabContentQuiz" style="display:none; background:#f4f1ea; padding:20px; border-radius:12px; border:1px solid #d6c7ec;">
-                            <h4 style="color:var(--dark-purple); margin-bottom:10px;"><i class="fas fa-question-circle"></i> Práctica Interactiva en Tiempo Real</h4>
+                            <h4 style="color:var(--dark-purple); margin-bottom:10px;"><i class="fas fa-cogs"></i> Bloque 3: Systématisation & Practice Directe</h4>
                             <p id="quizPreguntaTexto" style="font-size:14px; font-weight:bold; margin-bottom:12px; color:#333;"></p>
                             <div id="quizOpcionesContainer"></div>
                             <div id="quizFeedback" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
@@ -309,7 +308,7 @@
                         <h4 style="color:#b78103; margin-bottom:8px;"><i class="fas fa-comment-dots"></i> Co-Pilotaje Docente: Ajustes y Retroalimentación</h4>
                         <p style="font-size:12px; color:#666; margin-bottom:10px;">Escribe tus comentarios para que Sofía IA reajuste la propuesta o dale tu **Visto Bueno** para enviar los materiales al alumno.</p>
                         
-                        <textarea id="inputComentarioProfesor" class="form-control" rows="2" placeholder="Ej: 'Resalta el vocabulario en azul', 'Agrega más preguntas de audio', 'Simplifica la diapositiva 2'"></textarea>
+                        <textarea id="inputComentarioProfesor" class="form-control" rows="2" placeholder="Ej: 'Resalta el vocabulario en azul', 'Agrega más oraciones de elisión', 'Ajusta el Start-Point Model'"></textarea>
 
                         <div style="display:flex; gap:12px; margin-top:12px;">
                             <button type="button" onclick="solicitarAjustesSofia()" style="background:#f57c00; color:white; border:none; padding:10px 18px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:13px;"><i class="fas fa-sync"></i> Solicitar Reajuste a Sofía IA</button>
@@ -330,26 +329,25 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 5: SUBIR Y GESTIONAR TEMARIOS (DESGLOSE AUTOMÁTICO) -->
+            <!-- SECCIÓN 5: SUBIR Y GESTIONAR TEMARIOS -->
             <div id="sec-planeacion" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir y Gestionar Temarios</h3>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir y Gestionar Temarios Complementarios</h3>
                 
                 <div style="border:2px dashed var(--purple); padding:25px; text-align:center; border-radius:8px; background:#fdfbfd; margin-bottom:20px;">
-                    <p style="margin-bottom:12px; color:#555; font-size:13px;">Sube el archivo de tu temario o planeación (PDF, Word o TXT). <b>Sofía IA leerá el contenido e identificará y desglosará automáticamente cada unidad/tema</b>:</p>
+                    <p style="margin-bottom:12px; color:#555; font-size:13px;">Sube un archivo de temario adicional (PDF, Word o TXT). <b>Sofía IA limpiará y extraerá los títulos limpios sin códigos ni caracteres extraños</b>:</p>
                     <input type="file" id="archivoPlaneacion" class="form-control" accept=".pdf,.doc,.docx,.txt" style="max-width:400px; margin:0 auto 12px;" onchange="procesarNuevoTemarioPDF(event)">
                     <small id="statusProcesoTemario" style="color:var(--purple); font-weight:bold; display:block;"></small>
                 </div>
 
-                <!-- AGREGAR TEMA MANUALMENTE -->
                 <div style="background:#f4effa; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #d6c7ec;">
                     <label style="font-weight:bold; color:var(--dark-purple); font-size:13px;">➕ Agregar Tema Individual Manualmente:</label>
                     <div style="display:flex; gap:10px; margin-top:8px;">
-                        <input type="text" id="inputNuevoTemaManual" class="form-control" placeholder="Ej: Unité 4: Les activités quotidiennes et loisirs">
+                        <input type="text" id="inputNuevoTemaManual" class="form-control" placeholder="Ej: Tema E: Le travail, la famille et les projets de vie">
                         <button type="button" onclick="agregarTemaManual()" style="background:var(--purple); color:white; border:none; padding:10px 18px; border-radius:6px; font-weight:bold; cursor:pointer; flex-shrink:0;">Agregar Tema</button>
                     </div>
                 </div>
 
-                <h4 style="color:var(--dark-purple); margin-bottom:12px;"><i class="fas fa-list-check"></i> Temas / Módulos Desglosados Disponibles:</h4>
+                <h4 style="color:var(--dark-purple); margin-bottom:12px;"><i class="fas fa-list-check"></i> Temas Disponibles en la Plataforma:</h4>
                 <div id="listaTemariosCargados" style="display:flex; flex-direction:column; gap:10px;"></div>
             </div>
         </div>
@@ -423,15 +421,15 @@
     var chatUnsubscribe = null;
     var textoDiagnosticoCompleto = "";
 
-    // LISTA DE TEMAS DESGLOSADOS
+    // LISTA DE TEMAS MATRIZ OFICIAL ANÁHUAC B1.1
     var temariosLista = [
-        "Unité 1: Se présenter, saluer et faire connaissance (Niveau B1.1)",
-        "Unité 2: Parler de sa famille, de ses goûts et habitudes",
-        "Unité 3: Expression orale, passé composé et imparfait",
-        "Unité 4: Vocabulaire professionnel, voyages et culture francophone"
+        "TEMA A: Identité, Caractère et Environnement Personnel (Je me présente)",
+        "TEMA B: Cadre de Vie, Logement et Environnement Urbain (Mon entorno)",
+        "TEMA C: Vie Quotidienne, Routine, Loisirs et Fréquence (Mi rutina)",
+        "TEMA D: Raconter une Expérience / Voyage (Consigna Oficial Anáhuac 100 palabras)",
+        "Semana 5: Taller de Redacción Intensiva y Simulacro DELF B1.1"
     ];
 
-    // ESTADO DE SLIDES Y QUIZ
     var currentSlideIdx = 0;
     var currentSlidesData = [];
 
@@ -471,12 +469,21 @@
         });
     }
 
+    // LIMPIADOR DE TEXTO Y ETANQUETAS DE CITAS DEL PDF
+    function limpiarTextoPDF(raw) {
+        return raw.replace(/\[cite:[^\]]+\]/gi, '')
+                  .replace(//g, '')
+                  .replace(/\?\?\?/g, '')
+                  .replace(/\s+/g, ' ')
+                  .trim();
+    }
+
     async function procesarNuevoTemarioPDF(event) {
         const file = event.target.files[0];
         const statusEl = document.getElementById('statusProcesoTemario');
         if (!file) return;
 
-        statusEl.innerText = "⏳ Sofía IA analizando y desglosando el documento '" + file.name + "'...";
+        statusEl.innerText = "⏳ Sofía IA limpiando y procesando '" + file.name + "'...";
         const fileName = file.name.toLowerCase();
 
         if (fileName.endsWith('.pdf')) {
@@ -490,38 +497,33 @@
                     fullText += textContent.items.map(item => item.str).join(' ') + '\n';
                 }
 
-                // Extracción inteligente de unidades o líneas clave del temario
-                let lineas = fullText.split('\n').map(l => l.trim()).filter(l => l.length > 5);
+                let textoLimpio = limpiarTextoPDF(fullText);
+                let lineas = textoLimpio.split('\n').map(l => l.trim()).filter(l => l.length > 8);
                 let temasExtraidos = lineas.filter(l => 
-                    /módulo|unidad|unit|tema|capítulo|parte|sección|unite|niveau|\d\./i.test(l)
+                    /TEMA\s+[A-Z]|Unité\s+\d|Módulo\s+\d|Semana\s+\d|Capítulo/i.test(l)
                 );
 
                 if (temasExtraidos.length === 0) {
-                    // Si no detecta palabras clave, toma bloques representativos del documento
                     let cleanTitle = file.name.replace(/\.[^/.]+$/, "");
-                    temariosLista.push("Módulo 1: " + cleanTitle + " - Introducción");
-                    temariosLista.push("Módulo 2: " + cleanTitle + " - Desarrollo de Habilidades");
-                    temariosLista.push("Módulo 3: " + cleanTitle + " - Práctica e Integración");
+                    temariosLista.push("Tema: " + cleanTitle);
                 } else {
-                    temasExtraidos.slice(0, 8).forEach(t => {
-                        temariosLista.push(t.substring(0, 80));
+                    temasExtraidos.slice(0, 6).forEach(t => {
+                        let tLimpio = limpiarTextoPDF(t);
+                        if (tLimpio && !temariosLista.includes(tLimpio)) {
+                            temariosLista.push(tLimpio.substring(0, 85));
+                        }
                     });
                 }
 
                 renderizarListaTemarios();
-                statusEl.innerText = "✔ Temario analizado. Sofía IA extrajo los temas desglosados para la lista.";
-                mostrarNotificacion('✅ Sofía IA desglosó los temas del archivo.');
+                statusEl.innerText = "✔ Documento procesado sin marcas de formato.";
+                mostrarNotificacion('✅ Temas extraídos y limpiados correctamente.');
             } catch (e) {
                 let cleanTitle = file.name.replace(/\.[^/.]+$/, "");
-                temariosLista.push("Unidad: " + cleanTitle);
+                temariosLista.push("Tema: " + cleanTitle);
                 renderizarListaTemarios();
-                statusEl.innerText = "✔ Tema '" + cleanTitle + "' agregado.";
+                statusEl.innerText = "✔ Tema cargado en lista.";
             }
-        } else {
-            let cleanTitle = file.name.replace(/\.[^/.]+$/, "");
-            temariosLista.push("Módulo: " + cleanTitle);
-            renderizarListaTemarios();
-            statusEl.innerText = "✔ Documento agregado a la lista.";
         }
     }
 
@@ -530,10 +532,10 @@
         const val = inp ? inp.value.trim() : '';
         if (!val) return alert('Ingresa el nombre del tema.');
 
-        temariosLista.push(val);
+        temariosLista.push(limpiarTextoPDF(val));
         renderizarListaTemarios();
         inp.value = '';
-        mostrarNotificacion('✅ Tema agregado a la lista.');
+        mostrarNotificacion('✅ Tema agregado.');
     }
 
     function eliminarTemarioIdx(idx) {
@@ -544,98 +546,111 @@
         }
     }
 
+    // GENERADOR SEGÚN LA MATRIZ ANÁHUAC B1.1 CON LOS 4 BLOQUES ESTRUCTURALES OBLIGATORIOS
     function generarPropuestaSofiaCompleta() {
         if (!alumnoActivo) return alert('Por favor, selecciona primero un alumno.');
 
-        const tema = document.getElementById('selectTemaTemario').value || 'Tema Seleccionado';
+        const tema = document.getElementById('selectTemaTemario').value || 'TEMA A: Identité, Caractère et Environnement';
         const perf = alumnoActivo.perfil_cognitivo || 'estandar';
         const box = document.getElementById('boxCoPilotCompleto');
         const explicacion = document.getElementById('explicacionSofiaTexto');
         const btn = document.getElementById('btnGenerarCoPilot');
 
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA generando materiales pedagógicos...';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA construyendo los 4 bloques UDL...';
         btn.disabled = true;
 
         setTimeout(function() {
-            btn.innerHTML = '<i class="fas fa-brain"></i> Generar Propuesta y Materiales con Sofía IA';
+            btn.innerHTML = '<i class="fas fa-brain"></i> Generar Materiales según Matriz Pedagogíca Anáhuac';
             btn.disabled = false;
             box.style.display = 'block';
 
             let perfNombre = perf.toUpperCase();
 
-            if (perf === 'tdah') {
-                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (TDAH):</b><br>" +
-                "• <b>Taxonomía de Bloom (Recordar & Aplicar):</b> Para adaptar el tema <i>'" + tema + "'</i>, fraccioné la lección en 4 micro-bloques interactivos de 4 minutos con temporizadores y cambios de ritmo visual.<br>" +
-                "• <b>Enfoque Neurodivergente:</b> Se eliminaron párrafos densos. Cada diapositiva contiene un único concepto clave con código de colores alto en contraste y retroalimentación interactiva inmediata.";
+            explicacion.innerHTML = "<b>Directiva UDL de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + "):</b><br>" +
+            "• <b>Matriz de Instrucción Pedagógica Anáhuac B1.1:</b> Estructurada estrictamente en los 4 Bloques Obligatorios: <i>1) Vocabulaire</i>, <i>2) Grammaire & Verbes</i>, <i>3) Systématisation</i> y <i>4) Production (Start-Point Model)</i>.<br>" +
+            "• <b>Formato Cognitivo:</b> " + (perf === 'tdah' ? "Fragmentación en micro-bloques de 4 minutos con pausa activa." : perf === 'dislexia' ? "Separación silábica, regleta de enfoque y eliminación de elisiones complejas." : "Presentación multicanal por patrones y sustitución sintáctica.");
 
+            if (tema.includes('TEMA A') || tema.includes('Identité')) {
                 currentSlidesData = [
-                    { 
-                        title: "Diapositiva 1: Micro-Bloque 1 - Activación (Recordar)", 
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>" + tema + " - Expresiones Clave</h3>" +
-                              "<p style='font-size:16px;'><b>Instrucción (4 min):</b> Observa el vocabulario principal y su aplicación inmediata:</p>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:15px; border-radius:8px; margin-top:12px; border-left:4px solid var(--gold);'>" +
-                              "• <b>Bonjour / Salut:</b> Saludo inicial formal e informal.<br>" +
-                              "• <b>Je m'appelle " + alumnoActivo.nombre + ":</b> Estructura de presentación." +
-                              "</div>" 
+                    {
+                        title: "Bloque 1: Vocabulaire - Datos Personales y Descripción",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Micro-Tarjetas Léxicas</h3>" +
+                              "<div style='display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:14px;'>" +
+                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>État civil:</b> célibataire, marié(e), divorcé(e)</div>" +
+                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Profil:</b> domaine d'études, situation pro.</div>" +
+                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Physique:</b> cheveux bouclés, yeux noisette</div>" +
+                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Caractère:</b> exigeant(e), dynamique, autonome</div>" +
+                              "</div>"
                     },
-                    { 
-                        title: "Diapositiva 2: Micro-Bloque 2 - Estructura Visual (Comprender)", 
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Esquema de Conjugación y Uso</h3>" +
-                              "<p style='font-size:16px;'>Regla visual resumida de la lección:</p>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:15px; border-radius:8px; margin-top:12px;'>" +
-                              "<b>Verbe S'appeler:</b> Je m'appelle | Tu t'appelles | Il/Elle s'appelle.<br>" +
-                              "<small style='color:#a6adc8;'>Visualiza la terminación resaltada en cada frase.</small>" +
-                              "</div>" 
+                    {
+                        title: "Bloque 2: Grammaire & Verbes - Elisión y Comparativos",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Fórmulas Sintácticas Directas</h3>" +
+                              "<p style='font-size:15px;'><b>Elisión Obligatoria:</b> J' + vocal/h (<i>J'étudie en domaine de...</i>)</p>" +
+                              "<p style='font-size:15px; margin-top:8px;'><b>Verbos Clave:</b> être, s'appeler, travailler comme, venir de (+ país/ciudad)</p>" +
+                              "<div style='background:#2a2a3c; padding:12px; border-radius:6px; margin-top:10px;'><b>Comparativo Simple:</b> plus/moins/aussi + adjetivo + que</div>"
                     },
-                    { 
-                        title: "Diapositiva 3: Micro-Bloque 3 - Práctica Relámpago (Aplicar)", 
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Reto de 2 minutos</h3>" +
-                              "<p style='font-size:16px;'>Selecciona la forma correcta para completar:</p>" +
-                              "<p style='background:#2a2a3c; padding:12px; border-radius:6px; margin-top:10px; font-weight:bold;'>'Comment __________ -tu?' (t'appelles / s'appelle)</p>" 
+                    {
+                        title: "Bloque 3: Systématisation - Discriminación Práctica",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Automatización de Reglas</h3>" +
+                              "<p style='font-size:15px;'>Aplica la regla sintáctica: Sustantivo + Adjetivo de carácter.</p>" +
+                              "<p style='background:rgba(255,255,255,0.15); padding:12px; border-radius:6px; margin-top:10px;'><b>Estructura:</b> Je suis une personne <u style='color:var(--gold);'>dynamique</u> et <u style='color:var(--gold);'>autonome</u>.</p>"
                     },
-                    { 
-                        title: "Diapositiva 4: Micro-Bloque 4 - Pausa y Consolidación (Evaluar)", 
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>¡Gran avance completado!</h3>" +
-                              "<p style='font-size:16px;'>Realiza una pausa activa de 60 segundos antes de pasar al quiz interactivo final.</p>" 
+                    {
+                        title: "Bloque 4: Production - Start-Point Model Guiado",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Plantilla de Redacción Anáhuac</h3>" +
+                              "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px; line-height:1.6;'>" +
+                              "\"Bonjour, je m'appelle <b>" + alumnoActivo.nombre + "</b>. Je suis mexicain(e) et actuellement célibataire. Je viens de [Ville] et j'étudie en domaine de...\"" +
+                              "</p>"
                     }
                 ];
-            } else if (perf === 'dislexia') {
-                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (DISLEXIA):</b><br>" +
-                "• <b>Taxonomía de Bloom (Comprender & Analizar):</b> Adaptación del tema <i>'" + tema + "'</i> mediante regletas visuales de enfoque y tipografía de alta legibilidad.<br>" +
-                "• <b>Enfoque Neurodivergente:</b> Separación silábica en términos complejos, resalte cromático de fonemas claves y disminución de carga textual.";
-
+            } else if (tema.includes('TEMA B') || tema.includes('Logement')) {
                 currentSlidesData = [
-                    { 
-                        title: "Diapositiva 1: Regleta de Enfoque - Vocabulario", 
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>" + tema + "</h3>" +
-                              "<p style='font-size:17px;'>Términos clave con guía silábica:</p>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:15px; border-radius:8px; margin-top:10px; font-size:18px; line-height:1.8;'>" +
-                              "1. <b>Bon - jour</b> (Sal - u - da - ción)<br>" +
-                              "2. <b>En - chan - té(e)</b> (Mu - cho gus - to)" +
-                              "</div>" 
+                    {
+                        title: "Bloque 1: Vocabulaire - Commerces et Logement",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Mieux Vivre en Ville</h3>" +
+                              "<p style='font-size:15px;'>• <b>Servicios:</b> la pharmacie, la boulangerie, la mairie, la banque.<br>• <b>Ubicación:</b> près de, à côté de, en face de, au coin de.</p>"
                     },
-                    { 
-                        title: "Diapositiva 2: Guía de Estructura", 
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Estructura de Frase</h3>" +
-                              "<p style='font-size:16px;'>Paso 1: Sujeto | Paso 2: Verbo | Paso 3: Nombre</p>" +
-                              "<p style='background:#2a2a3c; padding:12px; border-radius:6px; margin-top:10px;'><b>Je</b> + <b>m'appelle</b> + <b>" + alumnoActivo.nombre + "</b></p>" 
+                    {
+                        title: "Bloque 2: Grammaire - Pronom Y y Preposiciones",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Pronom Y & Preposiciones Geográficas</h3>" +
+                              "<p style='font-size:15px;'>• <b>en</b> + país fem. | <b>au</b> + país masc. | <b>à</b> + ciudad.<br>• <b>Pronom Y:</b> Sujeto + Y + Verbo (<i>J'y habite depuis 2 ans</i>).</p>"
+                    },
+                    {
+                        title: "Bloque 3: Systématisation - Sustitución Pronominal",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica Pronominal</h3>" +
+                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>J'habite à Mexico. $\\rightarrow$ J'<b>y</b> habite.</p>"
+                    },
+                    {
+                        title: "Bloque 4: Production - Start-Point Model",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Mon Entoururbain</h3>" +
+                              "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px;'>" +
+                              "\"J'habite dans un appartement situé en centre-ville, près de la boulangerie et en face de la banque...\"" +
+                              "</p>"
                     }
                 ];
             } else {
-                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + "):</b><br>" +
-                "• <b>Taxonomía de Bloom (Recordar, Aplicar, Evaluar):</b> Unificación del tema <i>'" + tema + "'</i> en secuencia didáctica progresiva.<br>" +
-                "• <b>Enfoque Personalizado:</b> Materiales estructurados en diapositivas con ejercicios interactivos de validación inmediata.";
-
                 currentSlidesData = [
-                    { 
-                        title: "Diapositiva 1: Conceptos Fundamentales", 
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>" + tema + "</h3>" +
-                              "<p style='font-size:16px;'>Presentación de objetivos pedagógicos y conceptos clave adaptados.</p>" 
+                    {
+                        title: "Bloque 1: Vocabulaire - Routines et Loisirs",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Vie Quotidienne</h3>" +
+                              "<p style='font-size:15px;'>• <b>Acciones:</b> se réveiller, se lever, se préparer, se coucher.<br>• <b>Frecuencia:</b> toujours, souvent, parfois, rarement.</p>"
                     },
-                    { 
-                        title: "Diapositiva 2: Desarrollo y Aplicación", 
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Ejemplos Prácticos</h3>" +
-                              "<p style='font-size:16px;'>Modelos lingüísticos e interacción estructurada para la clase.</p>" 
+                    {
+                        title: "Bloque 2: Grammaire - Verbos Pronominales y Pronom EN",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Conectores y Estructuras</h3>" +
+                              "<p style='font-size:15px;'>• <b>Sequencia:</b> D'abord, ensuite, puis, enfin.<br>• <b>Pronom EN:</b> Sujeto + EN + Verbo (<i>J'en fais souvent le week-end</i>).</p>"
+                    },
+                    {
+                        title: "Bloque 3: Systématisation - Conectores Cronológicos",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Ensamblado de Oraciones</h3>" +
+                              "<p style='font-size:15px;'>Práctica de colocación de adverbios de frecuencia en presente.</p>"
+                    },
+                    {
+                        title: "Bloque 4: Production - Start-Point Model (100 Palabras)",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Ma Routine</h3>" +
+                              "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px;'>" +
+                              "\"Le matin, d'abord je me réveille à 7h et je me prépare. Ensuite, je vais à l'université...\"" +
+                              "</p>"
                     }
                 ];
             }
@@ -644,16 +659,16 @@
             renderSlide();
             renderQuiz();
 
-            mostrarNotificacion('✨ Materiales pedagógicos interactivos generados para "' + tema + '".');
+            mostrarNotificacion('✨ Materiales generados bajo los 4 bloques de la Matriz Anáhuac.');
         }, 800);
     }
 
     function renderSlide() {
         if (!currentSlidesData || currentSlidesData.length === 0) return;
         const slide = currentSlidesData[currentSlideIdx];
-        document.getElementById('slideCounter').innerText = "Diapositiva " + (currentSlideIdx + 1) + " de " + currentSlidesData.length;
+        document.getElementById('slideCounter').innerText = "Bloque " + (currentSlideIdx + 1) + " de " + currentSlidesData.length;
         document.getElementById('slideTagPerfil').innerText = "Adaptación: " + (alumnoActivo ? (alumnoActivo.perfil_cognitivo || 'estandar').toUpperCase() : '');
-        document.getElementById('slideBody').innerHTML = slide.body;
+        document.getElementById('slideBody').innerHTML = "<h4>" + slide.title + "</h4>" + slide.body;
     }
 
     function navSlide(dir) {
@@ -669,15 +684,13 @@
         const optionsBox = document.getElementById('quizOpcionesContainer');
         const feedback = document.getElementById('quizFeedback');
 
-        const temaSelect = document.getElementById('selectTemaTemario').value || 'Tema';
-
-        qText.innerHTML = "<b>Pregunta Interactiva sobre " + temaSelect + ":</b><br>¿Cuál es la forma correcta de presentarse formalmente?";
+        qText.innerHTML = "<b>Práctica de Systématisation (Anáhuac B1.1):</b><br>Identifica la opción correcta eliminando el error de elisión:";
         feedback.innerText = "";
 
         optionsBox.innerHTML = `
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">a) Salut! Ça va?</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">b) Bonjour, je m'appelle... Enchanté(e).</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) Au revoir et merci.</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">a) Je étudie en domaine de droit.</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">b) J'étudie en domaine de droit.</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) Je étudies en domaine de droit.</div>
         `;
     }
 
@@ -687,10 +700,10 @@
         const feedback = document.getElementById('quizFeedback');
         if (esCorrecta) {
             feedback.style.color = "#2e7d32";
-            feedback.innerHTML = "✔ ¡Excelente! Respuesta correcta. Registrado para la evaluación formativa de Bloom.";
+            feedback.innerHTML = "✔ ¡Correcto! Se aplicó la elisión obligatoria J' + vocal (J'étudie).";
         } else {
             feedback.style.color = "#dc3545";
-            feedback.innerHTML = "✖ Revisemos el concepto en la Diapositiva 1.";
+            feedback.innerHTML = "✖ Error detectado: Recuerda aplicar la elisión obligatoria ante vocal.";
         }
     }
 
@@ -714,13 +727,13 @@
         if (!txt) return alert('Escribe primero tus observaciones o sugerencias para Sofía IA.');
         mostrarNotificacion('🔄 Reajustando propuesta según tus observaciones...');
         setTimeout(function() {
-            document.getElementById('explicacionSofiaTexto').innerHTML += "<br><br><b style='color:var(--dark-purple);'>Ajuste Aplicado por Docente:</b> '" + txt + "'. Sofía IA ha optimizado la presentación y los ejercicios.";
+            document.getElementById('explicacionSofiaTexto').innerHTML += "<br><br><b style='color:var(--dark-purple);'>Ajuste Aplicado por Docente:</b> '" + txt + "'. Sofía IA ha optimizado la matriz.";
             document.getElementById('inputComentarioProfesor').value = '';
         }, 1000);
     }
 
     function darVistoBuenoYPublicar() {
-        mostrarNotificacion('✅ Visto Bueno registrado. Los materiales interactivos desglosados han sido publicados en el portal del alumno.');
+        mostrarNotificacion('✅ Visto Bueno registrado. Los materiales desglosados bajo los 4 bloques Anáhuac han sido publicados en el portal del alumno.');
     }
 
     function limpiarArchivoDiagnostico() {
