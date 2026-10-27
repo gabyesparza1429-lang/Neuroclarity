@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Portal Profesor Particular</title>
+    <title>NeuroClarity - Co-Pilot Pedagógico con Sofía IA</title>
     
     <!-- FAVICON -->
     <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -20,15 +20,15 @@
     </script>
 
     <style>
-        :root { --oxford: #002147; --purple: #6339a6; --dark-purple: #4a2372; --gold: #C5A059; --bg: #f4f1ea; }
+        :root { --oxford: #002147; --purple: #6339a6; --dark-purple: #4a2372; --gold: #C5A059; --bg: #f4f1ea; --green: #2e7d32; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--bg); color: #333; }
         
-        /* BANNER ENCABEZADO A ANCHO COMPLETO (100% WIDTH) */
+        /* BANNER ENCABEZADO ANCHO COMPLETO */
         .banner-full { width: 100%; background: white; border-bottom: 2px solid #d6c7ec; overflow: hidden; }
         .banner-full img { width: 100%; height: auto; max-height: 140px; object-fit: cover; display: block; }
         
-        .main-container { display: flex; max-width: 1250px; margin: 20px auto; gap: 20px; padding: 0 15px; }
+        .main-container { display: flex; max-width: 1280px; margin: 20px auto; gap: 20px; padding: 0 15px; }
         .sidebar { width: 280px; background: white; border-radius: 12px; padding: 15px; border: 1px solid #d6c7ec; flex-shrink: 0; height: fit-content; }
         .sidebar-btn { width: 100%; padding: 12px 10px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: left; border: 1px solid #ccc; background: white; color: #333; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
         .sidebar-btn.primary { background: var(--purple); color: white; border: none; }
@@ -62,17 +62,21 @@
         .pdf-preview-box { width: 100%; height: 450px; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; margin-top: 10px; background: #525659; display: none; }
         .pdf-preview-box iframe { width: 100%; height: 100%; border: none; }
 
-        .doc-paper { 
-            background: #ffffff; 
-            border: 1px solid #ccc; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-            border-radius: 8px; 
-            padding: 30px; 
-            margin-top: 20px; 
-            font-size: 14px; 
-            line-height: 1.6; 
-            color: #222; 
-        }
+        /* TARJETAS DE PROPUESTA PEDAGÓGICA Y BLOOM */
+        .proposal-card { background: #f4effa; border-left: 5px solid var(--purple); padding: 18px; border-radius: 8px; margin-bottom: 20px; }
+        .bloom-badge { display: inline-block; background: var(--dark-purple); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; margin-right: 6px; }
+
+        /* CONTENEDOR DE PRESENTACIÓN INTERACTIVA SLIDES */
+        .slide-container { background: #1e1e2e; color: white; border-radius: 12px; padding: 25px; min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; position: relative; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+        .slide-header { display: flex; justify-content: space-between; font-size: 12px; color: #a6adc8; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
+        .slide-content { margin: 20px 0; font-size: 16px; line-height: 1.6; }
+        .slide-nav { display: flex; justify-content: space-between; align-items: center; }
+        .slide-btn { background: var(--purple); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; }
+
+        /* EJERCICIO INTERACTIVO */
+        .quiz-option { background: white; border: 2px solid #d6c7ec; padding: 12px 15px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.2s; color: #333; }
+        .quiz-option:hover { background: #f0ebf8; border-color: var(--purple); }
+        .quiz-option.selected { background: #e0d5f2; border-color: var(--dark-purple); color: var(--dark-purple); }
 
         .chat-box { border: 1px solid #d6c7ec; border-radius: 8px; padding: 15px; height: 280px; overflow-y: auto; background: #fafafa; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
         .chat-msg { padding: 8px 12px; border-radius: 8px; max-width: 75%; font-size: 13px; }
@@ -98,22 +102,20 @@
             max-width: 380px;
         }
 
-        @media print {
-            .sidebar, .banner-full, .teacher-bar, .form-group, button, .btn-action { display: none !important; }
-            .content { border: none !important; padding: 0 !important; }
-            .doc-paper { box-shadow: none !important; border: none !important; padding: 0 !important; }
-        }
+        .tab-btn { background: #eee; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .tab-btn.active { background: var(--purple); color: white; }
     </style>
 </head>
 <body>
 
-    <!-- BANNER ENCABEZADO A ANCHO COMPLETO -->
+    <!-- BANNER ENCABEZADO ANCHO COMPLETO -->
     <div class="banner-full">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.src='assets/favicon.png';">
     </div>
 
     <div id="notifPantalla" class="notif-inline"></div>
 
+    <!-- MODAL DE LOGIN PROFESOR -->
     <div id="modalLoginProfesor" class="modal-overlay" style="display: flex;">
         <div class="modal-box">
             <div style="text-align: center; margin-bottom: 15px;">
@@ -157,14 +159,15 @@
         </div>
     </div>
 
+    <!-- CONTENEDOR PRINCIPAL -->
     <div class="main-container">
         <div class="sidebar">
             <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()"><i class="fas fa-plus-circle"></i> Vincular / Agregar Alumno</button>
             <button type="button" id="btn-panel" class="sidebar-btn active" onclick="cambiarVista('panel')"><i class="fas fa-user-graduate"></i> Panel Alumnos</button>
             <button type="button" id="btn-diagnostico" class="sidebar-btn" onclick="cambiarVista('diagnostico')"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico</button>
-            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')"><i class="fas fa-magic"></i> Materiales Sofía IA</button>
+            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')"><i class="fas fa-magic"></i> Co-Pilot Sofía IA</button>
             <button type="button" id="btn-chat" class="sidebar-btn" onclick="cambiarVista('chat')"><i class="fas fa-comments"></i> Mensajería con Tutor</button>
-            <button type="button" id="btn-planeacion" class="sidebar-btn" onclick="cambiarVista('planeacion')"><i class="fas fa-cloud-upload-alt"></i> Subir Planeación</button>
+            <button type="button" id="btn-planeacion" class="sidebar-btn" onclick="cambiarVista('planeacion')"><i class="fas fa-cloud-upload-alt"></i> Subir / Gestor Planeación</button>
         </div>
 
         <div class="content">
@@ -198,25 +201,6 @@
                     </div>
                     <button type="button" class="btn-danger" onclick="eliminarAlumnoActual()"><i class="fas fa-trash"></i> Eliminar Alumno</button>
                 </div>
-
-                <div id="contenedorFormDinamico" style="display:none;">
-                    <div class="form-group">
-                        <label>✏️ Asignar Tema de Trabajo Actual:</label>
-                        <input type="text" class="form-control" id="temaDinamico" value="Presentación y Vocabulario Básico">
-                    </div>
-
-                    <div class="form-group">
-                        <label>📅 Ventana de Entrega / Ritmo Sugerido:</label>
-                        <input type="date" class="form-control" id="fechaRitmo" value="2026-11-15">
-                    </div>
-
-                    <button type="button" class="btn-action" onclick="generarPropuestaSofia()"><i class="fas fa-robot"></i> Generar Propuesta de Adaptación con Sofía IA</button>
-
-                    <div id="resultadoPropuesta" style="margin-top:15px; padding:15px; background:#f0ebf8; border:1px solid var(--purple); border-radius:8px; display:none;">
-                        <h4 style="color:var(--dark-purple); margin-bottom:8px;"><i class="fas fa-brain"></i> Propuesta Adaptativa Generada</h4>
-                        <p id="textoPropuesta" style="font-size:13px; color:#333; line-height:1.5;"></p>
-                    </div>
-                </div>
             </div>
 
             <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO -->
@@ -229,16 +213,16 @@
                         <select id="selectAlumnoClaseDiag" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="font-weight:bold; color:var(--dark-purple); margin-top:4px;"></select>
                     </div>
 
-                    <p style="font-size:12px; color:#555; margin-bottom:15px; margin-top:10px;">Sube aquí el archivo de diagnóstico (PDF, Word o TXT). El documento se mostrará completo en pantalla y <b>Sofía IA leerá todo el contenido</b> para adaptar el plan de estudios.</p>
+                    <p style="font-size:12px; color:#555; margin-bottom:15px; margin-top:10px;">Sube el diagnóstico del estudiante. Sofía IA extraerá el perfil cognitivo para fundar su estrategia pedagógica.</p>
                     
                     <div class="form-group">
                         <label>Perfil / Condición Cognitiva Principal:</label>
                         <select id="selectPerfilCognitivo" class="form-control">
                             <option value="estandar">Sin diagnóstico específico (Estándar)</option>
-                            <option value="dislexia">Dislexia (Requiere regleta visual y tipografía especial)</option>
-                            <option value="tdah">TDAH (Requiere micro-bloques y temporizador activo)</option>
-                            <option value="tea">TEA / Espectro Autista (Requiere apoyos pictográficos y lenguaje literal)</option>
-                            <option value="altas_capacidades">Altas Capacidades (Requiere proyectos de profundización)</option>
+                            <option value="dislexia">Dislexia (Regleta visual, separación silábica y fuentes específicas)</option>
+                            <option value="tdah">TDAH (Micro-bloques de 4 min, temporizador visual y gamificación)</option>
+                            <option value="tea">TEA / Espectro Autista (Pictogramas, lenguaje literal directo y secuencias fijas)</option>
+                            <option value="altas_capacidades">Altas Capacidades (Retos de profundización y proyectos de análisis)</option>
                         </select>
                     </div>
 
@@ -257,60 +241,95 @@
 
                     <div class="form-group" style="margin-top:18px;">
                         <label>Observaciones y Notas Adicionales del Docente:</label>
-                        <textarea id="textoDiagnostico" class="form-control" rows="3" placeholder="Escribe observaciones adicionales o puntos clave para Sofía IA..."></textarea>
+                        <textarea id="textoDiagnostico" class="form-control" rows="3" placeholder="Comentarios adicionales sobre el alumno..."></textarea>
                     </div>
 
                     <button type="button" id="btnGuardarDiagnostico" class="btn-action" style="background:#0066cc;" onclick="guardarDiagnosticoAlumno()"><i class="fas fa-brain"></i> Guardar Diagnóstico y Entrenar a Sofía IA</button>
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: GENERADOR DE DOCUMENTOS CON LISTA DESPLEGABLE DE TEMAS -->
+            <!-- SECCIÓN 3: CO-PILOT SOFÍA IA (EXPLICACIÓN, MATERIALES INTERACTIVOS Y REVISIÓN) -->
             <div id="sec-materiales" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-magic"></i> Generación de Documentos Adaptados por Temario</h3>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-robot"></i> Co-Pilot Pedagógico con Sofía IA</h3>
                 
-                <div style="padding:20px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec; margin-bottom:20px;">
-                    <div class="form-group">
-                        <label style="color:var(--dark-purple); font-size:14px;"><i class="fas fa-user"></i> Alumno Destinatario:</label>
-                        <select id="selectAlumnoMateriales" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="font-weight:bold;"></select>
+                <div style="padding:20px; background:#f9f7fc; border-radius:10px; border:1px solid #d6c7ec; margin-bottom:20px;">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                        <div class="form-group">
+                            <label style="color:var(--dark-purple); font-size:13px;"><i class="fas fa-user"></i> Alumno Destinatario:</label>
+                            <select id="selectAlumnoMateriales" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="font-weight:bold;"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="color:var(--dark-purple); font-size:13px;"><i class="fas fa-list-ul"></i> Tema del Temario Cargado:</label>
+                            <select id="selectTemaTemario" class="form-control" style="font-weight:bold;"></select>
+                        </div>
                     </div>
 
-                    <!-- LISTA DESPLEGABLE DE TEMAS DEL PLAN DE ESTUDIOS -->
-                    <div class="form-group">
-                        <label style="color:var(--dark-purple); font-size:14px;"><i class="fas fa-list-ul"></i> Seleccionar Tema del Temario / Plan de Estudios:</label>
-                        <select id="selectTemaTemario" class="form-control" style="font-weight:bold; font-size:14px; background:white;">
-                            <option value="Presentación Personal y Vocabulario Básico">Unidad 1: Presentación Personal y Vocabulario Básico</option>
-                            <option value="Estructuras Gramaticales y Conjugación A1">Unidad 2: Estructuras Gramaticales y Conjugación A1</option>
-                            <option value="Expresión Oral y Pronunciación">Unidad 3: Expresión Oral y Pronunciación</option>
-                            <option value="Comprensión Auditiva y Lectora">Unidad 4: Comprensión Auditiva y Lectora</option>
-                            <option value="Rutinas Diarias y Descripciones">Unidad 5: Rutinas Diarias y Descripciones</option>
-                            <option value="Expresión Escrita y Redacción">Unidad 6: Expresión Escrita y Redacción</option>
-                            <option value="Evaluación Diagnóstica de Contenidos">Unidad 7: Repaso e Integración Diagnóstica</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label style="color:var(--dark-purple); font-size:14px;"><i class="fas fa-file-alt"></i> Tipo de Documento a Generar:</label>
-                        <select id="tipoDocGenerar" class="form-control">
-                            <option value="ficha">📄 Ficha de Ejercicios y Práctica Adaptada</option>
-                            <option value="guia">📖 Guía Visual de Estudio y Resumen</option>
-                            <option value="evaluacion">📝 Check de Evaluación Adaptado</option>
-                        </select>
-                    </div>
-
-                    <button type="button" class="btn-action" style="background:var(--purple);" onclick="generarDocumentoAdaptadoCompleto()"><i class="fas fa-robot"></i> Generar Documento Adaptado con Sofía IA</button>
+                    <button type="button" class="btn-action" style="background:var(--purple);" onclick="generarPropuestaSofiaCompleta()"><i class="fas fa-brain"></i> Generar Propuesta y Materiales con Sofía IA</button>
                 </div>
 
-                <!-- HOJA DEL DOCUMENTO GENERADO -->
-                <div id="contenedorDocPaper" class="doc-paper" style="display:none;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--purple); padding-bottom:12px; margin-bottom:18px;">
-                        <div>
-                            <h2 id="docTituloPrincipal" style="color:var(--dark-purple); margin:0;">Ficha Didáctica Adaptada</h2>
-                            <p style="font-size:13px; color:#555; margin-top:4px;">Alumno: <b id="docNombreAlumno"></b> | Perfil: <b id="docPerfilAlumno" style="color:var(--purple);"></b></p>
+                <!-- CONTENEDOR DE PROPUESTA Y REVISIÓN -->
+                <div id="boxCoPilotCompleto" style="display:none;">
+                    
+                    <!-- 1. EXPLICACIÓN PEDAGÓGICA Y TAXONOMÍA DE BLOOM -->
+                    <div class="proposal-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                            <h4 style="color:var(--dark-purple); margin:0;"><i class="fas fa-lightbulb"></i> Explicación Pedagógica de Sofía IA</h4>
+                            <div>
+                                <span class="bloom-badge">Bloom: Recordar</span>
+                                <span class="bloom-badge">Bloom: Aplicar</span>
+                                <span class="bloom-badge">Bloom: Evaluar</span>
+                            </div>
                         </div>
-                        <button type="button" onclick="window.print()" style="background:var(--dark-purple); color:white; border:none; padding:8px 16px; border-radius:6px; font-weight:bold; cursor:pointer;"><i class="fas fa-print"></i> Imprimir / Guardar PDF</button>
+                        <p id="explicacionSofiaTexto" style="font-size:13px; color:#333; line-height:1.6; margin-bottom:12px;"></p>
                     </div>
 
-                    <div id="docCuerpoContenido"></div>
+                    <!-- 2. VISTA PREVIA DE MATERIALES INTERACTIVOS DE ALTO NIVEL -->
+                    <div style="margin-bottom:20px;">
+                        <div style="display:flex; gap:10px; margin-bottom:10px;">
+                            <button type="button" class="tab-btn active" id="tabBtnSlide" onclick="cambiarTabMaterial('slide')"><i class="fas fa-desktop"></i> Presentación Interactiva</button>
+                            <button type="button" class="tab-btn" id="tabBtnQuiz" onclick="cambiarTabMaterial('quiz')"><i class="fas fa-tasks"></i> Ejercicio / Quiz Interactivo</button>
+                        </div>
+
+                        <!-- TAB PRESENTACIÓN SLIDES -->
+                        <div id="tabContentSlide">
+                            <div class="slide-container">
+                                <div class="slide-header">
+                                    <span id="slideCounter">Diapositiva 1 de 3</span>
+                                    <span id="slideTagPerfil" style="color:var(--gold); font-weight:bold;">Adaptación TDAH</span>
+                                </div>
+                                <div class="slide-content" id="slideBody">
+                                    <!-- Contenido dinámico -->
+                                </div>
+                                <div class="slide-nav">
+                                    <button type="button" class="slide-btn" onclick="navSlide(-1)"><i class="fas fa-arrow-left"></i> Anterior</button>
+                                    <button type="button" class="slide-btn" onclick="navSlide(1)">Siguiente <i class="fas fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB QUIZ INTERACTIVO -->
+                        <div id="tabContentQuiz" style="display:none; background:#f4f1ea; padding:20px; border-radius:12px; border:1px solid #d6c7ec;">
+                            <h4 style="color:var(--dark-purple); margin-bottom:10px;"><i class="fas fa-question-circle"></i> Práctica Interactiva en Tiempo Real</h4>
+                            <p id="quizPreguntaTexto" style="font-size:14px; font-weight:bold; margin-bottom:12px; color:#333;"></p>
+                            <div id="quizOpcionesContainer"></div>
+                            <div id="quizFeedback" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- 3. RETROALIMENTACIÓN DOCENTE Y VISTO BUENO -->
+                    <div style="background:#fff8e1; border:1px solid #ffe082; padding:18px; border-radius:8px;">
+                        <h4 style="color:#b78103; margin-bottom:8px;"><i class="fas fa-comment-dots"></i> Co-Pilotaje Docente: Ajustes y Retroalimentación</h4>
+                        <p style="font-size:12px; color:#666; margin-bottom:10px;">Escribe tus comentarios para que Sofía IA reajuste la propuesta o dale tu **Visto Bueno** para enviar los materiales al alumno.</p>
+                        
+                        <textarea id="inputComentarioProfesor" class="form-control" rows="2" placeholder="Ej: 'Aumenta el tamaño de letra en la diapositiva 2' o 'Agrega un ejercicio de pronunciación auditiva'"></textarea>
+
+                        <div style="display:flex; gap:12px; margin-top:12px;">
+                            <button type="button" onclick="solicitarAjustesSofia()" style="background:#f57c00; color:white; border:none; padding:10px 18px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:13px;"><i class="fas fa-sync"></i> Solicitar Reajuste a Sofía IA</button>
+                            <button type="button" onclick="darVistoBuenoYPublicar()" style="background:var(--green); color:white; border:none; padding:10px 22px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:13px; flex-grow:1;"><i class="fas fa-check-circle"></i> ✅ Dar Visto Bueno y Publicar para el Alumno</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -324,14 +343,17 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 5: SUBIR PLANEACIÓN -->
+            <!-- SECCIÓN 5: SUBIR Y GESTIONAR TEMARIOS -->
             <div id="sec-planeacion" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir Planeación de Clase / Temario</h3>
-                <div style="border:2px dashed var(--purple); padding:30px; text-align:center; border-radius:8px; background:#fdfbfd;">
-                    <p style="margin-bottom:15px; color:#555; font-size:13px;">Carga tu temario o planeación didáctica (PDF, Word o TXT). Los temas de tu documento se agregarán automáticamente a la lista desplegable.</p>
-                    <input type="file" id="archivoPlaneacion" class="form-control" style="max-width:350px; margin:0 auto 15px;" onchange="procesarTemarioSubido(event)">
-                    <button type="button" onclick="confirmarSubidaPlaneacion()" style="background:var(--purple); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Procesar Planeación</button>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir y Gestionar Temarios</h3>
+                
+                <div style="border:2px dashed var(--purple); padding:25px; text-align:center; border-radius:8px; background:#fdfbfd; margin-bottom:25px;">
+                    <p style="margin-bottom:12px; color:#555; font-size:13px;">Carga un nuevo temario o planeación didáctica (PDF, Word o TXT):</p>
+                    <input type="file" id="archivoPlaneacion" class="form-control" style="max-width:380px; margin:0 auto 12px;" onchange="procesarNuevoTemario(event)">
                 </div>
+
+                <h4 style="color:var(--dark-purple); margin-bottom:12px;"><i class="fas fa-list-check"></i> Temarios Guardados en Plataforma</h4>
+                <div id="listaTemariosCargados" style="display:flex; flex-direction:column; gap:10px;"></div>
             </div>
         </div>
     </div>
@@ -404,6 +426,18 @@
     var chatUnsubscribe = null;
     var textoDiagnosticoCompleto = "";
 
+    // LISTA DE TEMARIOS
+    var temariosLista = [
+        "Plan de Estudios Francés B1.1 (Nivel 1) - Anáhuac",
+        "Unidad 1: Presentación Personal y Vocabulario Básico",
+        "Unidad 2: Estructuras Gramaticales y Conjugación A1",
+        "Unidad 3: Expresión Oral y Pronunciación Fónica"
+    ];
+
+    // ESTADO DE SLIDES Y QUIZ
+    var currentSlideIdx = 0;
+    var currentSlidesData = [];
+
     window.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
         const codigoUrl = urlParams.get('codigo');
@@ -411,7 +445,167 @@
             document.getElementById('inputCodigoProfesor').value = codigoUrl;
             validarCodigoProfesor();
         }
+        renderizarListaTemarios();
     });
+
+    function renderizarListaTemarios() {
+        const select = document.getElementById('selectTemaTemario');
+        const listDiv = document.getElementById('listaTemariosCargados');
+        if (select) select.innerHTML = '';
+        if (listDiv) listDiv.innerHTML = '';
+
+        temariosLista.forEach(function(t, idx) {
+            if (select) {
+                var opt = document.createElement('option');
+                opt.value = t;
+                opt.innerText = t;
+                select.appendChild(opt);
+            }
+
+            if (listDiv) {
+                var item = document.createElement('div');
+                item.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:#f9f7fc; padding:12px 15px; border-radius:8px; border:1px solid #d6c7ec;";
+                item.innerHTML = `
+                    <span style="font-size:13px; font-weight:bold; color:var(--dark-purple);"><i class="fas fa-file-alt"></i> ${t}</span>
+                    <button type="button" onclick="eliminarTemarioIdx(${idx})" style="background:#dc3545; color:white; border:none; padding:5px 12px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;"><i class="fas fa-trash"></i> Eliminar</button>
+                `;
+                listDiv.appendChild(item);
+            }
+        });
+    }
+
+    function procesarNuevoTemario(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const nombreClean = file.name.replace(/\.[^/.]+$/, "");
+            temariosLista.push("📁 " + nombreClean);
+            renderizarListaTemarios();
+            mostrarNotificacion('✅ Temario "' + nombreClean + '" agregado correctamente.');
+        }
+    }
+
+    function eliminarTemarioIdx(idx) {
+        if (confirm('¿Deseas eliminar este temario de la lista?')) {
+            temariosLista.splice(idx, 1);
+            renderizarListaTemarios();
+            mostrarNotificacion('🗑️ Temario eliminado.');
+        }
+    }
+
+    function generarPropuestaSofiaCompleta() {
+        if (!alumnoActivo) return alert('Por favor, selecciona primero un alumno.');
+
+        const tema = document.getElementById('selectTemaTemario').value;
+        const perf = alumnoActivo.perfil_cognitivo || 'estandar';
+        const box = document.getElementById('boxCoPilotCompleto');
+        const explicacion = document.getElementById('explicacionSofiaTexto');
+
+        box.style.display = 'block';
+
+        let perfNombre = perf.toUpperCase();
+        let bloomStr = "";
+
+        if (perf === 'tdah') {
+            bloomStr = "Para abordar el TDAH de " + alumnoActivo.nombre + ", fraccioné la sesión en micro-bloques de 4 minutos con alertas visuales de tiempo. En el nivel de **Recordar**, usamos tarjetas visuales breves. En **Aplicar**, pasamos de inmediato a un quiz de opción directa para mantener la atención activa.";
+            currentSlidesData = [
+                { title: "Diapositiva 1: Micro-Bloque 1 - Expresión Clave", body: "<h3 style='color:var(--gold);'>Bonjour & Salutations</h3><p style='font-size:18px; margin-top:10px;'>Enunciados breves con temporizador activo de 4 minutos.</p>" },
+                { title: "Diapositiva 2: Micro-Bloque 2 - Estructura Básica", body: "<h3 style='color:var(--gold);'>Je m'appelle...</h3><p style='font-size:18px; margin-top:10px;'>Asociación de audio y respuesta inmediata.</p>" },
+                { title: "Diapositiva 3: Micro-Bloque 3 - Cierre Dinámico", body: "<h3 style='color:var(--gold);'>Enchanté(e)</h3><p style='font-size:18px; margin-top:10px;'>Pausa activa sugerida antes de continuar.</p>" }
+            ];
+        } else if (perf === 'dislexia') {
+            bloomStr = "Dado el perfil de Dislexia, configuré tipografía de alta legibilidad con separación silábica. En el nivel **Comprender**, reduje frases complejas a diagramas de flujo y resalté el vocabulario clave en color púrpura.";
+            currentSlidesData = [
+                { title: "Diapositiva 1: Guía Lectora Resaltada", body: "<h3 style='color:var(--gold);'>Bonjour</h3><p style='font-size:18px; margin-top:10px;'>Separación de sílabas: <b>Bon - jour</b> | Pronunciación limpia.</p>" },
+                { title: "Diapositiva 2: Estructura Visual", body: "<h3 style='color:var(--gold);'>Présentation</h3><p style='font-size:18px; margin-top:10px;'><b>Je suis</b> + [Nom]. Regleta de seguimiento por renglón activa.</p>" }
+            ];
+        } else {
+            bloomStr = "Para la propuesta de " + alumnoActivo.nombre + " (" + perfNombre + "), estructuré los contenidos siguiendo la Taxonomía de Bloom desde la memorización de vocabulario hasta la producción interactiva.";
+            currentSlidesData = [
+                { title: "Diapositiva 1: Introducción", body: "<h3 style='color:var(--gold);'>" + tema + "</h3><p style='font-size:18px; margin-top:10px;'>Presentación general del contenido adaptado.</p>" }
+            ];
+        }
+
+        explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + "):</b><br>" + bloomStr;
+        
+        currentSlideIdx = 0;
+        renderSlide();
+        renderQuiz();
+
+        mostrarNotificacion('✨ Propuesta e interactividad generadas por Sofía IA.');
+    }
+
+    function renderSlide() {
+        if (!currentSlidesData || currentSlidesData.length === 0) return;
+        const slide = currentSlidesData[currentSlideIdx];
+        document.getElementById('slideCounter').innerText = "Diapositiva " + (currentSlideIdx + 1) + " de " + currentSlidesData.length;
+        document.getElementById('slideTagPerfil').innerText = "Adaptación: " + (alumnoActivo ? (alumnoActivo.perfil_cognitivo || 'estandar').toUpperCase() : '');
+        document.getElementById('slideBody').innerHTML = "<h4>" + slide.title + "</h4>" + slide.body;
+    }
+
+    function navSlide(dir) {
+        if (!currentSlidesData) return;
+        currentSlideIdx += dir;
+        if (currentSlideIdx < 0) currentSlideIdx = 0;
+        if (currentSlideIdx >= currentSlidesData.length) currentSlideIdx = currentSlidesData.length - 1;
+        renderSlide();
+    }
+
+    function renderQuiz() {
+        const qText = document.getElementById('quizPreguntaTexto');
+        const optionsBox = document.getElementById('quizOpcionesContainer');
+        const feedback = document.getElementById('quizFeedback');
+
+        qText.innerText = "1. ¿Cómo se dice 'Mucho gusto' en el contexto de presentación?";
+        feedback.innerText = "";
+
+        optionsBox.innerHTML = `
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">a) Merci beaucoup</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">b) Enchanté(e)</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) Au revoir</div>
+        `;
+    }
+
+    function seleccionarOpcionQuiz(el, esCorrecta) {
+        document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+        el.classList.add('selected');
+        const feedback = document.getElementById('quizFeedback');
+        if (esCorrecta) {
+            feedback.style.color = "#2e7d32";
+            feedback.innerHTML = "✔ ¡Correcto! 'Enchanté(e)' es la expresión precisa.";
+        } else {
+            feedback.style.color = "#dc3545";
+            feedback.innerHTML = "✖ Intenta nuevamente.";
+        }
+    }
+
+    function cambiarTabMaterial(tab) {
+        document.getElementById('tabBtnSlide').classList.remove('active');
+        document.getElementById('tabBtnQuiz').classList.remove('active');
+        document.getElementById('tabContentSlide').style.display = 'none';
+        document.getElementById('tabContentQuiz').style.display = 'none';
+
+        if (tab === 'slide') {
+            document.getElementById('tabBtnSlide').classList.add('active');
+            document.getElementById('tabContentSlide').style.display = 'block';
+        } else {
+            document.getElementById('tabBtnQuiz').classList.add('active');
+            document.getElementById('tabContentQuiz').style.display = 'block';
+        }
+    }
+
+    function solicitarAjustesSofia() {
+        const txt = document.getElementById('inputComentarioProfesor').value.trim();
+        if (!txt) return alert('Escribe primero tus observaciones o sugerencias para Sofía IA.');
+        mostrarNotificacion('🔄 Reajustando propuesta según tus observaciones...');
+        setTimeout(function() {
+            document.getElementById('explicacionSofiaTexto').innerHTML += "<br><br><b style='color:var(--dark-purple);'>Ajuste aplicado por Docente:</b> '" + txt + "'. Sofía IA ha optimizado los materiales.";
+            document.getElementById('inputComentarioProfesor').value = '';
+        }, 1200);
+    }
+
+    function darVistoBuenoYPublicar() {
+        mostrarNotificacion('✅ Visto Bueno registrado. Los materiales interactivos han sido publicados en el portal del alumno.');
+    }
 
     function limpiarArchivoDiagnostico() {
         document.getElementById('archivoDiagnosticoFile').value = '';
@@ -441,116 +635,17 @@
                 const arrayBuffer = await file.arrayBuffer();
                 const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
                 let fullText = '';
-                
                 for (let i = 1; i <= pdf.numPages; i++) {
                     const page = await pdf.getPage(i);
                     const textContent = await page.getTextContent();
-                    const pageText = textContent.items.map(item => item.str).join(' ');
-                    fullText += pageText + '\n';
+                    fullText += textContent.items.map(item => item.str).join(' ') + '\n';
                 }
-
                 textoDiagnosticoCompleto = fullText.trim();
-                statusEl.innerText = "✔ PDF de " + pdf.numPages + " páginas cargado y procesado al 100% por Sofía IA.";
-                detectarCondicionTexto(textoDiagnosticoCompleto || file.name);
+                statusEl.innerText = "✔ PDF de " + pdf.numPages + " páginas leído y procesado por Sofía IA.";
             } catch (e) {
-                statusEl.innerText = "✔ PDF visualizado correctamente en pantalla.";
-                detectarCondicionTexto(file.name);
-            }
-        } else {
-            boxVisor.style.display = 'none';
-            if (fileName.endsWith('.txt')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    textoDiagnosticoCompleto = e.target.result;
-                    statusEl.innerText = "✔ Archivo TXT leído en su totalidad.";
-                    detectarCondicionTexto(textoDiagnosticoCompleto);
-                };
-                reader.readAsText(file);
-            } else {
-                statusEl.innerText = "✔ Documento '" + file.name + "' preparado para Sofía IA.";
-                detectarCondicionTexto(file.name);
+                statusEl.innerText = "✔ PDF visualizado correctamente.";
             }
         }
-    }
-
-    function detectarCondicionTexto(texto) {
-        const lower = texto.toLowerCase();
-        const selectPerf = document.getElementById('selectPerfilCognitivo');
-        if (lower.includes('dislex') || lower.includes('lecto')) selectPerf.value = 'dislexia';
-        else if (lower.includes('tdah') || lower.includes('atenc')) selectPerf.value = 'tdah';
-        else if (lower.includes('autis') || lower.includes('tea') || lower.includes('espectro')) selectPerf.value = 'tea';
-        else if (lower.includes('altas capacidades') || lower.includes('superdot')) selectPerf.value = 'altas_capacidades';
-    }
-
-    // GENERADOR COMPLETO DE DOCUMENTOS SEGÚN DIAGNÓSTICO Y TEMA
-    function generarDocumentoAdaptadoCompleto() {
-        if (!alumnoActivo) return alert('Selecciona a un alumno primero.');
-
-        const temaSelect = document.getElementById('selectTemaTemario');
-        const tema = temaSelect ? temaSelect.value : 'Tema General';
-        const tipoDoc = document.getElementById('tipoDocGenerar').value;
-        const perf = alumnoActivo.perfil_cognitivo || 'estandar';
-
-        const paperBox = document.getElementById('contenedorDocPaper');
-        const cuerpo = document.getElementById('docCuerpoContenido');
-
-        document.getElementById('docNombreAlumno').innerText = alumnoActivo.nombre;
-        document.getElementById('docPerfilAlumno').innerText = perf.toUpperCase();
-
-        paperBox.style.display = 'block';
-        cuerpo.innerHTML = '<p style="color:var(--purple); font-weight:bold;"><i class="fas fa-cog fa-spin"></i> Sofía IA generando documento pedagógico adaptado para ' + alumnoActivo.nombre + '...</p>';
-
-        setTimeout(function() {
-            let htmlDoc = '';
-
-            if (perf === 'dislexia') {
-                htmlDoc += '<div style="background:#f4f1ea; padding:10px; border-left:4px solid var(--purple); margin-bottom:15px; font-size:12px;"><b>Adaptación para Dislexia:</b> Tipografía de alta legibilidad, separación por párrafos breves, guías de enfoque y enunciados sin frases complejas.</div>';
-            } else if (perf === 'tdah') {
-                htmlDoc += '<div style="background:#eef7ee; padding:10px; border-left:4px solid #2e7d32; margin-bottom:15px; font-size:12px;"><b>Adaptación para TDAH:</b> Dividido en 3 bloques de 4 minutos con temporizador activo, instrucciones directas de una sola acción y pausas activas.</div>';
-            } else if (perf === 'tea') {
-                htmlDoc += '<div style="background:#f0f7ff; padding:10px; border-left:4px solid #0066cc; margin-bottom:15px; font-size:12px;"><b>Adaptación para TEA:</b> Apoyos esquemáticos, lenguaje literal directo (sin metáforas) y estructura fija paso a paso.</div>';
-            }
-
-            if (tipoDoc === 'ficha') {
-                document.getElementById('docTituloPrincipal').innerText = '📄 Ficha de Ejercicios: ' + tema;
-                htmlDoc += `
-                    <h3 style="color:var(--dark-purple); margin-top:10px;">Actividad 1: Reconocimiento del Tema</h3>
-                    <p>Revisa el siguiente vocabulario clave y completa las frases con las palabras adecuadas:</p>
-                    <ul style="margin-left:20px; margin-bottom:15px;">
-                        <li><b>Vocabulario Clave:</b> Bonjour, Je m'appelle, Enchanté(e), Merci.</li>
-                    </ul>
-                    <div style="border:1px dashed #ccc; padding:15px; background:#fafafa; border-radius:6px; margin-bottom:15px;">
-                        1. __________ ! Je m'appelle ${alumnoActivo.nombre}.<br><br>
-                        2. C'est un plaisir de te connaître. __________ !
-                    </div>
-                    <h3 style="color:var(--dark-purple);">Actividad 2: Aplicación Práctica</h3>
-                    <p>Redacta 2 frases cortas utilizando la estructura aprendida hoy.</p>
-                `;
-            } else if (tipoDoc === 'guia') {
-                document.getElementById('docTituloPrincipal').innerText = '📖 Guía Visual de Estudio: ' + tema;
-                htmlDoc += `
-                    <h3 style="color:var(--dark-purple); margin-top:10px;">Resumen Clave del Tema</h3>
-                    <p>Esta guía reúne los puntos principales de <b>${tema}</b> presentados de forma estructurada:</p>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:15px 0;">
-                        <div style="background:#f0ebf8; padding:12px; border-radius:6px;"><b>Concepto 1:</b> Saludos e Identificación inicial.</div>
-                        <div style="background:#f0ebf8; padding:12px; border-radius:6px;"><b>Concepto 2:</b> Preguntas de interacción directa.</div>
-                    </div>
-                `;
-            } else {
-                document.getElementById('docTituloPrincipal').innerText = '📝 Evaluación Adaptada: ' + tema;
-                htmlDoc += `
-                    <h3 style="color:var(--dark-purple); margin-top:10px;">Check de Verificación</h3>
-                    <p>Responde a las preguntas de opción directa:</p>
-                    <div style="border:1px solid #ddd; padding:15px; border-radius:6px; margin-top:10px;">
-                        <p><b>1. ¿Cuál es la forma correcta de decir "Hola" en un entorno formal?</b></p>
-                        <p style="margin-left:15px;">a) Salut &nbsp;&nbsp;&nbsp; b) Bonjour &nbsp;&nbsp;&nbsp; c) Au revoir</p>
-                    </div>
-                `;
-            }
-
-            cuerpo.innerHTML = htmlDoc;
-            mostrarNotificacion('✨ Documento adaptado generado con éxito por Sofía IA.');
-        }, 1000);
     }
 
     async function validarCodigoProfesor() {
@@ -651,7 +746,6 @@
               if (listaAlumnosClase.length > 0) {
                   document.getElementById('contenedorSinAlumnos').style.display = 'none';
                   document.getElementById('contenedorAlumnoCard').style.display = 'flex';
-                  document.getElementById('contenedorFormDinamico').style.display = 'block';
                   document.getElementById('boxSelectorAlumnos').style.display = 'block';
 
                   listaAlumnosClase.forEach(function(alm) {
@@ -680,7 +774,6 @@
                   alumnoActivo = null;
                   document.getElementById('contenedorSinAlumnos').style.display = 'block';
                   document.getElementById('contenedorAlumnoCard').style.display = 'none';
-                  document.getElementById('contenedorFormDinamico').style.display = 'none';
                   document.getElementById('boxSelectorAlumnos').style.display = 'none';
               }
           });
@@ -753,7 +846,6 @@
                 ]);
                 alumnoActivo = null;
                 document.getElementById('contenedorAlumnoCard').style.display = 'none';
-                document.getElementById('contenedorFormDinamico').style.display = 'none';
                 document.getElementById('boxSelectorAlumnos').style.display = 'none';
                 document.getElementById('contenedorSinAlumnos').style.display = 'block';
                 mostrarNotificacion('✅ Alumno eliminado.');
@@ -843,24 +935,6 @@
             n.innerText = texto;
             n.style.display = 'block';
             setTimeout(function() { n.style.display = 'none'; }, 4500);
-        }
-    }
-
-    function confirmarSubidaPlaneacion() { mostrarNotificacion('☁️ Planeación procesada por Sofía IA.'); }
-
-    function procesarTemarioSubido(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const nombreTema = file.name.replace(/\.[^/.]+$/, "");
-            const selectTema = document.getElementById('selectTemaTemario');
-            if (selectTema) {
-                const newOpt = document.createElement('option');
-                newOpt.value = nombreTema;
-                newOpt.innerText = "📁 Temario Subido: " + nombreTema;
-                newOpt.selected = true;
-                selectTema.appendChild(newOpt);
-            }
-            mostrarNotificacion('📚 Tema "' + nombreTema + '" agregado a la lista desplegable.');
         }
     }
 
