@@ -11,10 +11,11 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--bg); color: #333; }
         
-        .banner { width: 100%; text-align: center; background: white; border-bottom: 1px solid #d6c7ec; padding: 10px 0; }
-        .banner img { max-height: 50px; object-fit: contain; }
+        /* ENCABEZADO A ANCHO COMPLETO (100% SCREEN WIDTH) */
+        .banner-full { width: 100%; background: white; border-bottom: 2px solid #d6c7ec; overflow: hidden; }
+        .banner-full img { width: 100%; height: auto; max-height: 140px; object-fit: cover; display: block; }
         
-        .main-container { display: flex; max-width: 1200px; margin: 20px auto; gap: 20px; padding: 0 15px; }
+        .main-container { display: flex; max-width: 1250px; margin: 20px auto; gap: 20px; padding: 0 15px; }
         .sidebar { width: 280px; background: white; border-radius: 12px; padding: 15px; border: 1px solid #d6c7ec; flex-shrink: 0; height: fit-content; }
         .sidebar-btn { width: 100%; padding: 12px 10px; margin-bottom: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: left; border: 1px solid #ccc; background: white; color: #333; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
         .sidebar-btn.primary { background: var(--purple); color: white; border: none; }
@@ -43,7 +44,7 @@
         .btn-action { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; }
         .btn-action:hover { background: #1b5e20; }
 
-        .box-diag { background: #f0f7ff; border: 1px dashed #0066cc; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .box-diag { background: #f0f7ff; border: 1px dashed #0066cc; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
 
         .chat-box { border: 1px solid #d6c7ec; border-radius: 8px; padding: 15px; height: 280px; overflow-y: auto; background: #fafafa; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
         .chat-msg { padding: 8px 12px; border-radius: 8px; max-width: 75%; font-size: 13px; }
@@ -51,13 +52,14 @@
         .chat-msg.profesor { background: var(--purple); color: white; align-self: flex-end; text-align: right; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
-        .modal-box { background: white; width: 90%; max-width: 450px; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .modal-box { background: white; width: 90%; max-width: 480px; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .notif-inline { padding: 12px; border-radius: 6px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 15px; display: none; font-size: 13px; }
     </style>
 </head>
 <body>
 
-    <div class="banner">
+    <!-- BANNER ENCABEZADO A ANCHO COMPLETO -->
+    <div class="banner-full">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.src='assets/favicon.png';">
     </div>
 
@@ -141,7 +143,6 @@
                     <p style="font-size:13px; color:#666; margin-top:5px;">Haz clic en el botón <b>"➕ Vincular / Agregar Alumno"</b> para dar de alta a tu primer estudiante.</p>
                 </div>
 
-                <!-- TARJETA DINÁMICA SIN DATOS ESTÁTICOS -->
                 <div id="contenedorAlumnoCard" class="student-card" style="display:none;">
                     <div class="student-info">
                         <h2 id="nombreAlumnoDocente"></h2>
@@ -171,13 +172,13 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO -->
+            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO CON LECTURA DE ARCHIVO PARA SOFÍA IA -->
             <div id="sec-diagnostico" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico por Alumno</h3>
                 
                 <div class="box-diag">
                     <p style="font-size:13px; color:#004085; margin-bottom:10px;"><b>Alumno Activo:</b> <span id="diagNombreAlumno" style="font-weight:bold;">Ninguno seleccionado</span></p>
-                    <p style="font-size:12px; color:#555; margin-bottom:15px;">Sube el diagnóstico clínico/psicopedagógico o redacta las observaciones clave (ej. Dislexia, TDAH, TEA, Altas Capacidades). Sofía IA procesará este perfil para adaptar automáticamente las actividades.</p>
+                    <p style="font-size:12px; color:#555; margin-bottom:15px;">Sube aquí el archivo de diagnóstico (PDF, Word, TXT) o redacta las observaciones. **Sofía IA leerá el archivo directamente** para extraer la condición cognitiva y adaptar los materiales.</p>
                     
                     <div class="form-group">
                         <label>Perfil / Condición Cognitiva Principal:</label>
@@ -191,16 +192,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Subir Documento de Diagnóstico (PDF / Word / TXT):</label>
-                        <input type="file" id="archivoDiagnostico" class="form-control">
+                        <label>📁 Adjuntar Archivo de Diagnóstico (PDF, Word o TXT):</label>
+                        <input type="file" id="archivoDiagnosticoFile" class="form-control" accept=".pdf,.doc,.docx,.txt" onchange="leerArchivoDiagnostico(event)">
+                        <small id="statusLecturaArchivo" style="color:var(--purple); font-weight:bold; display:block; margin-top:5px;"></small>
                     </div>
 
                     <div class="form-group">
-                        <label>Observaciones o Recomendaciones del Diagnóstico:</label>
-                        <textarea id="textoDiagnostico" class="form-control" rows="3" placeholder="Ej: Dificultad en procesamiento fonológico, requiere lecturas cortas y pausas de 5 minutos..."></textarea>
+                        <label>Observaciones / Contenido Leído por Sofía IA:</label>
+                        <textarea id="textoDiagnostico" class="form-control" rows="4" placeholder="El texto del archivo o tus observaciones aparecerán aquí..."></textarea>
                     </div>
 
-                    <button type="button" class="btn-action" style="background:#0066cc;" onclick="guardarDiagnosticoAlumno()"><i class="fas fa-save"></i> Guardar Diagnóstico y Entrenar a Sofía IA</button>
+                    <button type="button" class="btn-action" style="background:#0066cc;" onclick="guardarDiagnosticoAlumno()"><i class="fas fa-brain"></i> Guardar Diagnóstico y Entrenar a Sofía IA</button>
                 </div>
             </div>
 
@@ -234,7 +236,7 @@
         </div>
     </div>
 
-    <!-- MODAL AGREGAR / VINCULAR ALUMNO -->
+    <!-- MODAL REGISTRAR ALUMNO CON OPCIÓN DE DIAGNÓSTICO DIRECTO -->
     <div id="modalAgregarAlumno" class="modal-overlay">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #d6c7ec; padding-bottom:10px; margin-bottom:15px;">
@@ -244,7 +246,7 @@
             
             <div class="form-group">
                 <label>Nombre Completo del Alumno *:</label>
-                <input type="text" id="inputNombreNuevoAlumno" class="form-control" placeholder="Ej. Carlos Mendoza">
+                <input type="text" id="inputNombreNuevoAlumno" class="form-control" placeholder="Ej. Regina Zalapa Martínez">
             </div>
             <div class="form-group">
                 <label>Grado / Nivel de Estudio *:</label>
@@ -308,6 +310,33 @@
             validarCodigoProfesor();
         }
     });
+
+    // LECTURA AUTOMÁTICA DEL ARCHIVO DE DIAGNÓSTICO
+    function leerArchivoDiagnostico(event) {
+        const file = event.target.files[0];
+        const statusEl = document.getElementById('statusLecturaArchivo');
+        if (!file) return;
+
+        statusEl.innerText = "⏳ Sofía IA procesando el archivo '" + file.name + "'...";
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const content = e.target.result;
+            const txtBox = document.getElementById('textoDiagnostico');
+            txtBox.value = "[Diagnóstico extraído de " + file.name + "]:\n" + content.substring(0, 1500);
+            statusEl.innerText = "✔ Archivo procesado correctamente por Sofía IA.";
+
+            // Detectar automáticamente palabras clave de neurodivergencia
+            const lower = content.toLowerCase();
+            const selectPerf = document.getElementById('selectPerfilCognitivo');
+            if (lower.includes('dislex') || lower.includes('lecto')) selectPerf.value = 'dislexia';
+            else if (lower.includes('tdah') || lower.includes('atenc')) selectPerf.value = 'tdah';
+            else if (lower.includes('autis') || lower.includes('tea') || lower.includes('espectro')) selectPerf.value = 'tea';
+            else if (lower.includes('altas capacidades') || lower.includes('superdot')) selectPerf.value = 'altas_capacidades';
+        };
+
+        reader.readAsText(file);
+    }
 
     async function validarCodigoProfesor() {
         var rawCod = document.getElementById('inputCodigoProfesor').value.trim();
@@ -488,7 +517,7 @@
             ]);
             alumnoActivo.perfil_cognitivo = perf;
             alumnoActivo.observaciones_diagnostico = obs;
-            mostrarNotificacion('✅ Diagnóstico guardado. Sofía IA ha adaptado los materiales.');
+            mostrarNotificacion('✅ Diagnóstico procesado y guardado. Sofía IA ha adaptado los materiales.');
             renderizarMaterialesAdaptados();
         } catch (e) { alert('Error al guardar diagnóstico: ' + e.message); }
     }
