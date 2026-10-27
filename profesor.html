@@ -58,7 +58,6 @@
 
         .box-diag { background: #f0f7ff; border: 1px dashed #0066cc; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
 
-        /* CONTENEDOR DEL VISOR DE PDF */
         .pdf-preview-box { width: 100%; height: 450px; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; margin-top: 10px; background: #525659; display: none; }
         .pdf-preview-box iframe { width: 100%; height: 100%; border: none; }
 
@@ -70,7 +69,6 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: white; width: 90%; max-width: 480px; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         
-        /* NOTIFICACIÓN FLOTANTE SIEMPRE VISIBLE (TOAST) */
         .notif-inline { 
             position: fixed; 
             top: 20px; 
@@ -90,15 +88,12 @@
 </head>
 <body>
 
-    <!-- BANNER ENCABEZADO CENTRADO -->
     <div class="banner-full">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.src='assets/favicon.png';">
     </div>
 
-    <!-- NOTIFICACIÓN FLOTANTE -->
     <div id="notifPantalla" class="notif-inline"></div>
 
-    <!-- MODAL INGRESO PROFESOR -->
     <div id="modalLoginProfesor" class="modal-overlay" style="display: flex;">
         <div class="modal-box">
             <div style="text-align: center; margin-bottom: 15px;">
@@ -142,7 +137,6 @@
         </div>
     </div>
 
-    <!-- CONTENEDOR PRINCIPAL -->
     <div class="main-container">
         <div class="sidebar">
             <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()"><i class="fas fa-plus-circle"></i> Vincular / Agregar Alumno</button>
@@ -205,13 +199,17 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO -->
+            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO CON SELECTOR Y REINICIO DE ARCHIVO -->
             <div id="sec-diagnostico" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico por Alumno</h3>
                 
                 <div class="box-diag">
-                    <p style="font-size:13px; color:#004085; margin-bottom:10px;"><b>Alumno Activo:</b> <span id="diagNombreAlumno" style="font-weight:bold;">Ninguno seleccionado</span></p>
-                    <p style="font-size:12px; color:#555; margin-bottom:15px;">Sube aquí el archivo de diagnóstico (PDF, Word o TXT). El documento se mostrará completo en pantalla y <b>Sofía IA leerá todo el contenido</b> para adaptar el plan de estudios.</p>
+                    <div class="form-group" style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #bcd0e7;">
+                        <label style="color:#004085; font-size:14px;"><i class="fas fa-user-graduate"></i> Seleccionar Alumno para Diagnóstico:</label>
+                        <select id="selectAlumnoClaseDiag" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="font-weight:bold; color:var(--dark-purple); margin-top:4px;"></select>
+                    </div>
+
+                    <p style="font-size:12px; color:#555; margin-bottom:15px; margin-top:10px;">Sube aquí el archivo de diagnóstico (PDF, Word o TXT). El documento se mostrará completo en pantalla y <b>Sofía IA leerá todo el contenido</b> para adaptar el plan de estudios.</p>
                     
                     <div class="form-group">
                         <label>Perfil / Condición Cognitiva Principal:</label>
@@ -225,7 +223,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label>📁 Adjuntar Archivo de Diagnóstico (PDF, Word o TXT):</label>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <label style="margin:0;">📁 Adjuntar Archivo de Diagnóstico (PDF, Word o TXT):</label>
+                            <button type="button" onclick="limpiarArchivoDiagnostico()" style="background:#f8f9fa; border:1px solid #ccc; color:#555; padding:4px 10px; border-radius:4px; font-size:12px; cursor:pointer;"><i class="fas fa-sync-alt"></i> Limpiar / Cambiar Archivo</button>
+                        </div>
                         <input type="file" id="archivoDiagnosticoFile" class="form-control" accept=".pdf,.doc,.docx,.txt" onchange="leerArchivoDiagnostico(event)">
                         <small id="statusLecturaArchivo" style="color:var(--purple); font-weight:bold; display:block; margin-top:5px;"></small>
                     </div>
@@ -350,6 +351,14 @@
             validarCodigoProfesor();
         }
     });
+
+    function limpiarArchivoDiagnostico() {
+        document.getElementById('archivoDiagnosticoFile').value = '';
+        document.getElementById('statusLecturaArchivo').innerText = '';
+        document.getElementById('contenedorVisorPDF').style.display = 'none';
+        document.getElementById('iframePDF').src = 'about:blank';
+        textoDiagnosticoCompleto = '';
+    }
 
     async function leerArchivoDiagnostico(event) {
         const file = event.target.files[0];
@@ -500,8 +509,10 @@
               listaAlumnosClase = [];
               snap.forEach(function(d) { listaAlumnosClase.push(d.data()); });
 
-              var select = document.getElementById('selectAlumnoClase');
-              select.innerHTML = '';
+              var selectPanel = document.getElementById('selectAlumnoClase');
+              var selectDiag = document.getElementById('selectAlumnoClaseDiag');
+              selectPanel.innerHTML = '';
+              selectDiag.innerHTML = '';
 
               if (listaAlumnosClase.length > 0) {
                   document.getElementById('contenedorSinAlumnos').style.display = 'none';
@@ -510,10 +521,15 @@
                   document.getElementById('boxSelectorAlumnos').style.display = 'block';
 
                   listaAlumnosClase.forEach(function(alm) {
-                      var opt = document.createElement('option');
-                      opt.value = alm.id;
-                      opt.innerText = alm.nombre + ' (' + alm.grado + ')';
-                      select.appendChild(opt);
+                      var opt1 = document.createElement('option');
+                      opt1.value = alm.id;
+                      opt1.innerText = alm.nombre + ' (' + alm.grado + ')';
+                      selectPanel.appendChild(opt1);
+
+                      var opt2 = document.createElement('option');
+                      opt2.value = alm.id;
+                      opt2.innerText = alm.nombre + ' (' + alm.grado + ')';
+                      selectDiag.appendChild(opt2);
                   });
 
                   if (!alumnoActivo || !listaAlumnosClase.find(a => a.id === alumnoActivo.id)) {
@@ -527,7 +543,6 @@
                   document.getElementById('contenedorAlumnoCard').style.display = 'none';
                   document.getElementById('contenedorFormDinamico').style.display = 'none';
                   document.getElementById('boxSelectorAlumnos').style.display = 'none';
-                  document.getElementById('diagNombreAlumno').innerText = 'Ninguno seleccionado';
                   document.getElementById('boxMaterialesAdaptados').innerHTML = '<p style="font-size:13px; color:#555;">No hay alumnos registrados.</p>';
               }
           });
@@ -537,16 +552,22 @@
         alumnoActivo = listaAlumnosClase.find(a => a.id === idAlumno);
         if (!alumnoActivo) return;
 
+        // Sincronizar selectores
+        document.getElementById('selectAlumnoClase').value = idAlumno;
+        document.getElementById('selectAlumnoClaseDiag').value = idAlumno;
+
         document.getElementById('nombreAlumnoDocente').innerText = alumnoActivo.nombre;
         document.getElementById('gradoAlumnoDocente').innerText = alumnoActivo.grado || 'General';
         document.getElementById('codigoAlumnoDocente').innerText = alumnoActivo.id.toUpperCase();
         document.getElementById('chatNombreAlumno').innerText = alumnoActivo.nombre;
-        document.getElementById('diagNombreAlumno').innerText = alumnoActivo.nombre + ' (' + alumnoActivo.grado + ')';
 
         const diagTxt = alumnoActivo.perfil_cognitivo ? alumnoActivo.perfil_cognitivo.toUpperCase() : 'ESTÁNDAR';
         document.getElementById('badgeDiagPerfil').innerText = 'Diagnóstico: ' + diagTxt;
         document.getElementById('selectPerfilCognitivo').value = alumnoActivo.perfil_cognitivo || 'estandar';
         document.getElementById('textoDiagnostico').value = alumnoActivo.observaciones_diagnostico || '';
+
+        // Limpiar archivo cargado temporalmente al cambiar de estudiante
+        limpiarArchivoDiagnostico();
 
         renderizarMaterialesAdaptados();
         activarChatTiempoReal();
@@ -583,7 +604,6 @@
         const perf = document.getElementById('selectPerfilCognitivo').value;
         const obs = document.getElementById('textoDiagnostico').value.trim();
 
-        // Limitar a máximo 250,000 caracteres para no exceder los límites de Firestore
         const textoSafe = (textoDiagnosticoCompleto || '').substring(0, 250000);
 
         const payload = {
@@ -601,7 +621,7 @@
             alumnoActivo.perfil_cognitivo = perf;
             alumnoActivo.observaciones_diagnostico = obs;
             
-            mostrarNotificacion('✅ Diagnóstico guardado correctamente. Sofía IA ha sido actualizada.');
+            mostrarNotificacion('✅ Diagnóstico guardado para ' + alumnoActivo.nombre + '. Sofía IA ha sido entrenada.');
             renderizarMaterialesAdaptados();
         } catch (e) { 
             alert('Error al guardar en base de datos: ' + e.message); 
