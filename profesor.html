@@ -61,6 +61,19 @@
         .pdf-preview-box { width: 100%; height: 450px; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; margin-top: 10px; background: #525659; display: none; }
         .pdf-preview-box iframe { width: 100%; height: 100%; border: none; }
 
+        /* ESTILOS PARA HOJA DE DOCUMENTO GENERADO POR SOFÍA IA */
+        .doc-paper { 
+            background: #ffffff; 
+            border: 1px solid #ccc; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            border-radius: 8px; 
+            padding: 30px; 
+            margin-top: 20px; 
+            font-size: 14px; 
+            line-height: 1.6; 
+            color: #222; 
+        }
+
         .chat-box { border: 1px solid #d6c7ec; border-radius: 8px; padding: 15px; height: 280px; overflow-y: auto; background: #fafafa; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
         .chat-msg { padding: 8px 12px; border-radius: 8px; max-width: 75%; font-size: 13px; }
         .chat-msg.padre { background: #e9ecef; color: #333; align-self: flex-start; }
@@ -83,6 +96,12 @@
             display: none; 
             font-size: 14px;
             max-width: 380px;
+        }
+
+        @media print {
+            .sidebar, .banner-full, .teacher-bar, .form-group, button, .btn-action { display: none !important; }
+            .content { border: none !important; padding: 0 !important; }
+            .doc-paper { box-shadow: none !important; border: none !important; padding: 0 !important; }
         }
     </style>
 </head>
@@ -199,7 +218,7 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO CON SELECTOR Y REINICIO DE ARCHIVO -->
+            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO -->
             <div id="sec-diagnostico" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico por Alumno</h3>
                 
@@ -231,7 +250,6 @@
                         <small id="statusLecturaArchivo" style="color:var(--purple); font-weight:bold; display:block; margin-top:5px;"></small>
                     </div>
 
-                    <!-- VISOR DE PDF EMBEBIDO -->
                     <div id="contenedorVisorPDF" class="pdf-preview-box">
                         <iframe id="iframePDF" src="about:blank"></iframe>
                     </div>
@@ -245,11 +263,44 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: MATERIALES SOFÍA IA -->
+            <!-- SECCIÓN 3: GENERADOR DE DOCUMENTOS Y MATERIALES POR TEMARIO CON SOFÍA IA -->
             <div id="sec-materiales" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-magic"></i> Materiales Adaptados por Sofía IA</h3>
-                <div id="boxMaterialesAdaptados" style="padding:20px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec;">
-                    <p style="font-size:13px; color:#555;">Selecciona un alumno con diagnóstico guardado para visualizar sus materiales personalizados.</p>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-magic"></i> Generación de Documentos Adaptados por Temario</h3>
+                
+                <div style="padding:20px; background:#f9f7fc; border-radius:8px; border:1px solid #d6c7ec; margin-bottom:20px;">
+                    <div class="form-group">
+                        <label style="color:var(--dark-purple); font-size:14px;"><i class="fas fa-user"></i> Alumno Destinatario:</label>
+                        <select id="selectAlumnoMateriales" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="font-weight:bold;"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="color:var(--dark-purple); font-size:14px;"><i class="fas fa-book-open"></i> Seleccionar Tema del Temario / Planeación:</label>
+                        <input type="text" id="inputTemaSeleccionado" class="form-control" placeholder="Ej: Presentación Personal y Estructura Gramatical A1" value="Presentación y Vocabulario Básico">
+                    </div>
+
+                    <div class="form-group">
+                        <label style="color:var(--dark-purple); font-size:14px;"><i class="fas fa-file-alt"></i> Tipo de Documento a Generar:</label>
+                        <select id="tipoDocGenerar" class="form-control">
+                            <option value="ficha">📄 Ficha de Ejercicios y Práctica Adaptada</option>
+                            <option value="guia">📖 Guía Visual de Estudio y Resumen</option>
+                            <option value="evaluacion">📝 Check de Evaluación Adaptado</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn-action" style="background:var(--purple);" onclick="generarDocumentoAdaptadoCompleto()"><i class="fas fa-robot"></i> Generar Documento Adaptado con Sofía IA</button>
+                </div>
+
+                <!-- HOJA DEL DOCUMENTO GENERADO -->
+                <div id="contenedorDocPaper" class="doc-paper" style="display:none;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--purple); padding-bottom:12px; margin-bottom:18px;">
+                        <div>
+                            <h2 id="docTituloPrincipal" style="color:var(--dark-purple); margin:0;">Ficha Didáctica Adaptada</h2>
+                            <p style="font-size:13px; color:#555; margin-top:4px;">Alumno: <b id="docNombreAlumno"></b> | Perfil: <b id="docPerfilAlumno" style="color:var(--purple);"></b></p>
+                        </div>
+                        <button type="button" onclick="window.print()" style="background:var(--dark-purple); color:white; border:none; padding:8px 16px; border-radius:6px; font-weight:bold; cursor:pointer;"><i class="fas fa-print"></i> Imprimir / Guardar PDF</button>
+                    </div>
+
+                    <div id="docCuerpoContenido"></div>
                 </div>
             </div>
 
@@ -265,10 +316,10 @@
 
             <!-- SECCIÓN 5: SUBIR PLANEACIÓN -->
             <div id="sec-planeacion" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir Planeación de Clase</h3>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir Planeación de Clase / Temario</h3>
                 <div style="border:2px dashed var(--purple); padding:30px; text-align:center; border-radius:8px; background:#fdfbfd;">
-                    <p style="margin-bottom:15px; color:#555; font-size:13px;">Carga tu planeación didáctica general (PDF, Word o TXT). Sofía IA cruzará esta planeación con el diagnóstico del alumno para adaptar el contenido.</p>
-                    <input type="file" id="archivoPlaneacion" class="form-control" style="max-width:350px; margin:0 auto 15px;">
+                    <p style="margin-bottom:15px; color:#555; font-size:13px;">Carga tu temario o planeación didáctica (PDF, Word o TXT). Sofía IA tomará los temas para cruzarlos con el diagnóstico de cada alumno.</p>
+                    <input type="file" id="archivoPlaneacion" class="form-control" style="max-width:350px; margin:0 auto 15px;" onchange="procesarTemarioSubido(event)">
                     <button type="button" onclick="confirmarSubidaPlaneacion()" style="background:var(--purple); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Procesar Planeación</button>
                 </div>
             </div>
@@ -421,6 +472,76 @@
         else if (lower.includes('altas capacidades') || lower.includes('superdot')) selectPerf.value = 'altas_capacidades';
     }
 
+    // GENERADOR COMPLETO DE DOCUMENTOS SEGÚN DIAGNÓSTICO Y TEMA
+    function generarDocumentoAdaptadoCompleto() {
+        if (!alumnoActivo) return alert('Selecciona a un alumno primero.');
+
+        const tema = document.getElementById('inputTemaSeleccionado').value.trim() || 'Tema General';
+        const tipoDoc = document.getElementById('tipoDocGenerar').value;
+        const perf = alumnoActivo.perfil_cognitivo || 'estandar';
+
+        const paperBox = document.getElementById('contenedorDocPaper');
+        const cuerpo = document.getElementById('docCuerpoContenido');
+
+        document.getElementById('docNombreAlumno').innerText = alumnoActivo.nombre;
+        document.getElementById('docPerfilAlumno').innerText = perf.toUpperCase();
+
+        paperBox.style.display = 'block';
+        cuerpo.innerHTML = '<p style="color:var(--purple); font-weight:bold;"><i class="fas fa-cog fa-spin"></i> Sofía IA generando documento pedagógico adaptado para ' + alumnoActivo.nombre + '...</p>';
+
+        setTimeout(function() {
+            let htmlDoc = '';
+
+            if (perf === 'dislexia') {
+                htmlDoc += '<div style="background:#f4f1ea; padding:10px; border-left:4px solid var(--purple); margin-bottom:15px; font-size:12px;"><b>Adaptación para Dislexia:</b> Tipografía de alta legibilidad, separación por párrafos breves, guías de enfoque y enunciados sin frases complejas.</div>';
+            } else if (perf === 'tdah') {
+                htmlDoc += '<div style="background:#eef7ee; padding:10px; border-left:4px solid #2e7d32; margin-bottom:15px; font-size:12px;"><b>Adaptación para TDAH:</b> Dividido en 3 bloques de 4 minutos con temporizador activo, instrucciones directas de una sola acción y pausas activas.</div>';
+            } else if (perf === 'tea') {
+                htmlDoc += '<div style="background:#f0f7ff; padding:10px; border-left:4px solid #0066cc; margin-bottom:15px; font-size:12px;"><b>Adaptación para TEA:</b> Apoyos esquemáticos, lenguaje literal directo (sin metáforas) y estructura fija paso a paso.</div>';
+            }
+
+            if (tipoDoc === 'ficha') {
+                document.getElementById('docTituloPrincipal').innerText = '📄 Ficha de Ejercicios: ' + tema;
+                htmlDoc += `
+                    <h3 style="color:var(--dark-purple); margin-top:10px;">Actividad 1: Reconocimiento del Tema</h3>
+                    <p>Revisa el siguiente vocabulario clave y completa las frases con las palabras adecuadas:</p>
+                    <ul style="margin-left:20px; margin-bottom:15px;">
+                        <li><b>Vocabulario Clave:</b> Bonjour, Je m'appelle, Enchanté(e), Merci.</li>
+                    </ul>
+                    <div style="border:1px dashed #ccc; padding:15px; background:#fafafa; border-radius:6px; margin-bottom:15px;">
+                        1. __________ ! Je m'appelle ${alumnoActivo.nombre}.<br><br>
+                        2. C'est un plaisir de te connaître. __________ !
+                    </div>
+                    <h3 style="color:var(--dark-purple);">Actividad 2: Aplicación Práctica</h3>
+                    <p>Redacta 2 frases cortas utilizando la estructura aprendida hoy.</p>
+                `;
+            } else if (tipoDoc === 'guia') {
+                document.getElementById('docTituloPrincipal').innerText = '📖 Guía Visual de Estudio: ' + tema;
+                htmlDoc += `
+                    <h3 style="color:var(--dark-purple); margin-top:10px;">Resumen Clave del Tema</h3>
+                    <p>Esta guía reúne los puntos principales de <b>${tema}</b> presentados de forma estructurada:</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:15px 0;">
+                        <div style="background:#f0ebf8; padding:12px; border-radius:6px;"><b>Concepto 1:</b> Saludos e Identificación inicial.</div>
+                        <div style="background:#f0ebf8; padding:12px; border-radius:6px;"><b>Concepto 2:</b> Preguntas de interacción directa.</div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('docTituloPrincipal').innerText = '📝 Evaluación Adaptada: ' + tema;
+                htmlDoc += `
+                    <h3 style="color:var(--dark-purple); margin-top:10px;">Check de Verificación</h3>
+                    <p>Responde a las preguntas de opción directa:</p>
+                    <div style="border:1px solid #ddd; padding:15px; border-radius:6px; margin-top:10px;">
+                        <p><b>1. ¿Cuál es la forma correcta de decir "Hola" en un entorno formal?</b></p>
+                        <p style="margin-left:15px;">a) Salut &nbsp;&nbsp;&nbsp; b) Bonjour &nbsp;&nbsp;&nbsp; c) Au revoir</p>
+                    </div>
+                `;
+            }
+
+            cuerpo.innerHTML = htmlDoc;
+            mostrarNotificacion('✨ Documento adaptado generado con éxito por Sofía IA.');
+        }, 1000);
+    }
+
     async function validarCodigoProfesor() {
         var rawCod = document.getElementById('inputCodigoProfesor').value.trim();
         if (!rawCod) return alert('Ingresa tu código de clase.');
@@ -511,8 +632,10 @@
 
               var selectPanel = document.getElementById('selectAlumnoClase');
               var selectDiag = document.getElementById('selectAlumnoClaseDiag');
+              var selectMat = document.getElementById('selectAlumnoMateriales');
               selectPanel.innerHTML = '';
               selectDiag.innerHTML = '';
+              selectMat.innerHTML = '';
 
               if (listaAlumnosClase.length > 0) {
                   document.getElementById('contenedorSinAlumnos').style.display = 'none';
@@ -530,6 +653,11 @@
                       opt2.value = alm.id;
                       opt2.innerText = alm.nombre + ' (' + alm.grado + ')';
                       selectDiag.appendChild(opt2);
+
+                      var opt3 = document.createElement('option');
+                      opt3.value = alm.id;
+                      opt3.innerText = alm.nombre + ' (' + alm.grado + ')';
+                      selectMat.appendChild(opt3);
                   });
 
                   if (!alumnoActivo || !listaAlumnosClase.find(a => a.id === alumnoActivo.id)) {
@@ -543,7 +671,6 @@
                   document.getElementById('contenedorAlumnoCard').style.display = 'none';
                   document.getElementById('contenedorFormDinamico').style.display = 'none';
                   document.getElementById('boxSelectorAlumnos').style.display = 'none';
-                  document.getElementById('boxMaterialesAdaptados').innerHTML = '<p style="font-size:13px; color:#555;">No hay alumnos registrados.</p>';
               }
           });
     }
@@ -552,9 +679,9 @@
         alumnoActivo = listaAlumnosClase.find(a => a.id === idAlumno);
         if (!alumnoActivo) return;
 
-        // Sincronizar selectores
         document.getElementById('selectAlumnoClase').value = idAlumno;
         document.getElementById('selectAlumnoClaseDiag').value = idAlumno;
+        document.getElementById('selectAlumnoMateriales').value = idAlumno;
 
         document.getElementById('nombreAlumnoDocente').innerText = alumnoActivo.nombre;
         document.getElementById('gradoAlumnoDocente').innerText = alumnoActivo.grado || 'General';
@@ -566,35 +693,11 @@
         document.getElementById('selectPerfilCognitivo').value = alumnoActivo.perfil_cognitivo || 'estandar';
         document.getElementById('textoDiagnostico').value = alumnoActivo.observaciones_diagnostico || '';
 
-        // Limpiar archivo cargado temporalmente al cambiar de estudiante
-        limpiarArchivoDiagnostico();
-
-        renderizarMaterialesAdaptados();
         activarChatTiempoReal();
     }
 
-    function renderizarMaterialesAdaptados() {
-        if (!alumnoActivo) return;
-        const box = document.getElementById('boxMaterialesAdaptados');
-        const perf = alumnoActivo.perfil_cognitivo || 'estandar';
-
-        let html = '<h4 style="color:var(--dark-purple); margin-bottom:10px;"><i class="fas fa-brain"></i> Kit de Adaptación Pedagógica para ' + alumnoActivo.nombre + '</h4>';
-
-        if (perf === 'dislexia') {
-            html += '<p style="font-size:13px; color:#2e7d32; font-weight:bold;">✔ Adaptaciones para Dislexia Activas:</p><ul style="font-size:13px; margin-left:20px; color:#444;"><li>Tipografía OpenDyslexic / Montserrat activada</li><li>Regleta visual de seguimiento por renglón</li><li>Separación silábica automatizada en textos</li></ul>';
-        } else if (perf === 'tdah') {
-            html += '<p style="font-size:13px; color:#2e7d32; font-weight:bold;">✔ Adaptaciones para TDAH Activas:</p><ul style="font-size:13px; margin-left:20px; color:#444;"><li>Texto fragmentado en micro-bloques de 3 minutos</li><li>Temporizador activo con pausas sugeridas</li><li>Ocultamiento de distractores secundarios</li></ul>';
-        } else if (perf === 'tea') {
-            html += '<p style="font-size:13px; color:#2e7d32; font-weight:bold;">✔ Adaptaciones para TEA Activas:</p><ul style="font-size:13px; margin-left:20px; color:#444;"><li>Apoyos pictográficos integrados en vocabulario clave</li><li>Traducción de frases figuradas a lenguaje literal</li><li>Estructura fija de rutinas por tarjeta</li></ul>';
-        } else {
-            html += '<p style="font-size:13px; color:#555;">Perfil estándar. Los materiales se presentan en formato adaptable regular.</p>';
-        }
-
-        box.innerHTML = html;
-    }
-
     async function guardarDiagnosticoAlumno() {
-        if (!alumnoActivo) return alert('Por favor, selecciona o registra primero un alumno antes de guardar.');
+        if (!alumnoActivo) return alert('Por favor, selecciona primero un alumno.');
 
         const btn = document.getElementById('btnGuardarDiagnostico');
         const textoOriginal = btn.innerHTML;
@@ -603,7 +706,6 @@
 
         const perf = document.getElementById('selectPerfilCognitivo').value;
         const obs = document.getElementById('textoDiagnostico').value.trim();
-
         const textoSafe = (textoDiagnosticoCompleto || '').substring(0, 250000);
 
         const payload = {
@@ -620,11 +722,9 @@
             ]);
             alumnoActivo.perfil_cognitivo = perf;
             alumnoActivo.observaciones_diagnostico = obs;
-            
             mostrarNotificacion('✅ Diagnóstico guardado para ' + alumnoActivo.nombre + '. Sofía IA ha sido entrenada.');
-            renderizarMaterialesAdaptados();
         } catch (e) { 
-            alert('Error al guardar en base de datos: ' + e.message); 
+            alert('Error al guardar: ' + e.message); 
         } finally {
             btn.innerHTML = textoOriginal;
             btn.disabled = false;
@@ -737,16 +837,10 @@
 
     function confirmarSubidaPlaneacion() { mostrarNotificacion('☁️ Planeación procesada por Sofía IA.'); }
 
-    function generarPropuestaSofia() {
-        var tema = document.getElementById('temaDinamico').value;
-        var resBox = document.getElementById('resultadoPropuesta');
-        var resText = document.getElementById('textoPropuesta');
-        if (resText && resBox) {
-            resText.innerHTML = 'Generando adaptación para "' + tema + '" basada en el perfil psicopedagógico...';
-            resBox.style.display = 'block';
-            setTimeout(function() {
-                resText.innerHTML = '<b>Propuesta Adaptativa Sofía IA:</b><br>• 1. Tarjetas conceptuales optimizadas.<br>• 2. Micro-metas con pausas activas.<br>• 3. Evaluación en 3 pasos directos.';
-            }, 800);
+    function procesarTemarioSubido(event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('inputTemaSeleccionado').value = file.name.replace(/\.[^/.]+$/, "");
         }
     }
 
