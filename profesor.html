@@ -69,7 +69,23 @@
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: white; width: 90%; max-width: 480px; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .notif-inline { padding: 12px; border-radius: 6px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 15px; display: none; font-size: 13px; }
+        
+        /* NOTIFICACIÓN FLOTANTE SIEMPRE VISIBLE (TOAST) */
+        .notif-inline { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            z-index: 10000; 
+            padding: 15px 22px; 
+            border-radius: 8px; 
+            background: #2e7d32; 
+            color: white; 
+            font-weight: bold; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25); 
+            display: none; 
+            font-size: 14px;
+            max-width: 380px;
+        }
     </style>
 </head>
 <body>
@@ -78,6 +94,9 @@
     <div class="banner-full">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.src='assets/favicon.png';">
     </div>
+
+    <!-- NOTIFICACIÓN FLOTANTE -->
+    <div id="notifPantalla" class="notif-inline"></div>
 
     <!-- MODAL INGRESO PROFESOR -->
     <div id="modalLoginProfesor" class="modal-overlay" style="display: flex;">
@@ -144,8 +163,6 @@
                 <button type="button" onclick="cerrarSesionProfesor()" style="background:transparent; border:1px solid rgba(255,255,255,0.4); color:white; padding:4px 8px; border-radius:4px; font-size:11px; cursor:pointer;">Cerrar Sesión</button>
             </div>
 
-            <div id="notifPantalla" class="notif-inline"></div>
-
             <!-- SECCIÓN 1: PANEL DE ALUMNOS -->
             <div id="sec-panel" class="seccion activa">
                 <div id="boxSelectorAlumnos" style="margin-bottom:15px; display:none;">
@@ -188,7 +205,7 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO CON VISOR DE PDF INTEGRADO -->
+            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO -->
             <div id="sec-diagnostico" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico por Alumno</h3>
                 
@@ -223,7 +240,7 @@
                         <textarea id="textoDiagnostico" class="form-control" rows="3" placeholder="Escribe observaciones adicionales o puntos clave para Sofía IA..."></textarea>
                     </div>
 
-                    <button type="button" class="btn-action" style="background:#0066cc;" onclick="guardarDiagnosticoAlumno()"><i class="fas fa-brain"></i> Guardar Diagnóstico y Entrenar a Sofía IA</button>
+                    <button type="button" id="btnGuardarDiagnostico" class="btn-action" style="background:#0066cc;" onclick="guardarDiagnosticoAlumno()"><i class="fas fa-brain"></i> Guardar Diagnóstico y Entrenar a Sofía IA</button>
                 </div>
             </div>
 
@@ -323,7 +340,7 @@
     var alumnoActivo = null;
     var listaAlumnosClase = [];
     var chatUnsubscribe = null;
-    var textoDiagnosticoCompleto = ""; // Guarda el 100% del texto extraído para Sofía IA
+    var textoDiagnosticoCompleto = "";
 
     window.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -334,7 +351,6 @@
         }
     });
 
-    // PROCESAMIENTO CON VISOR PDF + EXTRACCIÓN COMPLETA
     async function leerArchivoDiagnostico(event) {
         const file = event.target.files[0];
         const statusEl = document.getElementById('statusLecturaArchivo');
@@ -557,15 +573,23 @@
     }
 
     async function guardarDiagnosticoAlumno() {
-        if (!alumnoActivo) return alert('Selecciona o registra a un alumno primero.');
+        if (!alumnoActivo) return alert('Por favor, selecciona o registra primero un alumno antes de guardar.');
+
+        const btn = document.getElementById('btnGuardarDiagnostico');
+        const textoOriginal = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando diagnóstico...';
+        btn.disabled = true;
 
         const perf = document.getElementById('selectPerfilCognitivo').value;
         const obs = document.getElementById('textoDiagnostico').value.trim();
 
+        // Limitar a máximo 250,000 caracteres para no exceder los límites de Firestore
+        const textoSafe = (textoDiagnosticoCompleto || '').substring(0, 250000);
+
         const payload = {
             perfil_cognitivo: perf,
             observaciones_diagnostico: obs,
-            texto_pdf_completo: textoDiagnosticoCompleto,
+            texto_pdf_completo: textoSafe,
             fecha_diagnostico: new Date().toISOString()
         };
 
@@ -576,9 +600,15 @@
             ]);
             alumnoActivo.perfil_cognitivo = perf;
             alumnoActivo.observaciones_diagnostico = obs;
-            mostrarNotificacion('✅ Diagnóstico procesado y guardado. Sofía IA ha adaptado los materiales.');
+            
+            mostrarNotificacion('✅ Diagnóstico guardado correctamente. Sofía IA ha sido actualizada.');
             renderizarMaterialesAdaptados();
-        } catch (e) { alert('Error al guardar diagnóstico: ' + e.message); }
+        } catch (e) { 
+            alert('Error al guardar en base de datos: ' + e.message); 
+        } finally {
+            btn.innerHTML = textoOriginal;
+            btn.disabled = false;
+        }
     }
 
     async function eliminarAlumnoActual() {
@@ -681,7 +711,7 @@
         if (n) {
             n.innerText = texto;
             n.style.display = 'block';
-            setTimeout(function() { n.style.display = 'none'; }, 4000);
+            setTimeout(function() { n.style.display = 'none'; }, 4500);
         }
     }
 
