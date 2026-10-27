@@ -24,8 +24,9 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--bg); color: #333; }
         
-        .banner-full { width: 100%; background: white; border-bottom: 2px solid #d6c7ec; display: flex; justify-content: center; align-items: center; padding: 12px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .banner-full img { max-height: 85px; height: auto; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; }
+        /* BANNER ENCABEZADO A ANCHO COMPLETO (100% WIDTH) */
+        .banner-full { width: 100%; background: white; border-bottom: 2px solid #d6c7ec; overflow: hidden; }
+        .banner-full img { width: 100%; height: auto; max-height: 140px; object-fit: cover; display: block; }
         
         .main-container { display: flex; max-width: 1250px; margin: 20px auto; gap: 20px; padding: 0 15px; }
         .sidebar { width: 280px; background: white; border-radius: 12px; padding: 15px; border: 1px solid #d6c7ec; flex-shrink: 0; height: fit-content; }
@@ -61,7 +62,6 @@
         .pdf-preview-box { width: 100%; height: 450px; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; margin-top: 10px; background: #525659; display: none; }
         .pdf-preview-box iframe { width: 100%; height: 100%; border: none; }
 
-        /* ESTILOS PARA HOJA DE DOCUMENTO GENERADO POR SOFÍA IA */
         .doc-paper { 
             background: #ffffff; 
             border: 1px solid #ccc; 
@@ -107,6 +107,7 @@
 </head>
 <body>
 
+    <!-- BANNER ENCABEZADO A ANCHO COMPLETO -->
     <div class="banner-full">
         <img src="assets/Encabezado-Web.png" alt="NeuroClarity" onerror="this.src='assets/favicon.png';">
     </div>
@@ -263,7 +264,7 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: GENERADOR DE DOCUMENTOS Y MATERIALES POR TEMARIO CON SOFÍA IA -->
+            <!-- SECCIÓN 3: GENERADOR DE DOCUMENTOS CON LISTA DESPLEGABLE DE TEMAS -->
             <div id="sec-materiales" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-magic"></i> Generación de Documentos Adaptados por Temario</h3>
                 
@@ -273,9 +274,18 @@
                         <select id="selectAlumnoMateriales" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="font-weight:bold;"></select>
                     </div>
 
+                    <!-- LISTA DESPLEGABLE DE TEMAS DEL PLAN DE ESTUDIOS -->
                     <div class="form-group">
-                        <label style="color:var(--dark-purple); font-size:14px;"><i class="fas fa-book-open"></i> Seleccionar Tema del Temario / Planeación:</label>
-                        <input type="text" id="inputTemaSeleccionado" class="form-control" placeholder="Ej: Presentación Personal y Estructura Gramatical A1" value="Presentación y Vocabulario Básico">
+                        <label style="color:var(--dark-purple); font-size:14px;"><i class="fas fa-list-ul"></i> Seleccionar Tema del Temario / Plan de Estudios:</label>
+                        <select id="selectTemaTemario" class="form-control" style="font-weight:bold; font-size:14px; background:white;">
+                            <option value="Presentación Personal y Vocabulario Básico">Unidad 1: Presentación Personal y Vocabulario Básico</option>
+                            <option value="Estructuras Gramaticales y Conjugación A1">Unidad 2: Estructuras Gramaticales y Conjugación A1</option>
+                            <option value="Expresión Oral y Pronunciación">Unidad 3: Expresión Oral y Pronunciación</option>
+                            <option value="Comprensión Auditiva y Lectora">Unidad 4: Comprensión Auditiva y Lectora</option>
+                            <option value="Rutinas Diarias y Descripciones">Unidad 5: Rutinas Diarias y Descripciones</option>
+                            <option value="Expresión Escrita y Redacción">Unidad 6: Expresión Escrita y Redacción</option>
+                            <option value="Evaluación Diagnóstica de Contenidos">Unidad 7: Repaso e Integración Diagnóstica</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -318,7 +328,7 @@
             <div id="sec-planeacion" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir Planeación de Clase / Temario</h3>
                 <div style="border:2px dashed var(--purple); padding:30px; text-align:center; border-radius:8px; background:#fdfbfd;">
-                    <p style="margin-bottom:15px; color:#555; font-size:13px;">Carga tu temario o planeación didáctica (PDF, Word o TXT). Sofía IA tomará los temas para cruzarlos con el diagnóstico de cada alumno.</p>
+                    <p style="margin-bottom:15px; color:#555; font-size:13px;">Carga tu temario o planeación didáctica (PDF, Word o TXT). Los temas de tu documento se agregarán automáticamente a la lista desplegable.</p>
                     <input type="file" id="archivoPlaneacion" class="form-control" style="max-width:350px; margin:0 auto 15px;" onchange="procesarTemarioSubido(event)">
                     <button type="button" onclick="confirmarSubidaPlaneacion()" style="background:var(--purple); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Procesar Planeación</button>
                 </div>
@@ -476,7 +486,8 @@
     function generarDocumentoAdaptadoCompleto() {
         if (!alumnoActivo) return alert('Selecciona a un alumno primero.');
 
-        const tema = document.getElementById('inputTemaSeleccionado').value.trim() || 'Tema General';
+        const temaSelect = document.getElementById('selectTemaTemario');
+        const tema = temaSelect ? temaSelect.value : 'Tema General';
         const tipoDoc = document.getElementById('tipoDocGenerar').value;
         const perf = alumnoActivo.perfil_cognitivo || 'estandar';
 
@@ -840,7 +851,16 @@
     function procesarTemarioSubido(event) {
         const file = event.target.files[0];
         if (file) {
-            document.getElementById('inputTemaSeleccionado').value = file.name.replace(/\.[^/.]+$/, "");
+            const nombreTema = file.name.replace(/\.[^/.]+$/, "");
+            const selectTema = document.getElementById('selectTemaTemario');
+            if (selectTema) {
+                const newOpt = document.createElement('option');
+                newOpt.value = nombreTema;
+                newOpt.innerText = "📁 Temario Subido: " + nombreTema;
+                newOpt.selected = true;
+                selectTema.appendChild(newOpt);
+            }
+            mostrarNotificacion('📚 Tema "' + nombreTema + '" agregado a la lista desplegable.');
         }
     }
 
