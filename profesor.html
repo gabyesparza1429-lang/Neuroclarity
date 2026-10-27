@@ -11,7 +11,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--bg); color: #333; }
         
-        /* ENCABEZADO A ANCHO COMPLETO (100% SCREEN WIDTH) */
+        /* ENCABEZADO A ANCHO COMPLETO (100% ANCHO DE PANTALLA) */
         .banner-full { width: 100%; background: white; border-bottom: 2px solid #d6c7ec; overflow: hidden; }
         .banner-full img { width: 100%; height: auto; max-height: 140px; object-fit: cover; display: block; }
         
@@ -172,13 +172,13 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO CON LECTURA DE ARCHIVO PARA SOFÍA IA -->
+            <!-- SECCIÓN 2: DIAGNÓSTICO PSICOPEDAGÓGICO CON LECTURA DE ARCHIVOS -->
             <div id="sec-diagnostico" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico por Alumno</h3>
                 
                 <div class="box-diag">
                     <p style="font-size:13px; color:#004085; margin-bottom:10px;"><b>Alumno Activo:</b> <span id="diagNombreAlumno" style="font-weight:bold;">Ninguno seleccionado</span></p>
-                    <p style="font-size:12px; color:#555; margin-bottom:15px;">Sube aquí el archivo de diagnóstico (PDF, Word, TXT) o redacta las observaciones. **Sofía IA leerá el archivo directamente** para extraer la condición cognitiva y adaptar los materiales.</p>
+                    <p style="font-size:12px; color:#555; margin-bottom:15px;">Sube aquí el archivo de diagnóstico (PDF, Word o TXT) o redacta las observaciones. <b>Sofía IA leerá el archivo en tiempo real</b> para identificar el perfil cognitivo y adaptar los materiales.</p>
                     
                     <div class="form-group">
                         <label>Perfil / Condición Cognitiva Principal:</label>
@@ -199,7 +199,7 @@
 
                     <div class="form-group">
                         <label>Observaciones / Contenido Leído por Sofía IA:</label>
-                        <textarea id="textoDiagnostico" class="form-control" rows="4" placeholder="El texto del archivo o tus observaciones aparecerán aquí..."></textarea>
+                        <textarea id="textoDiagnostico" class="form-control" rows="4" placeholder="El contenido leído del archivo o tus observaciones aparecerán aquí..."></textarea>
                     </div>
 
                     <button type="button" class="btn-action" style="background:#0066cc;" onclick="guardarDiagnosticoAlumno()"><i class="fas fa-brain"></i> Guardar Diagnóstico y Entrenar a Sofía IA</button>
@@ -236,7 +236,7 @@
         </div>
     </div>
 
-    <!-- MODAL REGISTRAR ALUMNO CON OPCIÓN DE DIAGNÓSTICO DIRECTO -->
+    <!-- MODAL REGISTRAR ALUMNO -->
     <div id="modalAgregarAlumno" class="modal-overlay">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #d6c7ec; padding-bottom:10px; margin-bottom:15px;">
@@ -267,6 +267,7 @@
         </div>
     </div>
 
+    <!-- FIREBASE COMPAT SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -311,7 +312,7 @@
         }
     });
 
-    // LECTURA AUTOMÁTICA DEL ARCHIVO DE DIAGNÓSTICO
+    // PROCESAMIENTO AUTOMÁTICO DEL ARCHIVO ADJUNTADO
     function leerArchivoDiagnostico(event) {
         const file = event.target.files[0];
         const statusEl = document.getElementById('statusLecturaArchivo');
@@ -326,7 +327,6 @@
             txtBox.value = "[Diagnóstico extraído de " + file.name + "]:\n" + content.substring(0, 1500);
             statusEl.innerText = "✔ Archivo procesado correctamente por Sofía IA.";
 
-            // Detectar automáticamente palabras clave de neurodivergencia
             const lower = content.toLowerCase();
             const selectPerf = document.getElementById('selectPerfilCognitivo');
             if (lower.includes('dislex') || lower.includes('lecto')) selectPerf.value = 'dislexia';
