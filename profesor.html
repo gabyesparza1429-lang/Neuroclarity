@@ -236,7 +236,7 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: CO-PILOT SOFÍA IA CON MATRIZ DE INSTRUCCIÓN PEDAGÓGICA (4 BLOQUES UDL) -->
+            <!-- SECCIÓN 3: CO-PILOT SOFÍA IA CON MATRIZ DE INSTRUCCIÓN PEDAGÓGICA -->
             <div id="sec-materiales" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-robot"></i> Co-Pilot Pedagógico Sofía IA (Matriz Anáhuac B1.1)</h3>
                 
@@ -272,7 +272,7 @@
                         <p id="explicacionSofiaTexto" style="font-size:13px; color:#333; line-height:1.6; margin-bottom:12px;"></p>
                     </div>
 
-                    <!-- 2. VISTA PREVIA DE LOS 4 BLOQUES INTERNOS (VOCABULAIRE, GRAMMAIRE, SYSTÉMATISATION, PRODUCTION) -->
+                    <!-- 2. VISTA PREVIA DE LOS 4 BLOQUES INTERNOS -->
                     <div style="margin-bottom:20px;">
                         <div style="display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
                             <button type="button" class="tab-btn active" id="tabBtnSlide" onclick="cambiarTabMaterial('slide')"><i class="fas fa-desktop"></i> Presentación Interactiva (4 Bloques UDL)</button>
@@ -421,7 +421,6 @@
     var chatUnsubscribe = null;
     var textoDiagnosticoCompleto = "";
 
-    // LISTA DE TEMAS OFICIALES Y UNIDADES DE FRANCÉS B1.1
     var temariosLista = [
         "Unité 4: Vocabulaire professionnel, voyages et culture francophone",
         "Unité 3: Vie quotidienne, routine, loisirs et fréquence",
@@ -473,8 +472,8 @@
     }
 
     function limpiarTextoPDF(raw) {
+        if (!raw) return '';
         return raw.replace(/\[cite:[^\]]+\]/gi, '')
-                  .replace(/[\u200B-\u200D\uFEFF]/g, '')
                   .replace(/\?\?\?/g, '')
                   .replace(/\s+/g, ' ')
                   .trim();
@@ -515,7 +514,6 @@
         }
     }
 
-    // GENERADOR EXPLICITO Y DIFERENCIADO POR CADA UNIDAD Y TEMA
     function generarPropuestaSofiaCompleta() {
         if (!alumnoActivo) return alert('Por favor, selecciona primero un alumno.');
 
@@ -536,11 +534,10 @@
             let perfNombre = perf.toUpperCase();
             const temaLower = tema.toLowerCase();
 
-            // CASO 1: UNITÉ 4 / TEMA D - VIAJES, EXPERIENCIAS Y VOCABULARIO PROFESIONAL
             if (temaLower.includes('unités 4') || temaLower.includes('unité 4') || temaLower.includes('voyage') || temaLower.includes('tema d') || temaLower.includes('expérience')) {
                 
                 explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 4 (Voyages & Recuerdos):</b><br>" +
-                "• <b>Taxonomía de Bloom (Recordar, Aplicar, Evaluar):</b> Estructuración del eje narrativo en pasado (Passé Composé vs. Imparfait) y conectores de relato (*soudain, grâce à, un jour*).<br>" +
+                "• <b>Taxonomía de Bloom (Recordar, Aplicar, Evaluar):</b> Estructuración del eje narrativo en pasado (Passé Composé vs. Imparfait) y conectores de relato (soudain, grâce à, un jour).<br>" +
                 "• <b>Formato Cognitivo:</b> " + (perf === 'tdah' ? "Fragmentación de la consigna oficial Anáhuac de 100 palabras en 3 pasos temporizados." : "Guía paso a paso con la plantilla Anáhuac y apoyos sintácticos directos.");
 
                 currentSlidesData = [
@@ -557,7 +554,7 @@
                     {
                         title: "Bloque 2: Grammaire & Verbes - Passé Composé vs Imparfait & Relatifs",
                         body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Alternance des Temps & Relatifs</h3>" +
-                              "<p style='font-size:15px;'>• <b>Imparfait (Escenario/Clima):</b> <i>Il faisait très beau y la ville était magnifique.</i><br>" +
+                              "<p style='font-size:15px;'>• <b>Imparfait (Escenario/Clima):</b> <i>Il faisait très beau et la ville était magnifique.</i><br>" +
                               "• <b>Passé Composé (Acción Puntual):</b> <i>Tout à coup, nous avons rencontré un ami.</i><br>" +
                               "• <b>Pronombres Relativos:</b> <i>qui (+ verbo), que (+ sujeto), où (lugar), dont (de + objeto).</i></p>"
                     },
@@ -581,7 +578,6 @@
 
                 renderQuizUnite4();
 
-            // CASO 2: UNITÉ 3 / TEMA C - ROUTINE, LOISIRS Y FRECUENCIA
             } else if (temaLower.includes('unités 3') || temaLower.includes('unité 3') || temaLower.includes('routine') || temaLower.includes('tema c')) {
                 
                 explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 3 (Routine & Loisirs):</b><br>" +
@@ -620,7 +616,6 @@
 
                 renderQuizUnite3();
 
-            // CASO 3: UNITÉ 2 / TEMA B - CADRE DE VIE & LOGEMENT
             } else if (temaLower.includes('unités 2') || temaLower.includes('unité 2') || temaLower.includes('logement') || temaLower.includes('tema b')) {
                 
                 explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 2 (Entorno Urbano & Logement):</b><br>" +
@@ -640,7 +635,7 @@
                     {
                         title: "Bloque 3: Systématisation - Sustitución Pronominal",
                         body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica Pronominal</h3>" +
-                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>J'habite en centre-ville. $\\rightarrow$ J'<b>y</b> habite.</p>"
+                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>J'habite en centre-ville. &rarr; J'<b>y</b> habite.</p>"
                     },
                     {
                         title: "Bloque 4: Production - Start-Point Model (Mon Entoururbain)",
@@ -653,7 +648,6 @@
 
                 renderQuizUnite2();
 
-            // CASO 4: UNITÉ 1 / TEMA A - IDENTITÉ & PRÉSENTATION
             } else {
                 explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 1 (Je me présente):</b><br>" +
                 "• <b>Taxonomía de Bloom (Recordar & Aplicar):</b> Presentación de datos personales, elisión obligatoria y concordancia de adjetivos de carácter.";
@@ -709,7 +703,6 @@
         renderSlide();
     }
 
-    // RENDERIZADO DE QUIZZES ESPECÍFICOS SEGÚN EL TEMA SELECCIONADO
     function renderQuizUnite4() {
         const qText = document.getElementById('quizPreguntaTexto');
         const optionsBox = document.getElementById('quizOpcionesContainer');
