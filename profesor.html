@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Co-Pilot Pedagógico Sofía IA (Gemini 2.5)</title>
+    <title>NeuroClarity - Co-Pilot Pedagógico Sofía IA</title>
     
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="shortcut icon" href="assets/favicon.png" type="image/png">
@@ -117,7 +117,7 @@
             <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()"><i class="fas fa-plus-circle"></i> Vincular / Agregar Alumno</button>
             <button type="button" id="btn-panel" class="sidebar-btn active" onclick="cambiarVista('panel')"><i class="fas fa-user-graduate"></i> Panel Alumnos</button>
             <button type="button" id="btn-diagnostico" class="sidebar-btn" onclick="cambiarVista('diagnostico')"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico</button>
-            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')"><i class="fas fa-brain"></i> Sofía IA (Gemini 2.5)</button>
+            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')"><i class="fas fa-brain"></i> Sofía IA (Gemini Real)</button>
             <button type="button" id="btn-chat" class="sidebar-btn" onclick="cambiarVista('chat')"><i class="fas fa-comments"></i> Mensajería con Tutor</button>
             <button type="button" id="btn-planeacion" class="sidebar-btn" onclick="cambiarVista('planeacion')"><i class="fas fa-cloud-upload-alt"></i> Subir / Gestor Planeación</button>
         </div>
@@ -185,10 +185,19 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: SOFÍA IA CONECTADA A GEMINI 2.5 REAL -->
+            <!-- SECCIÓN 3: SOFÍA IA CON CASILLA DE API KEY -->
             <div id="sec-materiales" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-brain"></i> Generador Sofía IA - Conectado con Gemini 2.5 Flash</h3>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-brain"></i> Generador Sofía IA - Gemini Real</h3>
                 
+                <!-- CASILLA DE API KEY -->
+                <div style="padding:15px; background:#fff3cd; border:1px solid #ffeeba; border-radius:8px; margin-bottom:15px; font-size:13px;">
+                    <label style="font-weight:bold; color:#856404;"><i class="fas fa-key"></i> Clave de API Gemini (Pega aquí la clave que creaste):</label>
+                    <div style="display:flex; gap:10px; margin-top:6px;">
+                        <input type="password" id="inputGeminiUserKey" class="form-control" placeholder="Pega tu clave AIzaSy..." style="margin:0;">
+                        <button type="button" onclick="guardarClaveGeminiLocal()" style="background:var(--purple); color:white; border:none; padding:8px 18px; border-radius:6px; font-weight:bold; cursor:pointer; flex-shrink:0;">Guardar Clave</button>
+                    </div>
+                </div>
+
                 <div style="padding:20px; background:#f9f7fc; border-radius:10px; border:1px solid #d6c7ec; margin-bottom:20px;">
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                         <div class="form-group">
@@ -202,15 +211,12 @@
                         </div>
                     </div>
 
-                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarClaseRealConGemini25()"><i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini 2.5 IA</button>
+                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarClaseRealConGemini25()"><i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini IA</button>
                 </div>
 
                 <div id="msgErrorGemini" style="display:none;" class="error-card"></div>
 
-                <!-- CONTENEDOR DE LA CLASE COMPLETA GENERADA POR GEMINI 2.5 -->
                 <div id="boxClaseBloomCompleta" style="display:none;">
-                    
-                    <!-- BARRA DE NAVEGACIÓN POR TAXONOMÍA DE BLOOM -->
                     <div class="bloom-step-bar">
                         <div class="bloom-step active" id="bStep1" onclick="verNivelBloom(1)">1. Recordar</div>
                         <div class="bloom-step" id="bStep2" onclick="verNivelBloom(2)">2. Comprender</div>
@@ -220,16 +226,13 @@
                         <div class="bloom-step" id="bStep6" onclick="verNivelBloom(6)">6. Crear</div>
                     </div>
 
-                    <!-- CONTENIDO GENERADO DINÁMICAMENTE POR GEMINI 2.5 -->
                     <div id="bloomContentArea"></div>
 
-                    <!-- BOTÓN DE APROBACIÓN Y PUBLICACIÓN -->
                     <div style="background:#fff8e1; border:1px solid #ffe082; padding:18px; border-radius:8px; margin-top:20px;">
                         <h4 style="color:#b78103; margin-bottom:8px;"><i class="fas fa-check-circle"></i> Aprobación Docente y Publicación</h4>
-                        <p style="font-size:12px; color:#666; margin-bottom:10px;">Revisa la clase inédita generada por Gemini 2.5 y pulsa el botón para publicarla al alumno.</p>
+                        <p style="font-size:12px; color:#666; margin-bottom:10px;">Revisa la clase inédita generada por Gemini y pulsa el botón para publicarla al alumno.</p>
                         <button type="button" onclick="darVistoBuenoYPublicar()" style="background:var(--green); color:white; border:none; padding:12px 22px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px; width:100%;"><i class="fas fa-paper-plane"></i> ✅ Aprobar y Publicar Clase Inédita para el Alumno</button>
                     </div>
-
                 </div>
             </div>
 
@@ -336,6 +339,11 @@
     var claseBloomDatos = {};
 
     window.addEventListener('DOMContentLoaded', function() {
+        const keyGuardada = localStorage.getItem('GEMINI_USER_KEY');
+        if (keyGuardada) {
+            document.getElementById('inputGeminiUserKey').value = keyGuardada;
+        }
+
         const urlParams = new URLSearchParams(window.location.search);
         const codigoUrl = urlParams.get('codigo');
         if (codigoUrl) {
@@ -344,6 +352,13 @@
         }
         renderizarListaTemarios();
     });
+
+    function guardarClaveGeminiLocal() {
+        const val = document.getElementById('inputGeminiUserKey').value.trim();
+        if (!val) return alert('Por favor ingresa tu API Key.');
+        localStorage.setItem('GEMINI_USER_KEY', val);
+        mostrarNotificacion('✅ API Key guardada exitosamente.');
+    }
 
     function renderizarListaTemarios() {
         const select = document.getElementById('selectTemaTemario');
@@ -386,10 +401,23 @@
         }
     }
 
-    // LLAMADA A GEMINI 2.5 FLASH CON FALLBACK Y MANEJO VISIBLE DE ERRORES
     async function generarClaseRealConGemini25() {
         if (!alumnoActivo) return alert('Por favor, selecciona primero un alumno.');
 
+        let keyUsuario = localStorage.getItem('GEMINI_USER_KEY') || document.getElementById('inputGeminiUserKey').value.trim();
+
+        if (!keyUsuario) {
+            keyUsuario = prompt("Por favor pega aquí la Clave de API que creaste en Google Cloud / AI Studio:");
+            if (keyUsuario && keyUsuario.trim()) {
+                keyUsuario = keyUsuario.trim();
+                localStorage.setItem('GEMINI_USER_KEY', keyUsuario);
+                document.getElementById('inputGeminiUserKey').value = keyUsuario;
+            } else {
+                return alert("Se requiere la Clave de API para conectar con Gemini.");
+            }
+        }
+
+        const activeKey = keyUsuario;
         const tema = document.getElementById('selectTemaTemario').value;
         const perf = (alumnoActivo.perfil_cognitivo || 'estandar').toUpperCase();
         const obs = alumnoActivo.observaciones_diagnostico || 'Sin observaciones particulares';
@@ -398,7 +426,7 @@
         const errDiv = document.getElementById('msgErrorGemini');
 
         errDiv.style.display = 'none';
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA conectándose a Gemini 2.5 en tiempo real...';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA conectándose a Gemini IA en tiempo real...';
         btn.disabled = true;
 
         const prompt = `
@@ -440,10 +468,9 @@
         Responde ÚNICAMENTE el objeto JSON en español y francés.
         `;
 
-        // Intentar primero con Gemini 2.5 y si no, intentar con Gemini 1.5
         const modelos = [
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${configPrimary.apiKey}`,
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${configPrimary.apiKey}`
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`
         ];
 
         let exito = false;
@@ -483,10 +510,10 @@
 
         if (!exito) {
             errDiv.style.display = 'block';
-            errDiv.innerHTML = '<b>⚠️ Error de respuesta de Gemini API:</b> ' + ultimoError;
+            errDiv.innerHTML = '<b>⚠️ Error de API de Gemini:</b> ' + ultimoError + '<br><small>Revisa que la clave sea correcta o límpiala de localStorage.</small>';
         }
 
-        btn.innerHTML = '<i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini 2.5 IA';
+        btn.innerHTML = '<i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini IA';
         btn.disabled = false;
     }
 
