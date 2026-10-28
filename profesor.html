@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Co-Pilot Pedagógico Sofía IA</title>
+    <title>NeuroClarity - Co-Pilot Pedagógico Sofía IA (Gemini 2.5)</title>
     
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="shortcut icon" href="assets/favicon.png" type="image/png">
@@ -54,14 +54,11 @@
         .class-card { background: #ffffff; border: 1px solid #d6c7ec; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .class-card h4 { color: var(--dark-purple); font-size: 16px; margin-bottom: 10px; border-bottom: 2px solid #f0ebf8; padding-bottom: 8px; }
 
-        .quiz-option { background: white; border: 2px solid #d6c7ec; padding: 12px 15px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.2s; color: #333; }
-        .quiz-option:hover { background: #f0ebf8; border-color: var(--purple); }
-        .quiz-option.selected { background: #e0d5f2; border-color: var(--dark-purple); color: var(--dark-purple); }
-
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: white; width: 90%; max-width: 480px; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         
         .notif-inline { position: fixed; top: 20px; right: 20px; z-index: 10000; padding: 15px 22px; border-radius: 8px; background: #2e7d32; color: white; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.25); display: none; font-size: 14px; max-width: 380px; }
+        .error-card { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -120,7 +117,7 @@
             <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()"><i class="fas fa-plus-circle"></i> Vincular / Agregar Alumno</button>
             <button type="button" id="btn-panel" class="sidebar-btn active" onclick="cambiarVista('panel')"><i class="fas fa-user-graduate"></i> Panel Alumnos</button>
             <button type="button" id="btn-diagnostico" class="sidebar-btn" onclick="cambiarVista('diagnostico')"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico</button>
-            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')"><i class="fas fa-brain"></i> Sofía IA (Gemini Real)</button>
+            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')"><i class="fas fa-brain"></i> Sofía IA (Gemini 2.5)</button>
             <button type="button" id="btn-chat" class="sidebar-btn" onclick="cambiarVista('chat')"><i class="fas fa-comments"></i> Mensajería con Tutor</button>
             <button type="button" id="btn-planeacion" class="sidebar-btn" onclick="cambiarVista('planeacion')"><i class="fas fa-cloud-upload-alt"></i> Subir / Gestor Planeación</button>
         </div>
@@ -188,9 +185,9 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: SOFÍA IA CONECTADA A GEMINI REAL -->
+            <!-- SECCIÓN 3: SOFÍA IA CONECTADA A GEMINI 2.5 REAL -->
             <div id="sec-materiales" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-brain"></i> Generador Sofía IA - Conectado con Gemini 1.5 Real</h3>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-brain"></i> Generador Sofía IA - Conectado con Gemini 2.5 Flash</h3>
                 
                 <div style="padding:20px; background:#f9f7fc; border-radius:10px; border:1px solid #d6c7ec; margin-bottom:20px;">
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
@@ -205,10 +202,12 @@
                         </div>
                     </div>
 
-                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarClaseRealConGemini()"><i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini IA</button>
+                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarClaseRealConGemini25()"><i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini 2.5 IA</button>
                 </div>
 
-                <!-- CONTENEDOR DE LA CLASE COMPLETA GENERADA POR GEMINI -->
+                <div id="msgErrorGemini" style="display:none;" class="error-card"></div>
+
+                <!-- CONTENEDOR DE LA CLASE COMPLETA GENERADA POR GEMINI 2.5 -->
                 <div id="boxClaseBloomCompleta" style="display:none;">
                     
                     <!-- BARRA DE NAVEGACIÓN POR TAXONOMÍA DE BLOOM -->
@@ -221,13 +220,13 @@
                         <div class="bloom-step" id="bStep6" onclick="verNivelBloom(6)">6. Crear</div>
                     </div>
 
-                    <!-- CONTENIDO GENERADO DINÁMICAMENTE -->
+                    <!-- CONTENIDO GENERADO DINÁMICAMENTE POR GEMINI 2.5 -->
                     <div id="bloomContentArea"></div>
 
                     <!-- BOTÓN DE APROBACIÓN Y PUBLICACIÓN -->
                     <div style="background:#fff8e1; border:1px solid #ffe082; padding:18px; border-radius:8px; margin-top:20px;">
                         <h4 style="color:#b78103; margin-bottom:8px;"><i class="fas fa-check-circle"></i> Aprobación Docente y Publicación</h4>
-                        <p style="font-size:12px; color:#666; margin-bottom:10px;">Revisa la clase inédita generada por Gemini y pulsa el botón para publicarla al alumno.</p>
+                        <p style="font-size:12px; color:#666; margin-bottom:10px;">Revisa la clase inédita generada por Gemini 2.5 y pulsa el botón para publicarla al alumno.</p>
                         <button type="button" onclick="darVistoBuenoYPublicar()" style="background:var(--green); color:white; border:none; padding:12px 22px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px; width:100%;"><i class="fas fa-paper-plane"></i> ✅ Aprobar y Publicar Clase Inédita para el Alumno</button>
                     </div>
 
@@ -387,8 +386,8 @@
         }
     }
 
-    // LLAMADA REAL EN TIEMPO REAL A GEMINI 1.5 FLASH USANDO LA CLAVE DE FIREBASE HABILITADA
-    async function generarClaseRealConGemini() {
+    // LLAMADA A GEMINI 2.5 FLASH CON FALLBACK Y MANEJO VISIBLE DE ERRORES
+    async function generarClaseRealConGemini25() {
         if (!alumnoActivo) return alert('Por favor, selecciona primero un alumno.');
 
         const tema = document.getElementById('selectTemaTemario').value;
@@ -396,8 +395,10 @@
         const obs = alumnoActivo.observaciones_diagnostico || 'Sin observaciones particulares';
         const box = document.getElementById('boxClaseBloomCompleta');
         const btn = document.getElementById('btnGenerarCoPilot');
+        const errDiv = document.getElementById('msgErrorGemini');
 
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA conectándose a Gemini 1.5 en tiempo real...';
+        errDiv.style.display = 'none';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA conectándose a Gemini 2.5 en tiempo real...';
         btn.disabled = true;
 
         const prompt = `
@@ -408,67 +409,85 @@
         - Diagnóstico/Notas: ${obs}
         - Tema de Estudio: ${tema}
 
-        Estructura obligatoriamente el resultado en formato JSON puro (sin bloques markdown de texto alrededor si es posible), con exactamente las siguientes 6 claves:
+        Estructura obligatoriamente el resultado en formato JSON puro con exactamente las siguientes 6 claves:
 
         {
           "nivel1": {
             "titulo": "1. Recordar (Remember) - Mots Clés & Tarjetas de Memoria",
-            "contenido": "<HTML con el vocabulario clave adaptado en micro-tarjetas DUA>"
+            "contenido": "<div class='class-card'><h4>📚 Vocabulario Creado para ${alumnoActivo.nombre}</h4><p>Micro-tarjetas léxicas adaptadas...</p></div>"
           },
           "nivel2": {
             "titulo": "2. Comprender (Understand) - Sintaxis y Reglas Gramaticales",
-            "contenido": "<HTML con explicaciones sintácticas claras, elisiones y conectores>"
+            "contenido": "<div class='class-card'><h4>🧠 Estructuras y Reglas</h4><p>Explicación sintáctica clara con elisiones y conectores...</p></div>"
           },
           "nivel3": {
             "titulo": "3. Aplicar (Apply) - Micro-ejercicio Interactivo",
-            "contenido": "<HTML con un ejercicio práctico con opciones y retroalimentación>"
+            "contenido": "<div class='class-card'><h4>✏️ Ejercicio Práctico</h4><p>Consigna y opciones de práctica...</p></div>"
           },
           "nivel4": {
             "titulo": "4. Analizar (Analyze) - Taller de Discriminación de Errores",
-            "contenido": "<HTML con análisis de errores comunes y corrección implícita>"
+            "contenido": "<div class='class-card'><h4>🔍 Análisis de Errores</h4><p>Análisis de errores comunes y corrección implícita...</p></div>"
           },
           "nivel5": {
             "titulo": "5. Evaluar (Evaluate) - Rúbrica Anáhuac B1.1",
-            "contenido": "<HTML con una tabla de evaluación estructurada por criterios>"
+            "contenido": "<div class='class-card'><h4>📊 Rúbrica de Evaluación</h4><p>Criterios cuantitativos de evaluación...</p></div>"
           },
           "nivel6": {
             "titulo": "6. Crear (Create) - Consigna de Redacción (Start-Point Model)",
-            "contenido": "<HTML con la plantilla guiada Start-Point Model Anáhuac de 100 palabras>"
+            "contenido": "<div class='class-card'><h4>🚀 Proyecto Final de Redacción</h4><p>Plantilla guiada Start-Point Model Anáhuac...</p></div>"
           }
         }
         Responde ÚNICAMENTE el objeto JSON en español y francés.
         `;
 
-        try {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${configPrimary.apiKey}`;
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: { responseMimeType: "application/json" }
-                })
-            });
+        // Intentar primero con Gemini 2.5 y si no, intentar con Gemini 1.5
+        const modelos = [
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${configPrimary.apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${configPrimary.apiKey}`
+        ];
 
-            if (!res.ok) {
-                throw new Error("Respuesta HTTP " + res.status + " desde la API de Gemini.");
+        let exito = false;
+        let ultimoError = "";
+
+        for (let url of modelos) {
+            try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+
+                if (!res.ok) {
+                    const errJson = await res.json().catch(() => ({}));
+                    ultimoError = errJson.error?.message || ("HTTP " + res.status);
+                    continue;
+                }
+
+                const data = await res.json();
+                let rawText = data.candidates[0].content.parts[0].text;
+                rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+                claseBloomDatos = JSON.parse(rawText);
+                box.style.display = 'block';
+                verNivelBloom(1);
+                mostrarNotificacion('✨ Gemini IA ha generado la clase inédita en tiempo real.');
+                exito = true;
+                break;
+            } catch (e) {
+                ultimoError = e.message;
             }
-
-            const data = await res.json();
-            let rawText = data.candidates[0].content.parts[0].text;
-            rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-
-            claseBloomDatos = JSON.parse(rawText);
-            box.style.display = 'block';
-            verNivelBloom(1);
-            mostrarNotificacion('✨ Gemini 1.5 ha generado la clase inédita en tiempo real.');
-        } catch (err) {
-            console.error(err);
-            alert('Error al conectar con Gemini IA: ' + err.message);
-        } finally {
-            btn.innerHTML = '<i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini IA';
-            btn.disabled = false;
         }
+
+        if (!exito) {
+            errDiv.style.display = 'block';
+            errDiv.innerHTML = '<b>⚠️ Error de respuesta de Gemini API:</b> ' + ultimoError;
+        }
+
+        btn.innerHTML = '<i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini 2.5 IA';
+        btn.disabled = false;
     }
 
     function verNivelBloom(num) {
