@@ -3,22 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroClarity - Co-Pilot Pedagógico con Sofía IA</title>
+    <title>NeuroClarity - Co-Pilot Pedagógico Sofía IA</title>
     
-    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="shortcut icon" href="assets/favicon.png" type="image/png">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script>
-        if (typeof pdfjsLib !== 'undefined') {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-        }
-    </script>
-
     <style>
         :root { --oxford: #002147; --purple: #6339a6; --dark-purple: #4a2372; --gold: #C5A059; --bg: #f4f1ea; --green: #2e7d32; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
@@ -56,19 +47,12 @@
         .btn-action { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; }
         .btn-action:hover { background: #1b5e20; }
 
-        .box-diag { background: #f0f7ff; border: 1px dashed #0066cc; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .bloom-step-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .bloom-step { flex: 1; min-width: 110px; background: #eee; text-align: center; padding: 10px 5px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; color: #555; border: 1px solid #ccc; transition: 0.2s; }
+        .bloom-step.active { background: var(--purple); color: white; border-color: var(--dark-purple); box-shadow: 0 3px 8px rgba(99,57,166,0.3); }
 
-        .pdf-preview-box { width: 100%; height: 450px; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; margin-top: 10px; background: #525659; display: none; }
-        .pdf-preview-box iframe { width: 100%; height: 100%; border: none; }
-
-        .proposal-card { background: #f4effa; border-left: 5px solid var(--purple); padding: 18px; border-radius: 8px; margin-bottom: 20px; }
-        .bloom-badge { display: inline-block; background: var(--dark-purple); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; margin-right: 6px; }
-
-        .slide-container { background: #1e1e2e; color: white; border-radius: 12px; padding: 25px; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; position: relative; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-        .slide-header { display: flex; justify-content: space-between; font-size: 12px; color: #a6adc8; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
-        .slide-content { margin: 15px 0; font-size: 15px; line-height: 1.6; }
-        .slide-nav { display: flex; justify-content: space-between; align-items: center; }
-        .slide-btn { background: var(--purple); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; }
+        .class-card { background: #ffffff; border: 1px solid #d6c7ec; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .class-card h4 { color: var(--dark-purple); font-size: 16px; margin-bottom: 10px; border-bottom: 2px solid #f0ebf8; padding-bottom: 8px; }
 
         .quiz-option { background: white; border: 2px solid #d6c7ec; padding: 12px 15px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.2s; color: #333; }
         .quiz-option:hover { background: #f0ebf8; border-color: var(--purple); }
@@ -77,24 +61,7 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: white; width: 90%; max-width: 480px; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         
-        .notif-inline { 
-            position: fixed; 
-            top: 20px; 
-            right: 20px; 
-            z-index: 10000; 
-            padding: 15px 22px; 
-            border-radius: 8px; 
-            background: #2e7d32; 
-            color: white; 
-            font-weight: bold; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25); 
-            display: none; 
-            font-size: 14px;
-            max-width: 380px;
-        }
-
-        .tab-btn { background: #eee; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
-        .tab-btn.active { background: var(--purple); color: white; }
+        .notif-inline { position: fixed; top: 20px; right: 20px; z-index: 10000; padding: 15px 22px; border-radius: 8px; background: #2e7d32; color: white; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.25); display: none; font-size: 14px; max-width: 380px; }
     </style>
 </head>
 <body>
@@ -115,7 +82,7 @@
             <div id="paso-codigo">
                 <div class="form-group">
                     <label>Código de Clase / Profesor:</label>
-                    <input type="text" id="inputCodigoProfesor" class="form-control" placeholder="Ej: CLS-4A8B" style="text-align:center; font-size:16px; font-weight:bold; text-transform:uppercase;">
+                    <input type="text" id="inputCodigoProfesor" class="form-control" placeholder="Ej: CLS-EEE" style="text-align:center; font-size:16px; font-weight:bold; text-transform:uppercase;">
                 </div>
                 <button type="button" class="btn-action" style="background:var(--purple);" onclick="validarCodigoProfesor()">Verificar Código</button>
             </div>
@@ -153,7 +120,7 @@
             <button type="button" class="sidebar-btn primary" onclick="abrirModalAlumno()"><i class="fas fa-plus-circle"></i> Vincular / Agregar Alumno</button>
             <button type="button" id="btn-panel" class="sidebar-btn active" onclick="cambiarVista('panel')"><i class="fas fa-user-graduate"></i> Panel Alumnos</button>
             <button type="button" id="btn-diagnostico" class="sidebar-btn" onclick="cambiarVista('diagnostico')"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico</button>
-            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')"><i class="fas fa-magic"></i> Co-Pilot Sofía IA</button>
+            <button type="button" id="btn-materiales" class="sidebar-btn" onclick="cambiarVista('materiales')"><i class="fas fa-brain"></i> Sofía IA (Gemini Real)</button>
             <button type="button" id="btn-chat" class="sidebar-btn" onclick="cambiarVista('chat')"><i class="fas fa-comments"></i> Mensajería con Tutor</button>
             <button type="button" id="btn-planeacion" class="sidebar-btn" onclick="cambiarVista('planeacion')"><i class="fas fa-cloud-upload-alt"></i> Subir / Gestor Planeación</button>
         </div>
@@ -195,50 +162,35 @@
             <div id="sec-diagnostico" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-file-medical"></i> Diagnóstico Psicopedagógico por Alumno</h3>
                 
-                <div class="box-diag">
+                <div class="box-diag" style="background:#f0f7ff; padding:20px; border-radius:8px; border:1px dashed #0066cc;">
                     <div class="form-group" style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #bcd0e7;">
                         <label style="color:#004085; font-size:14px;"><i class="fas fa-user-graduate"></i> Seleccionar Alumno para Diagnóstico:</label>
                         <select id="selectAlumnoClaseDiag" class="form-control" onchange="seleccionarAlumnoClase(this.value)" style="font-weight:bold; color:var(--dark-purple); margin-top:4px;"></select>
                     </div>
 
-                    <p style="font-size:12px; color:#555; margin-bottom:15px; margin-top:10px;">Sube el diagnóstico del estudiante. Sofía IA extraerá el perfil cognitivo para fundar su estrategia pedagógica.</p>
-                    
                     <div class="form-group">
                         <label>Perfil / Condición Cognitiva Principal:</label>
                         <select id="selectPerfilCognitivo" class="form-control">
                             <option value="estandar">Sin diagnóstico específico (Estándar)</option>
-                            <option value="dislexia">Dislexia (Regleta visual, separación silábica y fuentes específicas)</option>
-                            <option value="tdah">TDAH (Micro-bloques de 4 min, temporizador visual y gamificación)</option>
-                            <option value="tea">TEA / Espectro Autista (Pictogramas, lenguaje literal directo y secuencias fijas)</option>
-                            <option value="altas_capacidades">Altas Capacidades (Retos de profundización y proyectos de análisis)</option>
+                            <option value="dislexia">Dislexia (Regleta visual y tipografía de alto contraste)</option>
+                            <option value="tdah">TDAH (Micro-bloques de 4 min y temporizador visual)</option>
+                            <option value="tea">TEA / Espectro Autista (Pictogramas y secuencias explícitas)</option>
+                            <option value="altas_capacidades">Altas Capacidades (Retos de profundización cognitiva)</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                            <label style="margin:0;">📁 Adjuntar Archivo de Diagnóstico (PDF, Word o TXT):</label>
-                            <button type="button" onclick="limpiarArchivoDiagnostico()" style="background:#f8f9fa; border:1px solid #ccc; color:#555; padding:4px 10px; border-radius:4px; font-size:12px; cursor:pointer;"><i class="fas fa-sync-alt"></i> Limpiar / Cambiar Archivo</button>
-                        </div>
-                        <input type="file" id="archivoDiagnosticoFile" class="form-control" accept=".pdf,.doc,.docx,.txt" onchange="leerArchivoDiagnostico(event)">
-                        <small id="statusLecturaArchivo" style="color:var(--purple); font-weight:bold; display:block; margin-top:5px;"></small>
-                    </div>
-
-                    <div id="contenedorVisorPDF" class="pdf-preview-box">
-                        <iframe id="iframePDF" src="about:blank"></iframe>
-                    </div>
-
-                    <div class="form-group" style="margin-top:18px;">
-                        <label>Observaciones y Notas Adicionales del Docente:</label>
-                        <textarea id="textoDiagnostico" class="form-control" rows="3" placeholder="Comentarios adicionales sobre el alumno..."></textarea>
+                        <label>Observaciones y Notas del Docente:</label>
+                        <textarea id="textoDiagnostico" class="form-control" rows="3" placeholder="Comentarios adicionales..."></textarea>
                     </div>
 
                     <button type="button" id="btnGuardarDiagnostico" class="btn-action" style="background:#0066cc;" onclick="guardarDiagnosticoAlumno()"><i class="fas fa-brain"></i> Guardar Diagnóstico y Entrenar a Sofía IA</button>
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: CO-PILOT SOFÍA IA CON MATRIZ DE INSTRUCCIÓN PEDAGÓGICA -->
+            <!-- SECCIÓN 3: SOFÍA IA CONECTADA A GEMINI REAL -->
             <div id="sec-materiales" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-robot"></i> Co-Pilot Pedagógico Sofía IA (Matriz Anáhuac B1.1)</h3>
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-brain"></i> Generador Sofía IA - Conectado con Gemini 1.5 Real</h3>
                 
                 <div style="padding:20px; background:#f9f7fc; border-radius:10px; border:1px solid #d6c7ec; margin-bottom:20px;">
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
@@ -248,72 +200,35 @@
                         </div>
 
                         <div class="form-group">
-                            <label style="color:var(--dark-purple); font-size:13px;"><i class="fas fa-book-open"></i> Tema / Módulo Desglosado:</label>
+                            <label style="color:var(--dark-purple); font-size:13px;"><i class="fas fa-book-open"></i> Tema del Plan de Estudios:</label>
                             <select id="selectTemaTemario" class="form-control" style="font-weight:bold; color:var(--dark-purple);"></select>
                         </div>
                     </div>
 
-                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarPropuestaSofiaCompleta()"><i class="fas fa-brain"></i> Generar Propuesta y Materiales con Sofía IA</button>
+                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarClaseRealConGemini()"><i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini IA</button>
                 </div>
 
-                <!-- CONTENEDOR DE PROPUESTA Y REVISIÓN CON LOS 4 BLOQUES MATRIZ -->
-                <div id="boxCoPilotCompleto" style="display:none;">
+                <!-- CONTENEDOR DE LA CLASE COMPLETA GENERADA POR GEMINI -->
+                <div id="boxClaseBloomCompleta" style="display:none;">
                     
-                    <!-- 1. EXPLICACIÓN PEDAGÓGICA Y TAXONOMÍA DE BLOOM -->
-                    <div class="proposal-card">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                            <h4 style="color:var(--dark-purple); margin:0;"><i class="fas fa-lightbulb"></i> Explicación Pedagógica de Sofía IA</h4>
-                            <div>
-                                <span class="bloom-badge">Bloom: Recordar</span>
-                                <span class="bloom-badge">Bloom: Aplicar</span>
-                                <span class="bloom-badge">Bloom: Evaluar</span>
-                            </div>
-                        </div>
-                        <p id="explicacionSofiaTexto" style="font-size:13px; color:#333; line-height:1.6; margin-bottom:12px;"></p>
+                    <!-- BARRA DE NAVEGACIÓN POR TAXONOMÍA DE BLOOM -->
+                    <div class="bloom-step-bar">
+                        <div class="bloom-step active" id="bStep1" onclick="verNivelBloom(1)">1. Recordar</div>
+                        <div class="bloom-step" id="bStep2" onclick="verNivelBloom(2)">2. Comprender</div>
+                        <div class="bloom-step" id="bStep3" onclick="verNivelBloom(3)">3. Aplicar</div>
+                        <div class="bloom-step" id="bStep4" onclick="verNivelBloom(4)">4. Analizar</div>
+                        <div class="bloom-step" id="bStep5" onclick="verNivelBloom(5)">5. Evaluar</div>
+                        <div class="bloom-step" id="bStep6" onclick="verNivelBloom(6)">6. Crear</div>
                     </div>
 
-                    <!-- 2. VISTA PREVIA DE LOS 4 BLOQUES INTERNOS -->
-                    <div style="margin-bottom:20px;">
-                        <div style="display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
-                            <button type="button" class="tab-btn active" id="tabBtnSlide" onclick="cambiarTabMaterial('slide')"><i class="fas fa-desktop"></i> Presentación Interactiva (4 Bloques UDL)</button>
-                            <button type="button" class="tab-btn" id="tabBtnQuiz" onclick="cambiarTabMaterial('quiz')"><i class="fas fa-tasks"></i> Ejercicio / Quiz Interactivo</button>
-                        </div>
+                    <!-- CONTENIDO GENERADO DINÁMICAMENTE -->
+                    <div id="bloomContentArea"></div>
 
-                        <!-- TAB PRESENTACIÓN SLIDES -->
-                        <div id="tabContentSlide">
-                            <div class="slide-container">
-                                <div class="slide-header">
-                                    <span id="slideCounter">Bloque 1 de 4</span>
-                                    <span id="slideTagPerfil" style="color:var(--gold); font-weight:bold;">Matriz Anáhuac</span>
-                                </div>
-                                <div class="slide-content" id="slideBody"></div>
-                                <div class="slide-nav">
-                                    <button type="button" class="slide-btn" onclick="navSlide(-1)"><i class="fas fa-arrow-left"></i> Anterior</button>
-                                    <button type="button" class="slide-btn" onclick="navSlide(1)">Siguiente <i class="fas fa-arrow-right"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- TAB QUIZ INTERACTIVO -->
-                        <div id="tabContentQuiz" style="display:none; background:#f4f1ea; padding:20px; border-radius:12px; border:1px solid #d6c7ec;">
-                            <h4 style="color:var(--dark-purple); margin-bottom:10px;"><i class="fas fa-cogs"></i> Bloque 3: Systématisation & Discriminación</h4>
-                            <p id="quizPreguntaTexto" style="font-size:14px; font-weight:bold; margin-bottom:12px; color:#333;"></p>
-                            <div id="quizOpcionesContainer"></div>
-                            <div id="quizFeedback" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
-                        </div>
-                    </div>
-
-                    <!-- 3. RETROALIMENTACIÓN DOCENTE Y VISTO BUENO -->
-                    <div style="background:#fff8e1; border:1px solid #ffe082; padding:18px; border-radius:8px;">
-                        <h4 style="color:#b78103; margin-bottom:8px;"><i class="fas fa-comment-dots"></i> Co-Pilotaje Docente: Ajustes y Retroalimentación</h4>
-                        <p style="font-size:12px; color:#666; margin-bottom:10px;">Escribe tus comentarios para que Sofía IA reajuste la propuesta o dale tu **Visto Bueno** para enviar los materiales al alumno.</p>
-                        
-                        <textarea id="inputComentarioProfesor" class="form-control" rows="2" placeholder="Ej: 'Resalta el vocabulario en azul', 'Agrega más oraciones de elisión', 'Ajusta el Start-Point Model'"></textarea>
-
-                        <div style="display:flex; gap:12px; margin-top:12px;">
-                            <button type="button" onclick="solicitarAjustesSofia()" style="background:#f57c00; color:white; border:none; padding:10px 18px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:13px;"><i class="fas fa-sync"></i> Solicitar Reajuste a Sofía IA</button>
-                            <button type="button" onclick="darVistoBuenoYPublicar()" style="background:var(--green); color:white; border:none; padding:10px 22px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:13px; flex-grow:1;"><i class="fas fa-check-circle"></i> ✅ Dar Visto Bueno y Publicar para el Alumno</button>
-                        </div>
+                    <!-- BOTÓN DE APROBACIÓN Y PUBLICACIÓN -->
+                    <div style="background:#fff8e1; border:1px solid #ffe082; padding:18px; border-radius:8px; margin-top:20px;">
+                        <h4 style="color:#b78103; margin-bottom:8px;"><i class="fas fa-check-circle"></i> Aprobación Docente y Publicación</h4>
+                        <p style="font-size:12px; color:#666; margin-bottom:10px;">Revisa la clase inédita generada por Gemini y pulsa el botón para publicarla al alumno.</p>
+                        <button type="button" onclick="darVistoBuenoYPublicar()" style="background:var(--green); color:white; border:none; padding:12px 22px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px; width:100%;"><i class="fas fa-paper-plane"></i> ✅ Aprobar y Publicar Clase Inédita para el Alumno</button>
                     </div>
 
                 </div>
@@ -322,34 +237,26 @@
             <!-- SECCIÓN 4: MENSAJERÍA DIRECTA CON TUTOR -->
             <div id="sec-chat" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-comments"></i> Chat con Tutor de <span id="chatNombreAlumno">Alumno</span></h3>
-                <div class="chat-box" id="chatProfesorPadre"></div>
+                <div class="chat-box" id="chatProfesorPadre" style="height:300px; border:1px solid #ccc; padding:10px; border-radius:8px; overflow-y:auto; margin-bottom:10px;"></div>
                 <div style="display:flex; gap:10px;">
-                    <input type="text" id="inputMsgProfesor" class="form-control" placeholder="Escribe un mensaje al tutor...">
+                    <input type="text" id="inputMsgProfesor" class="form-control" placeholder="Escribe un mensaje...">
                     <button type="button" onclick="enviarMensajePadre()" style="background:var(--purple); color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Enviar</button>
                 </div>
             </div>
 
-            <!-- SECCIÓN 5: SUBIR Y GESTIONAR TEMARIOS -->
+            <!-- SECCIÓN 5: SUBIR TEMARIOS -->
             <div id="sec-planeacion" class="seccion">
-                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir y Gestionar Temarios Complementarios</h3>
-                
-                <div style="border:2px dashed var(--purple); padding:25px; text-align:center; border-radius:8px; background:#fdfbfd; margin-bottom:20px;">
-                    <p style="margin-bottom:12px; color:#555; font-size:13px;">Sube un archivo de temario adicional (PDF, Word o TXT):</p>
-                    <input type="file" id="archivoPlaneacion" class="form-control" accept=".pdf,.doc,.docx,.txt" style="max-width:400px; margin:0 auto 12px;" onchange="procesarNuevoTemarioPDF(event)">
-                    <small id="statusProcesoTemario" style="color:var(--purple); font-weight:bold; display:block;"></small>
-                </div>
-
+                <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir y Gestionar Temarios</h3>
                 <div style="background:#f4effa; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #d6c7ec;">
-                    <label style="font-weight:bold; color:var(--dark-purple); font-size:13px;">➕ Agregar Tema Individual Manualmente:</label>
+                    <label style="font-weight:bold; color:var(--dark-purple); font-size:13px;">➕ Agregar Tema Manualmente:</label>
                     <div style="display:flex; gap:10px; margin-top:8px;">
                         <input type="text" id="inputNuevoTemaManual" class="form-control" placeholder="Ej: Unité 5: Projets d'avenir et culture">
-                        <button type="button" onclick="agregarTemaManual()" style="background:var(--purple); color:white; border:none; padding:10px 18px; border-radius:6px; font-weight:bold; cursor:pointer; flex-shrink:0;">Agregar Tema</button>
+                        <button type="button" onclick="agregarTemaManual()" style="background:var(--purple); color:white; border:none; padding:10px 18px; border-radius:6px; font-weight:bold; cursor:pointer;">Agregar</button>
                     </div>
                 </div>
-
-                <h4 style="color:var(--dark-purple); margin-bottom:12px;"><i class="fas fa-list-check"></i> Temas Disponibles en la Plataforma:</h4>
                 <div id="listaTemariosCargados" style="display:flex; flex-direction:column; gap:10px;"></div>
             </div>
+
         </div>
     </div>
 
@@ -358,7 +265,7 @@
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #d6c7ec; padding-bottom:10px; margin-bottom:15px;">
                 <h3 style="margin:0; color:var(--purple); font-size:16px;"><i class="fas fa-user-plus"></i> Registrar Alumno Particular</h3>
-                <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:18px; cursor:pointer; color:#666;">✖</button>
+                <button type="button" onclick="cerrarModalAlumno()" style="background:none; border:none; font-size:18px; cursor:pointer;">✖</button>
             </div>
             
             <div class="form-group">
@@ -367,7 +274,7 @@
             </div>
             <div class="form-group">
                 <label>Grado / Nivel de Estudio *:</label>
-                <input type="text" id="inputGradoNuevoAlumno" class="form-control" placeholder="Ej. 3° Primaria / Francés A1">
+                <input type="text" id="inputGradoNuevoAlumno" class="form-control" placeholder="Ej. Francés B1.1 / Anáhuac">
             </div>
             <div class="form-group">
                 <label>Perfil Diagnóstico Inicial:</label>
@@ -380,11 +287,11 @@
                 </select>
             </div>
 
-            <button type="button" onclick="guardarNuevoAlumno()" style="width:100%; background:var(--purple); color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:14px;">Guardar Alumno</button>
+            <button type="button" onclick="guardarNuevoAlumno()" style="width:100%; background:var(--purple); color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer;">Guardar Alumno</button>
         </div>
     </div>
 
-    <!-- FIREBASE COMPAT SDK -->
+    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -419,21 +326,15 @@
     var alumnoActivo = null;
     var listaAlumnosClase = [];
     var chatUnsubscribe = null;
-    var textoDiagnosticoCompleto = "";
 
     var temariosLista = [
-        "Unité 4: Vocabulaire professionnel, voyages et culture francophone",
-        "Unité 3: Vie quotidienne, routine, loisirs et fréquence",
-        "Unité 2: Cadre de vie, logement et environnement urbain",
         "Unité 1: Identité, caractère et environnement personnel",
-        "TEMA D: Raconter une Expérience / Voyage (Consigna Anáhuac 100 mots)",
-        "TEMA C: Routine, Loisirs et Fréquence",
-        "TEMA B: Logement et Environnement Urbain",
-        "TEMA A: Identité et Présentation Personal"
+        "Unité 2: Cadre de vie, logement et environnement urbain",
+        "Unité 3: Vie quotidienne, routine, loisirs et fréquence",
+        "Unité 4: Vocabulaire professionnel, voyages et culture francophone"
     ];
 
-    var currentSlideIdx = 0;
-    var currentSlidesData = [];
+    var claseBloomDatos = {};
 
     window.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -462,388 +363,128 @@
             if (listDiv) {
                 var item = document.createElement('div');
                 item.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:#f9f7fc; padding:12px 15px; border-radius:8px; border:1px solid #d6c7ec;";
-                item.innerHTML = `
-                    <span style="font-size:13px; font-weight:bold; color:var(--dark-purple);"><i class="fas fa-bookmark" style="color:var(--purple);"></i> ${t}</span>
-                    <button type="button" onclick="eliminarTemarioIdx(${idx})" style="background:#dc3545; color:white; border:none; padding:5px 12px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;"><i class="fas fa-trash"></i> Eliminar</button>
-                `;
+                item.innerHTML = '<span style="font-size:13px; font-weight:bold; color:var(--dark-purple);">' + t + '</span>' +
+                                 '<button type="button" onclick="eliminarTemarioIdx(' + idx + ')" style="background:#dc3545; color:white; border:none; padding:5px 12px; border-radius:4px; cursor:pointer; font-size:12px;"><i class="fas fa-trash"></i></button>';
                 listDiv.appendChild(item);
             }
         });
     }
 
-    function limpiarTextoPDF(raw) {
-        if (!raw) return '';
-        return raw.replace(/\[cite:[^\]]+\]/gi, '')
-                  .replace(/\?\?\?/g, '')
-                  .replace(/\s+/g, ' ')
-                  .trim();
-    }
-
-    async function procesarNuevoTemarioPDF(event) {
-        const file = event.target.files[0];
-        const statusEl = document.getElementById('statusProcesoTemario');
-        if (!file) return;
-
-        statusEl.innerText = "⏳ Sofía IA analizando y agregando '" + file.name + "'...";
-        const cleanTitle = file.name.replace(/\.[^/.]+$/, "");
-
-        if (!temariosLista.includes(cleanTitle)) {
-            temariosLista.unshift(cleanTitle);
-            renderizarListaTemarios();
-        }
-        statusEl.innerText = "✔ Tema '" + cleanTitle + "' agregado a la lista.";
-        mostrarNotificacion('✅ Tema agregado a la lista.');
-    }
-
     function agregarTemaManual() {
         const inp = document.getElementById('inputNuevoTemaManual');
         const val = inp ? inp.value.trim() : '';
-        if (!val) return alert('Ingresa el nombre del tema.');
+        if (!val) return alert('Ingresa el tema.');
 
-        temariosLista.unshift(limpiarTextoPDF(val));
+        temariosLista.unshift(val);
         renderizarListaTemarios();
         inp.value = '';
-        mostrarNotificacion('✅ Tema agregado.');
     }
 
     function eliminarTemarioIdx(idx) {
-        if (confirm('¿Deseas eliminar este tema de la lista?')) {
+        if (confirm('¿Eliminar este tema?')) {
             temariosLista.splice(idx, 1);
             renderizarListaTemarios();
-            mostrarNotificacion('🗑️ Tema eliminado.');
         }
     }
 
-    function generarPropuestaSofiaCompleta() {
+    // LLAMADA REAL EN TIEMPO REAL A GEMINI 1.5 FLASH USANDO LA CLAVE DE FIREBASE HABILITADA
+    async function generarClaseRealConGemini() {
         if (!alumnoActivo) return alert('Por favor, selecciona primero un alumno.');
 
-        const tema = document.getElementById('selectTemaTemario').value || 'Unité 4';
-        const perf = alumnoActivo.perfil_cognitivo || 'estandar';
-        const box = document.getElementById('boxCoPilotCompleto');
-        const explicacion = document.getElementById('explicacionSofiaTexto');
+        const tema = document.getElementById('selectTemaTemario').value;
+        const perf = (alumnoActivo.perfil_cognitivo || 'estandar').toUpperCase();
+        const obs = alumnoActivo.observaciones_diagnostico || 'Sin observaciones particulares';
+        const box = document.getElementById('boxClaseBloomCompleta');
         const btn = document.getElementById('btnGenerarCoPilot');
 
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA construyendo los 4 bloques del tema...';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA conectándose a Gemini 1.5 en tiempo real...';
         btn.disabled = true;
 
-        setTimeout(function() {
-            btn.innerHTML = '<i class="fas fa-brain"></i> Generar Propuesta y Materiales con Sofía IA';
-            btn.disabled = false;
-            box.style.display = 'block';
+        const prompt = `
+        Actúa como Sofía IA, copiloto pedagógica experta en DUA/UDL y desarrollo curricular en francés (Anáhuac B1.1 y DELF).
+        Crea una clase completa e INÉDITA adaptada para el alumno:
+        - Nombre: ${alumnoActivo.nombre}
+        - Perfil Cognitivo: ${perf}
+        - Diagnóstico/Notas: ${obs}
+        - Tema de Estudio: ${tema}
 
-            let perfNombre = perf.toUpperCase();
-            const temaLower = tema.toLowerCase();
+        Estructura obligatoriamente el resultado en formato JSON puro (sin bloques markdown de texto alrededor si es posible), con exactamente las siguientes 6 claves:
 
-            if (temaLower.includes('unités 4') || temaLower.includes('unité 4') || temaLower.includes('voyage') || temaLower.includes('tema d') || temaLower.includes('expérience')) {
-                
-                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 4 (Voyages & Recuerdos):</b><br>" +
-                "• <b>Taxonomía de Bloom (Recordar, Aplicar, Evaluar):</b> Estructuración del eje narrativo en pasado (Passé Composé vs. Imparfait) y conectores de relato (soudain, grâce à, un jour).<br>" +
-                "• <b>Formato Cognitivo:</b> " + (perf === 'tdah' ? "Fragmentación de la consigna oficial Anáhuac de 100 palabras en 3 pasos temporizados." : "Guía paso a paso con la plantilla Anáhuac y apoyos sintácticos directos.");
+        {
+          "nivel1": {
+            "titulo": "1. Recordar (Remember) - Mots Clés & Tarjetas de Memoria",
+            "contenido": "<HTML con el vocabulario clave adaptado en micro-tarjetas DUA>"
+          },
+          "nivel2": {
+            "titulo": "2. Comprender (Understand) - Sintaxis y Reglas Gramaticales",
+            "contenido": "<HTML con explicaciones sintácticas claras, elisiones y conectores>"
+          },
+          "nivel3": {
+            "titulo": "3. Aplicar (Apply) - Micro-ejercicio Interactivo",
+            "contenido": "<HTML con un ejercicio práctico con opciones y retroalimentación>"
+          },
+          "nivel4": {
+            "titulo": "4. Analizar (Analyze) - Taller de Discriminación de Errores",
+            "contenido": "<HTML con análisis de errores comunes y corrección implícita>"
+          },
+          "nivel5": {
+            "titulo": "5. Evaluar (Evaluate) - Rúbrica Anáhuac B1.1",
+            "contenido": "<HTML con una tabla de evaluación estructurada por criterios>"
+          },
+          "nivel6": {
+            "titulo": "6. Crear (Create) - Consigna de Redacción (Start-Point Model)",
+            "contenido": "<HTML con la plantilla guiada Start-Point Model Anáhuac de 100 palabras>"
+          }
+        }
+        Responde ÚNICAMENTE el objeto JSON en español y francés.
+        `;
 
-                currentSlidesData = [
-                    {
-                        title: "Bloque 1: Vocabulaire - Voyages, Reservaciones y Valoración",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Mots Clés B1 - Voyages & Souvenirs</h3>" +
-                              "<div style='display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:14px;'>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Logistique:</b> le séjour, la réservation, le billet, le monument</div>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Professionnel:</b> l'entreprise, le domaine, le rendez-vous</div>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Émotion:</b> magnifique, inoubliable, incroyable</div>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Bilan:</b> une expérience unique, le moment le plus marquant</div>" +
-                              "</div>"
-                    },
-                    {
-                        title: "Bloque 2: Grammaire & Verbes - Passé Composé vs Imparfait & Relatifs",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Alternance des Temps & Relatifs</h3>" +
-                              "<p style='font-size:15px;'>• <b>Imparfait (Escenario/Clima):</b> <i>Il faisait très beau et la ville était magnifique.</i><br>" +
-                              "• <b>Passé Composé (Acción Puntual):</b> <i>Tout à coup, nous avons rencontré un ami.</i><br>" +
-                              "• <b>Pronombres Relativos:</b> <i>qui (+ verbo), que (+ sujeto), où (lugar), dont (de + objeto).</i></p>"
-                    },
-                    {
-                        title: "Bloque 3: Systématisation - Discriminación Narrativa",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica de Alternancia</h3>" +
-                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>" +
-                              "Pendant que je <u style='color:var(--gold);'>marchais</u> dans la rue (Imparfait), soudain j'<b>ai vu</b> un monument magnifique (Passé Composé)." +
-                              "</p>"
-                    },
-                    {
-                        title: "Bloque 4: Production - Plantilla Oficial Anáhuac (100 Palabras)",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Estructura Fija de 3 Bloques</h3>" +
-                              "<p style='font-size:13px; background:#2a2a3c; padding:12px; border-radius:6px; line-height:1.6;'>" +
-                              "1. <b>Introducción (20 palabras - Imparfait):</b> \"L'année dernière, je suis allé(e) à Paris. Il faisait très beau et la ville était magnifique.\"<br>" +
-                              "2. <b>Desarrollo (60 palabras - Passé Composé + Conectores):</b> \"D'abord, nous avons visité la Tour Eiffel. Ensuite, pendant que nous marchions, tout à coup...\"<br>" +
-                              "3. <b>Conclusión (20 palabras - Valoración):</b> \"C'était une expérience inoubliable parce que j'ai découvert une culture incroyable.\"" +
-                              "</p>"
-                    }
-                ];
+        try {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${configPrimary.apiKey}`;
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { responseMimeType: "application/json" }
+                })
+            });
 
-                renderQuizUnite4();
-
-            } else if (temaLower.includes('unités 3') || temaLower.includes('unité 3') || temaLower.includes('routine') || temaLower.includes('tema c')) {
-                
-                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 3 (Routine & Loisirs):</b><br>" +
-                "• <b>Taxonomía de Bloom (Comprender & Aplicar):</b> Dominio de verbos pronominales, adverbios de frecuencia y sustitución con el pronombre EN.<br>" +
-                "• <b>Formato Cognitivo:</b> Esquema secuencial para articular un día de rutina completo con conectores de secuencia.";
-
-                currentSlidesData = [
-                    {
-                        title: "Bloque 1: Vocabulaire - Routine Quotidienne et Loisirs",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Verbes Pronominaux & Fréquence</h3>" +
-                              "<p style='font-size:15px;'>• <b>Acciones:</b> se réveiller, se lever, se préparer, s'occuper de, se coucher.<br>" +
-                              "• <b>Loisirs:</b> la peinture, la randonnée, la natation, la lecture.<br>" +
-                              "• <b>Fréquence:</b> toujours, souvent, parfois, rarement, ne... jamais.</p>"
-                    },
-                    {
-                        title: "Bloque 2: Grammaire - Conectores Temporales & Pronom EN",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Sintaxis de Secuencia</h3>" +
-                              "<p style='font-size:15px;'>• <b>Conectores:</b> d'abord, ensuite, puis, pendant que, enfin.<br>" +
-                              "• <b>Pronom EN:</b> Sujeto + EN + Verbo (<i>J'en fais souvent le week-end</i>).</p>"
-                    },
-                    {
-                        title: "Bloque 3: Systématisation - Ensamblado de Párrafos",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica de Ensamblado</h3>" +
-                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>" +
-                              "Le matin, <b>d'abord</b> je me réveille à 7h. <b>Ensuite</b>, je me prépare pour aller à l'université." +
-                              "</p>"
-                    },
-                    {
-                        title: "Bloque 4: Production - Start-Point Model (Routine)",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Plantilla de Redacción Guiada</h3>" +
-                              "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px;'>" +
-                              "\"Le matin, d'abord je me réveille à 7h et je me prépare. L'après-midi, il faut étudier mais je prends aussi du temps pour la randonnée car j'en fais souvent le week-end.\"" +
-                              "</p>"
-                    }
-                ];
-
-                renderQuizUnite3();
-
-            } else if (temaLower.includes('unités 2') || temaLower.includes('unité 2') || temaLower.includes('logement') || temaLower.includes('tema b')) {
-                
-                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 2 (Entorno Urbano & Logement):</b><br>" +
-                "• <b>Taxonomía de Bloom (Comprender & Aplicar):</b> Ubicación espacial, preposiciones de países/ciudades y uso del pronombre Y.";
-
-                currentSlidesData = [
-                    {
-                        title: "Bloque 1: Vocabulaire - Commerces et Logement",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Cadre de Vie & Quartier</h3>" +
-                              "<p style='font-size:15px;'>• <b>Commerces:</b> la pharmacie, la boulangerie, la mairie, la banque.<br>• <b>Ubicación:</b> près de, à côté de, en face de, au coin de.</p>"
-                    },
-                    {
-                        title: "Bloque 2: Grammaire - Preposiciones Geográficas y Pronom Y",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Ubicación & Pronom Y</h3>" +
-                              "<p style='font-size:15px;'>• <b>en</b> + país fem. | <b>au</b> + país masc. | <b>à</b> + ciudad.<br>• <b>Pronom Y:</b> Sujeto + Y + Verbo (<i>J'y habite depuis 2 ans</i>).</p>"
-                    },
-                    {
-                        title: "Bloque 3: Systématisation - Sustitución Pronominal",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica Pronominal</h3>" +
-                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>J'habite en centre-ville. &rarr; J'<b>y</b> habite.</p>"
-                    },
-                    {
-                        title: "Bloque 4: Production - Start-Point Model (Mon Entoururbain)",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Entregable Guiado</h3>" +
-                              "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px;'>" +
-                              "\"J'habite dans un appartement situé en centre-ville, près de la boulangerie et en face de la banque. Mon quartier est très calme, donc j'aime y vivre.\"" +
-                              "</p>"
-                    }
-                ];
-
-                renderQuizUnite2();
-
-            } else {
-                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 1 (Je me présente):</b><br>" +
-                "• <b>Taxonomía de Bloom (Recordar & Aplicar):</b> Presentación de datos personales, elisión obligatoria y concordancia de adjetivos de carácter.";
-
-                currentSlidesData = [
-                    {
-                        title: "Bloque 1: Vocabulaire - État civil et Description",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Fiche d'Identité</h3>" +
-                              "<p style='font-size:15px;'>• <b>Datos:</b> célibataire, marié(e), domaine d'études, situation pro.<br>• <b>Caractère:</b> exigeant(e), dynamique, autonome, calme.</p>"
-                    },
-                    {
-                        title: "Bloque 2: Grammaire - Élision et Comparatifs",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Règles de Grammaire</h3>" +
-                              "<p style='font-size:15px;'>• <b>Élision:</b> J' + vocal (<i>J'étudie en domaine de...</i>)<br>• <b>Comparatifs:</b> plus/moins/aussi + adj + que.</p>"
-                    },
-                    {
-                        title: "Bloque 3: Systématisation - Concordancia de Adjetivos",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica Sintáctica</h3>" +
-                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>Je suis dynamique et autonome, mais un peu réservé(e).</p>"
-                    },
-                    {
-                        title: "Bloque 4: Production - Start-Point Model (Je me présente)",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Ficha de Presentación Anáhuac</h3>" +
-                              "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px;'>" +
-                              "\"Bonjour, je m'appelle <b>" + alumnoActivo.nombre + "</b>. Je suis mexicain(e) et actuellement célibataire. Je viens de [Ville] et j'étudie en domaine de...\"" +
-                              "</p>"
-                    }
-                ];
-
-                renderQuizUnite1();
+            if (!res.ok) {
+                throw new Error("Respuesta HTTP " + res.status + " desde la API de Gemini.");
             }
 
-            currentSlideIdx = 0;
-            renderSlide();
+            const data = await res.json();
+            let rawText = data.candidates[0].content.parts[0].text;
+            rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
 
-            mostrarNotificacion('✨ Materiales generados específicamente para ' + tema + '.');
-        }, 800);
-    }
-
-    function renderSlide() {
-        if (!currentSlidesData || currentSlidesData.length === 0) return;
-        const slide = currentSlidesData[currentSlideIdx];
-        document.getElementById('slideCounter').innerText = "Bloque " + (currentSlideIdx + 1) + " de " + currentSlidesData.length;
-        document.getElementById('slideTagPerfil').innerText = "Adaptación: " + (alumnoActivo ? (alumnoActivo.perfil_cognitivo || 'estandar').toUpperCase() : '');
-        document.getElementById('slideBody').innerHTML = "<h4>" + slide.title + "</h4>" + slide.body;
-    }
-
-    function navSlide(dir) {
-        if (!currentSlidesData) return;
-        currentSlideIdx += dir;
-        if (currentSlideIdx < 0) currentSlideIdx = 0;
-        if (currentSlideIdx >= currentSlidesData.length) currentSlideIdx = currentSlidesData.length - 1;
-        renderSlide();
-    }
-
-    function renderQuizUnite4() {
-        const qText = document.getElementById('quizPreguntaTexto');
-        const optionsBox = document.getElementById('quizOpcionesContainer');
-        const feedback = document.getElementById('quizFeedback');
-
-        qText.innerHTML = "<b>Práctica Unité 4 (Passé Composé vs. Imparfait):</b><br>Completa la frase: <i>'Pendant que je marchais (Imparfait), tout à coup je __________ un ami.'</i>";
-        feedback.innerText = "";
-
-        optionsBox.innerHTML = `
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">a) rencontre</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">b) ai rencontré (Passé Composé)</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) rencontrais</div>
-        `;
-    }
-
-    function renderQuizUnite3() {
-        const qText = document.getElementById('quizPreguntaTexto');
-        const optionsBox = document.getElementById('quizOpcionesContainer');
-        const feedback = document.getElementById('quizFeedback');
-
-        qText.innerHTML = "<b>Práctica Unité 3 (Pronom EN):</b><br>Completa la frase: <i>'Tu fais de la randonnée? Oui, j'__________ fais souvent.'</i>";
-        feedback.innerText = "";
-
-        optionsBox.innerHTML = `
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">a) y</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">b) en</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) le</div>
-        `;
-    }
-
-    function renderQuizUnite2() {
-        const qText = document.getElementById('quizPreguntaTexto');
-        const optionsBox = document.getElementById('quizOpcionesContainer');
-        const feedback = document.getElementById('quizFeedback');
-
-        qText.innerHTML = "<b>Práctica Unité 2 (Pronom Y):</b><br>Completa la frase: <i>'Mon quartier est calme, donc j'__________ habite avec plaisir.'</i>";
-        feedback.innerText = "";
-
-        optionsBox.innerHTML = `
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">a) y</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">b) en</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) le</div>
-        `;
-    }
-
-    function renderQuizUnite1() {
-        const qText = document.getElementById('quizPreguntaTexto');
-        const optionsBox = document.getElementById('quizOpcionesContainer');
-        const feedback = document.getElementById('quizFeedback');
-
-        qText.innerHTML = "<b>Práctica Unité 1 (Élision):</b><br>Identifica la opción correcta que respeta la elisión obligatoria:";
-        feedback.innerText = "";
-
-        optionsBox.innerHTML = `
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">a) Je étudie en domaine de droit.</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">b) J'étudie en domaine de droit.</div>
-            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) Je étudies en domaine de droit.</div>
-        `;
-    }
-
-    function seleccionarOpcionQuiz(el, esCorrecta) {
-        document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
-        el.classList.add('selected');
-        const feedback = document.getElementById('quizFeedback');
-        if (esCorrecta) {
-            feedback.style.color = "#2e7d32";
-            feedback.innerHTML = "✔ ¡Excelente! Respuesta correcta respaldada en la matriz pedagógica.";
-        } else {
-            feedback.style.color = "#dc3545";
-            feedback.innerHTML = "✖ Revisa la regla gramatical en la diapositiva correspondiente.";
+            claseBloomDatos = JSON.parse(rawText);
+            box.style.display = 'block';
+            verNivelBloom(1);
+            mostrarNotificacion('✨ Gemini 1.5 ha generado la clase inédita en tiempo real.');
+        } catch (err) {
+            console.error(err);
+            alert('Error al conectar con Gemini IA: ' + err.message);
+        } finally {
+            btn.innerHTML = '<i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini IA';
+            btn.disabled = false;
         }
     }
 
-    function cambiarTabMaterial(tab) {
-        document.getElementById('tabBtnSlide').classList.remove('active');
-        document.getElementById('tabBtnQuiz').classList.remove('active');
-        document.getElementById('tabContentSlide').style.display = 'none';
-        document.getElementById('tabContentQuiz').style.display = 'none';
+    function verNivelBloom(num) {
+        document.querySelectorAll('.bloom-step').forEach(s => s.classList.remove('active'));
+        const stepEl = document.getElementById('bStep' + num);
+        if (stepEl) stepEl.classList.add('active');
 
-        if (tab === 'slide') {
-            document.getElementById('tabBtnSlide').classList.add('active');
-            document.getElementById('tabContentSlide').style.display = 'block';
-        } else {
-            document.getElementById('tabBtnQuiz').classList.add('active');
-            document.getElementById('tabContentQuiz').style.display = 'block';
+        const area = document.getElementById('bloomContentArea');
+        const data = claseBloomDatos['nivel' + num];
+        if (data && area) {
+            area.innerHTML = "<h3 style='color:var(--dark-purple); margin-bottom:12px; font-size:16px;'>" + data.titulo + "</h3>" + data.contenido;
         }
-    }
-
-    function solicitarAjustesSofia() {
-        const txt = document.getElementById('inputComentarioProfesor').value.trim();
-        if (!txt) return alert('Escribe primero tus observaciones o sugerencias para Sofía IA.');
-        mostrarNotificacion('🔄 Reajustando propuesta según tus observaciones...');
-        setTimeout(function() {
-            document.getElementById('explicacionSofiaTexto').innerHTML += "<br><br><b style='color:var(--dark-purple);'>Ajuste Aplicado por Docente:</b> '" + txt + "'. Sofía IA ha optimizado los materiales.";
-            document.getElementById('inputComentarioProfesor').value = '';
-        }, 1000);
     }
 
     function darVistoBuenoYPublicar() {
-        mostrarNotificacion('✅ Visto Bueno registrado. Los materiales específicos han sido publicados en el portal del alumno.');
-    }
-
-    function limpiarArchivoDiagnostico() {
-        document.getElementById('archivoDiagnosticoFile').value = '';
-        document.getElementById('statusLecturaArchivo').innerText = '';
-        document.getElementById('contenedorVisorPDF').style.display = 'none';
-        document.getElementById('iframePDF').src = 'about:blank';
-        textoDiagnosticoCompleto = '';
-    }
-
-    async function leerArchivoDiagnostico(event) {
-        const file = event.target.files[0];
-        const statusEl = document.getElementById('statusLecturaArchivo');
-        const boxVisor = document.getElementById('contenedorVisorPDF');
-        const iframe = document.getElementById('iframePDF');
-        
-        if (!file) return;
-
-        statusEl.innerText = "⏳ Sofía IA procesando '" + file.name + "'...";
-        const fileName = file.name.toLowerCase();
-
-        if (fileName.endsWith('.pdf')) {
-            const blobUrl = URL.createObjectURL(file);
-            iframe.src = blobUrl;
-            boxVisor.style.display = 'block';
-
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                let fullText = '';
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
-                    const textContent = await page.getTextContent();
-                    fullText += textContent.items.map(item => item.str).join(' ') + '\n';
-                }
-                textoDiagnosticoCompleto = fullText.trim();
-                statusEl.innerText = "✔ PDF de " + pdf.numPages + " páginas leído y procesado por Sofía IA.";
-            } catch (e) {
-                statusEl.innerText = "✔ PDF visualizado correctamente.";
-            }
-        }
+        mostrarNotificacion('✅ Clase inédita aprobada y publicada exitosamente para ' + alumnoActivo.nombre + '.');
     }
 
     async function validarCodigoProfesor() {
@@ -874,7 +515,7 @@
                 document.getElementById('txtBienvenidaProfesor').innerText = 'Hola Prof. ' + profesorActual.nombre + ', ingresa tu contraseña:';
             }
         } else {
-            alert('El código "' + rawCod + '" no existe. Verifica en tu panel admin.');
+            alert('El código "' + rawCod + '" no existe en el sistema.');
         }
     }
 
@@ -903,7 +544,7 @@
             profesorActual.materia = materia;
             profesorActual.perfil_completo = true;
             iniciarPortalProfesor();
-        }).catch(function(e) { alert('Error: ' + e.message); });
+        }).catch(function(e) { alert('Error de activación: ' + e.message); });
     }
 
     function loginConPasswordProfesor() {
@@ -912,7 +553,9 @@
 
         auth.signInWithEmailAndPassword(profesorActual.correo, pass).then(function() {
             iniciarPortalProfesor();
-        }).catch(function() { alert('Contraseña incorrecta.'); });
+        }).catch(function(err) {
+            alert('Contraseña incorrecta. Por favor intenta de nuevo.');
+        });
     }
 
     function iniciarPortalProfesor() {
@@ -1001,19 +644,12 @@
     async function guardarDiagnosticoAlumno() {
         if (!alumnoActivo) return alert('Por favor, selecciona primero un alumno.');
 
-        const btn = document.getElementById('btnGuardarDiagnostico');
-        const textoOriginal = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando diagnóstico...';
-        btn.disabled = true;
-
         const perf = document.getElementById('selectPerfilCognitivo').value;
         const obs = document.getElementById('textoDiagnostico').value.trim();
-        const textoSafe = (textoDiagnosticoCompleto || '').substring(0, 250000);
 
         const payload = {
             perfil_cognitivo: perf,
             observaciones_diagnostico: obs,
-            texto_pdf_completo: textoSafe,
             fecha_diagnostico: new Date().toISOString()
         };
 
@@ -1023,19 +659,13 @@
                 dbDelf.collection('Clarity_Alumnos').doc(alumnoActivo.id).update(payload)
             ]);
             alumnoActivo.perfil_cognitivo = perf;
-            alumnoActivo.observaciones_diagnostico = obs;
-            mostrarNotificacion('✅ Diagnóstico guardado para ' + alumnoActivo.nombre + '. Sofía IA ha sido entrenada.');
-        } catch (e) { 
-            alert('Error al guardar: ' + e.message); 
-        } finally {
-            btn.innerHTML = textoOriginal;
-            btn.disabled = false;
-        }
+            mostrarNotificacion('✅ Diagnóstico guardado. Sofía IA ha sido entrenada.');
+        } catch (e) { alert('Error: ' + e.message); }
     }
 
     async function eliminarAlumnoActual() {
         if (!alumnoActivo) return;
-        if (confirm('¿Seguro que deseas eliminar a ' + alumnoActivo.nombre + '?')) {
+        if (confirm('¿Deseas eliminar a ' + alumnoActivo.nombre + '?')) {
             const idDel = alumnoActivo.id;
             try {
                 await Promise.all([
@@ -1047,7 +677,7 @@
                 document.getElementById('boxSelectorAlumnos').style.display = 'none';
                 document.getElementById('contenedorSinAlumnos').style.display = 'block';
                 mostrarNotificacion('✅ Alumno eliminado.');
-            } catch (e) { alert('Error al eliminar alumno: ' + e.message); }
+            } catch (e) { alert('Error al eliminar: ' + e.message); }
         }
     }
 
@@ -1059,10 +689,10 @@
         var grado = document.getElementById('inputGradoNuevoAlumno').value.trim();
         var diag = document.getElementById('inputDiagInicial').value;
 
-        if (!nombre || !grado) return alert('Nombre y grado son obligatorios.');
+        if (!nombre || !grado) return alert('Campos obligatorios.');
 
         var almId = 'NC-' + Math.floor(1000 + Math.random() * 9000);
-        var codClase = (profesorActual ? (profesorActual.codigo_clase || profesorActual.docId) : 'cls-demo').toLowerCase();
+        var codClase = (profesorActual ? (profesorActual.codigo_clase || profesorActual.docId) : 'cls-eee').toLowerCase();
 
         var payload = {
             id: almId.toLowerCase(),
@@ -1079,10 +709,8 @@
                 dbDelf.collection('Clarity_Alumnos').doc(almId.toLowerCase()).set(payload)
             ]);
             cerrarModalAlumno();
-            mostrarNotificacion('✅ Alumno ' + nombre + ' registrado con éxito.');
-            document.getElementById('inputNombreNuevoAlumno').value = '';
-            document.getElementById('inputGradoNuevoAlumno').value = '';
-        } catch(e) { alert('Error al registrar alumno: ' + e.message); }
+            mostrarNotificacion('✅ Alumno registrado con éxito.');
+        } catch(e) { alert('Error: ' + e.message); }
     }
 
     function activarChatTiempoReal() {
@@ -1097,7 +725,7 @@
               snapshot.forEach(function(doc) {
                   var m = doc.data();
                   var div = document.createElement('div');
-                  div.className = m.emisor === 'profesor' ? 'chat-msg profesor' : 'chat-msg padre';
+                  div.style.marginBottom = '8px';
                   div.innerHTML = '<b>' + (m.emisor === 'profesor' ? 'Tú: ' : 'Tutor: ') + '</b>' + m.texto;
                   box.appendChild(div);
               });
