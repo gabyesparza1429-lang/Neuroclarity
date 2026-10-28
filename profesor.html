@@ -185,13 +185,12 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: SOFÍA IA CON CASILLA DE API KEY -->
+            <!-- SECCIÓN 3: SOFÍA IA CON GEMINI -->
             <div id="sec-materiales" class="seccion">
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-brain"></i> Generador Sofía IA - Gemini Real</h3>
                 
-                <!-- CASILLA DE API KEY -->
                 <div style="padding:15px; background:#fff3cd; border:1px solid #ffeeba; border-radius:8px; margin-bottom:15px; font-size:13px;">
-                    <label style="font-weight:bold; color:#856404;"><i class="fas fa-key"></i> Clave de API Gemini (Pega aquí la clave que creaste):</label>
+                    <label style="font-weight:bold; color:#856404;"><i class="fas fa-key"></i> Clave de API Gemini:</label>
                     <div style="display:flex; gap:10px; margin-top:6px;">
                         <input type="password" id="inputGeminiUserKey" class="form-control" placeholder="Pega tu clave AIzaSy..." style="margin:0;">
                         <button type="button" onclick="guardarClaveGeminiLocal()" style="background:var(--purple); color:white; border:none; padding:8px 18px; border-radius:6px; font-weight:bold; cursor:pointer; flex-shrink:0;">Guardar Clave</button>
@@ -468,9 +467,12 @@
         Responde ÚNICAMENTE el objeto JSON en español y francés.
         `;
 
+        // ENDPOINTS OFICIALES Y ACTIVOS DE GEMINI API
         const modelos = [
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`,
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${activeKey}`,
+            `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${activeKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-002:generateContent?key=${activeKey}`,
+            `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${activeKey}`
         ];
 
         let exito = false;
@@ -510,7 +512,7 @@
 
         if (!exito) {
             errDiv.style.display = 'block';
-            errDiv.innerHTML = '<b>⚠️ Error de API de Gemini:</b> ' + ultimoError + '<br><small>Revisa que la clave sea correcta o límpiala de localStorage.</small>';
+            errDiv.innerHTML = '<b>⚠️ Error de API de Gemini:</b> ' + ultimoError + '<br><small>Por favor reingresa una clave válida de AI Studio o limpia la clave en la casilla amarilla.</small>';
         }
 
         btn.innerHTML = '<i class="fas fa-sparkles"></i> 🚀 Solicitar Generación en Tiempo Real a Gemini IA';
