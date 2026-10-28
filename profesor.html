@@ -248,12 +248,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label style="color:var(--dark-purple); font-size:13px;"><i class="fas fa-book-open"></i> Tema Oficial de la Matriz / Plan B1.1:</label>
+                            <label style="color:var(--dark-purple); font-size:13px;"><i class="fas fa-book-open"></i> Tema / Módulo Desglosado:</label>
                             <select id="selectTemaTemario" class="form-control" style="font-weight:bold; color:var(--dark-purple);"></select>
                         </div>
                     </div>
 
-                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarPropuestaSofiaCompleta()"><i class="fas fa-brain"></i> Generar Materiales según Matriz Pedagogíca Anáhuac</button>
+                    <button type="button" id="btnGenerarCoPilot" class="btn-action" style="background:var(--purple);" onclick="generarPropuestaSofiaCompleta()"><i class="fas fa-brain"></i> Generar Propuesta y Materiales con Sofía IA</button>
                 </div>
 
                 <!-- CONTENEDOR DE PROPUESTA Y REVISIÓN CON LOS 4 BLOQUES MATRIZ -->
@@ -262,7 +262,7 @@
                     <!-- 1. EXPLICACIÓN PEDAGÓGICA Y TAXONOMÍA DE BLOOM -->
                     <div class="proposal-card">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                            <h4 style="color:var(--dark-purple); margin:0;"><i class="fas fa-lightbulb"></i> Directiva Pedagógica DUA / UDL de Sofía IA</h4>
+                            <h4 style="color:var(--dark-purple); margin:0;"><i class="fas fa-lightbulb"></i> Explicación Pedagógica de Sofía IA</h4>
                             <div>
                                 <span class="bloom-badge">Bloom: Recordar</span>
                                 <span class="bloom-badge">Bloom: Aplicar</span>
@@ -275,8 +275,8 @@
                     <!-- 2. VISTA PREVIA DE LOS 4 BLOQUES INTERNOS (VOCABULAIRE, GRAMMAIRE, SYSTÉMATISATION, PRODUCTION) -->
                     <div style="margin-bottom:20px;">
                         <div style="display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
-                            <button type="button" class="tab-btn active" id="tabBtnSlide" onclick="cambiarTabMaterial('slide')"><i class="fas fa-desktop"></i> Material Interactivo (4 Bloques UDL)</button>
-                            <button type="button" class="tab-btn" id="tabBtnQuiz" onclick="cambiarTabMaterial('quiz')"><i class="fas fa-tasks"></i> Systématisation & Discriminación</button>
+                            <button type="button" class="tab-btn active" id="tabBtnSlide" onclick="cambiarTabMaterial('slide')"><i class="fas fa-desktop"></i> Presentación Interactiva (4 Bloques UDL)</button>
+                            <button type="button" class="tab-btn" id="tabBtnQuiz" onclick="cambiarTabMaterial('quiz')"><i class="fas fa-tasks"></i> Ejercicio / Quiz Interactivo</button>
                         </div>
 
                         <!-- TAB PRESENTACIÓN SLIDES -->
@@ -296,7 +296,7 @@
 
                         <!-- TAB QUIZ INTERACTIVO -->
                         <div id="tabContentQuiz" style="display:none; background:#f4f1ea; padding:20px; border-radius:12px; border:1px solid #d6c7ec;">
-                            <h4 style="color:var(--dark-purple); margin-bottom:10px;"><i class="fas fa-cogs"></i> Bloque 3: Systématisation & Practice Directe</h4>
+                            <h4 style="color:var(--dark-purple); margin-bottom:10px;"><i class="fas fa-cogs"></i> Bloque 3: Systématisation & Discriminación</h4>
                             <p id="quizPreguntaTexto" style="font-size:14px; font-weight:bold; margin-bottom:12px; color:#333;"></p>
                             <div id="quizOpcionesContainer"></div>
                             <div id="quizFeedback" style="margin-top:10px; font-weight:bold; font-size:13px;"></div>
@@ -334,7 +334,7 @@
                 <h3 style="color:var(--dark-purple); margin-bottom:15px;"><i class="fas fa-cloud-upload-alt"></i> Subir y Gestionar Temarios Complementarios</h3>
                 
                 <div style="border:2px dashed var(--purple); padding:25px; text-align:center; border-radius:8px; background:#fdfbfd; margin-bottom:20px;">
-                    <p style="margin-bottom:12px; color:#555; font-size:13px;">Sube un archivo de temario adicional (PDF, Word o TXT). <b>Sofía IA limpiará y extraerá los títulos limpios sin códigos ni caracteres extraños</b>:</p>
+                    <p style="margin-bottom:12px; color:#555; font-size:13px;">Sube un archivo de temario adicional (PDF, Word o TXT):</p>
                     <input type="file" id="archivoPlaneacion" class="form-control" accept=".pdf,.doc,.docx,.txt" style="max-width:400px; margin:0 auto 12px;" onchange="procesarNuevoTemarioPDF(event)">
                     <small id="statusProcesoTemario" style="color:var(--purple); font-weight:bold; display:block;"></small>
                 </div>
@@ -342,7 +342,7 @@
                 <div style="background:#f4effa; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #d6c7ec;">
                     <label style="font-weight:bold; color:var(--dark-purple); font-size:13px;">➕ Agregar Tema Individual Manualmente:</label>
                     <div style="display:flex; gap:10px; margin-top:8px;">
-                        <input type="text" id="inputNuevoTemaManual" class="form-control" placeholder="Ej: Tema E: Le travail, la famille et les projets de vie">
+                        <input type="text" id="inputNuevoTemaManual" class="form-control" placeholder="Ej: Unité 5: Projets d'avenir et culture">
                         <button type="button" onclick="agregarTemaManual()" style="background:var(--purple); color:white; border:none; padding:10px 18px; border-radius:6px; font-weight:bold; cursor:pointer; flex-shrink:0;">Agregar Tema</button>
                     </div>
                 </div>
@@ -421,13 +421,16 @@
     var chatUnsubscribe = null;
     var textoDiagnosticoCompleto = "";
 
-    // LISTA DE TEMAS MATRIZ OFICIAL ANÁHUAC B1.1
+    // LISTA DE TEMAS OFICIALES Y UNIDADES DE FRANCÉS B1.1
     var temariosLista = [
-        "TEMA A: Identité, Caractère et Environnement Personnel (Je me présente)",
-        "TEMA B: Cadre de Vie, Logement et Environnement Urbain (Mon entorno)",
-        "TEMA C: Vie Quotidienne, Routine, Loisirs et Fréquence (Mi rutina)",
-        "TEMA D: Raconter une Expérience / Voyage (Consigna Oficial Anáhuac 100 palabras)",
-        "Semana 5: Taller de Redacción Intensiva y Simulacro DELF B1.1"
+        "Unité 4: Vocabulaire professionnel, voyages et culture francophone",
+        "Unité 3: Vie quotidienne, routine, loisirs et fréquence",
+        "Unité 2: Cadre de vie, logement et environnement urbain",
+        "Unité 1: Identité, caractère et environnement personnel",
+        "TEMA D: Raconter une Expérience / Voyage (Consigna Anáhuac 100 mots)",
+        "TEMA C: Routine, Loisirs et Fréquence",
+        "TEMA B: Logement et Environnement Urbain",
+        "TEMA A: Identité et Présentation Personal"
     ];
 
     var currentSlideIdx = 0;
@@ -469,10 +472,9 @@
         });
     }
 
-    // LIMPIADOR DE TEXTO Y ETANQUETAS DE CITAS DEL PDF
     function limpiarTextoPDF(raw) {
         return raw.replace(/\[cite:[^\]]+\]/gi, '')
-                  .replace(//g, '')
+                  .replace(/[\u200B-\u200D\uFEFF]/g, '')
                   .replace(/\?\?\?/g, '')
                   .replace(/\s+/g, ' ')
                   .trim();
@@ -483,48 +485,15 @@
         const statusEl = document.getElementById('statusProcesoTemario');
         if (!file) return;
 
-        statusEl.innerText = "⏳ Sofía IA limpiando y procesando '" + file.name + "'...";
-        const fileName = file.name.toLowerCase();
+        statusEl.innerText = "⏳ Sofía IA analizando y agregando '" + file.name + "'...";
+        const cleanTitle = file.name.replace(/\.[^/.]+$/, "");
 
-        if (fileName.endsWith('.pdf')) {
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                let fullText = '';
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
-                    const textContent = await page.getTextContent();
-                    fullText += textContent.items.map(item => item.str).join(' ') + '\n';
-                }
-
-                let textoLimpio = limpiarTextoPDF(fullText);
-                let lineas = textoLimpio.split('\n').map(l => l.trim()).filter(l => l.length > 8);
-                let temasExtraidos = lineas.filter(l => 
-                    /TEMA\s+[A-Z]|Unité\s+\d|Módulo\s+\d|Semana\s+\d|Capítulo/i.test(l)
-                );
-
-                if (temasExtraidos.length === 0) {
-                    let cleanTitle = file.name.replace(/\.[^/.]+$/, "");
-                    temariosLista.push("Tema: " + cleanTitle);
-                } else {
-                    temasExtraidos.slice(0, 6).forEach(t => {
-                        let tLimpio = limpiarTextoPDF(t);
-                        if (tLimpio && !temariosLista.includes(tLimpio)) {
-                            temariosLista.push(tLimpio.substring(0, 85));
-                        }
-                    });
-                }
-
-                renderizarListaTemarios();
-                statusEl.innerText = "✔ Documento procesado sin marcas de formato.";
-                mostrarNotificacion('✅ Temas extraídos y limpiados correctamente.');
-            } catch (e) {
-                let cleanTitle = file.name.replace(/\.[^/.]+$/, "");
-                temariosLista.push("Tema: " + cleanTitle);
-                renderizarListaTemarios();
-                statusEl.innerText = "✔ Tema cargado en lista.";
-            }
+        if (!temariosLista.includes(cleanTitle)) {
+            temariosLista.unshift(cleanTitle);
+            renderizarListaTemarios();
         }
+        statusEl.innerText = "✔ Tema '" + cleanTitle + "' agregado a la lista.";
+        mostrarNotificacion('✅ Tema agregado a la lista.');
     }
 
     function agregarTemaManual() {
@@ -532,7 +501,7 @@
         const val = inp ? inp.value.trim() : '';
         if (!val) return alert('Ingresa el nombre del tema.');
 
-        temariosLista.push(limpiarTextoPDF(val));
+        temariosLista.unshift(limpiarTextoPDF(val));
         renderizarListaTemarios();
         inp.value = '';
         mostrarNotificacion('✅ Tema agregado.');
@@ -546,120 +515,181 @@
         }
     }
 
-    // GENERADOR SEGÚN LA MATRIZ ANÁHUAC B1.1 CON LOS 4 BLOQUES ESTRUCTURALES OBLIGATORIOS
+    // GENERADOR EXPLICITO Y DIFERENCIADO POR CADA UNIDAD Y TEMA
     function generarPropuestaSofiaCompleta() {
         if (!alumnoActivo) return alert('Por favor, selecciona primero un alumno.');
 
-        const tema = document.getElementById('selectTemaTemario').value || 'TEMA A: Identité, Caractère et Environnement';
+        const tema = document.getElementById('selectTemaTemario').value || 'Unité 4';
         const perf = alumnoActivo.perfil_cognitivo || 'estandar';
         const box = document.getElementById('boxCoPilotCompleto');
         const explicacion = document.getElementById('explicacionSofiaTexto');
         const btn = document.getElementById('btnGenerarCoPilot');
 
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA construyendo los 4 bloques UDL...';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sofía IA construyendo los 4 bloques del tema...';
         btn.disabled = true;
 
         setTimeout(function() {
-            btn.innerHTML = '<i class="fas fa-brain"></i> Generar Materiales según Matriz Pedagogíca Anáhuac';
+            btn.innerHTML = '<i class="fas fa-brain"></i> Generar Propuesta y Materiales con Sofía IA';
             btn.disabled = false;
             box.style.display = 'block';
 
             let perfNombre = perf.toUpperCase();
+            const temaLower = tema.toLowerCase();
 
-            explicacion.innerHTML = "<b>Directiva UDL de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + "):</b><br>" +
-            "• <b>Matriz de Instrucción Pedagógica Anáhuac B1.1:</b> Estructurada estrictamente en los 4 Bloques Obligatorios: <i>1) Vocabulaire</i>, <i>2) Grammaire & Verbes</i>, <i>3) Systématisation</i> y <i>4) Production (Start-Point Model)</i>.<br>" +
-            "• <b>Formato Cognitivo:</b> " + (perf === 'tdah' ? "Fragmentación en micro-bloques de 4 minutos con pausa activa." : perf === 'dislexia' ? "Separación silábica, regleta de enfoque y eliminación de elisiones complejas." : "Presentación multicanal por patrones y sustitución sintáctica.");
+            // CASO 1: UNITÉ 4 / TEMA D - VIAJES, EXPERIENCIAS Y VOCABULARIO PROFESIONAL
+            if (temaLower.includes('unités 4') || temaLower.includes('unité 4') || temaLower.includes('voyage') || temaLower.includes('tema d') || temaLower.includes('expérience')) {
+                
+                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 4 (Voyages & Recuerdos):</b><br>" +
+                "• <b>Taxonomía de Bloom (Recordar, Aplicar, Evaluar):</b> Estructuración del eje narrativo en pasado (Passé Composé vs. Imparfait) y conectores de relato (*soudain, grâce à, un jour*).<br>" +
+                "• <b>Formato Cognitivo:</b> " + (perf === 'tdah' ? "Fragmentación de la consigna oficial Anáhuac de 100 palabras en 3 pasos temporizados." : "Guía paso a paso con la plantilla Anáhuac y apoyos sintácticos directos.");
 
-            if (tema.includes('TEMA A') || tema.includes('Identité')) {
                 currentSlidesData = [
                     {
-                        title: "Bloque 1: Vocabulaire - Datos Personales y Descripción",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Micro-Tarjetas Léxicas</h3>" +
+                        title: "Bloque 1: Vocabulaire - Voyages, Reservaciones y Valoración",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Mots Clés B1 - Voyages & Souvenirs</h3>" +
                               "<div style='display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:14px;'>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>État civil:</b> célibataire, marié(e), divorcé(e)</div>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Profil:</b> domaine d'études, situation pro.</div>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Physique:</b> cheveux bouclés, yeux noisette</div>" +
-                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Caractère:</b> exigeant(e), dynamique, autonome</div>" +
+                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Logistique:</b> le séjour, la réservation, le billet, le monument</div>" +
+                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Professionnel:</b> l'entreprise, le domaine, le rendez-vous</div>" +
+                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Émotion:</b> magnifique, inoubliable, incroyable</div>" +
+                              "<div style='background:rgba(255,255,255,0.1); padding:10px; border-radius:6px;'><b>Bilan:</b> une expérience unique, le moment le plus marquant</div>" +
                               "</div>"
                     },
                     {
-                        title: "Bloque 2: Grammaire & Verbes - Elisión y Comparativos",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Fórmulas Sintácticas Directas</h3>" +
-                              "<p style='font-size:15px;'><b>Elisión Obligatoria:</b> J' + vocal/h (<i>J'étudie en domaine de...</i>)</p>" +
-                              "<p style='font-size:15px; margin-top:8px;'><b>Verbos Clave:</b> être, s'appeler, travailler comme, venir de (+ país/ciudad)</p>" +
-                              "<div style='background:#2a2a3c; padding:12px; border-radius:6px; margin-top:10px;'><b>Comparativo Simple:</b> plus/moins/aussi + adjetivo + que</div>"
+                        title: "Bloque 2: Grammaire & Verbes - Passé Composé vs Imparfait & Relatifs",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Alternance des Temps & Relatifs</h3>" +
+                              "<p style='font-size:15px;'>• <b>Imparfait (Escenario/Clima):</b> <i>Il faisait très beau y la ville était magnifique.</i><br>" +
+                              "• <b>Passé Composé (Acción Puntual):</b> <i>Tout à coup, nous avons rencontré un ami.</i><br>" +
+                              "• <b>Pronombres Relativos:</b> <i>qui (+ verbo), que (+ sujeto), où (lugar), dont (de + objeto).</i></p>"
                     },
                     {
-                        title: "Bloque 3: Systématisation - Discriminación Práctica",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Automatización de Reglas</h3>" +
-                              "<p style='font-size:15px;'>Aplica la regla sintáctica: Sustantivo + Adjetivo de carácter.</p>" +
-                              "<p style='background:rgba(255,255,255,0.15); padding:12px; border-radius:6px; margin-top:10px;'><b>Estructura:</b> Je suis une personne <u style='color:var(--gold);'>dynamique</u> et <u style='color:var(--gold);'>autonome</u>.</p>"
+                        title: "Bloque 3: Systématisation - Discriminación Narrativa",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica de Alternancia</h3>" +
+                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>" +
+                              "Pendant que je <u style='color:var(--gold);'>marchais</u> dans la rue (Imparfait), soudain j'<b>ai vu</b> un monument magnifique (Passé Composé)." +
+                              "</p>"
                     },
                     {
-                        title: "Bloque 4: Production - Start-Point Model Guiado",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Plantilla de Redacción Anáhuac</h3>" +
-                              "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px; line-height:1.6;'>" +
-                              "\"Bonjour, je m'appelle <b>" + alumnoActivo.nombre + "</b>. Je suis mexicain(e) et actuellement célibataire. Je viens de [Ville] et j'étudie en domaine de...\"" +
+                        title: "Bloque 4: Production - Plantilla Oficial Anáhuac (100 Palabras)",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Estructura Fija de 3 Bloques</h3>" +
+                              "<p style='font-size:13px; background:#2a2a3c; padding:12px; border-radius:6px; line-height:1.6;'>" +
+                              "1. <b>Introducción (20 palabras - Imparfait):</b> \"L'année dernière, je suis allé(e) à Paris. Il faisait très beau et la ville était magnifique.\"<br>" +
+                              "2. <b>Desarrollo (60 palabras - Passé Composé + Conectores):</b> \"D'abord, nous avons visité la Tour Eiffel. Ensuite, pendant que nous marchions, tout à coup...\"<br>" +
+                              "3. <b>Conclusión (20 palabras - Valoración):</b> \"C'était une expérience inoubliable parce que j'ai découvert une culture incroyable.\"" +
                               "</p>"
                     }
                 ];
-            } else if (tema.includes('TEMA B') || tema.includes('Logement')) {
+
+                renderQuizUnite4();
+
+            // CASO 2: UNITÉ 3 / TEMA C - ROUTINE, LOISIRS Y FRECUENCIA
+            } else if (temaLower.includes('unités 3') || temaLower.includes('unité 3') || temaLower.includes('routine') || temaLower.includes('tema c')) {
+                
+                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 3 (Routine & Loisirs):</b><br>" +
+                "• <b>Taxonomía de Bloom (Comprender & Aplicar):</b> Dominio de verbos pronominales, adverbios de frecuencia y sustitución con el pronombre EN.<br>" +
+                "• <b>Formato Cognitivo:</b> Esquema secuencial para articular un día de rutina completo con conectores de secuencia.";
+
+                currentSlidesData = [
+                    {
+                        title: "Bloque 1: Vocabulaire - Routine Quotidienne et Loisirs",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Verbes Pronominaux & Fréquence</h3>" +
+                              "<p style='font-size:15px;'>• <b>Acciones:</b> se réveiller, se lever, se préparer, s'occuper de, se coucher.<br>" +
+                              "• <b>Loisirs:</b> la peinture, la randonnée, la natation, la lecture.<br>" +
+                              "• <b>Fréquence:</b> toujours, souvent, parfois, rarement, ne... jamais.</p>"
+                    },
+                    {
+                        title: "Bloque 2: Grammaire - Conectores Temporales & Pronom EN",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Sintaxis de Secuencia</h3>" +
+                              "<p style='font-size:15px;'>• <b>Conectores:</b> d'abord, ensuite, puis, pendant que, enfin.<br>" +
+                              "• <b>Pronom EN:</b> Sujeto + EN + Verbo (<i>J'en fais souvent le week-end</i>).</p>"
+                    },
+                    {
+                        title: "Bloque 3: Systématisation - Ensamblado de Párrafos",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica de Ensamblado</h3>" +
+                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>" +
+                              "Le matin, <b>d'abord</b> je me réveille à 7h. <b>Ensuite</b>, je me prépare pour aller à l'université." +
+                              "</p>"
+                    },
+                    {
+                        title: "Bloque 4: Production - Start-Point Model (Routine)",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Plantilla de Redacción Guiada</h3>" +
+                              "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px;'>" +
+                              "\"Le matin, d'abord je me réveille à 7h et je me prépare. L'après-midi, il faut étudier mais je prends aussi du temps pour la randonnée car j'en fais souvent le week-end.\"" +
+                              "</p>"
+                    }
+                ];
+
+                renderQuizUnite3();
+
+            // CASO 3: UNITÉ 2 / TEMA B - CADRE DE VIE & LOGEMENT
+            } else if (temaLower.includes('unités 2') || temaLower.includes('unité 2') || temaLower.includes('logement') || temaLower.includes('tema b')) {
+                
+                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 2 (Entorno Urbano & Logement):</b><br>" +
+                "• <b>Taxonomía de Bloom (Comprender & Aplicar):</b> Ubicación espacial, preposiciones de países/ciudades y uso del pronombre Y.";
+
                 currentSlidesData = [
                     {
                         title: "Bloque 1: Vocabulaire - Commerces et Logement",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Mieux Vivre en Ville</h3>" +
-                              "<p style='font-size:15px;'>• <b>Servicios:</b> la pharmacie, la boulangerie, la mairie, la banque.<br>• <b>Ubicación:</b> près de, à côté de, en face de, au coin de.</p>"
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Cadre de Vie & Quartier</h3>" +
+                              "<p style='font-size:15px;'>• <b>Commerces:</b> la pharmacie, la boulangerie, la mairie, la banque.<br>• <b>Ubicación:</b> près de, à côté de, en face de, au coin de.</p>"
                     },
                     {
-                        title: "Bloque 2: Grammaire - Pronom Y y Preposiciones",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Pronom Y & Preposiciones Geográficas</h3>" +
+                        title: "Bloque 2: Grammaire - Preposiciones Geográficas y Pronom Y",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Ubicación & Pronom Y</h3>" +
                               "<p style='font-size:15px;'>• <b>en</b> + país fem. | <b>au</b> + país masc. | <b>à</b> + ciudad.<br>• <b>Pronom Y:</b> Sujeto + Y + Verbo (<i>J'y habite depuis 2 ans</i>).</p>"
                     },
                     {
                         title: "Bloque 3: Systématisation - Sustitución Pronominal",
                         body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica Pronominal</h3>" +
-                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>J'habite à Mexico. $\\rightarrow$ J'<b>y</b> habite.</p>"
+                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>J'habite en centre-ville. $\\rightarrow$ J'<b>y</b> habite.</p>"
                     },
                     {
-                        title: "Bloque 4: Production - Start-Point Model",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Mon Entoururbain</h3>" +
+                        title: "Bloque 4: Production - Start-Point Model (Mon Entoururbain)",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Entregable Guiado</h3>" +
                               "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px;'>" +
-                              "\"J'habite dans un appartement situé en centre-ville, près de la boulangerie et en face de la banque...\"" +
+                              "\"J'habite dans un appartement situé en centre-ville, près de la boulangerie et en face de la banque. Mon quartier est très calme, donc j'aime y vivre.\"" +
                               "</p>"
                     }
                 ];
+
+                renderQuizUnite2();
+
+            // CASO 4: UNITÉ 1 / TEMA A - IDENTITÉ & PRÉSENTATION
             } else {
+                explicacion.innerHTML = "<b>Estrategia de Sofía IA para " + alumnoActivo.nombre + " (" + perfNombre + ") - Unité 1 (Je me présente):</b><br>" +
+                "• <b>Taxonomía de Bloom (Recordar & Aplicar):</b> Presentación de datos personales, elisión obligatoria y concordancia de adjetivos de carácter.";
+
                 currentSlidesData = [
                     {
-                        title: "Bloque 1: Vocabulaire - Routines et Loisirs",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Vie Quotidienne</h3>" +
-                              "<p style='font-size:15px;'>• <b>Acciones:</b> se réveiller, se lever, se préparer, se coucher.<br>• <b>Frecuencia:</b> toujours, souvent, parfois, rarement.</p>"
+                        title: "Bloque 1: Vocabulaire - État civil et Description",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Fiche d'Identité</h3>" +
+                              "<p style='font-size:15px;'>• <b>Datos:</b> célibataire, marié(e), domaine d'études, situation pro.<br>• <b>Caractère:</b> exigeant(e), dynamique, autonome, calme.</p>"
                     },
                     {
-                        title: "Bloque 2: Grammaire - Verbos Pronominales y Pronom EN",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Conectores y Estructuras</h3>" +
-                              "<p style='font-size:15px;'>• <b>Sequencia:</b> D'abord, ensuite, puis, enfin.<br>• <b>Pronom EN:</b> Sujeto + EN + Verbo (<i>J'en fais souvent le week-end</i>).</p>"
+                        title: "Bloque 2: Grammaire - Élision et Comparatifs",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Règles de Grammaire</h3>" +
+                              "<p style='font-size:15px;'>• <b>Élision:</b> J' + vocal (<i>J'étudie en domaine de...</i>)<br>• <b>Comparatifs:</b> plus/moins/aussi + adj + que.</p>"
                     },
                     {
-                        title: "Bloque 3: Systématisation - Conectores Cronológicos",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Ensamblado de Oraciones</h3>" +
-                              "<p style='font-size:15px;'>Práctica de colocación de adverbios de frecuencia en presente.</p>"
+                        title: "Bloque 3: Systématisation - Concordancia de Adjetivos",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Práctica Sintáctica</h3>" +
+                              "<p style='font-size:15px; background:rgba(255,255,255,0.1); padding:12px; border-radius:6px;'>Je suis dynamique et autonome, mais un peu réservé(e).</p>"
                     },
                     {
-                        title: "Bloque 4: Production - Start-Point Model (100 Palabras)",
-                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Ma Routine</h3>" +
+                        title: "Bloque 4: Production - Start-Point Model (Je me présente)",
+                        body: "<h3 style='color:var(--gold); margin-bottom:10px;'>Ficha de Presentación Anáhuac</h3>" +
                               "<p style='font-size:14px; background:#2a2a3c; padding:12px; border-radius:6px;'>" +
-                              "\"Le matin, d'abord je me réveille à 7h et je me prépare. Ensuite, je vais à l'université...\"" +
+                              "\"Bonjour, je m'appelle <b>" + alumnoActivo.nombre + "</b>. Je suis mexicain(e) et actuellement célibataire. Je viens de [Ville] et j'étudie en domaine de...\"" +
                               "</p>"
                     }
                 ];
+
+                renderQuizUnite1();
             }
 
             currentSlideIdx = 0;
             renderSlide();
-            renderQuiz();
 
-            mostrarNotificacion('✨ Materiales generados bajo los 4 bloques de la Matriz Anáhuac.');
+            mostrarNotificacion('✨ Materiales generados específicamente para ' + tema + '.');
         }, 800);
     }
 
@@ -679,12 +709,58 @@
         renderSlide();
     }
 
-    function renderQuiz() {
+    // RENDERIZADO DE QUIZZES ESPECÍFICOS SEGÚN EL TEMA SELECCIONADO
+    function renderQuizUnite4() {
         const qText = document.getElementById('quizPreguntaTexto');
         const optionsBox = document.getElementById('quizOpcionesContainer');
         const feedback = document.getElementById('quizFeedback');
 
-        qText.innerHTML = "<b>Práctica de Systématisation (Anáhuac B1.1):</b><br>Identifica la opción correcta eliminando el error de elisión:";
+        qText.innerHTML = "<b>Práctica Unité 4 (Passé Composé vs. Imparfait):</b><br>Completa la frase: <i>'Pendant que je marchais (Imparfait), tout à coup je __________ un ami.'</i>";
+        feedback.innerText = "";
+
+        optionsBox.innerHTML = `
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">a) rencontre</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">b) ai rencontré (Passé Composé)</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) rencontrais</div>
+        `;
+    }
+
+    function renderQuizUnite3() {
+        const qText = document.getElementById('quizPreguntaTexto');
+        const optionsBox = document.getElementById('quizOpcionesContainer');
+        const feedback = document.getElementById('quizFeedback');
+
+        qText.innerHTML = "<b>Práctica Unité 3 (Pronom EN):</b><br>Completa la frase: <i>'Tu fais de la randonnée? Oui, j'__________ fais souvent.'</i>";
+        feedback.innerText = "";
+
+        optionsBox.innerHTML = `
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">a) y</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">b) en</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) le</div>
+        `;
+    }
+
+    function renderQuizUnite2() {
+        const qText = document.getElementById('quizPreguntaTexto');
+        const optionsBox = document.getElementById('quizOpcionesContainer');
+        const feedback = document.getElementById('quizFeedback');
+
+        qText.innerHTML = "<b>Práctica Unité 2 (Pronom Y):</b><br>Completa la frase: <i>'Mon quartier est calme, donc j'__________ habite avec plaisir.'</i>";
+        feedback.innerText = "";
+
+        optionsBox.innerHTML = `
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, true)">a) y</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">b) en</div>
+            <div class="quiz-option" onclick="seleccionarOpcionQuiz(this, false)">c) le</div>
+        `;
+    }
+
+    function renderQuizUnite1() {
+        const qText = document.getElementById('quizPreguntaTexto');
+        const optionsBox = document.getElementById('quizOpcionesContainer');
+        const feedback = document.getElementById('quizFeedback');
+
+        qText.innerHTML = "<b>Práctica Unité 1 (Élision):</b><br>Identifica la opción correcta que respeta la elisión obligatoria:";
         feedback.innerText = "";
 
         optionsBox.innerHTML = `
@@ -700,10 +776,10 @@
         const feedback = document.getElementById('quizFeedback');
         if (esCorrecta) {
             feedback.style.color = "#2e7d32";
-            feedback.innerHTML = "✔ ¡Correcto! Se aplicó la elisión obligatoria J' + vocal (J'étudie).";
+            feedback.innerHTML = "✔ ¡Excelente! Respuesta correcta respaldada en la matriz pedagógica.";
         } else {
             feedback.style.color = "#dc3545";
-            feedback.innerHTML = "✖ Error detectado: Recuerda aplicar la elisión obligatoria ante vocal.";
+            feedback.innerHTML = "✖ Revisa la regla gramatical en la diapositiva correspondiente.";
         }
     }
 
@@ -727,13 +803,13 @@
         if (!txt) return alert('Escribe primero tus observaciones o sugerencias para Sofía IA.');
         mostrarNotificacion('🔄 Reajustando propuesta según tus observaciones...');
         setTimeout(function() {
-            document.getElementById('explicacionSofiaTexto').innerHTML += "<br><br><b style='color:var(--dark-purple);'>Ajuste Aplicado por Docente:</b> '" + txt + "'. Sofía IA ha optimizado la matriz.";
+            document.getElementById('explicacionSofiaTexto').innerHTML += "<br><br><b style='color:var(--dark-purple);'>Ajuste Aplicado por Docente:</b> '" + txt + "'. Sofía IA ha optimizado los materiales.";
             document.getElementById('inputComentarioProfesor').value = '';
         }, 1000);
     }
 
     function darVistoBuenoYPublicar() {
-        mostrarNotificacion('✅ Visto Bueno registrado. Los materiales desglosados bajo los 4 bloques Anáhuac han sido publicados en el portal del alumno.');
+        mostrarNotificacion('✅ Visto Bueno registrado. Los materiales específicos han sido publicados en el portal del alumno.');
     }
 
     function limpiarArchivoDiagnostico() {
